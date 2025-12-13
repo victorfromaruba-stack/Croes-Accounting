@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accounting Croes | The Premier Firm of Aruba</title>
+    
+    <!-- Fonts: Plus Jakarta Sans for a geometric, modern 2026 feel -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            bg: '#F8FAFC',
+                            surface: '#FFFFFF',
+                            primary: '#0F172A',
+                            accent: '#0284C7', // Aruba Sky Blue
+                            accentDark: '#0369A1',
+                            accentLight: '#E0F2FE',
+                            text: '#334155',
+                            muted: '#64748B',
+                            success: '#10B981',
+                            warning: '#F59E0B'
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'fade-in': 'fadeIn 0.8s ease-out forwards',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'slide-up': 'slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'shimmer': 'shimmer 8s infinite linear',
+                        'marquee': 'marquee 30s linear infinite',
+                    },
+                    keyframes: {
+                        float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-20px)' } },
+                        fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+                        slideUp: { '0%': { opacity: '0', transform: 'translateY(40px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+                        shimmer: { '0%': { backgroundPosition: '200% 0' }, '100%': { backgroundPosition: '-200% 0' } },
+                        marquee: { '0%': { transform: 'translateX(100%)' }, '100%': { transform: 'translateX(-100%)' } }
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "linear-gradient(to right, #E2E8F0 1px, transparent 1px), linear-gradient(to bottom, #E2E8F0 1px, transparent 1px)",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Base Accessibility Sizes */
+        html { font-size: 16px; }
+        body.large-text { font-size: 19px; } /* 120% scale */
+        
+        /* High Contrast Mode */
+        body.high-contrast { background: #000000; color: #FFFFFF; }
+        body.high-contrast .glass, body.high-contrast .glass-card, body.high-contrast .bg-white { background: #000000; border: 1px solid #FFFF00; color: #FFFFFF; }
+        body.high-contrast .text-brand-primary, body.high-contrast .text-brand-muted { color: #FFFFFF; }
+        body.high-contrast .text-brand-accent { color: #FFFF00; }
+        body.high-contrast button, body.high-contrast a.bg-brand-accent { background: #FFFF00; color: #000000; }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 12px; }
+        ::-webkit-scrollbar-track { background: #F8FAFC; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 6px; border: 3px solid #F8FAFC; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748B; }
+
+        body {
+            background-color: #F8FAFC;
+            background-image: radial-gradient(circle at 50% 0%, rgba(2, 132, 199, 0.05) 0%, transparent 50%);
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease-out, box-shadow 0.3s ease; 
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .text-shimmer {
+            background: linear-gradient(to right, #0F172A 0%, #0F172A 40%, #3B82F6 50%, #0F172A 60%, #0F172A 100%);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: shimmer 5s linear infinite;
+        }
+
+        .text-gradient-blue {
+            background: linear-gradient(135deg, #0284C7 0%, #2563EB 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-section { display: none; opacity: 0; transition: opacity 0.4s ease-in-out; }
+        .page-section.active { display: block; opacity: 1; animation: fadeIn 0.6s ease-out forwards; }
+
+        /* Easier to see Edit Mode */
+        .editable-highlight {
+            border: 2px dashed #F59E0B; /* Bright Orange/Yellow */
+            background: rgba(253, 230, 138, 0.3); /* Light Yellow BG */
+            cursor: text;
+            padding: 4px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        .editable-highlight:hover { background: rgba(253, 230, 138, 0.6); }
+        
+        .editable-image-highlight {
+            border: 4px dashed #F59E0B;
+            cursor: pointer;
+            opacity: 0.9;
+        }
+        
+        #adminToolbar { transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        #adminToolbar.active { transform: translateY(0); }
+
+        .nav-link { position: relative; }
+        .nav-link::after {
+            content: ''; position: absolute; width: 0; height: 2px; bottom: 0; left: 50%;
+            background-color: #0284C7; transition: all 0.3s ease; transform: translateX(-50%);
+        }
+        .nav-link:hover::after, .nav-link.active::after { width: 80%; }
+        .nav-link.active { color: #0284C7; font-weight: 600; }
+        
+        .map-container iframe { width: 100%; height: 100%; border-radius: 1.5rem; }
+
+        #preloader { transition: opacity 0.6s ease-out, visibility 0.6s ease-out; }
+        #preloader.loaded { opacity: 0; visibility: hidden; }
+
+        /* Ticker */
+        .ticker-wrap {
+            width: 100%;
+            background-color: #0F172A;
+            color: white;
+            font-size: 0.85rem; /* Slightly larger for readability */
+            padding: 0.75rem 0;
+            overflow: hidden;
+            position: relative;
+            z-index: 100;
+        }
+        .ticker { display: inline-block; white-space: nowrap; animation: marquee 30s linear infinite; font-weight: 600; letter-spacing: 0.05em; }
+    </style>
+</head>
+<body class="bg-brand-bg text-brand-text font-sans antialiased overflow-x-hidden selection:bg-brand-accent selection:text-white flex flex-col min-h-screen">
+
+    <!-- Preloader -->
+    <div id="preloader" class="fixed inset-0 bg-brand-bg z-[9999] flex items-center justify-center">
+        <div class="text-center">
+            <div class="w-20 h-20 bg-gradient-to-br from-brand-accent to-blue-700 rounded-3xl flex items-center justify-center text-white text-4xl font-bold mb-6 shadow-2xl mx-auto animate-bounce">A</div>
+            <div class="text-brand-primary font-bold text-2xl tracking-tight animate-pulse">Accounting Croes</div>
+            <p class="text-brand-muted mt-2 text-sm">Loading Aruba's Premier Firm...</p>
+        </div>
+    </div>
+
+    <!-- Scroll Progress Bar -->
+    <div class="fixed top-0 left-0 w-full h-1.5 z-[100] mt-[40px]">
+        <div class="h-full bg-brand-accent" id="scrollProgress" style="width: 0%"></div>
+    </div>
+
+    <!-- Hidden File Input for Image Uploads -->
+    <input type="file" id="imageUploadInput" accept="image/*" class="hidden">
+
+    <!-- Background -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div class="bg-grid absolute inset-0 z-0 h-[80vh]"></div>
+        <div class="blob bg-sky-200 w-[600px] h-[600px] rounded-full top-[-100px] left-[-200px]"></div>
+        <div class="blob bg-indigo-100 w-[500px] h-[500px] rounded-full bottom-[-100px] right-[-100px]"></div>
+    </div>
+
+    <!-- News Ticker -->
+    <div class="ticker-wrap fixed top-0 w-full shadow-md">
+        <div class="ticker editable" data-key="news-ticker">
+            📢 Upcoming Tax Deadline: 15th of the Month (BBO/Loonbelasting) • Contact us today to ensure compliance • Aruba's #1 Family Accounting Firm since 2003
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass transition-all duration-300 mt-[40px]" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-24 transition-all duration-300" id="nav-container">
+                <!-- Logo -->
+                <a href="#home" class="flex items-center gap-3 group" onclick="route(event, 'home')">
+                    <div class="w-11 h-11 bg-gradient-to-br from-brand-accent to-blue-700 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform duration-300">
+                        <span class="font-bold text-2xl">A</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-bold text-xl tracking-tight text-brand-primary leading-none">Accounting <span class="text-brand-accent">Croes</span></span>
+                        <span class="text-[11px] uppercase tracking-widest text-brand-muted font-semibold mt-1">Est. 2003 • Aruba</span>
+                    </div>
+                </a>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center gap-6">
+                    <div class="flex items-center space-x-2">
+                        <a href="#home" onclick="route(event, 'home')" class="nav-link text-brand-text hover:text-brand-accent transition-colors px-3 py-2 rounded-md text-sm font-medium" data-i18n="nav-home">Home</a>
+                        <a href="#about" onclick="route(event, 'about')" class="nav-link text-brand-text hover:text-brand-accent transition-colors px-3 py-2 rounded-md text-sm font-medium" data-i18n="nav-about">About</a>
+                        <a href="#services" onclick="route(event, 'services')" class="nav-link text-brand-text hover:text-brand-accent transition-colors px-3 py-2 rounded-md text-sm font-medium" data-i18n="nav-services">Services</a>
+                        <a href="#resources" onclick="route(event, 'resources')" class="nav-link text-brand-text hover:text-brand-accent transition-colors px-3 py-2 rounded-md text-sm font-medium" data-i18n="nav-tools">Tools</a>
+                        <a href="#careers" onclick="route(event, 'careers')" class="nav-link text-brand-text hover:text-brand-accent transition-colors px-3 py-2 rounded-md text-sm font-medium" data-i18n="nav-careers">Careers</a>
+                    </div>
+                    
+                    <!-- Language Switcher -->
+                    <div class="flex items-center text-xs font-bold text-brand-muted border border-gray-200 rounded-lg overflow-hidden mr-2">
+                        <button onclick="changeLang('en')" class="px-2 py-1.5 hover:bg-gray-100 transition-colors">EN</button>
+                        <button onclick="changeLang('pap')" class="px-2 py-1.5 border-l border-r border-gray-200 hover:bg-gray-100 transition-colors">PAP</button>
+                        <button onclick="changeLang('nl')" class="px-2 py-1.5 hover:bg-gray-100 transition-colors">NL</button>
+                    </div>
+
+                    <div class="flex items-center gap-3 border-l border-gray-200 pl-4 h-10">
+                        <button id="navClientLoginBtn" onclick="openClientLogin()" class="text-brand-text hover:text-brand-accent text-sm font-bold transition-colors flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-50">
+                            <i data-lucide="lock" class="w-4 h-4"></i> <span data-i18n="nav-login">Login</span>
+                        </button>
+                        <button onclick="openBooking()" class="bg-brand-primary hover:bg-brand-accent text-white px-5 py-2.5 rounded-full text-sm font-bold transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 flex items-center gap-2 transform active:scale-95">
+                            <span data-i18n="nav-book">Book Now</span>
+                            <i data-lucide="calendar-plus" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="-mr-2 flex md:hidden">
+                    <button onclick="toggleMobileMenu()" class="inline-flex items-center justify-center p-3 rounded-lg text-brand-text hover:bg-gray-100 focus:outline-none">
+                        <i data-lucide="menu" class="h-7 w-7"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-xl border-t border-gray-100 shadow-2xl absolute w-full">
+            <div class="px-4 pt-4 pb-6 space-y-2">
+                <a href="#home" onclick="route(event, 'home')" class="block px-4 py-3 rounded-lg text-base font-medium text-brand-primary hover:bg-brand-accentLight">Home</a>
+                <a href="#about" onclick="route(event, 'about')" class="block px-4 py-3 rounded-lg text-base font-medium text-brand-text hover:bg-brand-accentLight">About Us</a>
+                <a href="#services" onclick="route(event, 'services')" class="block px-4 py-3 rounded-lg text-base font-medium text-brand-text hover:bg-brand-accentLight">Services</a>
+                <a href="#resources" onclick="route(event, 'resources')" class="block px-4 py-3 rounded-lg text-base font-medium text-brand-text hover:bg-brand-accentLight">Tools</a>
+                <a href="#careers" onclick="route(event, 'careers')" class="block px-4 py-3 rounded-lg text-base font-medium text-brand-text hover:bg-brand-accentLight">Careers</a>
+                <div class="pt-4 border-t border-gray-100 mt-2 space-y-3">
+                    <button onclick="openBooking()" class="block w-full text-center px-4 py-3 rounded-xl text-base font-bold bg-brand-primary text-white hover:bg-brand-accent shadow-md">Book Consultation</button>
+                    <button onclick="openClientLogin()" class="block w-full text-center px-4 py-3 rounded-xl text-base font-medium text-brand-accent bg-blue-50 border border-blue-100">Client Login</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow pt-32">
+
+        <!-- PAGE: HOME -->
+        <div id="home" class="page-section active">
+            <section class="relative pt-8 pb-20 lg:pt-20 lg:pb-32 overflow-hidden">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                        <div class="text-center lg:text-left animate-slide-up">
+                            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 border border-brand-accent/20 shadow-sm mb-8 backdrop-blur-sm">
+                                <span class="w-2.5 h-2.5 rounded-full bg-brand-accent animate-pulse"></span>
+                                <span class="text-xs font-bold uppercase tracking-wider text-brand-accent editable" data-key="hero-badge">Proud Aruban Family Business</span>
+                            </div>
+
+                            <h1 class="text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1] text-brand-primary text-shimmer">
+                                <span class="editable" data-key="hero-title-1">Exclusively for Aruba.</span><br>
+                                <span class="text-gradient-blue editable" data-key="hero-title-2">Unmatched Quality.</span>
+                            </h1>
+                            
+                            <p class="mt-4 text-xl text-brand-muted mb-10 leading-relaxed max-w-2xl mx-auto lg:mx-0 editable" data-key="hero-desc">
+                                At Accounting Croes, we treat your finances like our own. As a well-known family business, we are dedicated to working for your best benefits with honesty, clarity, and 23 years of local expertise.
+                            </p>
+                            
+                            <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
+                                <a href="#contact" onclick="openContact()" class="px-8 py-4 bg-brand-accent hover:bg-brand-accentDark text-white rounded-full font-bold text-lg transition-all shadow-lg shadow-blue-500/30 hover:shadow-xl hover:-translate-y-1 flex items-center justify-center gap-2 transform active:scale-95">
+                                    Start a Conversation <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                                </a>
+                                <a href="#services" onclick="route(event, 'services')" class="px-8 py-4 bg-white hover:bg-gray-50 border border-gray-200 text-brand-primary rounded-full font-bold text-lg transition-all shadow-sm hover:shadow-md flex items-center justify-center transform active:scale-95">
+                                    Explore Services
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="relative animate-fade-in lg:block hidden" id="hero-image-container">
+                            <!-- Hero Image with Parallax -->
+                            <div class="relative z-10 rounded-[2.5rem] overflow-hidden shadow-2xl border-8 border-white/50 backdrop-blur-sm transform rotate-2 hover:rotate-0 transition-all duration-700 ease-out group">
+                                <div class="absolute inset-0 bg-brand-primary/10 group-hover:bg-transparent transition-colors duration-500 z-10 pointer-events-none"></div>
+                                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Accounting Office" class="w-full h-auto object-cover scale-105 group-hover:scale-100 transition-transform duration-700 editable-img" data-key="hero-img">
+                            </div>
+                            <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-brand-accent/20 rounded-full blur-3xl z-0"></div>
+                            <div class="absolute -top-10 -right-10 w-40 h-40 bg-brand-success/20 rounded-full blur-3xl z-0"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Trust Indicators -->
+                    <div class="mt-24 pt-10 border-t border-gray-200/60 max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 animate-slide-up" style="animation-delay: 0.2s;">
+                        <div class="text-center group cursor-default">
+                            <p class="text-4xl font-bold text-brand-primary editable" data-key="stat-1">23</p>
+                            <p class="text-xs uppercase tracking-widest text-brand-muted mt-2 font-semibold editable" data-key="stat-label-1">Years Experience</p>
+                        </div>
+                        <div class="text-center group cursor-default">
+                            <p class="text-4xl font-bold text-brand-primary editable" data-key="stat-2">100%</p>
+                            <p class="text-xs uppercase tracking-widest text-brand-muted mt-2 font-semibold editable" data-key="stat-label-2">Local Focus</p>
+                        </div>
+                        <div class="text-center group cursor-default">
+                            <p class="text-4xl font-bold text-brand-primary editable" data-key="stat-3">24h</p>
+                            <p class="text-xs uppercase tracking-widest text-brand-muted mt-2 font-semibold editable" data-key="stat-label-3">Response Time</p>
+                        </div>
+                        <div class="text-center group cursor-default">
+                            <p class="text-4xl font-bold text-brand-primary editable" data-key="stat-4">Family</p>
+                            <p class="text-xs uppercase tracking-widest text-brand-muted mt-2 font-semibold editable" data-key="stat-label-4">Owned & Operated</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- PAGE: CLIENT PORTAL DASHBOARD (Hidden unless logged in) -->
+        <div id="client-dashboard" class="page-section">
+            <section class="py-16 bg-gray-50 min-h-screen">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <!-- Dashboard Header -->
+                    <div class="flex justify-between items-end mb-12">
+                        <div>
+                            <span class="text-brand-accent font-bold uppercase tracking-widest text-xs">Client Portal</span>
+                            <h1 class="text-3xl md:text-4xl font-bold text-brand-primary mt-2">Welcome, <span id="dashboard-client-name" class="text-brand-accent">Client</span></h1>
+                        </div>
+                        <button onclick="clientLogout()" class="text-red-500 hover:text-red-600 font-medium text-sm flex items-center gap-2 bg-white px-4 py-2 rounded-lg border border-gray-200 shadow-sm hover:shadow transition-all">
+                            <i data-lucide="log-out" class="w-4 h-4"></i> Logout
+                        </button>
+                    </div>
+
+                    <!-- Status Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                        <!-- Card 1 -->
+                        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-bold text-brand-primary">Tax Status</h3>
+                                <div class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold">Up to Date</div>
+                            </div>
+                            <div class="text-3xl font-bold text-brand-primary mb-1">Filed</div>
+                            <p class="text-sm text-brand-muted">Last filing: Oct 15, 2025</p>
+                        </div>
+                        <!-- Card 2 -->
+                        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-bold text-brand-primary">Next Deadline</h3>
+                                <div class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold">Upcoming</div>
+                            </div>
+                            <div class="text-3xl font-bold text-brand-primary mb-1">12 Days</div>
+                            <p class="text-sm text-brand-muted">BBO Filing Due</p>
+                        </div>
+                        <!-- Card 3 -->
+                        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-bold text-brand-primary">Messages</h3>
+                                <div class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-bold">0 New</div>
+                            </div>
+                            <div class="text-3xl font-bold text-brand-primary mb-1">All Read</div>
+                            <p class="text-sm text-brand-muted">Check inbox for archive</p>
+                        </div>
+                    </div>
+
+                    <!-- File Upload Section (10/10 Add) -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div class="lg:col-span-2 bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+                            <div class="p-8 border-b border-gray-100 flex justify-between items-center">
+                                <h2 class="text-xl font-bold text-brand-primary">Recent Documents</h2>
+                                <button class="text-brand-accent text-sm font-bold hover:underline">View All</button>
+                            </div>
+                            <div class="divide-y divide-gray-50">
+                                <div class="p-6 flex items-center justify-between hover:bg-gray-50 transition-colors">
+                                    <div class="flex items-center gap-4">
+                                        <div class="bg-red-50 text-red-500 p-3 rounded-xl"><i data-lucide="file-text" class="w-6 h-6"></i></div>
+                                        <div>
+                                            <p class="font-bold text-brand-primary">Q3 2025 Financial Statement</p>
+                                            <p class="text-xs text-brand-muted">Added on Oct 20, 2025</p>
+                                        </div>
+                                    </div>
+                                    <button class="p-2 text-brand-muted hover:text-brand-accent transition-colors"><i data-lucide="download" class="w-5 h-5"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Upload Widget -->
+                        <div class="bg-white rounded-3xl border border-gray-100 shadow-sm p-8 text-center">
+                            <h3 class="text-lg font-bold text-brand-primary mb-4">Upload Documents</h3>
+                            <div class="border-2 border-dashed border-gray-200 rounded-2xl p-8 hover:border-brand-accent hover:bg-brand-accentLight/20 transition-all cursor-pointer group" onclick="document.getElementById('clientFileUpload').click()">
+                                <div class="w-16 h-16 bg-blue-50 text-brand-accent rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                                    <i data-lucide="upload-cloud" class="w-8 h-8"></i>
+                                </div>
+                                <p class="text-sm text-brand-primary font-bold">Click to upload</p>
+                                <p class="text-xs text-brand-muted mt-1">PDF, JPG, PNG (Max 10MB)</p>
+                                <input type="file" id="clientFileUpload" class="hidden" onchange="showUploadSuccess()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- PAGE: ABOUT -->
+        <div id="about" class="page-section">
+            <section class="py-24 relative">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <!-- ... content from previous version ... -->
+                    <div class="text-center mb-20 animate-slide-up">
+                        <span class="text-brand-accent font-bold tracking-widest uppercase text-sm">About Us</span>
+                        <h1 class="text-4xl lg:text-5xl font-bold text-brand-primary mt-3 mb-6 editable" data-key="about-hero-title">Who We Are</h1>
+                        <p class="text-xl text-brand-muted max-w-2xl mx-auto editable" data-key="about-hero-sub">Deep roots in Aruba, committed to your future.</p>
+                    </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+                        <div class="relative animate-slide-up"><img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" class="rounded-[2rem] w-full shadow-2xl editable-img" data-key="about-img"></div>
+                        <div class="animate-slide-up">
+                            <h2 class="text-3xl md:text-4xl font-bold mb-8 text-brand-primary">An accounting firm that feels like <span class="text-gradient-blue">family</span>.</h2>
+                            <p class="text-brand-muted text-lg mb-8 editable" data-key="about-p1">We know the stereotype: expensive firms that treat you like a number.</p>
+                            <p class="text-brand-muted text-lg mb-8 editable" data-key="about-p2"><strong>Accounting Croes</strong> is different. We are a family business deeply rooted in Aruba.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- FAQ Section -->
+            <section class="py-24 bg-white border-y border-gray-100">
+                <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-bold text-brand-primary editable" data-key="faq-title">Common Questions</h2>
+                    </div>
+                    <div class="space-y-4">
+                        <details class="group bg-brand-bg rounded-2xl p-2 transition-all duration-300 hover:bg-brand-accentLight/30 open:bg-white open:shadow-lg open:ring-1 open:ring-gray-100">
+                            <summary class="flex justify-between items-center p-4 font-bold text-brand-primary cursor-pointer select-none">How do I switch accountants to you?<span class="bg-white p-1 rounded-full shadow-sm transition-transform group-open:rotate-180"><i data-lucide="chevron-down" class="w-5 h-5 text-brand-accent"></i></span></summary>
+                            <div class="px-4 pb-4 pt-2 text-brand-muted leading-relaxed editable" data-key="faq-1-ans">It's easier than you think. We handle the entire handover process.</div>
+                        </details>
+                        <details class="group bg-brand-bg rounded-2xl p-2 transition-all duration-300 hover:bg-brand-accentLight/30 open:bg-white open:shadow-lg open:ring-1 open:ring-gray-100">
+                            <summary class="flex justify-between items-center p-4 font-bold text-brand-primary cursor-pointer select-none">Do you work with clients outside of Oranjestad?<span class="bg-white p-1 rounded-full shadow-sm transition-transform group-open:rotate-180"><i data-lucide="chevron-down" class="w-5 h-5 text-brand-accent"></i></span></summary>
+                            <div class="px-4 pb-4 pt-2 text-brand-muted leading-relaxed editable" data-key="faq-2-ans">Yes, we serve the entire island of Aruba (Noord, Santa Cruz, San Nicolas, Paradera).</div>
+                        </details>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- PAGE: SERVICES -->
+        <div id="services" class="page-section">
+            <section class="py-24">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-brand-primary editable" data-key="services-title">Simplicity & Value</h2>
+                        <button id="addServiceBtn" onclick="addService()" class="hidden mt-6 px-6 py-2 bg-green-500 hover:bg-green-600 text-white rounded-full font-bold shadow-lg">+ Add New Service</button>
+                    </div>
+                    <div id="services-container" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
+                </div>
+            </section>
+        </div>
+
+        <!-- PAGE: SERVICE DETAIL -->
+        <div id="service-detail" class="page-section">
+            <section class="py-24 bg-white/50 min-h-screen">
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <button onclick="route(event, 'services')" class="mb-10 flex items-center text-brand-muted hover:text-brand-accent transition-colors font-medium group">
+                        <span class="p-2 bg-white rounded-full shadow-sm mr-3 group-hover:-translate-x-1 transition-transform"><i data-lucide="arrow-left" class="w-4 h-4"></i></span> Back to Services
+                    </button>
+                    <div class="glass-card p-10 md:p-14 rounded-[2.5rem] border border-white shadow-xl bg-white/80">
+                        <div id="detail-icon-container" class="w-20 h-20 bg-brand-accentLight rounded-2xl flex items-center justify-center shadow-inner mb-8"></div>
+                        <h1 id="detail-title" class="text-4xl md:text-5xl font-bold text-brand-primary mb-8 editable" data-key="detail-title">Service Title</h1>
+                        <div class="prose prose-lg text-brand-muted max-w-none">
+                            <p id="detail-desc" class="editable text-xl leading-relaxed" data-key="detail-desc">Description</p>
+                            <hr class="my-10 border-gray-200">
+                            <h3 class="text-2xl font-bold text-brand-primary mb-6">What we include:</h3>
+                            <div id="detail-content" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                            <div class="mt-14 p-8 bg-gradient-to-br from-brand-primary to-slate-900 rounded-3xl text-white shadow-2xl relative overflow-hidden group">
+                                <h4 class="text-2xl font-bold mb-3 relative z-10">Ready to get started?</h4>
+                                <button onclick="openContact(document.getElementById('detail-title').innerText)" class="bg-white text-brand-primary hover:bg-brand-accentLight px-8 py-3.5 rounded-xl font-bold transition-colors shadow-lg flex items-center gap-2 relative z-10 mt-6">Get a Free Quote</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- PAGE: RESOURCES -->
+        <div id="resources" class="page-section">
+            <section class="py-24">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-16"><h2 class="text-3xl md:text-4xl font-bold mb-4 text-brand-primary">Financial Resources</h2></div>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                        <div class="bg-white rounded-[2rem] p-10 border border-gray-100 shadow-xl relative overflow-hidden">
+                            <h3 class="text-2xl font-bold text-brand-primary mb-8">Next Tax Deadline</h3>
+                            <div class="text-center py-10 bg-brand-bg rounded-2xl border border-gray-100">
+                                <div class="text-6xl font-extrabold text-brand-primary my-4" id="deadline-counter">...</div>
+                                <div class="text-xl text-brand-muted mb-4 font-medium" id="deadline-date">...</div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-[2rem] p-10 border border-gray-100 shadow-xl">
+                            <h3 class="text-2xl font-bold text-brand-primary mb-2">BBO Calculator</h3>
+                            <input type="number" id="calc-input" placeholder="100.00" class="w-full bg-brand-bg border border-gray-200 rounded-xl px-4 py-4 pl-10 text-brand-primary font-bold text-2xl mt-6 mb-6" oninput="calculateBBO()">
+                            <div class="bg-brand-primary rounded-2xl p-6 space-y-3 text-white shadow-lg">
+                                <div class="flex justify-between text-sm opacity-80"><span>Total Tax (7%)</span><span class="font-mono text-2xl font-bold text-brand-success">ƒ <span id="res-total">0.00</span></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- PAGE: CAREERS -->
+        <div id="careers" class="page-section">
+            <section class="py-24 bg-brand-primary relative overflow-hidden min-h-[90vh] flex items-center">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                        <div class="text-white">
+                            <h2 class="text-4xl md:text-6xl font-bold mb-8 leading-tight">Start Your Career</h2>
+                            <p class="text-slate-300 text-lg mb-10 editable" data-key="career-desc">Join the family.</p>
+                        </div>
+                        <div class="space-y-6">
+                            <div class="bg-white rounded-[2rem] p-8 border-l-8 border-brand-accent shadow-2xl">
+                                <h3 class="text-2xl font-bold text-brand-primary mb-3 editable" data-key="job-1-title">Accounting Intern</h3>
+                                <button onclick="openContact('internship')" class="w-full py-4 bg-brand-primary text-white rounded-xl font-bold mt-4">Apply Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- PAGE: CONTACT -->
+        <div id="contact" class="page-section">
+            <section class="py-24 bg-brand-bg min-h-[85vh] flex flex-col justify-center">
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                    <div class="glass p-1 rounded-[2.5rem] bg-gradient-to-br from-white to-blue-50 shadow-2xl mb-12">
+                        <div class="bg-white/90 rounded-[2.3rem] p-8 md:p-16 backdrop-blur-xl">
+                            <h2 class="text-4xl font-bold mb-4 text-brand-primary text-center editable" data-key="contact-title">Let's solve it together.</h2>
+                            <form id="contactForm" class="space-y-8 mt-8" onsubmit="handleEmail(event)">
+                                <input type="text" id="name" required class="w-full bg-brand-bg border-0 ring-1 ring-gray-200 rounded-xl px-5 py-4" placeholder="Your Name">
+                                <input type="email" id="email" required class="w-full bg-brand-bg border-0 ring-1 ring-gray-200 rounded-xl px-5 py-4" placeholder="Your Email">
+                                <select id="topic" class="w-full bg-brand-bg border-0 ring-1 ring-gray-200 rounded-xl px-5 py-4"><option>General Inquiry</option><option>Internship Application</option></select>
+                                <textarea id="message" rows="4" required class="w-full bg-brand-bg border-0 ring-1 ring-gray-200 rounded-xl px-5 py-4" placeholder="Message"></textarea>
+                                <button type="submit" class="w-full bg-brand-accent text-white font-bold text-lg py-5 rounded-xl shadow-lg">Send Email</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <!-- Floating Actions Container -->
+    <div class="fixed bottom-8 right-8 z-50 flex flex-col gap-4">
+        <!-- Call Button -->
+        <a href="tel:+2975820000" class="bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg shadow-blue-500/40 transition-all hover:-translate-y-1 hover:shadow-2xl flex items-center justify-center group" title="Call Us">
+            <i data-lucide="phone" class="w-7 h-7"></i>
+        </a>
+        <!-- WhatsApp Button -->
+        <a href="https://wa.me/2975820000" target="_blank" class="bg-[#25D366] hover:bg-[#20bd5a] text-white p-4 rounded-full shadow-lg shadow-green-500/40 transition-all hover:-translate-y-1 hover:shadow-2xl flex items-center justify-center group">
+            <i data-lucide="message-circle" class="w-7 h-7"></i>
+        </a>
+    </div>
+
+    <!-- Accessibility Widget (Bottom Left) -->
+    <div class="fixed bottom-8 left-8 z-50 group">
+        <div id="a11y-menu" class="hidden absolute bottom-16 left-0 bg-white rounded-xl shadow-2xl border border-gray-100 p-4 w-48 mb-2 space-y-2">
+            <button onclick="toggleLargeText()" class="w-full text-left px-3 py-2 hover:bg-gray-50 rounded-lg font-bold text-brand-primary flex items-center gap-2">
+                <i data-lucide="type" class="w-4 h-4"></i> Larger Text
+            </button>
+            <button onclick="toggleHighContrast()" class="w-full text-left px-3 py-2 hover:bg-gray-50 rounded-lg font-bold text-brand-primary flex items-center gap-2">
+                <i data-lucide="sun" class="w-4 h-4"></i> High Contrast
+            </button>
+        </div>
+        <button onclick="toggleA11yMenu()" class="bg-white text-brand-primary hover:text-brand-accent p-4 rounded-full shadow-lg border border-gray-100 transition-all hover:-translate-y-1">
+            <i data-lucide="eye" class="w-7 h-7"></i>
+        </button>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-8 right-24 z-40 bg-white text-brand-primary p-3 rounded-full shadow-lg border border-gray-100 opacity-0 pointer-events-none transition-all duration-300 translate-y-10 hover:bg-gray-50">
+        <i data-lucide="arrow-up" class="w-5 h-5"></i>
+    </button>
+
+    <!-- Footer -->
+    <footer class="bg-brand-primary pt-24 pb-12 border-t border-white/10 text-slate-300 relative z-20 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex items-center gap-4">
+                <p>&copy; 2026 Accounting Croes Firm.</p>
+                <button onclick="toggleAdminPanel()" class="p-2 hover:bg-white/10 rounded-full transition-all text-slate-600 hover:text-white cursor-pointer" title="Admin Login">
+                    <i data-lucide="lock" class="w-3 h-3"></i>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 z-[10005] hidden flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <div class="bg-white p-8 rounded-[2rem] w-full max-w-sm shadow-2xl text-center transform scale-90 transition-transform duration-300" id="successContent">
+            <div class="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce">
+                <i data-lucide="check" class="w-8 h-8"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-brand-primary mb-2" id="successTitle">Success!</h3>
+            <p class="text-brand-muted mb-6" id="successMsg">Your request has been received.</p>
+            <button onclick="closeSuccessModal()" class="w-full py-3 bg-brand-primary text-white rounded-xl font-bold hover:bg-brand-accent transition-colors">Okay, Got it</button>
+        </div>
+    </div>
+
+    <!-- Admin Toolbar -->
+    <div id="adminToolbar" class="fixed bottom-0 left-0 w-full bg-slate-900 border-t border-slate-700 p-4 shadow-2xl z-[100] flex justify-between items-center">
+        <div class="flex items-center gap-4">
+            <span class="bg-yellow-400 text-slate-900 text-xs font-bold px-2 py-1 rounded animate-pulse">ADMIN MODE</span>
+            <span class="text-yellow-100 text-sm font-medium">✏️ You are in Edit Mode. Click any text to change it.</span>
+        </div>
+        <div class="flex gap-3">
+            <button onclick="openClientManager()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded text-sm">Manage Clients</button>
+            <button onclick="saveChanges()" class="px-4 py-2 bg-brand-accent hover:bg-blue-600 text-white rounded text-sm font-bold shadow-lg">Save Changes</button>
+            <button onclick="exitAdmin()" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded text-sm">Exit</button>
+        </div>
+    </div>
+
+    <!-- Booking Modal, Login Modal, Client Manager Modal (Same as previous) -->
+    <!-- Re-including for completeness -->
+    <div id="bookingModal" class="fixed inset-0 z-[10002] hidden flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <div class="bg-white p-8 rounded-[2rem] w-full max-w-md shadow-2xl relative">
+            <button onclick="closeBooking()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800"><i data-lucide="x" class="w-6 h-6"></i></button>
+            <h2 class="text-2xl font-bold text-brand-primary mb-2">Schedule Consultation</h2>
+            <p class="text-sm text-brand-muted mb-6">Pick a time that works for you.</p>
+            <form onsubmit="handleBooking(event)" class="space-y-4">
+                <div><label class="text-xs font-bold uppercase text-gray-500">Service</label><select class="w-full border p-3 rounded-xl mt-1"><option>General Consultation</option><option>Tax Planning</option><option>Business Setup</option></select></div>
+                <div><label class="text-xs font-bold uppercase text-gray-500">Date</label><input type="date" class="w-full border p-3 rounded-xl mt-1" required></div>
+                <div><label class="text-xs font-bold uppercase text-gray-500">Time</label><select class="w-full border p-3 rounded-xl mt-1"><option>09:00 AM</option><option>11:00 AM</option><option>02:00 PM</option><option>04:00 PM</option></select></div>
+                <button type="submit" class="w-full bg-brand-primary text-white font-bold py-3 rounded-xl hover:bg-brand-accent mt-4">Confirm Booking</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="loginModal" class="fixed inset-0 z-[10000] hidden flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <div class="bg-slate-900 border border-slate-700 p-8 rounded-2xl w-full max-w-sm shadow-2xl relative">
+            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-slate-500 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4 text-brand-accent"><i data-lucide="lock" class="w-6 h-6"></i></div>
+                <h3 class="text-xl font-bold text-white" id="loginTitle">Admin Login</h3>
+            </div>
+            <form onsubmit="handleLoginSubmit(event)" class="space-y-4">
+                <div id="clientInputs" class="hidden space-y-4"><input type="text" id="loginUsername" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-brand-accent" placeholder="Username"></div>
+                <input type="password" id="loginPassword" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-brand-accent" placeholder="Password" required>
+                <div id="loginError" class="text-red-500 text-sm text-center hidden">Incorrect Credentials</div>
+                <button type="submit" class="w-full py-3 bg-brand-accent hover:bg-blue-600 text-white rounded-lg font-bold transition-colors">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="clientManagerModal" class="fixed inset-0 z-[10001] hidden flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <div class="bg-white p-8 rounded-2xl w-full max-w-2xl shadow-2xl max-h-[80vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6"><h3 class="text-2xl font-bold text-brand-primary">Manage Clients</h3><button onclick="closeClientManager()" class="text-gray-500 hover:text-gray-800"><i data-lucide="x" class="w-6 h-6"></i></button></div>
+            <div class="bg-gray-50 p-4 rounded-xl mb-6"><h4 class="font-bold text-sm uppercase text-gray-500 mb-3">Add New Client</h4><div class="grid grid-cols-1 md:grid-cols-3 gap-3"><input type="text" id="newClientName" placeholder="Full Name" class="border p-2 rounded"><input type="text" id="newClientUser" placeholder="Username" class="border p-2 rounded"><input type="text" id="newClientPass" placeholder="Password" class="border p-2 rounded"></div><button onclick="addNewClient()" class="mt-3 bg-green-500 text-white px-4 py-2 rounded font-bold hover:bg-green-600 w-full">Create Client Account</button></div>
+            <div class="overflow-x-auto"><table class="w-full text-sm text-left"><thead class="bg-gray-100 text-gray-600 font-bold"><tr><th class="p-3">Name</th><th class="p-3">Username</th><th class="p-3">Password</th><th class="p-3">Action</th></tr></thead><tbody id="clientListBody"></tbody></table></div>
+        </div>
+    </div>
+
+    <script>
+        // --- TRANSLATIONS ---
+        const translations = {
+            en: { "nav-home": "Home", "nav-about": "About", "nav-services": "Services", "nav-tools": "Tools", "nav-careers": "Careers", "nav-login": "Login", "nav-book": "Book Now" },
+            pap: { "nav-home": "Inicio", "nav-about": "Nos", "nav-services": "Servicio", "nav-tools": "Herment", "nav-careers": "Carrera", "nav-login": "Drenta", "nav-book": "Traha Cita" },
+            nl: { "nav-home": "Home", "nav-about": "Over Ons", "nav-services": "Diensten", "nav-tools": "Tools", "nav-careers": "Carrière", "nav-login": "Inloggen", "nav-book": "Afspraak" }
+        };
+
+        // --- DATA STATE ---
+        let appState = {
+            text: {},
+            images: {},
+            services: [
+                { id: 1, title: "Business Growth", desc: "Comprehensive bookkeeping, BBO/BAZV compliance.", icon: "briefcase", items: ["Monthly Reports", "Payroll", "BBO Filing"], extended: "Full business support." },
+                { id: 2, title: "Tax Strategy", desc: "Proactive planning for Aruba tax laws.", icon: "calculator", items: ["Personal Tax", "Profit Tax", "Fiscal Advice"], extended: "Minimize liabilities legally." },
+                { id: 3, title: "Personal Advisory", desc: "Retirement and estate planning.", icon: "users", items: ["Succession", "Budgets", "Real Estate"], extended: "Future planning for families." }
+            ],
+            clients: [] 
+        };
+
+        let isAdmin = false;
+        let isClientLogin = false; 
+
+        // --- A11Y Logic ---
+        function toggleA11yMenu() {
+            document.getElementById('a11y-menu').classList.toggle('hidden');
+        }
+        function toggleLargeText() {
+            document.body.classList.toggle('large-text');
+        }
+        function toggleHighContrast() {
+            document.body.classList.toggle('high-contrast');
+        }
+
+        // --- Success Modal Logic ---
+        function showSuccess(title, msg, callback) {
+            document.getElementById('successModal').classList.remove('hidden');
+            document.getElementById('successTitle').innerText = title;
+            document.getElementById('successMsg').innerText = msg;
+            document.getElementById('successContent').classList.replace('scale-90', 'scale-100');
+            
+            // Store callback
+            window.successCallback = callback;
+        }
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.add('hidden');
+            if(window.successCallback) window.successCallback();
+        }
+        
+        function showUploadSuccess() {
+            showSuccess("File Uploaded", "Your document has been securely sent to our server.", null);
+        }
+
+        // --- Standard Logic ---
+        function route(event, pageId) {
+            if (event) event.preventDefault();
+            const pages = document.querySelectorAll('.page-section');
+            pages.forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + pageId) link.classList.add('active');
+            });
+
+            document.getElementById('mobile-menu').classList.add('hidden');
+            window.scrollTo(0, 0);
+            
+            if (pageId === 'client-dashboard' && !sessionStorage.getItem('currentClient')) {
+                openClientLogin();
+                return;
+            }
+        }
+
+        function changeLang(lang) {
+            const t = translations[lang];
+            if(!t) return;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(t[key]) el.innerText = t[key];
+            });
+        }
+
+        function openBooking() { document.getElementById('bookingModal').classList.remove('hidden'); }
+        function closeBooking() { document.getElementById('bookingModal').classList.add('hidden'); }
+        function handleBooking(e) {
+            e.preventDefault();
+            closeBooking();
+            showSuccess("Booking Confirmed", "We have received your request. A confirmation email has been sent.", null);
+        }
+
+        function toggleAdminPanel() {
+            isClientLogin = false;
+            document.getElementById('loginModal').classList.remove('hidden');
+            document.getElementById('loginTitle').innerText = "Admin Login";
+            document.getElementById('clientInputs').classList.add('hidden');
+            document.getElementById('loginPassword').value = '';
+            document.getElementById('loginPassword').focus();
+        }
+
+        function openClientLogin() {
+            isClientLogin = true;
+            document.getElementById('loginModal').classList.remove('hidden');
+            document.getElementById('loginTitle').innerText = "Client Portal";
+            document.getElementById('clientInputs').classList.remove('hidden');
+            document.getElementById('loginUsername').value = '';
+            document.getElementById('loginPassword').value = '';
+            document.getElementById('loginUsername').focus();
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.add('hidden');
+            document.getElementById('loginError').classList.add('hidden');
+        }
+
+        function handleLoginSubmit(e) {
+            e.preventDefault();
+            const pass = document.getElementById('loginPassword').value;
+            const user = document.getElementById('loginUsername').value;
+            const errorMsg = document.getElementById('loginError');
+
+            if (!isClientLogin) {
+                if (pass === "Agustinaruba2008") {
+                    closeLoginModal();
+                    enableAdminMode();
+                } else {
+                    errorMsg.innerText = "Incorrect Admin Password";
+                    errorMsg.classList.remove('hidden');
+                }
+            } else {
+                const client = appState.clients.find(c => c.username === user && c.password === pass);
+                if (client) {
+                    sessionStorage.setItem('currentClient', JSON.stringify(client));
+                    closeLoginModal();
+                    loadClientDashboard(client);
+                    route(null, 'client-dashboard');
+                    const btn = document.getElementById('navClientLoginBtn');
+                    btn.innerHTML = `<i data-lucide="user" class="w-4 h-4"></i> Portal`;
+                    btn.onclick = () => route(null, 'client-dashboard');
+                } else {
+                    errorMsg.innerText = "Invalid Username or Password";
+                    errorMsg.classList.remove('hidden');
+                }
+            }
+        }
+
+        function clientLogout() {
+            sessionStorage.removeItem('currentClient');
+            route(null, 'home');
+            const btn = document.getElementById('navClientLoginBtn');
+            btn.innerHTML = `<i data-lucide="lock" class="w-4 h-4"></i> Login`;
+            btn.onclick = openClientLogin;
+        }
+
+        function loadClientDashboard(client) {
+            document.getElementById('dashboard-client-name').innerText = client.name;
+        }
+
+        function enableAdminMode() {
+            isAdmin = true;
+            document.getElementById('adminToolbar').classList.add('active');
+            document.querySelectorAll('.editable').forEach(el => {
+                el.contentEditable = "true";
+                el.classList.add('editable-highlight');
+            });
+            document.getElementById('addServiceBtn').classList.remove('hidden');
+        }
+
+        function exitAdmin() {
+            isAdmin = false;
+            document.getElementById('adminToolbar').classList.remove('active');
+            document.getElementById('addServiceBtn').classList.add('hidden');
+            location.reload(); 
+        }
+
+        function openClientManager() { document.getElementById('clientManagerModal').classList.remove('hidden'); renderClientList(); }
+        function closeClientManager() { document.getElementById('clientManagerModal').classList.add('hidden'); }
+
+        function renderClientList() {
+            const tbody = document.getElementById('clientListBody');
+            tbody.innerHTML = '';
+            appState.clients.forEach((c, index) => {
+                const tr = document.createElement('tr');
+                tr.className = "border-b";
+                tr.innerHTML = `<td class="p-3">${c.name}</td><td class="p-3 font-mono text-xs">${c.username}</td><td class="p-3 font-mono text-xs">****</td><td class="p-3"><button onclick="deleteClient(${index})" class="text-red-500 hover:text-red-700 text-sm">Delete</button></td>`;
+                tbody.appendChild(tr);
+            });
+            if (appState.clients.length === 0) tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-gray-500">No clients found. Add one above.</td></tr>';
+        }
+
+        function addNewClient() {
+            const name = document.getElementById('newClientName').value;
+            const user = document.getElementById('newClientUser').value;
+            const pass = document.getElementById('newClientPass').value;
+            if (name && user && pass) {
+                appState.clients.push({ name, username: user, password: pass });
+                renderClientList();
+                document.getElementById('newClientName').value = '';
+                document.getElementById('newClientUser').value = '';
+                document.getElementById('newClientPass').value = '';
+            } else {
+                alert("Please fill all fields");
+            }
+        }
+
+        function deleteClient(index) {
+            if(confirm('Remove client?')) {
+                appState.clients.splice(index, 1);
+                renderClientList();
+            }
+        }
+
+        function saveChanges() {
+            document.querySelectorAll('.editable').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (key) appState.text[key] = el.innerHTML;
+            });
+            localStorage.setItem('accountingCroesData', JSON.stringify(appState));
+            const saveBtn = document.querySelector('#adminToolbar button:nth-child(2)');
+            const originalText = saveBtn.innerText;
+            saveBtn.innerText = "Saved!";
+            setTimeout(() => saveBtn.innerText = originalText, 1000);
+        }
+
+        function loadContent() {
+            const saved = localStorage.getItem('accountingCroesData');
+            if (saved) {
+                const data = JSON.parse(saved);
+                appState = { ...appState, ...data }; 
+                
+                if (appState.text) {
+                    for (const [key, value] of Object.entries(appState.text)) {
+                        const el = document.querySelector(`[data-key="${key}"]`);
+                        if (el) el.innerHTML = value;
+                    }
+                }
+                if (appState.images) {
+                    for (const [key, value] of Object.entries(appState.images)) {
+                        const el = document.querySelector(`[data-key="${key}"]`);
+                        if (el) el.src = value;
+                    }
+                }
+                if (appState.services) appState.services = appState.services;
+            }
+            renderServices();
+        }
+
+        function updateTaxCalendar() {
+            const today = new Date();
+            let nextDeadline = new Date(today.getFullYear(), today.getMonth(), 15);
+            if (today.getDate() > 15) nextDeadline = new Date(today.getFullYear(), today.getMonth() + 1, 15);
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateEl = document.getElementById('deadline-date');
+            const counterEl = document.getElementById('deadline-counter');
+            if (dateEl) dateEl.innerText = nextDeadline.toLocaleDateString('en-US', options);
+            const diff = Math.ceil((nextDeadline - today) / (1000 * 60 * 60 * 24));
+            if (counterEl) counterEl.innerText = diff + (diff === 1 ? " Day" : " Days");
+        }
+
+        function calculateBBO() {
+            const input = parseFloat(document.getElementById('calc-input').value) || 0;
+            const bbo = input * 0.025;
+            const bazv = input * 0.030;
+            const bavp = input * 0.015;
+            const total = bbo + bazv + bavp;
+            document.getElementById('res-total').innerText = total.toFixed(2);
+        }
+
+        function renderServices() {
+            const container = document.getElementById('services-container');
+            container.innerHTML = '';
+            appState.services.forEach((svc, index) => {
+                const card = document.createElement('div');
+                card.className = "glass-card p-8 md:p-10 rounded-[2rem] group cursor-pointer border border-white hover:shadow-2xl transition-all duration-500 relative overflow-hidden";
+                card.setAttribute('data-tilt', '');
+                card.onclick = () => viewServiceDetail(index);
+                card.innerHTML = `<div class="absolute top-0 right-0 w-32 h-32 bg-brand-accent/5 rounded-bl-[4rem] transition-all group-hover:bg-brand-accent/10 pointer-events-none"></div><div class="w-16 h-16 bg-brand-accentLight rounded-2xl flex items-center justify-center mb-8 group-hover:bg-brand-accent transition-colors duration-500 shadow-sm pointer-events-none"><i data-lucide="${svc.icon}" class="w-8 h-8 text-brand-accent group-hover:text-white transition-colors duration-500"></i></div><h3 class="text-2xl font-bold text-brand-primary mb-4 group-hover:text-brand-accent transition-colors pointer-events-none">${svc.title}</h3><p class="text-brand-muted mb-8 leading-relaxed pointer-events-none">${svc.desc}</p><div class="mt-auto border-t border-gray-100 pt-6 pointer-events-none"><div class="flex items-center text-brand-accent font-bold group-hover:gap-2 transition-all">Learn more <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i></div></div>`;
+                container.appendChild(card);
+            });
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+            initTilt();
+        }
+
+        function viewServiceDetail(index) {
+            const svc = appState.services[index];
+            document.getElementById('detail-title').innerText = svc.title;
+            document.getElementById('detail-desc').innerText = svc.extended || svc.desc;
+            document.getElementById('detail-icon-container').innerHTML = `<i data-lucide="${svc.icon}" class="w-10 h-10 text-brand-accent"></i>`;
+            document.getElementById('detail-content').innerHTML = svc.items.map(item => `<div class="flex items-start gap-4 p-5 bg-gray-50/50 rounded-2xl border border-gray-100"><div class="bg-white p-2 rounded-lg text-brand-success"><i data-lucide="check-circle" class="w-5 h-5"></i></div><span class="font-bold text-brand-primary pt-1">${item}</span></div>`).join('');
+            route(null, 'service-detail');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function addService() {
+            const newService = { id: Date.now(), title: "New Service", desc: "Description", icon: "star", items: ["Feature"], extended: "Details" };
+            appState.services.push(newService);
+            renderServices();
+            viewServiceDetail(appState.services.length - 1);
+        }
+
+        function openContact(context) {
+            route(null, 'contact');
+            setTimeout(() => {
+                const topic = document.getElementById('topic');
+                const msg = document.getElementById('message');
+                if (context === 'internship') { topic.value = 'Internship Application'; msg.placeholder = "Tell us why you want to join..."; } 
+                else if (context) { msg.value = `I'm interested in: ${context}`; }
+                msg.focus();
+            }, 100);
+        }
+
+        function handleEmail(e) {
+            e.preventDefault();
+            const recipient = "contact@accountingcroes.com";
+            const subject = `New Inquiry: ${document.getElementById('topic').value} - ${document.getElementById('name').value}`;
+            const body = `Hi Accounting Croes,\n\nMessage:\n${document.getElementById('message').value}`;
+            
+            showSuccess("Email Prepared", "Your email client will open shortly to send this message.", function() {
+                window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            });
+        }
+
+        function initTilt() {
+            const cards = document.querySelectorAll('[data-tilt]');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const rotateX = ((y - rect.height/2) / rect.height/2) * -5;
+                    const rotateY = ((x - rect.width/2) / rect.width/2) * 5;
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+                });
+                card.addEventListener('mouseleave', () => card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale(1)`);
+            });
+        }
+
+        // --- Init ---
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+            setTimeout(() => document.getElementById('preloader').classList.add('loaded'), 800);
+            loadContent();
+            updateTaxCalendar();
+            
+            document.getElementById('imageUploadInput').addEventListener('change', function(e) {
+                if (e.target.files && e.target.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        if (currentEditingImage) {
+                            const base64 = e.target.result;
+                            currentEditingImage.src = base64;
+                            const key = currentEditingImage.getAttribute('data-key');
+                            if (key) appState.images[key] = base64;
+                        }
+                    }
+                    reader.readAsDataURL(e.target.files[0]);
+                }
+            });
+            
+            const initialPage = window.location.hash.substring(1) || 'home';
+            route(null, initialPage);
+            
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY;
+                const heroImg = document.querySelector('[data-key="hero-img"]');
+                if(heroImg) heroImg.style.transform = `translateY(${scrollY * 0.1}px) scale(${1 + scrollY * 0.0005})`;
+                
+                // Back to Top Logic
+                const backToTop = document.getElementById('backToTop');
+                if(scrollY > 500) {
+                    backToTop.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+                } else {
+                    backToTop.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+                }
+                
+                // Scroll Progress
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (scrollY / height) * 100;
+                document.getElementById("scrollProgress").style.width = scrolled + "%";
+            });
+        });
+        
+        let currentEditingImage = null;
+        document.addEventListener('click', function(e){
+            if(isAdmin && e.target.classList.contains('editable-img')) {
+                currentEditingImage = e.target;
+                document.getElementById('imageUploadInput').click();
+            }
+        });
+        
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>
