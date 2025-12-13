@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accounting Croes | The Premier Firm of Aruba</title>
     
-    <!-- Fonts: Plus Jakarta Sans for a geometric, modern 2026 feel -->
+    <!-- Fonts: Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -28,7 +28,7 @@
                             bg: '#F8FAFC',
                             surface: '#FFFFFF',
                             primary: '#0F172A',
-                            accent: '#0284C7', // Aruba Sky Blue
+                            accent: '#0284C7',
                             accentDark: '#0369A1',
                             accentLight: '#E0F2FE',
                             text: '#334155',
@@ -40,16 +40,13 @@
                     animation: {
                         'float': 'float 6s ease-in-out infinite',
                         'fade-in': 'fadeIn 0.8s ease-out forwards',
-                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                         'slide-up': 'slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-                        'shimmer': 'shimmer 8s infinite linear',
                         'marquee': 'marquee 30s linear infinite',
                     },
                     keyframes: {
                         float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-20px)' } },
                         fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
                         slideUp: { '0%': { opacity: '0', transform: 'translateY(40px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
-                        shimmer: { '0%': { backgroundPosition: '200% 0' }, '100%': { backgroundPosition: '-200% 0' } },
                         marquee: { '0%': { transform: 'translateX(100%)' }, '100%': { transform: 'translateX(-100%)' } }
                     },
                     backgroundImage: {
@@ -63,7 +60,7 @@
     <style>
         /* Base Accessibility Sizes */
         html { font-size: 16px; }
-        body.large-text { font-size: 19px; } /* 120% scale */
+        body.large-text { font-size: 19px; } 
         
         /* High Contrast Mode */
         body.high-contrast { background: #000000; color: #FFFFFF; }
@@ -80,34 +77,38 @@
 
         body {
             background-color: #F8FAFC;
-            background-image: radial-gradient(circle at 50% 0%, rgba(2, 132, 199, 0.05) 0%, transparent 50%);
+            /* Removed complex gradient for performance */
         }
 
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(226, 232, 240, 0.5) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(226, 232, 240, 0.5) 1px, transparent 1px);
+            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+        }
+
+        /* Simplified Glassmorphism for Performance */
         .glass {
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+            /* Reduced blur radius */
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
         }
         
         .glass-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s ease-out, box-shadow 0.3s ease; 
-            transform-style: preserve-3d;
-            perspective: 1000px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-
-        .text-shimmer {
-            background: linear-gradient(to right, #0F172A 0%, #0F172A 40%, #3B82F6 50%, #0F172A 60%, #0F172A 100%);
-            background-size: 200% auto;
-            color: transparent;
-            -webkit-background-clip: text;
-            background-clip: text;
-            animation: shimmer 5s linear infinite;
+        
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-color: #0284C7;
         }
 
         .text-gradient-blue {
@@ -116,19 +117,17 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .page-section { display: none; opacity: 0; transition: opacity 0.4s ease-in-out; }
-        .page-section.active { display: block; opacity: 1; animation: fadeIn 0.6s ease-out forwards; }
+        .page-section { display: none; opacity: 0; }
+        .page-section.active { display: block; opacity: 1; animation: fadeIn 0.4s ease-out forwards; }
 
-        /* Easier to see Edit Mode */
+        /* Edit Mode Styles */
         .editable-highlight {
-            border: 2px dashed #F59E0B; /* Bright Orange/Yellow */
-            background: rgba(253, 230, 138, 0.3); /* Light Yellow BG */
+            border: 2px dashed #F59E0B;
+            background: rgba(253, 230, 138, 0.3);
             cursor: text;
             padding: 4px;
             border-radius: 4px;
-            transition: all 0.2s;
         }
-        .editable-highlight:hover { background: rgba(253, 230, 138, 0.6); }
         
         .editable-image-highlight {
             border: 4px dashed #F59E0B;
@@ -136,7 +135,7 @@
             opacity: 0.9;
         }
         
-        #adminToolbar { transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        #adminToolbar { transform: translateY(100%); transition: transform 0.3s ease-in-out; }
         #adminToolbar.active { transform: translateY(0); }
 
         .nav-link { position: relative; }
@@ -149,7 +148,7 @@
         
         .map-container iframe { width: 100%; height: 100%; border-radius: 1.5rem; }
 
-        #preloader { transition: opacity 0.6s ease-out, visibility 0.6s ease-out; }
+        #preloader { transition: opacity 0.4s ease-out, visibility 0.4s ease-out; }
         #preloader.loaded { opacity: 0; visibility: hidden; }
 
         /* Ticker */
@@ -157,7 +156,7 @@
             width: 100%;
             background-color: #0F172A;
             color: white;
-            font-size: 0.85rem; /* Slightly larger for readability */
+            font-size: 0.85rem;
             padding: 0.75rem 0;
             overflow: hidden;
             position: relative;
@@ -171,9 +170,9 @@
     <!-- Preloader -->
     <div id="preloader" class="fixed inset-0 bg-brand-bg z-[9999] flex items-center justify-center">
         <div class="text-center">
-            <div class="w-20 h-20 bg-gradient-to-br from-brand-accent to-blue-700 rounded-3xl flex items-center justify-center text-white text-4xl font-bold mb-6 shadow-2xl mx-auto animate-bounce">A</div>
-            <div class="text-brand-primary font-bold text-2xl tracking-tight animate-pulse">Accounting Croes</div>
-            <p class="text-brand-muted mt-2 text-sm">Loading Aruba's Premier Firm...</p>
+            <div class="w-20 h-20 bg-gradient-to-br from-brand-accent to-blue-700 rounded-3xl flex items-center justify-center text-white text-4xl font-bold mb-6 shadow-2xl mx-auto">A</div>
+            <div class="text-brand-primary font-bold text-2xl tracking-tight">Accounting Croes</div>
+            <p class="text-brand-muted mt-2 text-sm">Loading...</p>
         </div>
     </div>
 
@@ -188,8 +187,9 @@
     <!-- Background -->
     <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <div class="bg-grid absolute inset-0 z-0 h-[80vh]"></div>
-        <div class="blob bg-sky-200 w-[600px] h-[600px] rounded-full top-[-100px] left-[-200px]"></div>
-        <div class="blob bg-indigo-100 w-[500px] h-[500px] rounded-full bottom-[-100px] right-[-100px]"></div>
+        <!-- Reduced blur radii for performance -->
+        <div class="absolute w-[500px] h-[500px] bg-blue-100/50 rounded-full top-[-100px] left-[-200px] blur-3xl"></div>
+        <div class="absolute w-[400px] h-[400px] bg-indigo-100/50 rounded-full bottom-[-100px] right-[-100px] blur-3xl"></div>
     </div>
 
     <!-- News Ticker -->
@@ -205,7 +205,7 @@
             <div class="flex items-center justify-between h-24 transition-all duration-300" id="nav-container">
                 <!-- Logo -->
                 <a href="#home" class="flex items-center gap-3 group" onclick="route(event, 'home')">
-                    <div class="w-11 h-11 bg-gradient-to-br from-brand-accent to-blue-700 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform duration-300">
+                    <div class="w-11 h-11 bg-gradient-to-br from-brand-accent to-blue-700 rounded-xl flex items-center justify-center text-white shadow-lg">
                         <span class="font-bold text-2xl">A</span>
                     </div>
                     <div class="flex flex-col">
@@ -235,7 +235,7 @@
                         <button id="navClientLoginBtn" onclick="openClientLogin()" class="text-brand-text hover:text-brand-accent text-sm font-bold transition-colors flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-50">
                             <i data-lucide="lock" class="w-4 h-4"></i> <span data-i18n="nav-login">Login</span>
                         </button>
-                        <button onclick="openBooking()" class="bg-brand-primary hover:bg-brand-accent text-white px-5 py-2.5 rounded-full text-sm font-bold transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 flex items-center gap-2 transform active:scale-95">
+                        <button onclick="openBooking()" class="bg-brand-primary hover:bg-brand-accent text-white px-5 py-2.5 rounded-full text-sm font-bold transition-all shadow-md hover:shadow-lg flex items-center gap-2 transform active:scale-95">
                             <span data-i18n="nav-book">Book Now</span>
                             <i data-lucide="calendar-plus" class="w-4 h-4"></i>
                         </button>
@@ -252,7 +252,7 @@
         </div>
 
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-xl border-t border-gray-100 shadow-2xl absolute w-full">
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 shadow-xl absolute w-full">
             <div class="px-4 pt-4 pb-6 space-y-2">
                 <a href="#home" onclick="route(event, 'home')" class="block px-4 py-3 rounded-lg text-base font-medium text-brand-primary hover:bg-brand-accentLight">Home</a>
                 <a href="#about" onclick="route(event, 'about')" class="block px-4 py-3 rounded-lg text-base font-medium text-brand-text hover:bg-brand-accentLight">About Us</a>
@@ -281,7 +281,7 @@
                                 <span class="text-xs font-bold uppercase tracking-wider text-brand-accent editable" data-key="hero-badge">Proud Aruban Family Business</span>
                             </div>
 
-                            <h1 class="text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1] text-brand-primary text-shimmer">
+                            <h1 class="text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1] text-brand-primary">
                                 <span class="editable" data-key="hero-title-1">Exclusively for Aruba.</span><br>
                                 <span class="text-gradient-blue editable" data-key="hero-title-2">Unmatched Quality.</span>
                             </h1>
@@ -291,7 +291,7 @@
                             </p>
                             
                             <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
-                                <a href="#contact" onclick="openContact()" class="px-8 py-4 bg-brand-accent hover:bg-brand-accentDark text-white rounded-full font-bold text-lg transition-all shadow-lg shadow-blue-500/30 hover:shadow-xl hover:-translate-y-1 flex items-center justify-center gap-2 transform active:scale-95">
+                                <a href="#contact" onclick="openContact()" class="px-8 py-4 bg-brand-accent hover:bg-brand-accentDark text-white rounded-full font-bold text-lg transition-all shadow-lg hover:shadow-xl hover:-translate-y-1 flex items-center justify-center gap-2 transform active:scale-95">
                                     Start a Conversation <i data-lucide="arrow-right" class="w-5 h-5"></i>
                                 </a>
                                 <a href="#services" onclick="route(event, 'services')" class="px-8 py-4 bg-white hover:bg-gray-50 border border-gray-200 text-brand-primary rounded-full font-bold text-lg transition-all shadow-sm hover:shadow-md flex items-center justify-center transform active:scale-95">
@@ -301,31 +301,28 @@
                         </div>
                         
                         <div class="relative animate-fade-in lg:block hidden" id="hero-image-container">
-                            <!-- Hero Image with Parallax -->
-                            <div class="relative z-10 rounded-[2.5rem] overflow-hidden shadow-2xl border-8 border-white/50 backdrop-blur-sm transform rotate-2 hover:rotate-0 transition-all duration-700 ease-out group">
-                                <div class="absolute inset-0 bg-brand-primary/10 group-hover:bg-transparent transition-colors duration-500 z-10 pointer-events-none"></div>
-                                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Accounting Office" class="w-full h-auto object-cover scale-105 group-hover:scale-100 transition-transform duration-700 editable-img" data-key="hero-img">
+                            <div class="relative z-10 rounded-[2.5rem] overflow-hidden shadow-2xl border-8 border-white/50 backdrop-blur-sm">
+                                <div class="absolute inset-0 bg-brand-primary/10 transition-colors z-10 pointer-events-none"></div>
+                                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Accounting Office" class="w-full h-auto object-cover scale-105 editable-img" data-key="hero-img">
                             </div>
-                            <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-brand-accent/20 rounded-full blur-3xl z-0"></div>
-                            <div class="absolute -top-10 -right-10 w-40 h-40 bg-brand-success/20 rounded-full blur-3xl z-0"></div>
                         </div>
                     </div>
                     
                     <!-- Trust Indicators -->
-                    <div class="mt-24 pt-10 border-t border-gray-200/60 max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 animate-slide-up" style="animation-delay: 0.2s;">
-                        <div class="text-center group cursor-default">
+                    <div class="mt-24 pt-10 border-t border-gray-200/60 max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 animate-slide-up" style="animation-delay: 0.1s;">
+                        <div class="text-center">
                             <p class="text-4xl font-bold text-brand-primary editable" data-key="stat-1">23</p>
                             <p class="text-xs uppercase tracking-widest text-brand-muted mt-2 font-semibold editable" data-key="stat-label-1">Years Experience</p>
                         </div>
-                        <div class="text-center group cursor-default">
+                        <div class="text-center">
                             <p class="text-4xl font-bold text-brand-primary editable" data-key="stat-2">100%</p>
                             <p class="text-xs uppercase tracking-widest text-brand-muted mt-2 font-semibold editable" data-key="stat-label-2">Local Focus</p>
                         </div>
-                        <div class="text-center group cursor-default">
+                        <div class="text-center">
                             <p class="text-4xl font-bold text-brand-primary editable" data-key="stat-3">24h</p>
                             <p class="text-xs uppercase tracking-widest text-brand-muted mt-2 font-semibold editable" data-key="stat-label-3">Response Time</p>
                         </div>
-                        <div class="text-center group cursor-default">
+                        <div class="text-center">
                             <p class="text-4xl font-bold text-brand-primary editable" data-key="stat-4">Family</p>
                             <p class="text-xs uppercase tracking-widest text-brand-muted mt-2 font-semibold editable" data-key="stat-label-4">Owned & Operated</p>
                         </div>
@@ -334,7 +331,7 @@
             </section>
         </div>
 
-        <!-- PAGE: CLIENT PORTAL DASHBOARD (Hidden unless logged in) -->
+        <!-- PAGE: CLIENT PORTAL DASHBOARD -->
         <div id="client-dashboard" class="page-section">
             <section class="py-16 bg-gray-50 min-h-screen">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -351,7 +348,6 @@
 
                     <!-- Status Cards -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                        <!-- Card 1 -->
                         <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
                             <div class="flex items-center justify-between mb-4">
                                 <h3 class="font-bold text-brand-primary">Tax Status</h3>
@@ -360,7 +356,6 @@
                             <div class="text-3xl font-bold text-brand-primary mb-1">Filed</div>
                             <p class="text-sm text-brand-muted">Last filing: Oct 15, 2025</p>
                         </div>
-                        <!-- Card 2 -->
                         <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
                             <div class="flex items-center justify-between mb-4">
                                 <h3 class="font-bold text-brand-primary">Next Deadline</h3>
@@ -369,7 +364,6 @@
                             <div class="text-3xl font-bold text-brand-primary mb-1">12 Days</div>
                             <p class="text-sm text-brand-muted">BBO Filing Due</p>
                         </div>
-                        <!-- Card 3 -->
                         <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
                             <div class="flex items-center justify-between mb-4">
                                 <h3 class="font-bold text-brand-primary">Messages</h3>
@@ -380,7 +374,7 @@
                         </div>
                     </div>
 
-                    <!-- File Upload Section (10/10 Add) -->
+                    <!-- File Upload Section -->
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         <div class="lg:col-span-2 bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
                             <div class="p-8 border-b border-gray-100 flex justify-between items-center">
@@ -401,7 +395,6 @@
                             </div>
                         </div>
 
-                        <!-- Upload Widget -->
                         <div class="bg-white rounded-3xl border border-gray-100 shadow-sm p-8 text-center">
                             <h3 class="text-lg font-bold text-brand-primary mb-4">Upload Documents</h3>
                             <div class="border-2 border-dashed border-gray-200 rounded-2xl p-8 hover:border-brand-accent hover:bg-brand-accentLight/20 transition-all cursor-pointer group" onclick="document.getElementById('clientFileUpload').click()">
@@ -422,7 +415,6 @@
         <div id="about" class="page-section">
             <section class="py-24 relative">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <!-- ... content from previous version ... -->
                     <div class="text-center mb-20 animate-slide-up">
                         <span class="text-brand-accent font-bold tracking-widest uppercase text-sm">About Us</span>
                         <h1 class="text-4xl lg:text-5xl font-bold text-brand-primary mt-3 mb-6 editable" data-key="about-hero-title">Who We Are</h1>
@@ -439,18 +431,17 @@
                 </div>
             </section>
             
-            <!-- FAQ Section -->
             <section class="py-24 bg-white border-y border-gray-100">
                 <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="text-center mb-12">
                         <h2 class="text-3xl font-bold text-brand-primary editable" data-key="faq-title">Common Questions</h2>
                     </div>
                     <div class="space-y-4">
-                        <details class="group bg-brand-bg rounded-2xl p-2 transition-all duration-300 hover:bg-brand-accentLight/30 open:bg-white open:shadow-lg open:ring-1 open:ring-gray-100">
+                        <details class="group bg-brand-bg rounded-2xl p-2 transition-all duration-200 hover:bg-brand-accentLight/30 open:bg-white open:shadow-lg open:ring-1 open:ring-gray-100">
                             <summary class="flex justify-between items-center p-4 font-bold text-brand-primary cursor-pointer select-none">How do I switch accountants to you?<span class="bg-white p-1 rounded-full shadow-sm transition-transform group-open:rotate-180"><i data-lucide="chevron-down" class="w-5 h-5 text-brand-accent"></i></span></summary>
                             <div class="px-4 pb-4 pt-2 text-brand-muted leading-relaxed editable" data-key="faq-1-ans">It's easier than you think. We handle the entire handover process.</div>
                         </details>
-                        <details class="group bg-brand-bg rounded-2xl p-2 transition-all duration-300 hover:bg-brand-accentLight/30 open:bg-white open:shadow-lg open:ring-1 open:ring-gray-100">
+                        <details class="group bg-brand-bg rounded-2xl p-2 transition-all duration-200 hover:bg-brand-accentLight/30 open:bg-white open:shadow-lg open:ring-1 open:ring-gray-100">
                             <summary class="flex justify-between items-center p-4 font-bold text-brand-primary cursor-pointer select-none">Do you work with clients outside of Oranjestad?<span class="bg-white p-1 rounded-full shadow-sm transition-transform group-open:rotate-180"><i data-lucide="chevron-down" class="w-5 h-5 text-brand-accent"></i></span></summary>
                             <div class="px-4 pb-4 pt-2 text-brand-muted leading-relaxed editable" data-key="faq-2-ans">Yes, we serve the entire island of Aruba (Noord, Santa Cruz, San Nicolas, Paradera).</div>
                         </details>
@@ -599,11 +590,53 @@
     <!-- Footer -->
     <footer class="bg-brand-primary pt-24 pb-12 border-t border-white/10 text-slate-300 relative z-20 overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="flex items-center gap-4">
-                <p>&copy; 2026 Accounting Croes Firm.</p>
-                <button onclick="toggleAdminPanel()" class="p-2 hover:bg-white/10 rounded-full transition-all text-slate-600 hover:text-white cursor-pointer" title="Admin Login">
-                    <i data-lucide="lock" class="w-3 h-3"></i>
-                </button>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-20 mb-20">
+                <!-- Brand -->
+                <div class="space-y-8">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-brand-accent rounded-xl flex items-center justify-center text-white"><span class="font-bold text-xl">A</span></div>
+                        <span class="font-bold text-2xl text-white tracking-tight">Accounting <span class="text-brand-accent">Croes</span></span>
+                    </div>
+                    <p class="text-sm leading-relaxed text-slate-400 font-medium">Proud Family Business serving Aruba since 2003.</p>
+                </div>
+                <!-- Links -->
+                <div>
+                    <h3 class="text-white font-bold mb-8 text-lg">Company</h3>
+                    <ul class="space-y-4 text-sm font-medium">
+                        <li><a href="#home" onclick="route(event, 'home')" class="hover:text-brand-accent transition-colors block">Home</a></li>
+                        <li><a href="#about" onclick="route(event, 'about')" class="hover:text-brand-accent transition-colors block">About Us</a></li>
+                        <li><a href="#services" onclick="route(event, 'services')" class="hover:text-brand-accent transition-colors block">Services</a></li>
+                        <li><a href="#resources" onclick="route(event, 'resources')" class="hover:text-brand-accent transition-colors block">Resources</a></li>
+                    </ul>
+                </div>
+                <!-- Services -->
+                <div>
+                    <h3 class="text-white font-bold mb-8 text-lg">Expertise</h3>
+                    <ul class="space-y-4 text-sm font-medium">
+                        <li><a href="#services" onclick="route(event, 'services')" class="hover:text-brand-accent transition-colors block">Tax Preparation</a></li>
+                        <li><a href="#services" onclick="route(event, 'services')" class="hover:text-brand-accent transition-colors block">Business Bookkeeping</a></li>
+                        <li><a href="#services" onclick="route(event, 'services')" class="hover:text-brand-accent transition-colors block">Payroll Solutions</a></li>
+                    </ul>
+                </div>
+                <!-- Contact -->
+                <div>
+                    <h3 class="text-white font-bold mb-8 text-lg">Contact</h3>
+                    <ul class="space-y-6 text-sm font-medium">
+                        <li class="flex items-start gap-4"><i data-lucide="map-pin" class="w-6 h-6 text-brand-accent shrink-0 mt-0.5"></i><span class="text-slate-300">L.G. Smith Blvd 100,<br>Oranjestad, Aruba</span></li>
+                        <li class="flex items-center gap-4"><i data-lucide="mail" class="w-6 h-6 text-brand-accent shrink-0"></i><a href="mailto:contact@accountingcroes.com" class="hover:text-white transition-colors">contact@accountingcroes.com</a></li>
+                        <li class="flex items-center gap-4"><i data-lucide="phone" class="w-6 h-6 text-brand-accent shrink-0"></i><span>+297 582 0000</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-10 flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-slate-500 font-medium">
+                <div class="flex items-center gap-4">
+                    <p>&copy; 2026 Accounting Croes Firm. All rights reserved.</p>
+                    <button onclick="toggleAdminPanel()" class="p-2 hover:bg-white/10 rounded-full transition-all text-slate-600 hover:text-white cursor-pointer" title="Admin Login"><i data-lucide="lock" class="w-3 h-3"></i></button>
+                </div>
+                <div class="flex items-center gap-8">
+                    <a href="javascript:void(0)" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="javascript:void(0)" class="hover:text-white transition-colors">Terms of Service</a>
+                </div>
             </div>
         </div>
     </footer>
@@ -633,8 +666,7 @@
         </div>
     </div>
 
-    <!-- Booking Modal, Login Modal, Client Manager Modal (Same as previous) -->
-    <!-- Re-including for completeness -->
+    <!-- Booking Modal, Login Modal, Client Manager Modal -->
     <div id="bookingModal" class="fixed inset-0 z-[10002] hidden flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
         <div class="bg-white p-8 rounded-[2rem] w-full max-w-md shadow-2xl relative">
             <button onclick="closeBooking()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800"><i data-lucide="x" class="w-6 h-6"></i></button>
@@ -948,13 +980,13 @@
             appState.services.forEach((svc, index) => {
                 const card = document.createElement('div');
                 card.className = "glass-card p-8 md:p-10 rounded-[2rem] group cursor-pointer border border-white hover:shadow-2xl transition-all duration-500 relative overflow-hidden";
-                card.setAttribute('data-tilt', '');
+                
+                // Removed data-tilt for performance
                 card.onclick = () => viewServiceDetail(index);
                 card.innerHTML = `<div class="absolute top-0 right-0 w-32 h-32 bg-brand-accent/5 rounded-bl-[4rem] transition-all group-hover:bg-brand-accent/10 pointer-events-none"></div><div class="w-16 h-16 bg-brand-accentLight rounded-2xl flex items-center justify-center mb-8 group-hover:bg-brand-accent transition-colors duration-500 shadow-sm pointer-events-none"><i data-lucide="${svc.icon}" class="w-8 h-8 text-brand-accent group-hover:text-white transition-colors duration-500"></i></div><h3 class="text-2xl font-bold text-brand-primary mb-4 group-hover:text-brand-accent transition-colors pointer-events-none">${svc.title}</h3><p class="text-brand-muted mb-8 leading-relaxed pointer-events-none">${svc.desc}</p><div class="mt-auto border-t border-gray-100 pt-6 pointer-events-none"><div class="flex items-center text-brand-accent font-bold group-hover:gap-2 transition-all">Learn more <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i></div></div>`;
                 container.appendChild(card);
             });
             if (typeof lucide !== 'undefined') lucide.createIcons();
-            initTilt();
         }
 
         function viewServiceDetail(index) {
@@ -996,21 +1028,6 @@
             });
         }
 
-        function initTilt() {
-            const cards = document.querySelectorAll('[data-tilt]');
-            cards.forEach(card => {
-                card.addEventListener('mousemove', (e) => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    const rotateX = ((y - rect.height/2) / rect.height/2) * -5;
-                    const rotateY = ((x - rect.width/2) / rect.width/2) * 5;
-                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-                });
-                card.addEventListener('mouseleave', () => card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale(1)`);
-            });
-        }
-
         // --- Init ---
         document.addEventListener('DOMContentLoaded', () => {
             if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -1036,23 +1053,41 @@
             const initialPage = window.location.hash.substring(1) || 'home';
             route(null, initialPage);
             
+            // Optimized Scroll Handler (requestAnimationFrame)
+            let ticking = false;
             window.addEventListener('scroll', () => {
-                const scrollY = window.scrollY;
-                const heroImg = document.querySelector('[data-key="hero-img"]');
-                if(heroImg) heroImg.style.transform = `translateY(${scrollY * 0.1}px) scale(${1 + scrollY * 0.0005})`;
-                
-                // Back to Top Logic
-                const backToTop = document.getElementById('backToTop');
-                if(scrollY > 500) {
-                    backToTop.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
-                } else {
-                    backToTop.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        const scrollY = window.scrollY;
+                        
+                        // Back to Top
+                        const backToTop = document.getElementById('backToTop');
+                        if(scrollY > 500) {
+                            backToTop.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+                        } else {
+                            backToTop.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+                        }
+                        
+                        // Scroll Progress
+                        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                        const scrolled = (scrollY / height) * 100;
+                        document.getElementById("scrollProgress").style.width = scrolled + "%";
+                        
+                        // Navbar Shadow
+                        const nav = document.getElementById('navbar');
+                        const navContainer = document.getElementById('nav-container');
+                        if (scrollY > 50) {
+                            nav.classList.add('shadow-lg');
+                            if(navContainer) navContainer.classList.replace('h-24', 'h-16');
+                        } else {
+                            nav.classList.remove('shadow-lg');
+                            if(navContainer) navContainer.classList.replace('h-16', 'h-24');
+                        }
+
+                        ticking = false;
+                    });
+                    ticking = true;
                 }
-                
-                // Scroll Progress
-                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                const scrolled = (scrollY / height) * 100;
-                document.getElementById("scrollProgress").style.width = scrolled + "%";
             });
         });
         
