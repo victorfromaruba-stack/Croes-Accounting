@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,35 +17,20 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                    },
+                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
                     colors: {
                         brand: {
-                            bg: '#F8FAFC',
-                            surface: '#FFFFFF',
-                            primary: '#0F172A',
-                            accent: '#0EA5E9', // Brighter Blue
-                            accentDark: '#0284C7',
-                            accentLight: '#E0F2FE',
-                            text: '#334155',
-                            muted: '#64748B',
-                            success: '#10B981',
-                            warning: '#F59E0B'
+                            bg: '#F8FAFC', primary: '#0F172A', accent: '#0EA5E9',
+                            accentLight: '#E0F2FE', text: '#334155', muted: '#64748B'
                         }
                     },
                     animation: {
                         'float': 'float 10s ease-in-out infinite',
-                        'float-delayed': 'float 12s ease-in-out infinite reverse',
                         'marquee': 'marquee 30s linear infinite',
-                        'spin-slow': 'spin 12s linear infinite',
                     },
                     keyframes: {
-                        float: { '0%, 100%': { transform: 'translateY(0) rotate(0deg)' }, '50%': { transform: 'translateY(-20px) rotate(2deg)' } },
+                        float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-20px)' } },
                         marquee: { '0%': { transform: 'translateX(100%)' }, '100%': { transform: 'translateX(-100%)' } }
-                    },
-                    backgroundImage: {
-                        'grid-pattern': "linear-gradient(to right, #E2E8F0 1px, transparent 1px), linear-gradient(to bottom, #E2E8F0 1px, transparent 1px)",
                     }
                 }
             }
@@ -53,686 +38,296 @@
     </script>
 
     <style>
-        /* Base & Reset */
-        html { font-size: 16px; -webkit-font-smoothing: antialiased; }
-        body.large-text { font-size: 19px; }
+        /* --- PERFORMANCE OPTIMIZATIONS --- */
         
-        /* Custom Cursor */
+        /* 1. Native Scroll Behavior (Crucial for "smooth" feel) */
+        html { 
+            font-size: 16px; 
+            -webkit-font-smoothing: antialiased;
+            /* We handle smooth scrolling via JS for links only, to keep wheel scroll fast */
+            scroll-behavior: auto; 
+        }
+
+        /* 2. Hardware Accelerated Backgrounds */
+        .accelerate-gpu {
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            will-change: transform;
+        }
+
+        /* 3. Better Scrollbar visibility */
+        ::-webkit-scrollbar { width: 14px; }
+        ::-webkit-scrollbar-track { background: #F1F5F9; }
+        ::-webkit-scrollbar-thumb { 
+            background: #94A3B8; 
+            border-radius: 7px; 
+            border: 3px solid #F1F5F9; 
+            min-height: 50px;
+        }
+        ::-webkit-scrollbar-thumb:hover { background: #64748B; }
+
+        /* 4. Optimized Cursor (Pointer Events None is Critical) */
         .cursor-dot, .cursor-outline {
-            position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); border-radius: 50%; z-index: 9999; pointer-events: none;
+            position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); 
+            border-radius: 50%; z-index: 9999; pointer-events: none;
+            will-change: transform; /* Performance fix */
         }
         .cursor-dot { width: 8px; height: 8px; background-color: #0EA5E9; }
-        .cursor-outline { width: 40px; height: 40px; border: 1px solid rgba(14, 165, 233, 0.5); transition: width 0.2s, height 0.2s, background-color 0.2s; }
-        body:hover .cursor-outline.hovered { width: 60px; height: 60px; background-color: rgba(14, 165, 233, 0.1); border-color: transparent; }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: #F8FAFC; }
-        ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 5px; border: 2px solid #F8FAFC; }
-        ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
-
-        /* Glassmorphism Refined */
+        .cursor-outline { width: 40px; height: 40px; border: 1px solid rgba(14, 165, 233, 0.5); transition: width 0.15s, height 0.15s; }
+        
+        /* 5. Glassmorphism Optimization */
+        /* Reducing blur radius slightly improves scrolling FPS on laptops */
         .glass {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.6);
         }
         
-        .glass-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        /* 3D Tilt Effect applied via JS */
-        .tilt-card { transform-style: preserve-3d; transform: perspective(1000px); }
-        .tilt-content { transform: translateZ(20px); }
-
-        /* Smooth Page Transitions */
+        /* Page Transitions */
         .page-section { 
             display: none; 
             opacity: 0; 
-            transform: translateY(20px); 
-            transition: opacity 0.5s ease, transform 0.5s ease; 
+            animation: fadeIn 0.4s ease-out forwards;
         }
-        .page-section.active { 
-            display: block; 
-            opacity: 1; 
-            transform: translateY(0); 
-        }
-        .page-section.fading-out {
-            opacity: 0;
-            transform: translateY(-20px);
-        }
+        .page-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Scroll Reveal Animation */
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 1s cubic-bezier(0.5, 0, 0, 1); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal.delay-100 { transition-delay: 0.1s; }
-        .reveal.delay-200 { transition-delay: 0.2s; }
-        .reveal.delay-300 { transition-delay: 0.3s; }
-
-        /* Utility */
+        /* Utilities */
         .text-gradient { background: linear-gradient(135deg, #0F172A 0%, #0EA5E9 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .bg-grid { background-size: 40px 40px; background-image: linear-gradient(to right, rgba(226, 232, 240, 0.5) 1px, transparent 1px), linear-gradient(to bottom, rgba(226, 232, 240, 0.5) 1px, transparent 1px); mask-image: linear-gradient(to bottom, black 40%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%); }
-        
-        /* Edit Mode */
-        .editable-highlight { border: 2px dashed #F59E0B; background: rgba(253, 230, 138, 0.3); cursor: text; padding: 2px; border-radius: 4px; }
-        #adminToolbar { transform: translateY(100%); transition: transform 0.3s ease-in-out; }
-        #adminToolbar.active { transform: translateY(0); }
-
-        /* Loader */
-        #preloader { transition: opacity 0.6s ease-out, visibility 0.6s ease-out; }
+        #preloader { transition: opacity 0.5s ease, visibility 0.5s; }
         #preloader.loaded { opacity: 0; visibility: hidden; }
+        
+        /* Prevent horizontal scroll issues */
+        body { overflow-x: hidden; width: 100%; position: relative; }
     </style>
 </head>
-<body class="bg-brand-bg text-brand-text font-sans antialiased overflow-x-hidden selection:bg-brand-accent selection:text-white flex flex-col min-h-screen">
+<body class="bg-brand-bg text-brand-text font-sans antialiased flex flex-col min-h-screen">
 
     <div class="cursor-dot hidden md:block"></div>
     <div class="cursor-outline hidden md:block"></div>
 
-    <div id="preloader" class="fixed inset-0 bg-brand-bg z-[9999] flex items-center justify-center">
+    <div id="preloader" class="fixed inset-0 bg-white z-[9999] flex items-center justify-center">
         <div class="text-center">
-            <div class="w-24 h-24 bg-brand-accent rounded-3xl flex items-center justify-center text-white text-5xl font-bold mb-6 shadow-brand-accent/30 shadow-2xl mx-auto animate-bounce">A</div>
-            <div class="text-brand-primary font-bold text-3xl tracking-tight">Accounting Croes</div>
-            <div class="h-1 w-32 bg-gray-200 rounded-full mx-auto mt-4 overflow-hidden">
-                <div class="h-full bg-brand-accent w-1/2 animate-[marquee_1s_linear_infinite]"></div>
-            </div>
+            <div class="w-16 h-16 bg-brand-accent rounded-xl animate-bounce mx-auto mb-4 flex items-center justify-center text-white font-bold text-2xl">A</div>
+            <div class="text-brand-primary font-bold">Loading...</div>
         </div>
     </div>
 
-    <div class="fixed top-0 left-0 w-full h-1 z-[100]" id="progressBarContainer">
-        <div class="h-full bg-gradient-to-r from-brand-accent to-blue-600 transition-all duration-100 ease-out" id="scrollProgress" style="width: 0%"></div>
+    <div class="fixed top-0 left-0 w-full h-1 z-[100]">
+        <div class="h-full bg-brand-accent transition-all duration-75 ease-out" id="scrollProgress" style="width: 0%"></div>
     </div>
 
-    <input type="file" id="imageUploadInput" accept="image/*" class="hidden">
-
-    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div class="bg-grid absolute inset-0 z-0 h-[80vh] opacity-60"></div>
-        <div class="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-blue-200/40 rounded-full blur-[100px] animate-float"></div>
-        <div class="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-cyan-100/40 rounded-full blur-[80px] animate-float-delayed"></div>
+    <div class="fixed inset-0 pointer-events-none z-0">
+        <div class="absolute inset-0 opacity-40" style="background-image: radial-gradient(#cbd5e1 1px, transparent 1px); background-size: 32px 32px;"></div>
+        <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-100/50 rounded-full blur-[80px] animate-float accelerate-gpu"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[400px] h-[400px] bg-cyan-100/50 rounded-full blur-[60px] animate-float accelerate-gpu" style="animation-delay: -5s;"></div>
     </div>
 
-    <div class="fixed top-0 w-full bg-brand-primary text-white text-xs z-[90] overflow-hidden py-2" id="news-ticker-bar">
-        <div class="animate-marquee whitespace-nowrap font-medium tracking-wide opacity-90">
-            📢 Upcoming Tax Deadline: 15th of the Month (BBO/Loonbelasting) • Contact us today to ensure compliance • Aruba's #1 Family Accounting Firm since 2003
-        </div>
-        <button onclick="closeTicker()" class="absolute right-4 top-1/2 -translate-y-1/2 hover:text-brand-accent transition-colors"><i data-lucide="x" class="w-3 h-3"></i></button>
-    </div>
-
-    <nav class="fixed w-full z-50 glass transition-all duration-500 top-8" id="navbar">
+    <nav class="fixed w-full z-50 glass top-0 transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20 transition-all duration-300" id="nav-container">
-                <a href="#home" class="flex items-center gap-3 group interactable" onclick="route(event, 'home')">
-                    <div class="w-10 h-10 bg-gradient-to-br from-brand-accent to-blue-600 rounded-lg flex items-center justify-center text-white shadow-lg group-hover:scale-105 transition-transform duration-300">
+            <div class="flex items-center justify-between h-20">
+                <a href="#home" onclick="navTo(event, 'home')" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 bg-brand-accent rounded-lg flex items-center justify-center text-white shadow-lg group-hover:scale-105 transition-transform">
                         <span class="font-bold text-xl">A</span>
                     </div>
-                    <div class="flex flex-col">
-                        <span class="font-bold text-lg text-brand-primary leading-none group-hover:text-brand-accent transition-colors">Accounting Croes</span>
-                        <span class="text-[10px] uppercase tracking-[0.2em] text-brand-muted font-bold mt-1">Est. 2003</span>
-                    </div>
+                    <span class="font-bold text-lg text-brand-primary">Accounting Croes</span>
                 </a>
                 
-                <div class="hidden md:flex items-center gap-1">
-                    <div class="flex items-center bg-gray-100/50 p-1 rounded-full border border-gray-200/50 backdrop-blur-sm mr-4">
-                        <a href="#home" onclick="route(event, 'home')" class="nav-link interactable px-4 py-2 rounded-full text-sm font-medium text-brand-text hover:text-brand-primary hover:bg-white transition-all duration-300" data-i18n="nav-home">Home</a>
-                        <a href="#about" onclick="route(event, 'about')" class="nav-link interactable px-4 py-2 rounded-full text-sm font-medium text-brand-text hover:text-brand-primary hover:bg-white transition-all duration-300" data-i18n="nav-about">About</a>
-                        <a href="#services" onclick="route(event, 'services')" class="nav-link interactable px-4 py-2 rounded-full text-sm font-medium text-brand-text hover:text-brand-primary hover:bg-white transition-all duration-300" data-i18n="nav-services">Services</a>
-                        <a href="#resources" onclick="route(event, 'resources')" class="nav-link interactable px-4 py-2 rounded-full text-sm font-medium text-brand-text hover:text-brand-primary hover:bg-white transition-all duration-300" data-i18n="nav-tools">Tools</a>
-                    </div>
-                    
-                    <button id="navClientLoginBtn" onclick="openClientLogin()" class="interactable text-brand-text hover:text-brand-accent text-sm font-bold transition-colors flex items-center gap-2 px-3 py-2">
-                        <i data-lucide="lock" class="w-4 h-4"></i> <span data-i18n="nav-login">Login</span>
-                    </button>
-                    <button onclick="openBooking()" class="interactable bg-brand-primary hover:bg-brand-accent text-white px-5 py-2.5 rounded-full text-sm font-bold transition-all shadow-lg hover:shadow-brand-accent/50 hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2 ml-2">
-                        <span data-i18n="nav-book">Book Now</span>
-                    </button>
-                    
-                    <div class="ml-4 flex flex-col gap-0.5">
-                        <button onclick="changeLang('en')" class="text-[10px] font-bold text-brand-muted hover:text-brand-accent">EN</button>
-                        <button onclick="changeLang('pap')" class="text-[10px] font-bold text-brand-muted hover:text-brand-accent">PAP</button>
-                    </div>
-                </div>
-
-                <div class="flex md:hidden">
-                    <button onclick="toggleMobileMenu()" class="interactable p-2 text-brand-primary">
-                        <i data-lucide="menu" class="h-8 w-8"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-xl border-t border-gray-100 shadow-2xl absolute w-full transition-all duration-300">
-            <div class="px-4 pt-4 pb-6 space-y-2">
-                <a href="#home" onclick="route(event, 'home')" class="block px-4 py-3 rounded-xl font-medium text-brand-primary hover:bg-gray-50">Home</a>
-                <a href="#services" onclick="route(event, 'services')" class="block px-4 py-3 rounded-xl font-medium text-brand-primary hover:bg-gray-50">Services</a>
-                <a href="#resources" onclick="route(event, 'resources')" class="block px-4 py-3 rounded-xl font-medium text-brand-primary hover:bg-gray-50">Tools</a>
-                <div class="grid grid-cols-4 gap-2 pt-4 border-t border-gray-100">
-                    <button onclick="changeLang('en')" class="py-2 bg-gray-50 rounded text-xs font-bold">EN</button>
-                    <button onclick="changeLang('pap')" class="py-2 bg-gray-50 rounded text-xs font-bold">PAP</button>
-                    <button onclick="changeLang('nl')" class="py-2 bg-gray-50 rounded text-xs font-bold">NL</button>
-                    <button onclick="changeLang('es')" class="py-2 bg-gray-50 rounded text-xs font-bold">ES</button>
+                <div class="hidden md:flex items-center gap-6">
+                    <a href="#home" onclick="navTo(event, 'home')" class="text-sm font-medium hover:text-brand-accent transition-colors">Home</a>
+                    <a href="#services" onclick="navTo(event, 'services')" class="text-sm font-medium hover:text-brand-accent transition-colors">Services</a>
+                    <a href="#resources" onclick="navTo(event, 'resources')" class="text-sm font-medium hover:text-brand-accent transition-colors">Resources</a>
+                    <a href="#contact" onclick="navTo(event, 'contact')" class="bg-brand-primary hover:bg-brand-accent text-white px-5 py-2.5 rounded-full text-sm font-bold transition-all shadow-lg hover:-translate-y-0.5">Book Now</a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <main class="flex-grow pt-32 px-4 sm:px-0">
-
+    <main class="flex-grow pt-28 px-4 sm:px-0 relative z-10">
+        
         <div id="home" class="page-section active">
-            <section class="relative pt-12 pb-20 lg:pt-24 lg:pb-32">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-                        <div class="text-center lg:text-left">
-                            <div class="reveal inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-accentLight/50 border border-brand-accent/20 text-brand-accentDark text-xs font-bold uppercase tracking-wider mb-8 backdrop-blur-md">
-                                <span class="w-2 h-2 rounded-full bg-brand-accent animate-pulse"></span>
-                                <span class="editable" data-key="hero-badge" data-i18n="hero-badge">Proud Aruban Family Business</span>
-                            </div>
-
-                            <h1 class="reveal delay-100 text-5xl lg:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1] text-brand-primary">
-                                <span class="editable" data-key="hero-title-1" data-i18n="hero-title-1">Exclusively for Aruba.</span><br>
-                                <span class="text-gradient editable" data-key="hero-title-2" data-i18n="hero-title-2">Unmatched Quality.</span>
-                            </h1>
-                            
-                            <p class="reveal delay-200 mt-4 text-xl text-brand-muted mb-10 leading-relaxed max-w-2xl mx-auto lg:mx-0 editable" data-key="hero-desc" data-i18n="hero-desc">
-                                At Accounting Croes, we treat your finances like our own. Honest, clear, and local expertise since 2003.
-                            </p>
-                            
-                            <div class="reveal delay-300 flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
-                                <a href="#contact" onclick="openContact()" class="interactable px-8 py-4 bg-brand-primary text-white rounded-full font-bold text-lg shadow-xl shadow-brand-primary/30 hover:shadow-2xl hover:bg-brand-accent transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center gap-2">
-                                    <span data-i18n="btn-start">Start a Conversation</span> <i data-lucide="arrow-right" class="w-5 h-5"></i>
-                                </a>
-                                <a href="#services" onclick="route(event, 'services')" class="interactable px-8 py-4 bg-white border border-gray-200 text-brand-primary rounded-full font-bold text-lg hover:bg-gray-50 transition-all flex items-center justify-center">
-                                    <span data-i18n="btn-explore">Explore Services</span>
-                                </a>
-                            </div>
+            <div class="max-w-7xl mx-auto px-4 lg:px-8 py-12 lg:py-24">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <div class="inline-block px-3 py-1 rounded-full bg-blue-50 text-brand-accent text-xs font-bold uppercase tracking-wider mb-6 border border-blue-100">
+                            Aruba's Premier Firm
                         </div>
-                        
-                        <div class="reveal delay-200 relative lg:block hidden group perspective-1000">
-                            <div class="relative z-10 rounded-[2.5rem] overflow-hidden shadow-2xl border-[8px] border-white/40 backdrop-blur-sm transform transition-transform duration-700 ease-out group-hover:rotate-1">
-                                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Office" class="w-full h-auto object-cover scale-105 group-hover:scale-110 transition-transform duration-1000 editable-img" data-key="hero-img">
-                                <div class="absolute inset-0 bg-gradient-to-t from-brand-primary/50 to-transparent opacity-60"></div>
-                            </div>
-                            <div class="absolute -bottom-10 -left-10 bg-white p-6 rounded-3xl shadow-xl border border-gray-100 flex items-center gap-4 animate-float z-20">
-                                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600"><i data-lucide="check-circle" class="w-6 h-6"></i></div>
-                                <div>
-                                    <p class="font-bold text-brand-primary">Tax Compliant</p>
-                                    <p class="text-xs text-brand-muted">100% Accuracy Rate</p>
-                                </div>
-                            </div>
+                        <h1 class="text-5xl lg:text-7xl font-extrabold text-brand-primary mb-6 leading-tight">
+                            Your Future.<br><span class="text-gradient">Our Priority.</span>
+                        </h1>
+                        <p class="text-xl text-brand-muted mb-8 max-w-lg leading-relaxed">
+                            Professional accounting with a family touch. Trusted by local businesses since 2003.
+                        </p>
+                        <div class="flex gap-4">
+                            <button onclick="navTo(event, 'contact')" class="px-8 py-4 bg-brand-accent hover:bg-sky-500 text-white rounded-xl font-bold transition-all shadow-lg shadow-sky-200">Get Started</button>
+                            <button onclick="navTo(event, 'services')" class="px-8 py-4 bg-white text-brand-primary border border-gray-200 hover:bg-gray-50 rounded-xl font-bold transition-all">View Services</button>
                         </div>
                     </div>
-                    
-                    <div class="mt-24 pt-10 border-t border-gray-200/50 grid grid-cols-2 md:grid-cols-4 gap-8 reveal delay-300">
-                        <div class="text-center group hover:-translate-y-2 transition-transform duration-300">
-                            <p class="text-4xl font-extrabold text-brand-primary editable" data-key="stat-1">23+</p>
-                            <p class="text-xs uppercase tracking-widest text-brand-muted mt-2 font-bold" data-i18n="stat-years">Years</p>
-                        </div>
-                        <div class="text-center group hover:-translate-y-2 transition-transform duration-300">
-                            <p class="text-4xl font-extrabold text-brand-primary editable" data-key="stat-2">100%</p>
-                            <p class="text-xs uppercase tracking-widest text-brand-muted mt-2 font-bold" data-i18n="stat-focus">Local</p>
-                        </div>
-                        <div class="text-center group hover:-translate-y-2 transition-transform duration-300">
-                            <p class="text-4xl font-extrabold text-brand-primary editable" data-key="stat-3">24h</p>
-                            <p class="text-xs uppercase tracking-widest text-brand-muted mt-2 font-bold" data-i18n="stat-resp">Fast Response</p>
-                        </div>
-                        <div class="text-center group hover:-translate-y-2 transition-transform duration-300">
-                            <p class="text-4xl font-extrabold text-brand-primary editable" data-key="stat-4">#1</p>
-                            <p class="text-xs uppercase tracking-widest text-brand-muted mt-2 font-bold" data-i18n="stat-owned">Family Firm</p>
-                        </div>
+                    <div class="relative hidden lg:block">
+                        <div class="absolute inset-0 bg-brand-accent/20 rounded-[3rem] rotate-6 transform translate-y-4 blur-sm accelerate-gpu"></div>
+                        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=80" class="relative rounded-[3rem] shadow-2xl w-full object-cover h-[500px] border-4 border-white accelerate-gpu">
                     </div>
                 </div>
-            </section>
-        </div>
-
-        <div id="about" class="page-section">
-            <section class="py-24 relative">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="text-center mb-20 reveal">
-                        <span class="text-brand-accent font-bold tracking-widest uppercase text-sm" data-i18n="about-badge">About Us</span>
-                        <h1 class="text-4xl lg:text-5xl font-extrabold text-brand-primary mt-3 mb-6 editable" data-key="about-hero-title" data-i18n="about-title">Who We Are</h1>
-                        <p class="text-xl text-brand-muted max-w-2xl mx-auto editable" data-key="about-hero-sub" data-i18n="about-sub">Deep roots in Aruba, committed to your future.</p>
-                    </div>
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-                        <div class="relative reveal delay-100">
-                            <div class="absolute inset-0 bg-brand-accent rounded-[2rem] rotate-3 opacity-20 transform translate-y-4"></div>
-                            <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" class="relative rounded-[2rem] w-full shadow-2xl editable-img" data-key="about-img">
-                        </div>
-                        <div class="reveal delay-200">
-                            <h2 class="text-3xl font-bold mb-8 text-brand-primary leading-tight" data-i18n="about-header">An accounting firm that feels like family.</h2>
-                            <p class="text-brand-muted text-lg mb-6 editable leading-relaxed" data-key="about-p1" data-i18n="about-p1">We know the stereotype: expensive firms that treat you like a number.</p>
-                            <p class="text-brand-muted text-lg mb-8 editable leading-relaxed" data-key="about-p2" data-i18n="about-p2"><strong>Accounting Croes</strong> is different. We are a family business deeply rooted in Aruba, providing personalized attention that big firms can't match.</p>
-                            <div class="flex gap-4">
-                                <div class="p-4 bg-white border border-gray-100 rounded-2xl shadow-sm text-center w-32">
-                                    <i data-lucide="users" class="w-6 h-6 text-brand-accent mx-auto mb-2"></i>
-                                    <div class="font-bold text-sm text-brand-primary">Personal</div>
-                                </div>
-                                <div class="p-4 bg-white border border-gray-100 rounded-2xl shadow-sm text-center w-32">
-                                    <i data-lucide="shield-check" class="w-6 h-6 text-brand-accent mx-auto mb-2"></i>
-                                    <div class="font-bold text-sm text-brand-primary">Secure</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            </div>
         </div>
 
         <div id="services" class="page-section">
-            <section class="py-24">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="text-center mb-16 reveal">
-                        <h2 class="text-4xl lg:text-5xl font-extrabold mb-4 text-brand-primary editable" data-key="services-title" data-i18n="svc-main-title">Simplicity & Value</h2>
-                        <p class="text-xl text-brand-muted">Everything you need, nothing you don't.</p>
-                        <button id="addServiceBtn" onclick="addService()" class="hidden mt-6 px-6 py-2 bg-green-500 hover:bg-green-600 text-white rounded-full font-bold shadow-lg">+ Add Service</button>
-                    </div>
-                    <div id="services-container" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
+            <div class="max-w-7xl mx-auto px-4 lg:px-8 py-12">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-brand-primary mb-4">Our Expertise</h2>
+                    <p class="text-brand-muted">Tailored financial solutions for your business.</p>
                 </div>
-            </section>
-        </div>
-
-        <div id="service-detail" class="page-section">
-            <section class="py-24 min-h-screen">
-                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <button onclick="route(event, 'services')" class="mb-10 flex items-center text-brand-muted hover:text-brand-accent transition-colors font-medium group interactable">
-                        <span class="p-2 bg-white rounded-full shadow-sm mr-3 group-hover:-translate-x-1 transition-transform border border-gray-100"><i data-lucide="arrow-left" class="w-4 h-4"></i></span> <span data-i18n="btn-back">Back to Services</span>
-                    </button>
-                    <div class="glass-card p-10 md:p-14 rounded-[2.5rem] bg-white/80 relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-64 h-64 bg-brand-accent/5 rounded-bl-[10rem]"></div>
-                        <div id="detail-icon-container" class="w-20 h-20 bg-brand-accentLight rounded-2xl flex items-center justify-center shadow-inner mb-8 text-brand-accent"></div>
-                        <h1 id="detail-title" class="text-4xl md:text-5xl font-bold text-brand-primary mb-8 editable" data-key="detail-title">Service Title</h1>
-                        <div class="prose prose-lg text-brand-muted max-w-none">
-                            <p id="detail-desc" class="editable text-xl leading-relaxed" data-key="detail-desc">Description</p>
-                            <hr class="my-10 border-gray-100">
-                            <h3 class="text-2xl font-bold text-brand-primary mb-6" data-i18n="svc-detail-include">What we include:</h3>
-                            <div id="detail-content" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-                            
-                            <div class="mt-14 p-10 bg-brand-primary rounded-[2rem] text-white shadow-2xl relative overflow-hidden group">
-                                <div class="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full blur-2xl group-hover:bg-white/20 transition-colors"></div>
-                                <h4 class="text-2xl font-bold mb-3 relative z-10" data-i18n="svc-detail-ready">Ready to get started?</h4>
-                                <button onclick="openContact(document.getElementById('detail-title').innerText)" class="interactable bg-white text-brand-primary hover:bg-brand-accentLight px-8 py-3.5 rounded-xl font-bold transition-all shadow-lg flex items-center gap-2 relative z-10 mt-6 transform hover:-translate-y-1"><span data-i18n="btn-quote">Get a Free Quote</span> <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
-                            </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+                        <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-brand-accent mb-6 group-hover:bg-brand-accent group-hover:text-white transition-colors">
+                            <i data-lucide="briefcase" class="w-7 h-7"></i>
                         </div>
+                        <h3 class="text-xl font-bold text-brand-primary mb-3">Bookkeeping</h3>
+                        <p class="text-brand-muted leading-relaxed">Complete monthly management of your records, ensuring total compliance with Aruban law.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+                        <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-brand-accent mb-6 group-hover:bg-brand-accent group-hover:text-white transition-colors">
+                            <i data-lucide="pie-chart" class="w-7 h-7"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-primary mb-3">Tax Strategy</h3>
+                        <p class="text-brand-muted leading-relaxed">Proactive planning to minimize liabilities for BBO, Profit Tax, and Income Tax.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+                        <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-brand-accent mb-6 group-hover:bg-brand-accent group-hover:text-white transition-colors">
+                            <i data-lucide="users" class="w-7 h-7"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-primary mb-3">Payroll</h3>
+                        <p class="text-brand-muted leading-relaxed">On-time salary processing, pay slips, and SVB/Tax filings managed for you.</p>
                     </div>
                 </div>
-            </section>
+            </div>
         </div>
 
         <div id="resources" class="page-section">
-            <section class="py-24">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="text-center mb-16 reveal"><h2 class="text-3xl md:text-5xl font-extrabold mb-4 text-brand-primary" data-i18n="res-title">Financial Resources</h2></div>
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                        <div class="bg-white rounded-[2.5rem] p-12 border border-gray-100 shadow-2xl relative overflow-hidden group hover:shadow-brand-accent/10 transition-shadow reveal delay-100">
-                            <div class="absolute top-0 right-0 w-32 h-32 bg-red-50 rounded-bl-full z-0 transition-transform group-hover:scale-110"></div>
-                            <h3 class="text-2xl font-bold text-brand-primary mb-8 relative z-10" data-i18n="res-tax">Next Tax Deadline</h3>
-                            <div class="text-center py-12 bg-gray-50 rounded-[2rem] border border-gray-100 relative z-10">
-                                <div class="text-7xl font-black text-brand-primary my-4 tracking-tighter" id="deadline-counter">...</div>
-                                <div class="text-xl text-brand-muted mb-4 font-medium" id="deadline-date">...</div>
-                                <div class="inline-block px-3 py-1 bg-red-100 text-red-600 rounded-full text-xs font-bold uppercase">Important</div>
-                            </div>
-                        </div>
+            <div class="max-w-5xl mx-auto px-4 lg:px-8 py-12">
+                <div class="bg-white rounded-[2.5rem] shadow-2xl overflow-hidden border border-gray-100 flex flex-col md:flex-row">
+                    <div class="p-10 md:w-1/2 flex flex-col justify-center">
+                        <h2 class="text-3xl font-bold text-brand-primary mb-2">BBO Calculator</h2>
+                        <p class="text-brand-muted mb-8">Estimate your 7% tax quickly.</p>
                         
-                        <div class="bg-white rounded-[2.5rem] p-12 border border-gray-100 shadow-2xl reveal delay-200">
-                            <h3 class="text-2xl font-bold text-brand-primary mb-2">BBO Calculator</h3>
-                            <p class="text-brand-muted mb-6">Quickly estimate your sales tax (7%).</p>
-                            <div class="relative">
-                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">ƒ</span>
-                                <input type="number" id="calc-input" placeholder="100.00" class="w-full bg-gray-50 border-2 border-transparent focus:border-brand-accent focus:bg-white transition-all rounded-2xl px-4 py-6 pl-10 text-brand-primary font-bold text-3xl outline-none" oninput="calculateBBO()">
+                        <div class="space-y-4">
+                            <div>
+                                <label class="text-xs font-bold uppercase text-gray-400 ml-1">Amount (AWG)</label>
+                                <input type="number" id="calcInput" class="w-full bg-gray-50 p-4 rounded-xl border border-gray-200 font-bold text-xl outline-none focus:border-brand-accent focus:bg-white transition-all" placeholder="0.00" oninput="updateCalc()">
                             </div>
-                            <div class="bg-brand-primary rounded-2xl p-8 space-y-3 text-white shadow-xl mt-8">
-                                <div class="flex justify-between items-end opacity-80"><span>Total Tax (7%)</span><span class="font-mono text-4xl font-bold text-brand-success">ƒ <span id="res-total">0.00</span></span></div>
+                            <div class="bg-brand-primary p-6 rounded-2xl text-white">
+                                <div class="text-sm opacity-75 mb-1">Total Tax (7%)</div>
+                                <div class="text-4xl font-bold">ƒ <span id="calcResult">0.00</span></div>
                             </div>
                         </div>
                     </div>
+                    <div class="bg-blue-50 md:w-1/2 p-10 flex flex-col justify-center items-center text-center">
+                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg mb-6 text-brand-accent">
+                            <i data-lucide="calendar" class="w-10 h-10"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-primary">Next Deadline</h3>
+                        <div class="text-4xl font-extrabold text-brand-accent my-2">15th</div>
+                        <p class="text-brand-muted">of this month</p>
+                        <span class="inline-block mt-4 px-3 py-1 bg-red-100 text-red-600 text-xs font-bold rounded-full uppercase">Loonbelasting / BBO</span>
+                    </div>
                 </div>
-            </section>
+            </div>
         </div>
 
         <div id="contact" class="page-section">
-            <section class="py-24 flex flex-col justify-center min-h-[80vh]">
-                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-                    <div class="bg-white rounded-[3rem] shadow-2xl border border-gray-100 overflow-hidden flex flex-col md:flex-row reveal">
-                        <div class="bg-brand-primary p-12 text-white md:w-1/3 flex flex-col justify-between relative overflow-hidden">
-                            <div class="absolute -top-10 -left-10 w-40 h-40 bg-blue-500 rounded-full blur-[60px] opacity-50"></div>
-                            <div class="relative z-10">
-                                <h3 class="text-2xl font-bold mb-6">Contact Info</h3>
-                                <div class="space-y-6 text-blue-100 text-sm">
-                                    <p class="flex items-center gap-3"><i data-lucide="map-pin" class="w-5 h-5"></i> L.G. Smith Blvd 100, Aruba</p>
-                                    <p class="flex items-center gap-3"><i data-lucide="phone" class="w-5 h-5"></i> +297 582 0000</p>
-                                    <p class="flex items-center gap-3"><i data-lucide="mail" class="w-5 h-5"></i> contact@acroes.com</p>
-                                </div>
+            <div class="max-w-3xl mx-auto px-4 lg:px-8 py-12">
+                <div class="text-center mb-10">
+                    <h2 class="text-4xl font-bold text-brand-primary">Get in Touch</h2>
+                </div>
+                <div class="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-2xl border border-gray-100">
+                    <form onsubmit="event.preventDefault(); alert('Message Sent!');" class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="space-y-1">
+                                <label class="text-sm font-bold text-brand-primary ml-1">Name</label>
+                                <input type="text" class="w-full bg-gray-50 border border-gray-200 p-4 rounded-xl outline-none focus:border-brand-accent transition-all" placeholder="John Doe">
                             </div>
-                            <div class="relative z-10 mt-12">
-                                <div class="text-xs uppercase tracking-widest opacity-50 mb-2">Socials</div>
-                                <div class="flex gap-4">
-                                    <a href="#" class="hover:text-white text-blue-200 transition-colors"><i data-lucide="facebook" class="w-5 h-5"></i></a>
-                                    <a href="#" class="hover:text-white text-blue-200 transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
-                                    <a href="#" class="hover:text-white text-blue-200 transition-colors"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
-                                </div>
+                            <div class="space-y-1">
+                                <label class="text-sm font-bold text-brand-primary ml-1">Email</label>
+                                <input type="email" class="w-full bg-gray-50 border border-gray-200 p-4 rounded-xl outline-none focus:border-brand-accent transition-all" placeholder="john@example.com">
                             </div>
                         </div>
-                        <div class="p-12 md:w-2/3 bg-white">
-                            <h2 class="text-3xl font-bold mb-2 text-brand-primary editable" data-key="contact-title" data-i18n="contact-title">Let's solve it.</h2>
-                            <p class="text-brand-muted mb-8">Fill out the form and we'll be in touch within 24 hours.</p>
-                            <form id="contactForm" class="space-y-6" onsubmit="handleEmail(event)">
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <input type="text" id="name" required class="w-full bg-gray-50 border border-gray-100 focus:border-brand-accent focus:bg-white outline-none rounded-xl px-5 py-4 transition-all" placeholder="Your Name">
-                                    <input type="email" id="email" required class="w-full bg-gray-50 border border-gray-100 focus:border-brand-accent focus:bg-white outline-none rounded-xl px-5 py-4 transition-all" placeholder="Your Email">
-                                </div>
-                                <select id="topic" class="w-full bg-gray-50 border border-gray-100 focus:border-brand-accent focus:bg-white outline-none rounded-xl px-5 py-4 transition-all text-brand-text"><option>General Inquiry</option><option>Tax Services</option><option>Payroll</option></select>
-                                <textarea id="message" rows="4" required class="w-full bg-gray-50 border border-gray-100 focus:border-brand-accent focus:bg-white outline-none rounded-xl px-5 py-4 transition-all" placeholder="Message"></textarea>
-                                <button type="submit" class="interactable w-full bg-brand-accent hover:bg-brand-accentDark text-white font-bold text-lg py-4 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1" data-i18n="btn-send">Send Message</button>
-                            </form>
+                        <div class="space-y-1">
+                            <label class="text-sm font-bold text-brand-primary ml-1">Message</label>
+                            <textarea rows="4" class="w-full bg-gray-50 border border-gray-200 p-4 rounded-xl outline-none focus:border-brand-accent transition-all" placeholder="How can we help?"></textarea>
                         </div>
-                    </div>
+                        <button class="w-full bg-brand-primary hover:bg-brand-accent text-white font-bold py-4 rounded-xl shadow-lg transition-all text-lg">Send Message</button>
+                    </form>
                 </div>
-            </section>
-        </div>
-
-        <div id="client-dashboard" class="page-section">
-            <section class="py-12 bg-slate-50 min-h-screen">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
-                        <div>
-                            <span class="bg-blue-100 text-blue-700 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wide">Secure Portal</span>
-                            <h1 class="text-4xl font-bold text-brand-primary mt-3">Welcome back, <span id="dashboard-client-name" class="text-brand-accent">Client</span>.</h1>
-                        </div>
-                        <button onclick="clientLogout()" class="interactable text-red-500 hover:text-red-600 font-medium text-sm flex items-center gap-2 bg-white px-5 py-3 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all">
-                            <i data-lucide="log-out" class="w-4 h-4"></i> Logout
-                        </button>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                        <div class="bg-white p-8 rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-lg transition-all">
-                            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600 mb-4"><i data-lucide="check" class="w-6 h-6"></i></div>
-                            <h3 class="font-bold text-brand-primary text-lg">Tax Status</h3>
-                            <div class="text-3xl font-extrabold text-brand-primary mt-2">Filed</div>
-                            <p class="text-sm text-gray-400 mt-1">Last update: 2 days ago</p>
-                        </div>
-                        <div class="bg-white p-8 rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-lg transition-all">
-                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mb-4"><i data-lucide="calendar" class="w-6 h-6"></i></div>
-                            <h3 class="font-bold text-brand-primary text-lg">Next Deadline</h3>
-                            <div class="text-3xl font-extrabold text-brand-primary mt-2">12 Days</div>
-                            <p class="text-sm text-gray-400 mt-1">Monthly BBO Filing</p>
-                        </div>
-                        <div class="bg-white p-8 rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-lg transition-all">
-                             <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 mb-4"><i data-lucide="file-text" class="w-6 h-6"></i></div>
-                            <h3 class="font-bold text-brand-primary text-lg">Documents</h3>
-                            <div class="text-3xl font-extrabold text-brand-primary mt-2">3 New</div>
-                            <p class="text-sm text-gray-400 mt-1">Waiting for review</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            </div>
         </div>
 
     </main>
 
-    <div class="fixed bottom-8 right-8 z-40 flex flex-col gap-4">
-        <a href="https://wa.me/2975820000" target="_blank" class="interactable bg-[#25D366] hover:bg-[#20bd5a] text-white p-4 rounded-full shadow-lg shadow-green-500/30 transition-all hover:-translate-y-1 hover:scale-110 flex items-center justify-center">
-            <i data-lucide="message-circle" class="w-7 h-7"></i>
-        </a>
-    </div>
-
-    <div id="adminToolbar" class="fixed bottom-0 left-0 w-full bg-slate-900 border-t border-slate-700 p-4 shadow-2xl z-[100] flex justify-between items-center text-white">
-        <div class="flex items-center gap-4"><span class="bg-yellow-400 text-slate-900 text-xs font-bold px-2 py-1 rounded animate-pulse">ADMIN MODE</span></div>
-        <div class="flex gap-3">
-            <button onclick="saveChanges()" class="px-4 py-2 bg-brand-accent hover:bg-blue-600 text-white rounded text-sm font-bold">Save Changes</button>
-            <button onclick="exitAdmin()" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded text-sm">Exit</button>
+    <footer class="bg-brand-primary text-white py-12 mt-auto relative z-10">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="opacity-50 text-sm">&copy; 2026 Accounting Croes. All rights reserved.</p>
         </div>
-    </div>
-
-    <div id="loginModal" class="fixed inset-0 z-[10000] hidden flex items-center justify-center bg-black/60 backdrop-blur-md p-4 transition-opacity">
-        <div class="bg-white p-8 rounded-[2rem] w-full max-w-sm shadow-2xl relative animate-[slideUp_0.3s_ease-out]">
-            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-900"><i data-lucide="x" class="w-5 h-5"></i></button>
-            <div class="text-center mb-6">
-                <div class="w-12 h-12 bg-brand-accent/10 rounded-full flex items-center justify-center mx-auto mb-4 text-brand-accent"><i data-lucide="lock" class="w-6 h-6"></i></div>
-                <h3 class="text-2xl font-bold text-brand-primary" id="loginTitle">Login</h3>
-            </div>
-            <form onsubmit="handleLoginSubmit(event)" class="space-y-4">
-                <div id="clientInputs" class="hidden space-y-4">
-                    <input type="text" id="loginUsername" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-brand-accent transition-colors" placeholder="Username">
-                </div>
-                <input type="password" id="loginPassword" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-brand-accent transition-colors" placeholder="Password" required>
-                <div id="loginError" class="hidden text-red-500 text-xs text-center font-bold"></div>
-                <button type="submit" class="w-full py-3 bg-brand-primary hover:bg-brand-accent text-white rounded-xl font-bold transition-colors shadow-lg">Access Portal</button>
-            </form>
-        </div>
-    </div>
-
-    <div id="bookingModal" class="fixed inset-0 z-[10002] hidden flex items-center justify-center bg-black/60 backdrop-blur-md p-4">
-        <div class="bg-white p-8 rounded-[2rem] w-full max-w-md shadow-2xl relative animate-[slideUp_0.3s_ease-out]">
-            <button onclick="closeBooking()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800"><i data-lucide="x" class="w-6 h-6"></i></button>
-            <h2 class="text-2xl font-bold text-brand-primary mb-2">Book Appointment</h2>
-            <form onsubmit="handleBooking(event)" class="space-y-4 mt-6">
-                <input type="text" id="bookName" class="w-full border border-gray-200 p-3 rounded-xl bg-gray-50 outline-none focus:border-brand-accent" placeholder="Your Name" required>
-                <input type="email" id="bookEmail" class="w-full border border-gray-200 p-3 rounded-xl bg-gray-50 outline-none focus:border-brand-accent" placeholder="Email Address" required>
-                <div class="grid grid-cols-2 gap-4">
-                    <input type="date" id="bookDate" class="w-full border border-gray-200 p-3 rounded-xl bg-gray-50 outline-none focus:border-brand-accent" required>
-                    <select id="bookTime" class="w-full border border-gray-200 p-3 rounded-xl bg-gray-50 outline-none focus:border-brand-accent"><option>09:00 AM</option><option>11:00 AM</option><option>02:00 PM</option></select>
-                </div>
-                <button type="submit" class="w-full bg-brand-primary text-white font-bold py-3.5 rounded-xl hover:bg-brand-accent shadow-lg transition-all mt-4">Confirm Booking</button>
-            </form>
-        </div>
-    </div>
+    </footer>
 
     <script>
-        // --- CONFIG & STATE ---
-        const translations = {
-            en: { "nav-home": "Home", "nav-about": "About", "nav-services": "Services", "nav-tools": "Tools", "nav-login": "Portal", "nav-book": "Book", "hero-badge": "Proud Aruban Family Business", "hero-title-1": "Exclusively for Aruba.", "hero-title-2": "Unmatched Quality.", "hero-desc": "At Accounting Croes, we treat your finances like our own. Honest, clear, and local expertise since 2003.", "btn-start": "Start Conversation", "btn-explore": "Explore Services", "about-title": "Who We Are", "about-sub": "Deep roots in Aruba, committed to your future.", "svc-main-title": "Simplicity & Value", "contact-title": "Let's solve it.", "btn-send": "Send Message", "res-title": "Financial Resources", "res-tax": "Next Deadline" },
-            pap: { "nav-home": "Inicio", "nav-about": "Nos", "nav-services": "Servicio", "nav-tools": "Herment", "nav-login": "Portal", "nav-book": "Cita", "hero-badge": "Negoshi Familiar Arubiano", "hero-title-1": "Exclusivamente pa Aruba.", "hero-title-2": "Calidad Sin Igual.", "hero-desc": "Na Accounting Croes, nos ta trata bo financia manera di nos mes. Dedicacion y honestidad desde 2003.", "btn-start": "Cuminsa Combersacion", "btn-explore": "Explora Servicionan", "about-title": "Ken Nos Ta", "about-sub": "Raiznan profundo na Aruba.", "svc-main-title": "Simplicidad y Balor", "contact-title": "Ban solve hunto.", "btn-send": "Manda Mensahe", "res-title": "Recurso Financiero", "res-tax": "Siguiente Deadline" }
-        };
-
-        let appState = { 
-            text: {}, images: {}, currentLang: 'en', 
-            clients: [{name: "Demo User", username: "demo", password: "123"}], 
-            services: [
-                { id: 1, title: { en: "Business Growth", pap: "Crecemento" }, desc: { en: "Comprehensive bookkeeping." }, icon: "briefcase", items: ["Monthly Reports", "Payroll", "BBO Filing"], extended: "Complete financial management." },
-                { id: 2, title: { en: "Tax Strategy", pap: "Impuesto" }, desc: { en: "Proactive planning." }, icon: "pie-chart", items: ["Personal Tax", "Profit Tax", "Advice"], extended: "Minimize liabilities legally." },
-                { id: 3, title: { en: "Advisory", pap: "Conseho" }, desc: { en: "Future planning." }, icon: "trending-up", items: ["Succession", "Budgets", "Audit"], extended: "Secure your legacy." }
-            ]
-        };
-        
-        let isAdmin = false;
-
-        // --- CORE FUNCTIONS ---
-
-        function route(event, pageId) {
-            if (event) event.preventDefault();
-            
-            // Fade out current
-            const active = document.querySelector('.page-section.active');
-            if (active) {
-                active.classList.add('fading-out');
-                setTimeout(() => {
-                    active.classList.remove('active', 'fading-out');
-                    // Fade in new
-                    const next = document.getElementById(pageId);
-                    next.classList.add('active');
-                    window.scrollTo(0, 0);
-                    refreshObservers(); // Re-trigger animations
-                }, 400); // Wait for CSS transition
-            } else {
-                document.getElementById(pageId).classList.add('active');
-            }
-            
-            // Nav State
-            if (pageId === 'client-dashboard' && !sessionStorage.getItem('currentClient')) { openClientLogin(); return; }
-        }
-
-        function refreshObservers() {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                    }
-                });
-            }, { threshold: 0.1 });
-            
-            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-        }
-
-        // --- INTERACTIVITY (Tilt, Cursor) ---
-        
-        // 3D Tilt for cards
-        function initTilt() {
-            document.querySelectorAll('.glass-card').forEach(card => {
-                card.addEventListener('mousemove', (e) => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-                    const rotateX = ((y - centerY) / centerY) * -5; // Max 5deg rotation
-                    const rotateY = ((x - centerX) / centerX) * 5;
-
-                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-                });
-                card.addEventListener('mouseleave', () => {
-                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
-                });
-            });
-        }
-
-        // Custom Cursor
+        // --- 1. OPTIMIZED CURSOR (Using requestAnimationFrame) ---
         const cursorDot = document.querySelector('.cursor-dot');
         const cursorOutline = document.querySelector('.cursor-outline');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+
         window.addEventListener('mousemove', (e) => {
-            const posX = e.clientX;
-            const posY = e.clientY;
-            cursorDot.style.left = `${posX}px`; cursorDot.style.top = `${posY}px`;
+            mouseX = e.clientX;
+            mouseY = e.clientY;
             
-            // Smooth follow for outline
-            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
-        });
-        
-        // Hover effects for cursor
-        document.querySelectorAll('a, button, .interactable').forEach(el => {
-            el.addEventListener('mouseenter', () => cursorOutline.classList.add('hovered'));
-            el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hovered'));
+            // Instant update for the dot
+            cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
         });
 
-
-        // --- LOGIC (Data, Auth, Forms) ---
-
-        function changeLang(lang) {
-            appState.currentLang = lang;
-            const t = translations[lang];
-            if(t) document.querySelectorAll('[data-i18n]').forEach(el => { const key = el.getAttribute('data-i18n'); if(t[key]) el.innerText = t[key]; });
-            renderServices();
+        // Smooth loop for the outline
+        function animateCursor() {
+            // Linear interpolation for smooth lag effect
+            cursorX += (mouseX - cursorX) * 0.15;
+            cursorY += (mouseY - cursorY) * 0.15;
+            
+            cursorOutline.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`;
+            requestAnimationFrame(animateCursor);
         }
+        animateCursor();
 
-        function renderServices() {
-            const container = document.getElementById('services-container');
-            container.innerHTML = '';
-            appState.services.forEach((svc, index) => {
-                const title = svc.title[appState.currentLang] || svc.title.en;
-                const desc = svc.desc[appState.currentLang] || svc.desc.en;
-                
-                const card = document.createElement('div');
-                card.className = "glass-card p-8 md:p-10 rounded-[2rem] cursor-pointer relative overflow-hidden group reveal delay-" + (index * 100);
-                card.innerHTML = `
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-brand-accent/5 rounded-bl-[4rem] transition-all group-hover:scale-150 group-hover:bg-brand-accent/10 pointer-events-none"></div>
-                    <div class="w-16 h-16 bg-brand-accentLight rounded-2xl flex items-center justify-center mb-8 group-hover:bg-brand-accent transition-colors duration-500 shadow-sm pointer-events-none">
-                        <i data-lucide="${svc.icon}" class="w-8 h-8 text-brand-accent group-hover:text-white transition-colors duration-500"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-brand-primary mb-4 pointer-events-none">${title}</h3>
-                    <p class="text-brand-muted mb-8 leading-relaxed pointer-events-none">${desc}</p>
-                    <div class="flex items-center text-brand-accent font-bold group-hover:gap-2 transition-all text-sm pointer-events-none">Learn more <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i></div>
-                `;
-                card.onclick = () => viewServiceDetail(index);
-                container.appendChild(card);
+        // --- 2. OPTIMIZED SCROLLBAR (Passive Listener) ---
+        window.addEventListener('scroll', () => {
+            requestAnimationFrame(() => {
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (window.scrollY / height) * 100;
+                document.getElementById("scrollProgress").style.width = scrolled + "%";
             });
-            initTilt();
-            lucide.createIcons();
-            refreshObservers();
-        }
+        }, { passive: true });
 
-        function viewServiceDetail(index) {
-            const svc = appState.services[index];
-            const title = svc.title[appState.currentLang] || svc.title.en;
-            document.getElementById('detail-title').innerText = title;
-            document.getElementById('detail-desc').innerText = svc.extended;
-            document.getElementById('detail-icon-container').innerHTML = `<i data-lucide="${svc.icon}" class="w-10 h-10"></i>`;
-            document.getElementById('detail-content').innerHTML = svc.items.map(item => `<div class="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100"><div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center text-green-600"><i data-lucide="check" class="w-3 h-3"></i></div><span class="font-bold text-brand-primary">${item}</span></div>`).join('');
-            route(null, 'service-detail');
-            lucide.createIcons();
-        }
-
-        function openBooking() { document.getElementById('bookingModal').classList.remove('hidden'); }
-        function closeBooking() { document.getElementById('bookingModal').classList.add('hidden'); }
-        function handleBooking(e) { e.preventDefault(); closeBooking(); alert("Booking request simulated."); }
-
-        function openContact(ctx) { route(null, 'contact'); if(ctx) setTimeout(() => document.getElementById('message').value = `Interested in: ${ctx}`, 500); }
-        function handleEmail(e) { e.preventDefault(); alert("Email client would open now."); }
-
-        function openClientLogin() { document.getElementById('loginModal').classList.remove('hidden'); document.getElementById('clientInputs').classList.remove('hidden'); }
-        function closeLoginModal() { document.getElementById('loginModal').classList.add('hidden'); }
-        
-        function handleLoginSubmit(e) {
+        // --- 3. NAVIGATION LOGIC ---
+        function navTo(e, pageId) {
             e.preventDefault();
-            const p = document.getElementById('loginPassword').value;
-            // Admin: "Agustinaruba2008", Demo Client: "demo"/"123"
-            if (p === "Agustinaruba2008") { enableAdmin(); closeLoginModal(); }
-            else if (document.getElementById('loginUsername').value === "demo" && p === "123") {
-                sessionStorage.setItem('currentClient', 'Demo User');
-                document.getElementById('dashboard-client-name').innerText = "Demo User";
-                closeLoginModal();
-                route(null, 'client-dashboard');
-            } else { alert("Invalid credentials"); }
+            
+            // 1. Update Menu State
+            document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            
+            // 2. Scroll to top instantly (Native feel)
+            window.scrollTo({ top: 0, behavior: 'instant' });
         }
 
-        function enableAdmin() { isAdmin = true; document.getElementById('adminToolbar').classList.add('active'); document.querySelectorAll('.editable').forEach(el => el.contentEditable="true"); }
-        function exitAdmin() { isAdmin = false; location.reload(); }
-        function saveChanges() { alert("Changes saved to local storage!"); }
-
-        function calculateBBO() {
-            const val = parseFloat(document.getElementById('calc-input').value) || 0;
-            document.getElementById('res-total').innerText = (val * 0.07).toFixed(2);
+        // --- 4. CALCULATOR ---
+        function updateCalc() {
+            const val = parseFloat(document.getElementById('calcInput').value) || 0;
+            document.getElementById('calcResult').innerText = (val * 0.07).toFixed(2);
         }
-        
-        function clientLogout() { sessionStorage.removeItem('currentClient'); route(null, 'home'); }
-        function closeTicker() { document.getElementById('news-ticker-bar').style.display='none'; document.getElementById('navbar').style.top='0'; }
 
-        // --- INIT ---
+        // Init
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
-            
-            // Simulate Load Time
-            setTimeout(() => {
-                document.getElementById('preloader').classList.add('loaded');
-                refreshObservers(); // Start animations after load
-            }, 1000);
-
-            loadContent();
-            renderServices();
-            
-            // Tax Date
-            const d = new Date(); d.setDate(15);
-            document.getElementById('deadline-date').innerText = d.toLocaleDateString('en-US', {month:'long', day:'numeric'});
-            document.getElementById('deadline-counter').innerText = Math.max(1, 15 - new Date().getDate()) + "d";
-            
-            // Scroll Progress
-            window.addEventListener('scroll', () => {
-                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                const scrolled = (winScroll / height) * 100;
-                document.getElementById("scrollProgress").style.width = scrolled + "%";
-                
-                // Nav glass effect
-                if (winScroll > 50) document.getElementById('navbar').classList.add('shadow-lg');
-                else document.getElementById('navbar').classList.remove('shadow-lg');
-            });
+            setTimeout(() => document.getElementById('preloader').classList.add('loaded'), 500);
         });
-        
-        function loadContent() {
-             // LocalStorage hydration would go here
-        }
-
     </script>
 </body>
 </html>
