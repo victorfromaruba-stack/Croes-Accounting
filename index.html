@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="antialiased">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Accounting Croes | Intelligent Financial Solutions</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accounting Croes | Aruba's Premier Financial Firm</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -16,23 +16,30 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
                         brand: {
-                            bg: '#F0F4F8',
-                            dark: '#0F172A',
-                            primary: '#334155',
-                            accent: '#2563EB',  // Royal Blue
-                            profit: '#10B981',  // Success Green
-                            tax: '#EF4444'      // Danger Red
+                            dark: '#0B0F19',       
+                            primary: '#1E293B',    
+                            accent: '#3B82F6',     
+                            surface: '#ffffff',
                         }
                     },
                     animation: {
-                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'float': 'float 6s ease-in-out infinite',
+                        'blob': 'blob 20s infinite',
+                        'fade-up': 'fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
                     },
                     keyframes: {
-                        float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } }
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        fadeUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
                     }
                 }
             }
@@ -40,264 +47,446 @@
     </script>
 
     <style>
-        /* --- APP-LIKE FEEL --- */
-        body { -webkit-tap-highlight-color: transparent; }
+        /* --- Premium Polish CSS --- */
         
-        /* 1. Glass Morphism Panels */
-        .app-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.08);
-            border-radius: 24px;
+        /* 1. Glassmorphism */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         }
 
-        /* 2. Visualizer Bars */
-        .bar-container { background: #E2E8F0; border-radius: 12px; overflow: hidden; height: 12px; width: 100%; position: relative; }
-        .bar-fill { height: 100%; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-
-        /* 3. Camera Shutter Animation */
-        .shutter-effect {
-            position: fixed; inset: 0; background: white; z-index: 9999;
-            opacity: 0; pointer-events: none; transition: opacity 0.1s;
+        /* 2. Gradient Mesh Background (Hardware Accelerated) */
+        .mesh-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
+            background-color: #F8FAFC;
+            overflow: hidden;
+            transform: translateZ(0); /* GPU Fix */
         }
-        .shutter-flash { opacity: 1; }
-
-        /* 4. Dynamic Greeting */
-        .greeting-badge {
-            font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em;
-            padding: 4px 12px; border-radius: 99px; display: inline-block; margin-bottom: 12px;
+        .mesh-blob {
+            position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.6;
+            animation: blob 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
         }
-        .greeting-day { background: #FEF3C7; color: #D97706; } /* Yellow/Orange */
-        .greeting-night { background: #1E293B; color: #94A3B8; } /* Dark/Slate */
+        
+        /* 3. Scroll Reveal */
+        .reveal-on-scroll { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
 
-        /* 5. Hide Scrollbar for clean look */
-        ::-webkit-scrollbar { width: 0px; background: transparent; }
+        /* 4. Edit Mode Highlights */
+        [contenteditable="true"] { outline: 2px dashed #3B82F6; border-radius: 4px; padding: 2px; cursor: text; background: rgba(59, 130, 246, 0.1); }
+        [contenteditable="true"]:focus { outline: 2px solid #3B82F6; background: white; }
+
+        /* 5. Navigation Active State */
+        .nav-item.active { color: #3B82F6; font-weight: 600; }
+        
+        /* 6. Page Transitions */
+        .view-section { display: none; animation: fadeUp 0.5s ease forwards; }
+        .view-section.active { display: block; }
+        
+        html { scroll-behavior: auto; } /* Ensure snappy scroll */
     </style>
 </head>
-<body class="bg-brand-bg text-brand-primary antialiased min-h-screen flex flex-col relative overflow-x-hidden selection:bg-brand-accent selection:text-white">
+<body class="text-slate-800 antialiased selection:bg-blue-100 selection:text-blue-900">
 
-    <div id="shutter" class="shutter-effect"></div>
-
-    <div class="fixed inset-0 z-0 pointer-events-none">
-        <div class="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-blue-200/40 rounded-full blur-[100px] animate-pulse-slow"></div>
-        <div class="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-indigo-200/40 rounded-full blur-[80px]"></div>
+    <div class="mesh-bg">
+        <div class="mesh-blob bg-blue-200 w-96 h-96 top-0 left-0 mix-blend-multiply"></div>
+        <div class="mesh-blob bg-cyan-200 w-96 h-96 top-0 right-0 mix-blend-multiply" style="animation-delay: 2s"></div>
+        <div class="mesh-blob bg-purple-100 w-96 h-96 -bottom-32 left-20 mix-blend-multiply" style="animation-delay: 4s"></div>
     </div>
 
-    <nav class="fixed top-6 left-0 right-0 z-50 px-4 md:px-8 max-w-7xl mx-auto">
-        <div class="app-card px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-brand-accent rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
-                    <span class="font-bold text-xl">A</span>
-                </div>
-                <span class="font-bold text-lg text-brand-dark tracking-tight hidden md:block">Accounting Croes</span>
-            </div>
-            
-            <div class="flex gap-2">
-                <button onclick="triggerCamera()" class="flex items-center gap-2 bg-brand-dark text-white px-5 py-2.5 rounded-xl font-bold text-sm hover:scale-105 transition-transform active:scale-95">
-                    <i data-lucide="camera" class="w-4 h-4"></i> <span class="hidden sm:inline">Snap Receipt</span>
-                </button>
-                <a href="tel:+2975820000" class="flex items-center justify-center w-10 h-10 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors text-brand-dark">
-                    <i data-lucide="phone" class="w-4 h-4"></i>
+    <div id="preloader" class="fixed inset-0 bg-white z-[100] flex items-center justify-center transition-opacity duration-500">
+        <div class="text-center">
+            <div class="w-16 h-16 border-4 border-blue-100 border-t-blue-600 rounded-full animate-spin mx-auto mb-4"></div>
+            <p class="text-sm font-semibold text-slate-500 tracking-widest uppercase">Accounting Croes</p>
+        </div>
+    </div>
+
+    <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-white/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="#home" onclick="router('home')" class="flex items-center gap-3 group cursor-pointer">
+                    <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-800 text-white rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30 group-hover:scale-105 transition-transform">
+                        <span class="font-bold text-xl">A</span>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-lg leading-none text-slate-900">Accounting Croes</h1>
+                        <p class="text-[10px] text-slate-500 font-medium tracking-wider uppercase mt-1">Est. 2003 • Aruba</p>
+                    </div>
                 </a>
+
+                <div class="hidden md:flex items-center gap-8">
+                    <button onclick="router('home')" class="nav-item text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors active" id="nav-home">Home</button>
+                    <button onclick="router('services')" class="nav-item text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors" id="nav-services">Services</button>
+                    <button onclick="router('tools')" class="nav-item text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors" id="nav-tools">Tools</button>
+                    <button onclick="router('contact')" class="nav-item text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors" id="nav-contact">Contact</button>
+                </div>
+
+                <div class="hidden md:flex items-center gap-3">
+                    <button onclick="toggleAdmin()" class="p-2 text-slate-400 hover:text-blue-600 transition-colors" title="Double click text to edit"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
+                    <a href="tel:+2975820000" class="px-5 py-2.5 bg-slate-900 text-white text-sm font-semibold rounded-full hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5">Book Consultation</a>
+                </div>
+
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-slate-600"><i data-lucide="menu" class="w-6 h-6"></i></button>
             </div>
+        </div>
+        
+        <div id="mobile-menu" class="hidden absolute top-20 left-0 w-full bg-white border-b border-gray-100 shadow-xl p-4 flex-col gap-2 md:hidden">
+            <button onclick="router('home')" class="w-full text-left p-3 rounded-lg hover:bg-gray-50 font-medium">Home</button>
+            <button onclick="router('services')" class="w-full text-left p-3 rounded-lg hover:bg-gray-50 font-medium">Services</button>
+            <button onclick="router('tools')" class="w-full text-left p-3 rounded-lg hover:bg-gray-50 font-medium">Tools (BBO Calc)</button>
+            <button onclick="router('contact')" class="w-full text-left p-3 rounded-lg hover:bg-gray-50 font-medium">Contact</button>
         </div>
     </nav>
 
-    <main class="relative z-10 pt-32 pb-12 px-4 md:px-8 max-w-5xl mx-auto">
+    <main class="pt-24 pb-20 px-4 sm:px-6 relative z-10 min-h-screen max-w-7xl mx-auto">
 
-        <div class="text-center mb-16 animate-float">
-            <div id="greeting-badge" class="greeting-badge greeting-day">
-                <i data-lucide="sun" class="w-3 h-3 inline mr-1 mb-0.5"></i> Good Afternoon
-            </div>
-            <h1 class="text-5xl md:text-7xl font-extrabold text-brand-dark tracking-tight mb-6 leading-tight">
-                Your Money.<br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-purple-600">Visualized.</span>
-            </h1>
-            <p class="text-lg text-slate-500 max-w-lg mx-auto leading-relaxed">
-                We don't just file taxes. We give you a clear picture of your business health in real-time.
-            </p>
-        </div>
-
-        <div class="app-card p-8 md:p-12 mb-12 transform transition-all hover:scale-[1.01] duration-500">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-8">
-                <div>
-                    <h2 class="text-2xl font-bold text-brand-dark flex items-center gap-2">
-                        <i data-lucide="pie-chart" class="w-6 h-6 text-brand-accent"></i> Profit Simulator
-                    </h2>
-                    <p class="text-slate-500 text-sm mt-1">Type an invoice amount to see the breakdown.</p>
-                </div>
-                <div class="mt-4 md:mt-0 relative w-full md:w-64">
-                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-lg">ƒ</span>
-                    <input type="number" id="visual-input" value="1000" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl py-3 pl-10 pr-4 font-bold text-xl text-brand-dark outline-none focus:border-brand-accent focus:bg-white transition-all text-right" oninput="updateVisualizer()">
-                </div>
-            </div>
-
-            <div class="space-y-6">
-                <div>
-                    <div class="flex justify-between text-sm font-bold mb-2">
-                        <span class="text-brand-profit">You Keep (Net)</span>
-                        <span id="label-profit" class="text-brand-dark">ƒ 930.00</span>
+        <section id="home" class="view-section active">
+            <div class="grid lg:grid-cols-2 gap-12 items-center py-12 lg:py-20">
+                <div class="order-2 lg:order-1">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold uppercase tracking-widest mb-6 reveal-on-scroll">
+                        <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span> Open for New Clients
                     </div>
-                    <div class="bar-container">
-                        <div id="bar-profit" class="bar-fill bg-brand-profit" style="width: 93%"></div>
-                    </div>
-                </div>
-
-                <div>
-                    <div class="flex justify-between text-sm font-bold mb-2">
-                        <span class="text-brand-tax">Government (7% BBO)</span>
-                        <span id="label-tax" class="text-brand-dark">ƒ 70.00</span>
-                    </div>
-                    <div class="bar-container">
-                        <div id="bar-tax" class="bar-fill bg-brand-tax" style="width: 7%"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-8 bg-blue-50 rounded-xl p-5 flex gap-4 items-start">
-                <div class="bg-blue-100 p-2 rounded-lg text-brand-accent shrink-0">
-                    <i data-lucide="lightbulb" class="w-5 h-5"></i>
-                </div>
-                <div>
-                    <h4 class="font-bold text-brand-dark text-sm">Accountant's Tip</h4>
-                    <p class="text-xs text-slate-600 mt-1 leading-relaxed">
-                        Did you know? If you separate material costs from labor on your invoices, you might reduce your taxable base in certain scenarios. <a href="#" class="text-brand-accent underline font-bold">Ask us how.</a>
+                    <h1 class="text-5xl lg:text-7xl font-bold tracking-tight text-slate-900 mb-6 leading-[1.1] reveal-on-scroll">
+                        We speak <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">Accounting.</span>
+                    </h1>
+                    <p class="text-lg text-slate-500 mb-8 leading-relaxed max-w-lg editable reveal-on-scroll" id="hero-text">
+                        Stop worrying about BBO, profit tax, and payroll. We are Aruba's most trusted family firm, handling your numbers so you can focus on your business.
                     </p>
+                    <div class="flex flex-wrap gap-4 reveal-on-scroll">
+                        <button onclick="router('contact')" class="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-2xl shadow-lg shadow-blue-500/20 transition-all hover:-translate-y-1 flex items-center gap-2">
+                            Get Started <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                        <button onclick="router('services')" class="px-8 py-4 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-semibold rounded-2xl transition-all">
+                            Our Services
+                        </button>
+                    </div>
+                    
+                    <div class="mt-12 pt-8 border-t border-slate-200 grid grid-cols-3 gap-8 reveal-on-scroll">
+                        <div>
+                            <p class="text-3xl font-bold text-slate-900">20+</p>
+                            <p class="text-xs text-slate-500 uppercase tracking-wider font-medium mt-1">Years Exp.</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-bold text-slate-900">500+</p>
+                            <p class="text-xs text-slate-500 uppercase tracking-wider font-medium mt-1">Clients</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-bold text-slate-900">100%</p>
+                            <p class="text-xs text-slate-500 uppercase tracking-wider font-medium mt-1">Compliance</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="order-1 lg:order-2 relative reveal-on-scroll">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-cyan-400/20 rounded-[3rem] rotate-3 blur-2xl transform translate-y-4"></div>
+                    <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1000&q=80" alt="Office" class="relative rounded-[3rem] shadow-2xl border-4 border-white w-full object-cover h-[500px]">
+                    
+                    <div class="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-4 animate-[bounce_4s_infinite]">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600">
+                            <i data-lucide="check-circle-2" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-slate-900">Tax Deadline</p>
+                            <p class="text-xs text-slate-500">You are prepared.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <button class="app-card p-6 flex flex-col items-center justify-center gap-3 hover:bg-white transition-colors group cursor-pointer active:scale-95 duration-200">
-                <div class="w-12 h-12 bg-green-50 rounded-2xl flex items-center justify-center text-green-600 group-hover:scale-110 transition-transform">
-                    <i data-lucide="file-check" class="w-6 h-6"></i>
-                </div>
-                <span class="font-bold text-sm text-brand-dark">Tax Filing</span>
-            </button>
+        <section id="services" class="view-section">
+            <div class="text-center max-w-3xl mx-auto mb-16 pt-10 reveal-on-scroll">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">Complete Financial Clarity</h2>
+                <p class="text-slate-500 text-lg">Everything you need to run a business in Aruba, under one roof.</p>
+            </div>
 
-            <button class="app-card p-6 flex flex-col items-center justify-center gap-3 hover:bg-white transition-colors group cursor-pointer active:scale-95 duration-200">
-                <div class="w-12 h-12 bg-purple-50 rounded-2xl flex items-center justify-center text-purple-600 group-hover:scale-110 transition-transform">
-                    <i data-lucide="users" class="w-6 h-6"></i>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass-panel p-8 rounded-3xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group cursor-pointer border-t-4 border-t-transparent hover:border-t-blue-500 reveal-on-scroll">
+                    <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                        <i data-lucide="calculator" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Bookkeeping & Tax</h3>
+                    <p class="text-slate-500 leading-relaxed mb-6">Monthly processing of invoices, bank statements, and filing of BBO/BAZV/BAVP.</p>
+                    <span class="text-sm font-bold text-blue-600 flex items-center gap-1 group-hover:gap-2 transition-all">Learn more <i data-lucide="chevron-right" class="w-4 h-4"></i></span>
                 </div>
-                <span class="font-bold text-sm text-brand-dark">Payroll</span>
-            </button>
 
-            <button class="app-card p-6 flex flex-col items-center justify-center gap-3 hover:bg-white transition-colors group cursor-pointer active:scale-95 duration-200">
-                <div class="w-12 h-12 bg-orange-50 rounded-2xl flex items-center justify-center text-orange-600 group-hover:scale-110 transition-transform">
-                    <i data-lucide="building" class="w-6 h-6"></i>
+                <div class="glass-panel p-8 rounded-3xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group cursor-pointer border-t-4 border-t-transparent hover:border-t-cyan-500 reveal-on-scroll">
+                    <div class="w-14 h-14 bg-cyan-50 rounded-2xl flex items-center justify-center text-cyan-600 mb-6 group-hover:bg-cyan-600 group-hover:text-white transition-colors">
+                        <i data-lucide="users" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Payroll Services</h3>
+                    <p class="text-slate-500 leading-relaxed mb-6">Payslips, wage tax (Loonbelasting), and AOV/AZV premiums managed accurately.</p>
+                    <span class="text-sm font-bold text-cyan-600 flex items-center gap-1 group-hover:gap-2 transition-all">Learn more <i data-lucide="chevron-right" class="w-4 h-4"></i></span>
                 </div>
-                <span class="font-bold text-sm text-brand-dark">New Biz</span>
-            </button>
 
-            <button class="app-card p-6 flex flex-col items-center justify-center gap-3 bg-brand-dark text-white hover:bg-slate-800 transition-colors group cursor-pointer active:scale-95 duration-200">
-                <div class="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center text-white group-hover:scale-110 transition-transform">
-                    <i data-lucide="calendar" class="w-6 h-6"></i>
+                <div class="glass-panel p-8 rounded-3xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group cursor-pointer border-t-4 border-t-transparent hover:border-t-indigo-500 reveal-on-scroll">
+                    <div class="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                        <i data-lucide="briefcase" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Business Advisory</h3>
+                    <p class="text-slate-500 leading-relaxed mb-6">Company formation, chamber of commerce registration, and financial forecasting.</p>
+                    <span class="text-sm font-bold text-indigo-600 flex items-center gap-1 group-hover:gap-2 transition-all">Learn more <i data-lucide="chevron-right" class="w-4 h-4"></i></span>
                 </div>
-                <span class="font-bold text-sm">Book Appt</span>
-            </button>
-        </div>
+            </div>
+        </section>
+
+        <section id="tools" class="view-section">
+            <div class="max-w-4xl mx-auto pt-10">
+                <div class="bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 overflow-hidden reveal-on-scroll">
+                    <div class="grid md:grid-cols-2">
+                        <div class="p-10 md:p-12">
+                            <div class="flex items-center gap-3 mb-6">
+                                <div class="p-2 bg-blue-100 text-blue-700 rounded-lg"><i data-lucide="percent" class="w-5 h-5"></i></div>
+                                <h2 class="text-2xl font-bold text-slate-900">BBO Estimator</h2>
+                            </div>
+                            
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Invoice Amount (AWG)</label>
+                            <div class="relative mb-8">
+                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xl">ƒ</span>
+                                <input type="number" id="calc-input" placeholder="0.00" class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 pl-10 pr-4 text-2xl font-bold text-slate-900 outline-none focus:border-blue-500 focus:bg-white transition-all" oninput="calculateTax()">
+                            </div>
+
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center text-sm text-slate-500">
+                                    <span>Subtotal</span>
+                                    <span id="res-sub">ƒ 0.00</span>
+                                </div>
+                                <div class="flex justify-between items-center text-sm text-slate-500">
+                                    <span>BBO/BAZV/BAVP (7%)</span>
+                                    <span id="res-tax" class="text-red-500 font-medium">+ ƒ 0.00</span>
+                                </div>
+                                <div class="h-px bg-slate-100"></div>
+                                <div class="flex justify-between items-center">
+                                    <span class="font-bold text-slate-900">Total Invoice</span>
+                                    <span id="res-total" class="font-bold text-2xl text-blue-600">ƒ 0.00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-900 text-white p-10 md:p-12 flex flex-col justify-between relative overflow-hidden">
+                            <div class="absolute top-0 right-0 w-64 h-64 bg-blue-600 rounded-full blur-[80px] opacity-20"></div>
+                            
+                            <div>
+                                <h3 class="text-xl font-bold mb-2">Next Deadline</h3>
+                                <p class="text-slate-400 text-sm">Official date for Dimp tax filing.</p>
+                            </div>
+
+                            <div class="my-8 text-center">
+                                <div class="text-6xl font-bold tracking-tight mb-2" id="days-left">0</div>
+                                <div class="text-sm font-medium text-blue-400 uppercase tracking-widest">Days Remaining</div>
+                            </div>
+
+                            <div class="bg-white/10 backdrop-blur-md rounded-xl p-4 flex items-center gap-4">
+                                <div class="bg-blue-500 p-2 rounded-lg"><i data-lucide="calendar-clock" class="w-6 h-6"></i></div>
+                                <div>
+                                    <p class="text-sm font-bold" id="deadline-date">...</p>
+                                    <p class="text-xs text-slate-400">Mark your calendar.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="view-section">
+            <div class="max-w-2xl mx-auto pt-10">
+                <div class="glass-panel p-8 md:p-12 rounded-[2.5rem] shadow-xl reveal-on-scroll">
+                    <div class="text-center mb-10">
+                        <h2 class="text-3xl font-bold text-slate-900 mb-2">Let's Talk Business</h2>
+                        <p class="text-slate-500">Fill out the form below. We usually reply within 2 hours.</p>
+                    </div>
+
+                    <form onsubmit="handleForm(event)" class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Your Name</label>
+                                <input type="text" required class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Phone Number</label>
+                                <input type="tel" required class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Service Needed</label>
+                            <select class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all text-slate-700">
+                                <option>General Inquiry</option>
+                                <option>Bookkeeping Quote</option>
+                                <option>Tax Help</option>
+                                <option>Payroll Setup</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Message</label>
+                            <textarea rows="4" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-slate-900 text-white font-bold py-4 rounded-xl hover:bg-slate-800 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
 
     </main>
 
-    <input type="file" id="cameraInput" capture="environment" accept="image/*" class="hidden" onchange="handleFileSelect()">
+    <a href="https://wa.me/2975820000" target="_blank" class="fixed bottom-6 right-6 z-40 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition-all hover:scale-110 hover:shadow-green-500/30 flex items-center justify-center">
+        <i data-lucide="message-circle" class="w-6 h-6"></i>
+    </a>
 
-    <div id="notification" class="fixed top-24 left-1/2 -translate-x-1/2 bg-brand-dark text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 transition-all duration-300 opacity-0 translate-y-[-20px] pointer-events-none z-50 min-w-[300px]">
-        <div class="bg-green-500 rounded-full p-1"><i data-lucide="check" class="w-3 h-3"></i></div>
-        <span class="text-sm font-bold" id="notif-text">Action Successful</span>
+    <div id="toast" class="fixed top-24 right-6 bg-slate-900 text-white px-6 py-4 rounded-xl shadow-2xl transform translate-x-64 opacity-0 transition-all duration-500 z-50 flex items-center gap-3">
+        <i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i>
+        <div>
+            <h4 class="font-bold text-sm">Success</h4>
+            <p class="text-xs text-slate-300">Changes saved locally.</p>
+        </div>
     </div>
 
     <script>
-        // --- 1. DYNAMIC GREETING ENGINE ---
-        function setGreeting() {
-            const hour = new Date().getHours();
-            const badge = document.getElementById('greeting-badge');
+        // --- 1. CORE ROUTER (SPA Feel) ---
+        function router(pageId) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
             
-            if (hour >= 18 || hour < 6) {
-                // Night Mode logic
-                badge.className = 'greeting-badge greeting-night';
-                badge.innerHTML = '<i data-lucide="moon" class="w-3 h-3 inline mr-1 mb-0.5"></i> Working Late?';
-                document.body.style.backgroundColor = '#0F172A'; // Darken bg
-                document.body.classList.add('dark-mode'); // Could extend this
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            const navBtn = document.getElementById(`nav-${pageId}`);
+            if(navBtn) navBtn.classList.add('active');
+
+            document.getElementById('mobile-menu').classList.add('hidden');
+            document.getElementById('mobile-menu').classList.remove('flex');
+            
+            window.scrollTo({ top: 0, behavior: 'instant' });
+            
+            setTimeout(initScrollReveal, 100);
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                menu.classList.add('flex');
             } else {
-                // Day Mode logic
-                badge.className = 'greeting-badge greeting-day';
-                badge.innerHTML = '<i data-lucide="sun" class="w-3 h-3 inline mr-1 mb-0.5"></i> Accounting Croes';
+                menu.classList.add('hidden');
+                menu.classList.remove('flex');
             }
-            lucide.createIcons();
         }
 
-        // --- 2. THE VISUALIZER LOGIC ---
-        function updateVisualizer() {
-            const input = document.getElementById('visual-input');
-            let value = parseFloat(input.value);
+        // --- 2. CALCULATOR LOGIC (Formatted currency) ---
+        function calculateTax() {
+            const input = document.getElementById('calc-input').value;
+            const val = parseFloat(input) || 0;
+            const tax = val * 0.07;
+            const total = val + tax;
             
-            if (isNaN(value) || value < 0) value = 0;
-
-            // Aruba BBO logic (Simplified: 7% on top usually, but let's show split of total)
-            const total = value;
-            const taxRate = 0.0654; // 7/107 approx if inclusive, or simple 7% if exclusive. Let's do simple 7% calc.
-            
-            const taxAmount = value * 0.07;
-            const keepAmount = value;
-            const grandTotal = value + taxAmount;
-            
-            // Calculate percentages for bars relative to grand total
-            const taxPercent = (taxAmount / grandTotal) * 100;
-            const keepPercent = (keepAmount / grandTotal) * 100;
-
-            // Update Text
-            document.getElementById('label-profit').innerText = formatMoney(keepAmount);
-            document.getElementById('label-tax').innerText = formatMoney(taxAmount);
-
-            // Animate Bars
-            document.getElementById('bar-profit').style.width = keepPercent + "%";
-            document.getElementById('bar-tax').style.width = taxPercent + "%";
+            document.getElementById('res-sub').innerText = formatCurrency(val);
+            document.getElementById('res-tax').innerText = "+ " + formatCurrency(tax);
+            document.getElementById('res-total').innerText = formatCurrency(total);
         }
 
-        function formatMoney(amount) {
-            return 'ƒ ' + amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+        function formatCurrency(num) {
+            return 'ƒ ' + num.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
         }
 
-        // --- 3. CAMERA "SNAP" FEATURE ---
-        function triggerCamera() {
-            // Trigger the hidden file input
-            document.getElementById('cameraInput').click();
+        // --- 3. DATE LOGIC (Aruba Deadline) ---
+        function initDates() {
+            const today = new Date();
+            let year = today.getFullYear();
+            let month = today.getMonth();
+            let deadline = new Date(year, month, 15);
+            if (today.getDate() > 15) {
+                deadline = new Date(year, month + 1, 15);
+            }
+            const diffTime = Math.abs(deadline - today);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+            document.getElementById('days-left').innerText = diffDays;
+            document.getElementById('deadline-date').innerText = deadline.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
         }
 
-        function handleFileSelect() {
-            // Simulate processing
-            const shutter = document.getElementById('shutter');
-            
-            // Flash Screen
-            shutter.classList.add('shutter-flash');
-            setTimeout(() => shutter.classList.remove('shutter-flash'), 100);
+        // --- 4. ADMIN MODE (Double Click to Edit) ---
+        let isAdmin = false;
+        function toggleAdmin() {
+            isAdmin = !isAdmin;
+            const editableElements = document.querySelectorAll('.editable');
+            if (isAdmin) {
+                showToast("Admin Mode Active", "Double click any text to edit.");
+                editableElements.forEach(el => {
+                    el.contentEditable = "true";
+                    el.addEventListener('blur', () => {
+                        localStorage.setItem('site-content-' + el.id, el.innerHTML);
+                        showToast("Saved", "Content updated locally.");
+                    });
+                });
+            } else {
+                showToast("Admin Mode Off", "Editing disabled.");
+                editableElements.forEach(el => el.contentEditable = "false");
+            }
+        }
 
-            // Show Notification
+        function loadContent() {
+            document.querySelectorAll('.editable').forEach(el => {
+                const saved = localStorage.getItem('site-content-' + el.id);
+                if (saved) el.innerHTML = saved;
+            });
+        }
+
+        function showToast(title, msg) {
+            const toast = document.getElementById('toast');
+            toast.querySelector('h4').innerText = title;
+            toast.querySelector('p').innerText = msg;
+            toast.classList.remove('translate-x-64', 'opacity-0');
+            setTimeout(() => toast.classList.add('translate-x-64', 'opacity-0'), 3000);
+        }
+
+        function handleForm(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerText;
+            btn.innerText = "Sending...";
             setTimeout(() => {
-                showNotification("Receipt Uploaded Securely");
-            }, 500);
+                btn.innerText = "Message Sent!";
+                btn.classList.add('bg-green-600');
+                showToast("Success", "We will contact you shortly.");
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.classList.remove('bg-green-600');
+                    e.target.reset();
+                }, 2000);
+            }, 1500);
         }
 
-        // --- 4. UTILITIES ---
-        function showNotification(text) {
-            const notif = document.getElementById('notification');
-            document.getElementById('notif-text').innerText = text;
-            notif.classList.remove('opacity-0', 'translate-y-[-20px]');
-            
-            setTimeout(() => {
-                notif.classList.add('opacity-0', 'translate-y-[-20px]');
-            }, 3000);
+        // --- 5. ANIMATION OBSERVER ---
+        function initScrollReveal() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => {
+                observer.observe(el);
+            });
         }
 
-        // Init
+        // --- INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
-            setGreeting();
-            updateVisualizer();
+            initDates();
+            loadContent();
+            setTimeout(() => {
+                document.getElementById('preloader').classList.add('opacity-0', 'pointer-events-none');
+                initScrollReveal();
+            }, 800);
         });
-
     </script>
 </body>
 </html>
