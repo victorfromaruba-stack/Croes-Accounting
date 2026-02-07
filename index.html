@@ -23,12 +23,12 @@
                     animation: {
                         'blob': 'blob 20s infinite',
                         'slide-up': 'slideUp 0.6s ease-out forwards',
-                        'fade-in': 'fadeIn 0.8s ease-out forwards',
+                        'shimmer': 'shimmer 3s linear infinite',
                     },
                     keyframes: {
                         blob: { '0%': { transform: 'translate(0px, 0px) scale(1)' }, '33%': { transform: 'translate(30px, -50px) scale(1.1)' }, '66%': { transform: 'translate(-20px, 20px) scale(0.9)' }, '100%': { transform: 'translate(0px, 0px) scale(1)' } },
                         slideUp: { from: { opacity: '0', transform: 'translateY(20px)' }, to: { opacity: '1', transform: 'translateY(0)' } },
-                        fadeIn: { from: { opacity: '0' }, to: { opacity: '1' } }
+                        shimmer: { from: { backgroundPosition: '0 0' }, to: { backgroundPosition: '-200% 0' } }
                     }
                 }
             }
@@ -48,26 +48,23 @@
         #service-modal:not(.hidden) { pointer-events: auto; opacity: 1; }
         html { scroll-behavior: auto; }
         
-        .human-img { transition: transform 0.5s ease; }
-        .group:hover .human-img { transform: scale(1.03); }
+        /* Premium Card Effects */
+        .blue-card { position: relative; overflow: hidden; border-radius: 1.5rem; transition: all 0.5s ease; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px -10px rgba(30, 58, 138, 0.2); }
+        .blue-card:hover { transform: translateY(-5px); box-shadow: 0 25px 50px -12px rgba(30, 58, 138, 0.4); }
+        .blue-card img { transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .blue-card:hover img { transform: scale(1.08); }
         
-        /* Blue Card Styles */
-        .blue-card { position: relative; overflow: hidden; border-radius: 1.5rem; transition: all 0.5s ease; border: 1px solid rgba(255,255,255,0.1); }
-        .blue-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px -5px rgba(59, 130, 246, 0.3); }
-        .blue-card img { transition: transform 0.7s ease; }
-        .blue-card:hover img { transform: scale(1.1); }
-        
+        /* Shimmer Text Effect */
+        .text-shimmer { background: linear-gradient(to right, #2563eb 20%, #60a5fa 40%, #60a5fa 60%, #2563eb 80%); background-size: 200% auto; color: #000; background-clip: text; text-fill-color: transparent; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shimmer 3s linear infinite; }
+
         /* Edit Mode Styles */
         .editing-active [data-editable="true"]:hover { outline: 2px dashed #3B82F6; cursor: text; background: rgba(59, 130, 246, 0.1); border-radius: 4px; }
         .editing-active [data-editable="true"]:focus { outline: 2px solid #3B82F6; background: white; cursor: text; color: #000; }
-        
         .edit-overlay { display: none; }
         .editing-active .edit-overlay { display: flex; }
-        
         .add-btn { display: none; }
         .editing-active .add-btn { display: inline-flex; }
-
-        /* Admin Nav */
+        
         .admin-nav-btn { width: 100%; text-align: left; padding: 12px 16px; border-radius: 12px; color: #64748B; font-weight: 500; transition: all 0.2s; display: flex; align-items: center; gap: 12px; }
         .admin-nav-btn:hover { background: #F1F5F9; color: #1E293B; }
         .admin-nav-btn.active { background: #E0F2FE; color: #0284C7; font-weight: 600; }
@@ -97,8 +94,8 @@
 
     <nav class="fixed top-0 w-full z-50 glass-panel">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-24"> <a href="#home" onclick="router('home')" class="flex items-center gap-3 group cursor-pointer">
-                    <img src="logo.png" alt="Accounting Croes" class="h-14 w-auto object-contain group-hover:scale-105 transition-transform duration-300">
+            <div class="flex justify-between items-center h-20"> <a href="#home" onclick="router('home')" class="flex items-center gap-3 group cursor-pointer">
+                    <img src="logo.png" alt="Accounting Croes" class="h-10 w-auto object-contain">
                 </a>
                 <div class="hidden md:flex items-center gap-8">
                     <button onclick="router('home')" class="nav-item text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors active" id="nav-home">Home</button>
@@ -106,12 +103,12 @@
                     <button onclick="router('team')" class="nav-item text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors" id="nav-team">Team</button>
                 </div>
                 <div class="hidden md:flex items-center gap-3">
-                    <button onclick="router('contact')" class="px-5 py-2.5 bg-slate-900 text-white text-sm font-semibold rounded-full hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5">Book Appointment</button>
+                    <button onclick="router('contact')" class="px-6 py-2.5 bg-slate-900 text-white text-sm font-semibold rounded-full hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5">Book Appointment</button>
                 </div>
                 <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-slate-600"><i data-lucide="menu" class="w-6 h-6"></i></button>
             </div>
         </div>
-        <div id="mobile-menu" class="hidden absolute top-24 left-0 w-full bg-white border-b border-gray-100 shadow-xl p-4 flex-col gap-2 md:hidden">
+        <div id="mobile-menu" class="hidden absolute top-20 left-0 w-full bg-white border-b border-gray-100 shadow-xl p-4 flex-col gap-2 md:hidden">
             <button onclick="router('home')" class="w-full text-left p-3 rounded-lg hover:bg-gray-50 font-medium">Home</button>
             <button onclick="router('services')" class="w-full text-left p-3 rounded-lg hover:bg-gray-50 font-medium">Services</button>
             <button onclick="router('team')" class="w-full text-left p-3 rounded-lg hover:bg-gray-50 font-medium">Team</button>
@@ -154,7 +151,7 @@
                     </div>
                     <h1 class="text-5xl lg:text-7xl font-bold tracking-tight text-slate-900 mb-6 leading-[1.1] reveal-on-scroll" data-editable="true" id="home-title">
                         Real People. <br>
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">Real Results.</span>
+                        <span class="text-shimmer">Real Results.</span>
                     </h1>
                     <p class="text-lg text-slate-500 mb-8 leading-relaxed max-w-lg reveal-on-scroll" data-editable="true" id="home-sub">
                         Don't trust your finances to a faceless corporation. We are Aruba's dedicated family firm, here to shake your hand and solve your problems.
@@ -170,7 +167,7 @@
                 </div>
                 <div class="order-1 lg:order-2 relative reveal-on-scroll group">
                     <div class="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-cyan-400/20 rounded-[3rem] rotate-3 blur-2xl transform translate-y-4"></div>
-                    <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Accounting Team" class="human-img relative rounded-[3rem] shadow-2xl border-4 border-white w-full object-cover h-[500px]">
+                    <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Accounting Team" class="relative rounded-[3rem] shadow-2xl border-4 border-white w-full object-cover h-[500px] transition-transform duration-700 group-hover:scale-[1.02]">
                 </div>
             </div>
         </section>
@@ -189,7 +186,7 @@
                         <div class="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center text-white mb-6 border border-white/20"><i data-lucide="calculator" class="w-7 h-7"></i></div>
                         <h3 class="text-xl font-bold text-white mb-3" data-editable="true">Bookkeeping & Tax</h3>
                         <p class="text-blue-100 leading-relaxed mb-6 opacity-80" data-editable="true">We handle the paperwork. You focus on sales. BBO, Profit Tax, and yearly statements.</p>
-                        <span class="mt-auto text-sm font-bold text-white flex items-center gap-2">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                        <span class="mt-auto text-sm font-bold text-white flex items-center gap-2 group-hover:gap-3 transition-all">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
                     </div>
                 </div>
                 <div class="blue-card reveal-on-scroll cursor-pointer group h-[450px]" onclick="handleCardClick(this, 'payroll')">
@@ -199,7 +196,7 @@
                         <div class="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center text-white mb-6 border border-white/20"><i data-lucide="users" class="w-7 h-7"></i></div>
                         <h3 class="text-xl font-bold text-white mb-3" data-editable="true">Payroll & HR</h3>
                         <p class="text-blue-100 leading-relaxed mb-6 opacity-80" data-editable="true">Happy employees get paid on time. We manage slips, wage tax, and social premiums.</p>
-                        <span class="mt-auto text-sm font-bold text-white flex items-center gap-2">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                        <span class="mt-auto text-sm font-bold text-white flex items-center gap-2 group-hover:gap-3 transition-all">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
                     </div>
                 </div>
                 <div class="blue-card reveal-on-scroll cursor-pointer group h-[450px]" onclick="handleCardClick(this, 'advisory')">
@@ -209,7 +206,7 @@
                         <div class="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center text-white mb-6 border border-white/20"><i data-lucide="briefcase" class="w-7 h-7"></i></div>
                         <h3 class="text-xl font-bold text-white mb-3" data-editable="true">Business Advisory</h3>
                         <p class="text-blue-100 leading-relaxed mb-6 opacity-80" data-editable="true">Starting up? We guide you through Chamber of Commerce, Dimp, and Bank setup.</p>
-                        <span class="mt-auto text-sm font-bold text-white flex items-center gap-2">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                        <span class="mt-auto text-sm font-bold text-white flex items-center gap-2 group-hover:gap-3 transition-all">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
                     </div>
                 </div>
             </div>
@@ -226,7 +223,7 @@
                 <div class="group cursor-pointer relative">
                     <div class="absolute top-4 right-4 z-50 edit-overlay"><button onclick="deleteItem(this)" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>
                     <div class="relative overflow-hidden rounded-3xl mb-4 shadow-lg">
-                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80" class="human-img w-full h-80 object-cover">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80" class="human-img w-full h-80 object-cover transition-transform duration-700 group-hover:scale-105">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6"><p class="text-white text-sm font-medium" data-editable="true">"I love helping businesses grow."</p></div>
                     </div>
                     <h3 class="text-xl font-bold text-slate-900" data-editable="true">Mr. Croes</h3>
@@ -235,7 +232,7 @@
                 <div class="group cursor-pointer relative">
                     <div class="absolute top-4 right-4 z-50 edit-overlay"><button onclick="deleteItem(this)" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>
                     <div class="relative overflow-hidden rounded-3xl mb-4 shadow-lg">
-                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" class="human-img w-full h-80 object-cover">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" class="human-img w-full h-80 object-cover transition-transform duration-700 group-hover:scale-105">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6"><p class="text-white text-sm font-medium" data-editable="true">"Accuracy is my passion."</p></div>
                     </div>
                     <h3 class="text-xl font-bold text-slate-900" data-editable="true">Sarah Croes</h3>
@@ -472,7 +469,7 @@
 
             DB.addBooking(formData);
 
-            emailjs.send(EMAIL_SERVICE_ID, ADMIN_TEMPLATE_ID, {
+            emailjs.send(EMAIL_SERVICE_ID, EMAIL_TEMPLATE_ID, {
                 to_name: "Accounting Croes",
                 name: formData.name,
                 email: formData.email,
@@ -577,9 +574,9 @@
             const grid = document.getElementById(type + '-grid');
             let newItemHTML = '';
             if (type === 'service') {
-                newItemHTML = `<div class="blue-card reveal-on-scroll cursor-pointer group h-[450px]" onclick="handleCardClick(this, 'new')"><div class="absolute top-4 right-4 z-50 edit-overlay"><button onclick="deleteItem(this); event.stopPropagation();" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="absolute inset-0 z-0"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-30 group-hover:opacity-40"><div class="absolute inset-0 bg-gradient-to-br from-blue-900/95 via-blue-800/90 to-blue-900/95"></div></div><div class="relative z-10 p-8 h-full flex flex-col"><div class="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center text-white mb-6 border border-white/20"><i data-lucide="star" class="w-7 h-7"></i></div><h3 class="text-xl font-bold text-white mb-3" data-editable="true">New Service</h3><p class="text-blue-100 leading-relaxed mb-6 opacity-80" data-editable="true">Description goes here.</p><span class="mt-auto text-sm font-bold text-white flex items-center gap-2">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span></div></div>`;
+                newItemHTML = `<div class="blue-card reveal-on-scroll cursor-pointer group h-[450px]" onclick="handleCardClick(this, 'new')"><div class="absolute top-4 right-4 z-50 edit-overlay"><button onclick="deleteItem(this); event.stopPropagation();" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="absolute inset-0 z-0"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-30 group-hover:opacity-40"><div class="absolute inset-0 bg-gradient-to-br from-blue-900/95 via-blue-800/90 to-blue-900/95"></div></div><div class="relative z-10 p-8 h-full flex flex-col"><div class="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center text-white mb-6 border border-white/20"><i data-lucide="star" class="w-7 h-7"></i></div><h3 class="text-xl font-bold text-white mb-3" data-editable="true">New Service</h3><p class="text-blue-100 leading-relaxed mb-6 opacity-80" data-editable="true">Description goes here.</p><span class="mt-auto text-sm font-bold text-white flex items-center gap-2 group-hover:gap-3 transition-all">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span></div></div>`;
             } else if (type === 'team') {
-                newItemHTML = `<div class="group cursor-pointer relative"><div class="absolute top-4 right-4 z-50 edit-overlay"><button onclick="deleteItem(this)" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="relative overflow-hidden rounded-3xl mb-4 shadow-lg"><img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=800&q=80" class="human-img w-full h-80 object-cover"><div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6"><p class="text-white text-sm font-medium" data-editable="true">"Ready to help."</p></div></div><h3 class="text-xl font-bold text-slate-900" data-editable="true">New Member</h3><p class="text-blue-600 font-medium text-sm" data-editable="true">Position</p></div>`;
+                newItemHTML = `<div class="group cursor-pointer relative"><div class="absolute top-4 right-4 z-50 edit-overlay"><button onclick="deleteItem(this)" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="relative overflow-hidden rounded-3xl mb-4 shadow-lg"><img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=800&q=80" class="human-img w-full h-80 object-cover transition-transform duration-700 group-hover:scale-105"><div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6"><p class="text-white text-sm font-medium" data-editable="true">"Ready to help."</p></div></div><h3 class="text-xl font-bold text-slate-900" data-editable="true">New Member</h3><p class="text-blue-600 font-medium text-sm" data-editable="true">Position</p></div>`;
             }
             grid.insertAdjacentHTML('beforeend', newItemHTML);
             lucide.createIcons();
