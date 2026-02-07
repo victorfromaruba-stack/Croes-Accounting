@@ -12,6 +12,8 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    
     <script>
         tailwind.config = {
             theme: {
@@ -48,8 +50,6 @@
 
     <style>
         /* --- Premium Polish CSS --- */
-        
-        /* 1. Glassmorphism */
         .glass-panel {
             background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(16px) saturate(180%);
@@ -57,36 +57,28 @@
             border: 1px solid rgba(255, 255, 255, 0.5);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         }
-
-        /* 2. Gradient Mesh Background (Hardware Accelerated) */
         .mesh-bg {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
             background-color: #F8FAFC;
             overflow: hidden;
-            transform: translateZ(0); /* GPU Fix */
+            transform: translateZ(0);
         }
         .mesh-blob {
             position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.6;
             animation: blob 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
             will-change: transform;
         }
-        
-        /* 3. Scroll Reveal */
         .reveal-on-scroll { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
-
-        /* 4. Edit Mode Highlights */
         [contenteditable="true"] { outline: 2px dashed #3B82F6; border-radius: 4px; padding: 2px; cursor: text; background: rgba(59, 130, 246, 0.1); }
         [contenteditable="true"]:focus { outline: 2px solid #3B82F6; background: white; }
-
-        /* 5. Navigation Active State */
         .nav-item.active { color: #3B82F6; font-weight: 600; }
-        
-        /* 6. Page Transitions */
         .view-section { display: none; animation: fadeUp 0.5s ease forwards; }
         .view-section.active { display: block; }
-        
-        html { scroll-behavior: auto; } /* Ensure snappy scroll */
+        .status-badge { padding: 4px 12px; border-radius: 99px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+        .status-pending { background: #FEF3C7; color: #D97706; }
+        .status-confirmed { background: #DCFCE7; color: #15803D; }
+        html { scroll-behavior: auto; }
     </style>
 </head>
 <body class="text-slate-800 antialiased selection:bg-blue-100 selection:text-blue-900">
@@ -121,12 +113,12 @@
                     <button onclick="router('home')" class="nav-item text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors active" id="nav-home">Home</button>
                     <button onclick="router('services')" class="nav-item text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors" id="nav-services">Services</button>
                     <button onclick="router('tools')" class="nav-item text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors" id="nav-tools">Tools</button>
-                    <button onclick="router('contact')" class="nav-item text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors" id="nav-contact">Contact</button>
+                    <button onclick="router('portal')" class="nav-item text-sm font-bold text-blue-600 hover:text-blue-700 transition-colors" id="nav-portal">Employee Portal</button>
                 </div>
 
                 <div class="hidden md:flex items-center gap-3">
                     <button onclick="toggleAdmin()" class="p-2 text-slate-400 hover:text-blue-600 transition-colors" title="Double click text to edit"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
-                    <a href="tel:+2975820000" class="px-5 py-2.5 bg-slate-900 text-white text-sm font-semibold rounded-full hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5">Book Consultation</a>
+                    <button onclick="router('contact')" class="px-5 py-2.5 bg-slate-900 text-white text-sm font-semibold rounded-full hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5">Book Appointment</button>
                 </div>
 
                 <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-slate-600"><i data-lucide="menu" class="w-6 h-6"></i></button>
@@ -138,6 +130,7 @@
             <button onclick="router('services')" class="w-full text-left p-3 rounded-lg hover:bg-gray-50 font-medium">Services</button>
             <button onclick="router('tools')" class="w-full text-left p-3 rounded-lg hover:bg-gray-50 font-medium">Tools (BBO Calc)</button>
             <button onclick="router('contact')" class="w-full text-left p-3 rounded-lg hover:bg-gray-50 font-medium">Contact</button>
+            <button onclick="router('portal')" class="w-full text-left p-3 rounded-lg hover:bg-gray-50 font-medium text-blue-600">Employee Login</button>
         </div>
     </nav>
 
@@ -164,7 +157,6 @@
                             Our Services
                         </button>
                     </div>
-                    
                     <div class="mt-12 pt-8 border-t border-slate-200 grid grid-cols-3 gap-8 reveal-on-scroll">
                         <div>
                             <p class="text-3xl font-bold text-slate-900">20+</p>
@@ -180,11 +172,9 @@
                         </div>
                     </div>
                 </div>
-                
                 <div class="order-1 lg:order-2 relative reveal-on-scroll">
                     <div class="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-cyan-400/20 rounded-[3rem] rotate-3 blur-2xl transform translate-y-4"></div>
                     <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1000&q=80" alt="Office" class="relative rounded-[3rem] shadow-2xl border-4 border-white w-full object-cover h-[500px]">
-                    
                     <div class="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-4 animate-[bounce_4s_infinite]">
                         <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600">
                             <i data-lucide="check-circle-2" class="w-6 h-6"></i>
@@ -203,7 +193,6 @@
                 <h2 class="text-3xl font-bold text-slate-900 mb-4">Complete Financial Clarity</h2>
                 <p class="text-slate-500 text-lg">Everything you need to run a business in Aruba, under one roof.</p>
             </div>
-
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="glass-panel p-8 rounded-3xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group cursor-pointer border-t-4 border-t-transparent hover:border-t-blue-500 reveal-on-scroll">
                     <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
@@ -213,7 +202,6 @@
                     <p class="text-slate-500 leading-relaxed mb-6">Monthly processing of invoices, bank statements, and filing of BBO/BAZV/BAVP.</p>
                     <span class="text-sm font-bold text-blue-600 flex items-center gap-1 group-hover:gap-2 transition-all">Learn more <i data-lucide="chevron-right" class="w-4 h-4"></i></span>
                 </div>
-
                 <div class="glass-panel p-8 rounded-3xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group cursor-pointer border-t-4 border-t-transparent hover:border-t-cyan-500 reveal-on-scroll">
                     <div class="w-14 h-14 bg-cyan-50 rounded-2xl flex items-center justify-center text-cyan-600 mb-6 group-hover:bg-cyan-600 group-hover:text-white transition-colors">
                         <i data-lucide="users" class="w-7 h-7"></i>
@@ -222,7 +210,6 @@
                     <p class="text-slate-500 leading-relaxed mb-6">Payslips, wage tax (Loonbelasting), and AOV/AZV premiums managed accurately.</p>
                     <span class="text-sm font-bold text-cyan-600 flex items-center gap-1 group-hover:gap-2 transition-all">Learn more <i data-lucide="chevron-right" class="w-4 h-4"></i></span>
                 </div>
-
                 <div class="glass-panel p-8 rounded-3xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group cursor-pointer border-t-4 border-t-transparent hover:border-t-indigo-500 reveal-on-scroll">
                     <div class="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
                         <i data-lucide="briefcase" class="w-7 h-7"></i>
@@ -243,13 +230,11 @@
                                 <div class="p-2 bg-blue-100 text-blue-700 rounded-lg"><i data-lucide="percent" class="w-5 h-5"></i></div>
                                 <h2 class="text-2xl font-bold text-slate-900">BBO Estimator</h2>
                             </div>
-                            
                             <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Invoice Amount (AWG)</label>
                             <div class="relative mb-8">
                                 <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xl">ƒ</span>
                                 <input type="number" id="calc-input" placeholder="0.00" class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 pl-10 pr-4 text-2xl font-bold text-slate-900 outline-none focus:border-blue-500 focus:bg-white transition-all" oninput="calculateTax()">
                             </div>
-
                             <div class="space-y-4">
                                 <div class="flex justify-between items-center text-sm text-slate-500">
                                     <span>Subtotal</span>
@@ -266,20 +251,16 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="bg-slate-900 text-white p-10 md:p-12 flex flex-col justify-between relative overflow-hidden">
                             <div class="absolute top-0 right-0 w-64 h-64 bg-blue-600 rounded-full blur-[80px] opacity-20"></div>
-                            
                             <div>
                                 <h3 class="text-xl font-bold mb-2">Next Deadline</h3>
                                 <p class="text-slate-400 text-sm">Official date for Dimp tax filing.</p>
                             </div>
-
                             <div class="my-8 text-center">
                                 <div class="text-6xl font-bold tracking-tight mb-2" id="days-left">0</div>
                                 <div class="text-sm font-medium text-blue-400 uppercase tracking-widest">Days Remaining</div>
                             </div>
-
                             <div class="bg-white/10 backdrop-blur-md rounded-xl p-4 flex items-center gap-4">
                                 <div class="bg-blue-500 p-2 rounded-lg"><i data-lucide="calendar-clock" class="w-6 h-6"></i></div>
                                 <div>
@@ -297,41 +278,106 @@
             <div class="max-w-2xl mx-auto pt-10">
                 <div class="glass-panel p-8 md:p-12 rounded-[2.5rem] shadow-xl reveal-on-scroll">
                     <div class="text-center mb-10">
-                        <h2 class="text-3xl font-bold text-slate-900 mb-2">Let's Talk Business</h2>
-                        <p class="text-slate-500">Fill out the form below. We usually reply within 2 hours.</p>
+                        <h2 class="text-3xl font-bold text-slate-900 mb-2">Schedule Appointment</h2>
+                        <p class="text-slate-500">Select a time and our team will prepare for your arrival.</p>
                     </div>
-
-                    <form onsubmit="handleForm(event)" class="space-y-6">
+                    <form onsubmit="handleBooking(event)" class="space-y-6">
                         <div class="grid md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Your Name</label>
-                                <input type="text" required class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
+                                <input type="text" id="book-name" required class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Phone Number</label>
-                                <input type="tel" required class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
+                                <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Email</label>
+                                <input type="email" id="book-email" required class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
                             </div>
                         </div>
-                        
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Date</label>
+                                <input type="date" id="book-date" required class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500 text-slate-700 transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Time</label>
+                                <select id="book-time" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500 text-slate-700 transition-all">
+                                    <option>09:00 AM</option>
+                                    <option>10:00 AM</option>
+                                    <option>11:00 AM</option>
+                                    <option>02:00 PM</option>
+                                    <option>03:00 PM</option>
+                                    <option>04:00 PM</option>
+                                </select>
+                            </div>
+                        </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Service Needed</label>
-                            <select class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all text-slate-700">
+                            <select id="book-service" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all text-slate-700">
+                                <option>Tax Consultation</option>
+                                <option>New Business Setup</option>
+                                <option>Payroll Help</option>
                                 <option>General Inquiry</option>
-                                <option>Bookkeeping Quote</option>
-                                <option>Tax Help</option>
-                                <option>Payroll Setup</option>
                             </select>
                         </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Message</label>
-                            <textarea rows="4" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all"></textarea>
-                        </div>
-
                         <button type="submit" class="w-full bg-slate-900 text-white font-bold py-4 rounded-xl hover:bg-slate-800 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1">
-                            Send Message
+                            Confirm Booking
                         </button>
                     </form>
+                </div>
+            </div>
+        </section>
+
+        <section id="portal" class="view-section">
+            <div class="max-w-md mx-auto pt-20">
+                <div class="glass-panel p-10 rounded-[2rem] shadow-2xl text-center" id="login-container">
+                    <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6 text-blue-600">
+                        <i data-lucide="lock" class="w-8 h-8"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-2">Worker Login</h2>
+                    <p class="text-slate-500 mb-8 text-sm">Access the appointment dashboard.</p>
+                    <input type="password" id="admin-pass" placeholder="Enter Password (admin123)" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 mb-4 outline-none focus:border-blue-500">
+                    <button onclick="handleLogin()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition-all">Login</button>
+                    <p id="login-error" class="text-red-500 text-xs mt-4 hidden">Incorrect password.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="dashboard" class="view-section">
+            <div class="max-w-6xl mx-auto pt-4">
+                <div class="flex justify-between items-end mb-8">
+                    <div>
+                        <h2 class="text-3xl font-bold text-slate-900">Appointments</h2>
+                        <p class="text-slate-500">Manage your schedule.</p>
+                    </div>
+                    <div class="flex gap-3">
+                         <div class="bg-white px-4 py-2 rounded-lg shadow-sm border border-slate-100 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-orange-400"></span>
+                            <span class="text-sm font-bold text-slate-600" id="pending-count">0 Pending</span>
+                        </div>
+                        <button onclick="logout()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-2 rounded-lg font-bold text-sm transition-colors">Logout</button>
+                    </div>
+                </div>
+                <div class="glass-panel rounded-2xl overflow-hidden shadow-xl">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50/80 border-b border-slate-200 text-xs uppercase text-slate-500">
+                                    <th class="p-6 font-bold">Client Name</th>
+                                    <th class="p-6 font-bold">Service</th>
+                                    <th class="p-6 font-bold">Date & Time</th>
+                                    <th class="p-6 font-bold">Status</th>
+                                    <th class="p-6 font-bold text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="booking-list" class="text-sm"></tbody>
+                        </table>
+                    </div>
+                    <div id="empty-state" class="hidden p-12 text-center">
+                        <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-300">
+                            <i data-lucide="calendar-x" class="w-8 h-8"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900">No appointments yet</h3>
+                        <p class="text-slate-500">New bookings will appear here instantly.</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -346,15 +392,168 @@
         <i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i>
         <div>
             <h4 class="font-bold text-sm">Success</h4>
-            <p class="text-xs text-slate-300">Changes saved locally.</p>
+            <p class="text-xs text-slate-300" id="toast-msg">Changes saved locally.</p>
         </div>
     </div>
 
+    <script type="text/javascript">
+       (function(){
+          emailjs.init("8rBFXNPpsM9GIWhRR");
+       })();
+    </script>
+
     <script>
-        // --- 1. CORE ROUTER (SPA Feel) ---
+        const EMAIL_SERVICE_ID = "service_x7ol38h";   
+        const EMAIL_TEMPLATE_ID = "template_3ajpnak"; 
+
+        const DB = {
+            getKey: () => JSON.parse(localStorage.getItem('croes_bookings')) || [],
+            save: (data) => localStorage.setItem('croes_bookings', JSON.stringify(data)),
+            addBooking: (booking) => {
+                const data = DB.getKey();
+                data.push({ ...booking, id: Date.now(), status: 'Pending' });
+                DB.save(data);
+            },
+            updateStatus: (id, status) => {
+                const data = DB.getKey();
+                const index = data.findIndex(b => b.id === id);
+                if (index !== -1) {
+                    data[index].status = status;
+                    DB.save(data);
+                }
+            },
+            delete: (id) => {
+                let data = DB.getKey();
+                data = data.filter(b => b.id !== id);
+                DB.save(data);
+            }
+        };
+
+        function handleBooking(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerText;
+            btn.innerText = "Sending Request...";
+            btn.disabled = true;
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+
+            const formData = {
+                name: document.getElementById('book-name').value,
+                email: document.getElementById('book-email').value,
+                date: document.getElementById('book-date').value,
+                time: document.getElementById('book-time').value,
+                service: document.getElementById('book-service').value
+            };
+
+            DB.addBooking(formData);
+
+            emailjs.send(EMAIL_SERVICE_ID, EMAIL_TEMPLATE_ID, {
+                to_name: "Accounting Croes",
+                name: formData.name,
+                email: formData.email,
+                date: formData.date,
+                time: formData.time,
+                service: formData.service,
+                reply_to: formData.email
+            }).then(
+                function(response) {
+                    showToast("Success!", "We have received your appointment request.");
+                    e.target.reset();
+                    btn.innerText = "Booking Sent!";
+                    btn.classList.add('bg-green-600');
+                    setTimeout(() => {
+                        btn.innerText = originalText;
+                        btn.classList.remove('bg-green-600', 'opacity-75', 'cursor-not-allowed');
+                        btn.disabled = false;
+                        router('home');
+                    }, 2000);
+                },
+                function(error) {
+                    console.log("FAILED...", error);
+                    showToast("Saved to Dashboard", "Email failed, but we saved your booking!");
+                    btn.innerText = originalText;
+                    btn.classList.remove('opacity-75', 'cursor-not-allowed');
+                    btn.disabled = false;
+                }
+            );
+        }
+
+        function handleLogin() {
+            const pass = document.getElementById('admin-pass').value;
+            if (pass === 'admin123') { 
+                document.getElementById('admin-pass').value = '';
+                document.getElementById('login-error').classList.add('hidden');
+                renderDashboard();
+                router('dashboard');
+            } else {
+                document.getElementById('login-error').classList.remove('hidden');
+            }
+        }
+
+        function logout() { router('home'); }
+
+        function renderDashboard() {
+            const bookings = DB.getKey();
+            const tbody = document.getElementById('booking-list');
+            const emptyState = document.getElementById('empty-state');
+            const pendingCount = document.getElementById('pending-count');
+            
+            tbody.innerHTML = '';
+            
+            const pending = bookings.filter(b => b.status === 'Pending').length;
+            if(pendingCount) pendingCount.innerText = `${pending} Pending`;
+            
+            if (bookings.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            } else {
+                emptyState.classList.add('hidden');
+            }
+
+            bookings.sort((a, b) => b.id - a.id).forEach(b => {
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-slate-100 hover:bg-slate-50 transition-colors";
+                const statusClass = b.status === 'Confirmed' ? 'status-confirmed' : 'status-pending';
+                const statusIcon = b.status === 'Confirmed' ? 'check' : 'clock';
+                
+                tr.innerHTML = `
+                    <td class="p-6">
+                        <div class="font-bold text-slate-900">${b.name}</div>
+                        <div class="text-xs text-slate-500">${b.email}</div>
+                    </td>
+                    <td class="p-6 text-slate-700">${b.service}</td>
+                    <td class="p-6 text-slate-700">
+                        <div class="font-bold">${b.date}</div>
+                        <div class="text-xs text-slate-500">${b.time}</div>
+                    </td>
+                    <td class="p-6"><span class="status-badge ${statusClass} flex items-center gap-1 w-fit"><i data-lucide="${statusIcon}" class="w-3 h-3"></i> ${b.status}</span></td>
+                    <td class="p-6 text-right space-x-2">
+                        ${b.status === 'Pending' ? `<button onclick="confirmBooking(${b.id})" class="text-xs bg-green-100 text-green-700 hover:bg-green-200 px-3 py-2 rounded-lg font-bold transition-colors">Confirm</button>` : ''}
+                        <button onclick="deleteBooking(${b.id})" class="text-xs bg-red-50 text-red-600 hover:bg-red-100 px-3 py-2 rounded-lg font-bold transition-colors">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            lucide.createIcons();
+        }
+
+        function confirmBooking(id) {
+            DB.updateStatus(id, 'Confirmed');
+            renderDashboard();
+            showToast("Updated", "Booking marked as confirmed.");
+        }
+
+        function deleteBooking(id) {
+            if(confirm("Are you sure you want to remove this appointment?")) {
+                DB.delete(id);
+                renderDashboard();
+            }
+        }
+
         function router(pageId) {
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
+            const target = document.getElementById(pageId);
+            if(target) target.classList.add('active');
             
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             const navBtn = document.getElementById(`nav-${pageId}`);
@@ -363,8 +562,8 @@
             document.getElementById('mobile-menu').classList.add('hidden');
             document.getElementById('mobile-menu').classList.remove('flex');
             
+            if(pageId === 'portal') document.getElementById('admin-pass').value = '';
             window.scrollTo({ top: 0, behavior: 'instant' });
-            
             setTimeout(initScrollReveal, 100);
         }
 
@@ -379,13 +578,11 @@
             }
         }
 
-        // --- 2. CALCULATOR LOGIC (Formatted currency) ---
         function calculateTax() {
             const input = document.getElementById('calc-input').value;
             const val = parseFloat(input) || 0;
             const tax = val * 0.07;
             const total = val + tax;
-            
             document.getElementById('res-sub').innerText = formatCurrency(val);
             document.getElementById('res-tax').innerText = "+ " + formatCurrency(tax);
             document.getElementById('res-total').innerText = formatCurrency(total);
@@ -395,7 +592,6 @@
             return 'ƒ ' + num.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
         }
 
-        // --- 3. DATE LOGIC (Aruba Deadline) ---
         function initDates() {
             const today = new Date();
             let year = today.getFullYear();
@@ -410,7 +606,6 @@
             document.getElementById('deadline-date').innerText = deadline.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
         }
 
-        // --- 4. ADMIN MODE (Double Click to Edit) ---
         let isAdmin = false;
         function toggleAdmin() {
             isAdmin = !isAdmin;
@@ -440,29 +635,11 @@
         function showToast(title, msg) {
             const toast = document.getElementById('toast');
             toast.querySelector('h4').innerText = title;
-            toast.querySelector('p').innerText = msg;
+            document.getElementById('toast-msg').innerText = msg;
             toast.classList.remove('translate-x-64', 'opacity-0');
             setTimeout(() => toast.classList.add('translate-x-64', 'opacity-0'), 3000);
         }
 
-        function handleForm(e) {
-            e.preventDefault();
-            const btn = e.target.querySelector('button');
-            const originalText = btn.innerText;
-            btn.innerText = "Sending...";
-            setTimeout(() => {
-                btn.innerText = "Message Sent!";
-                btn.classList.add('bg-green-600');
-                showToast("Success", "We will contact you shortly.");
-                setTimeout(() => {
-                    btn.innerText = originalText;
-                    btn.classList.remove('bg-green-600');
-                    e.target.reset();
-                }, 2000);
-            }, 1500);
-        }
-
-        // --- 5. ANIMATION OBSERVER ---
         function initScrollReveal() {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -471,21 +648,21 @@
                     }
                 });
             }, { threshold: 0.1 });
-
-            document.querySelectorAll('.reveal-on-scroll').forEach(el => {
-                observer.observe(el);
-            });
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
         }
 
-        // --- INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
             initDates();
             loadContent();
+            const today = new Date().toISOString().split('T')[0];
+            const dateInput = document.getElementById('book-date');
+            if(dateInput) dateInput.value = today;
             setTimeout(() => {
                 document.getElementById('preloader').classList.add('opacity-0', 'pointer-events-none');
                 initScrollReveal();
             }, 800);
+            router('home');
         });
     </script>
 </body>
