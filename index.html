@@ -26,12 +26,7 @@
                         'fade-in': 'fadeIn 0.8s ease-out forwards',
                     },
                     keyframes: {
-                        blob: {
-                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
-                        },
+                        blob: { '0%': { transform: 'translate(0px, 0px) scale(1)' }, '33%': { transform: 'translate(30px, -50px) scale(1.1)' }, '66%': { transform: 'translate(-20px, 20px) scale(0.9)' }, '100%': { transform: 'translate(0px, 0px) scale(1)' } },
                         slideUp: { from: { opacity: '0', transform: 'translateY(20px)' }, to: { opacity: '1', transform: 'translateY(0)' } },
                         fadeIn: { from: { opacity: '0' }, to: { opacity: '1' } }
                     }
@@ -41,20 +36,9 @@
     </script>
 
     <style>
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        }
-        .mesh-bg {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
-            background-color: #F8FAFC; overflow: hidden; transform: translateZ(0);
-        }
-        .mesh-blob {
-            position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.6;
-            animation: blob 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(226, 232, 240, 0.8); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        .mesh-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background-color: #F8FAFC; overflow: hidden; transform: translateZ(0); }
+        .mesh-blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.6; animation: blob 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); }
         .reveal-on-scroll { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
         .view-section { display: none; animation: slideUp 0.5s ease forwards; }
@@ -63,17 +47,32 @@
         #service-modal.hidden { pointer-events: none; opacity: 0; }
         #service-modal:not(.hidden) { pointer-events: auto; opacity: 1; }
         html { scroll-behavior: auto; }
-        
         .human-img { transition: transform 0.5s ease; }
         .group:hover .human-img { transform: scale(1.03); }
+        .blue-card { position: relative; overflow: hidden; border-radius: 1.5rem; transition: all 0.5s ease; border: 1px solid rgba(255,255,255,0.1); }
+        .blue-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px -5px rgba(59, 130, 246, 0.3); }
+        .blue-card img { transition: transform 0.7s ease; }
+        .blue-card:hover img { transform: scale(1.1); }
+        .editing-active [data-editable="true"]:hover { outline: 2px dashed #3B82F6; cursor: text; background: rgba(59, 130, 246, 0.1); border-radius: 4px; }
+        .editing-active [data-editable="true"]:focus { outline: 2px solid #3B82F6; background: white; cursor: text; }
+        .admin-nav-btn { width: 100%; text-align: left; padding: 12px 16px; border-radius: 12px; color: #64748B; font-weight: 500; transition: all 0.2s; display: flex; align-items: center; gap: 12px; }
+        .admin-nav-btn:hover { background: #F1F5F9; color: #1E293B; }
+        .admin-nav-btn.active { background: #E0F2FE; color: #0284C7; font-weight: 600; }
     </style>
 </head>
-<body class="text-slate-800 antialiased selection:bg-blue-100 selection:text-blue-900">
+<body class="text-slate-800 antialiased selection:bg-blue-100 selection:text-blue-900 flex flex-col min-h-screen">
 
     <div class="mesh-bg">
         <div class="mesh-blob bg-blue-200 w-96 h-96 top-0 left-0 mix-blend-multiply"></div>
         <div class="mesh-blob bg-cyan-200 w-96 h-96 top-0 right-0 mix-blend-multiply" style="animation-delay: 2s"></div>
         <div class="mesh-blob bg-purple-100 w-96 h-96 -bottom-32 left-20 mix-blend-multiply" style="animation-delay: 4s"></div>
+    </div>
+
+    <div id="edit-toolbar" class="fixed top-24 left-1/2 -translate-x-1/2 z-[60] bg-slate-900 text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-4 hidden transition-transform duration-300">
+        <div class="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+        <span class="font-bold text-sm">Editing Mode Active</span>
+        <button onclick="saveEdits()" class="bg-blue-600 hover:bg-blue-500 px-4 py-1.5 rounded-full text-xs font-bold transition-colors">Save Changes</button>
+        <button onclick="toggleEditMode(false)" class="hover:text-slate-300"><i data-lucide="x" class="w-4 h-4"></i></button>
     </div>
 
     <div id="preloader" class="fixed inset-0 bg-white z-[100] flex items-center justify-center transition-opacity duration-500">
@@ -99,10 +98,8 @@
                     <button onclick="router('home')" class="nav-item text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors active" id="nav-home">Home</button>
                     <button onclick="router('services')" class="nav-item text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors" id="nav-services">Services</button>
                     <button onclick="router('team')" class="nav-item text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors" id="nav-team">Team</button>
-                    <button onclick="router('portal')" class="nav-item text-sm font-bold text-blue-600 hover:text-blue-700 transition-colors" id="nav-portal">Employee Portal</button>
                 </div>
                 <div class="hidden md:flex items-center gap-3">
-                    <button onclick="toggleAdmin()" class="p-2 text-slate-400 hover:text-blue-600 transition-colors" title="Double click text to edit"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
                     <button onclick="router('contact')" class="px-5 py-2.5 bg-slate-900 text-white text-sm font-semibold rounded-full hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5">Book Appointment</button>
                 </div>
                 <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-slate-600"><i data-lucide="menu" class="w-6 h-6"></i></button>
@@ -113,7 +110,6 @@
             <button onclick="router('services')" class="w-full text-left p-3 rounded-lg hover:bg-gray-50 font-medium">Services</button>
             <button onclick="router('team')" class="w-full text-left p-3 rounded-lg hover:bg-gray-50 font-medium">Team</button>
             <button onclick="router('contact')" class="w-full text-left p-3 rounded-lg hover:bg-gray-50 font-medium">Contact</button>
-            <button onclick="router('portal')" class="w-full text-left p-3 rounded-lg hover:bg-gray-50 font-medium text-blue-600">Employee Login</button>
         </div>
     </nav>
 
@@ -142,7 +138,7 @@
         </div>
     </div>
 
-    <main class="pt-32 pb-20 px-4 sm:px-6 relative z-10 min-h-screen max-w-7xl mx-auto">
+    <main class="flex-grow pt-32 pb-20 px-4 sm:px-6 relative z-10 max-w-7xl mx-auto w-full">
 
         <section id="home" class="view-section active">
             <div class="grid lg:grid-cols-2 gap-12 items-center py-8 lg:py-16">
@@ -150,11 +146,11 @@
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold uppercase tracking-widest mb-6 reveal-on-scroll">
                         <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span> Meet Your New Partner
                     </div>
-                    <h1 class="text-5xl lg:text-7xl font-bold tracking-tight text-slate-900 mb-6 leading-[1.1] reveal-on-scroll">
+                    <h1 class="text-5xl lg:text-7xl font-bold tracking-tight text-slate-900 mb-6 leading-[1.1] reveal-on-scroll" data-editable="true" id="home-title">
                         Real People. <br>
                         <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">Real Results.</span>
                     </h1>
-                    <p class="text-lg text-slate-500 mb-8 leading-relaxed max-w-lg editable reveal-on-scroll" id="hero-text">
+                    <p class="text-lg text-slate-500 mb-8 leading-relaxed max-w-lg reveal-on-scroll" data-editable="true" id="home-sub">
                         Don't trust your finances to a faceless corporation. We are Aruba's dedicated family firm, here to shake your hand and solve your problems.
                     </p>
                     <div class="flex flex-wrap gap-4 reveal-on-scroll">
@@ -182,49 +178,44 @@
 
         <section id="services" class="view-section">
             <div class="text-center max-w-3xl mx-auto mb-16 pt-10 reveal-on-scroll">
-                <h2 class="text-3xl font-bold text-slate-900 mb-4">What We Do For You</h2>
-                <p class="text-slate-500 text-lg">Click any service to see how we help your business grow.</p>
+                <h2 class="text-3xl font-bold text-slate-900 mb-4" data-editable="true" id="svc-title">What We Do For You</h2>
+                <p class="text-slate-500 text-lg" data-editable="true" id="svc-sub">Click any service to see how we help your business grow.</p>
             </div>
             <div class="grid md:grid-cols-3 gap-8">
-                <div onclick="openService('tax')" class="group relative h-[450px] overflow-hidden rounded-[2rem] shadow-2xl cursor-pointer reveal-on-scroll border border-white/20">
-                    <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=800&q=80" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-900/80 to-blue-800/40 opacity-90 transition-opacity duration-500 group-hover:opacity-85"></div>
-                    
-                    <div class="relative h-full p-8 flex flex-col justify-end text-white z-10">
-                        <div class="absolute top-8 right-8 w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/20">
-                            <i data-lucide="calculator" class="w-7 h-7"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-2">Bookkeeping & Tax</h3>
-                        <p class="text-blue-100 text-sm mb-6 leading-relaxed opacity-90">We handle the paperwork so you can focus on sales. BBO, Profit Tax, and full compliance.</p>
-                        <span class="inline-flex items-center gap-2 text-sm font-bold bg-white/10 backdrop-blur-md px-4 py-2 rounded-full w-fit group-hover:bg-white group-hover:text-blue-900 transition-all">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                <div onclick="openService('tax')" class="blue-card reveal-on-scroll cursor-pointer group h-[450px]">
+                    <div class="absolute inset-0 z-0">
+                        <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-30 group-hover:opacity-40">
+                        <div class="absolute inset-0 bg-gradient-to-br from-blue-900/95 via-blue-800/90 to-blue-900/95"></div>
+                    </div>
+                    <div class="relative z-10 p-8 h-full flex flex-col">
+                        <div class="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center text-white mb-6 border border-white/20"><i data-lucide="calculator" class="w-7 h-7"></i></div>
+                        <h3 class="text-xl font-bold text-white mb-3">Bookkeeping & Tax</h3>
+                        <p class="text-blue-100 leading-relaxed mb-6 opacity-80">We handle the paperwork. You focus on sales. BBO, Profit Tax, and yearly statements.</p>
+                        <span class="mt-auto text-sm font-bold text-white flex items-center gap-2">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
                     </div>
                 </div>
-
-                <div onclick="openService('payroll')" class="group relative h-[450px] overflow-hidden rounded-[2rem] shadow-2xl cursor-pointer reveal-on-scroll border border-white/20">
-                    <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-900/80 to-blue-800/40 opacity-90 transition-opacity duration-500 group-hover:opacity-85"></div>
-                    
-                    <div class="relative h-full p-8 flex flex-col justify-end text-white z-10">
-                        <div class="absolute top-8 right-8 w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/20">
-                            <i data-lucide="users" class="w-7 h-7"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-2">Payroll & HR</h3>
-                        <p class="text-blue-100 text-sm mb-6 leading-relaxed opacity-90">Happy employees get paid on time. We manage payslips, wage tax, and social premiums.</p>
-                        <span class="inline-flex items-center gap-2 text-sm font-bold bg-white/10 backdrop-blur-md px-4 py-2 rounded-full w-fit group-hover:bg-white group-hover:text-blue-900 transition-all">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                <div onclick="openService('payroll')" class="blue-card reveal-on-scroll cursor-pointer group h-[450px]">
+                    <div class="absolute inset-0 z-0">
+                        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-30 group-hover:opacity-40">
+                        <div class="absolute inset-0 bg-gradient-to-br from-blue-900/95 via-blue-800/90 to-blue-900/95"></div>
+                    </div>
+                    <div class="relative z-10 p-8 h-full flex flex-col">
+                        <div class="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center text-white mb-6 border border-white/20"><i data-lucide="users" class="w-7 h-7"></i></div>
+                        <h3 class="text-xl font-bold text-white mb-3">Payroll & HR</h3>
+                        <p class="text-blue-100 leading-relaxed mb-6 opacity-80">Happy employees get paid on time. We manage slips, wage tax, and social premiums.</p>
+                        <span class="mt-auto text-sm font-bold text-white flex items-center gap-2">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
                     </div>
                 </div>
-
-                <div onclick="openService('advisory')" class="group relative h-[450px] overflow-hidden rounded-[2rem] shadow-2xl cursor-pointer reveal-on-scroll border border-white/20">
-                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-900/80 to-blue-800/40 opacity-90 transition-opacity duration-500 group-hover:opacity-85"></div>
-                    
-                    <div class="relative h-full p-8 flex flex-col justify-end text-white z-10">
-                        <div class="absolute top-8 right-8 w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/20">
-                            <i data-lucide="briefcase" class="w-7 h-7"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-2">Business Advisory</h3>
-                        <p class="text-blue-100 text-sm mb-6 leading-relaxed opacity-90">Starting up? We guide you through Chamber of Commerce, Dimp, and Bank setup.</p>
-                        <span class="inline-flex items-center gap-2 text-sm font-bold bg-white/10 backdrop-blur-md px-4 py-2 rounded-full w-fit group-hover:bg-white group-hover:text-blue-900 transition-all">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                <div onclick="openService('advisory')" class="blue-card reveal-on-scroll cursor-pointer group h-[450px]">
+                    <div class="absolute inset-0 z-0">
+                        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-30 group-hover:opacity-40">
+                        <div class="absolute inset-0 bg-gradient-to-br from-blue-900/95 via-blue-800/90 to-blue-900/95"></div>
+                    </div>
+                    <div class="relative z-10 p-8 h-full flex flex-col">
+                        <div class="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center text-white mb-6 border border-white/20"><i data-lucide="briefcase" class="w-7 h-7"></i></div>
+                        <h3 class="text-xl font-bold text-white mb-3">Business Advisory</h3>
+                        <p class="text-blue-100 leading-relaxed mb-6 opacity-80">Starting up? We guide you through Chamber of Commerce, Dimp, and Bank setup.</p>
+                        <span class="mt-auto text-sm font-bold text-white flex items-center gap-2">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
                     </div>
                 </div>
             </div>
@@ -232,8 +223,8 @@
 
         <section id="team" class="view-section">
             <div class="text-center max-w-3xl mx-auto mb-16 pt-10 reveal-on-scroll">
-                <h2 class="text-3xl font-bold text-slate-900 mb-4">The People Behind the Numbers</h2>
-                <p class="text-slate-500 text-lg">We are a family-operated business committed to your success.</p>
+                <h2 class="text-3xl font-bold text-slate-900 mb-4" data-editable="true" id="team-title">The People Behind the Numbers</h2>
+                <p class="text-slate-500 text-lg" data-editable="true" id="team-sub">We are a family-operated business committed to your success.</p>
             </div>
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="group cursor-pointer">
@@ -241,24 +232,24 @@
                         <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80" class="human-img w-full h-80 object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6"><p class="text-white text-sm font-medium">"I love helping businesses grow."</p></div>
                     </div>
-                    <h3 class="text-xl font-bold text-slate-900">Mr. Croes</h3>
-                    <p class="text-blue-600 font-medium text-sm">Founder & Senior Accountant</p>
+                    <h3 class="text-xl font-bold text-slate-900" data-editable="true" id="team-1-name">Mr. Croes</h3>
+                    <p class="text-blue-600 font-medium text-sm" data-editable="true" id="team-1-role">Founder & Senior Accountant</p>
                 </div>
                 <div class="group cursor-pointer">
                     <div class="relative overflow-hidden rounded-3xl mb-4 shadow-lg">
                         <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" class="human-img w-full h-80 object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6"><p class="text-white text-sm font-medium">"Accuracy is my passion."</p></div>
                     </div>
-                    <h3 class="text-xl font-bold text-slate-900">Sarah Croes</h3>
-                    <p class="text-blue-600 font-medium text-sm">Tax Specialist</p>
+                    <h3 class="text-xl font-bold text-slate-900" data-editable="true" id="team-2-name">Sarah Croes</h3>
+                    <p class="text-blue-600 font-medium text-sm" data-editable="true" id="team-2-role">Tax Specialist</p>
                 </div>
                 <div class="group cursor-pointer">
                     <div class="relative overflow-hidden rounded-3xl mb-4 shadow-lg">
                         <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=800&q=80" class="human-img w-full h-80 object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6"><p class="text-white text-sm font-medium">"Here to support you."</p></div>
                     </div>
-                    <h3 class="text-xl font-bold text-slate-900">David Martinez</h3>
-                    <p class="text-blue-600 font-medium text-sm">Payroll Manager</p>
+                    <h3 class="text-xl font-bold text-slate-900" data-editable="true" id="team-3-name">David Martinez</h3>
+                    <p class="text-blue-600 font-medium text-sm" data-editable="true" id="team-3-role">Payroll Manager</p>
                 </div>
             </div>
         </section>
@@ -328,12 +319,12 @@
             </div>
         </section>
 
-        <section id="portal" class="view-section">
+        <section id="login" class="view-section">
             <div class="max-w-md mx-auto pt-20">
                 <div class="glass-panel p-10 rounded-[2rem] shadow-2xl text-center" id="login-container">
                     <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6 text-blue-600"><i data-lucide="lock" class="w-8 h-8"></i></div>
-                    <h2 class="text-2xl font-bold mb-2">Worker Login</h2>
-                    <p class="text-slate-500 mb-8 text-sm">Access the appointment dashboard.</p>
+                    <h2 class="text-2xl font-bold mb-2">Back Office Access</h2>
+                    <p class="text-slate-500 mb-8 text-sm">Employees and Administrators only.</p>
                     <input type="password" id="admin-pass" placeholder="Enter Password (admin123)" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 mb-4 outline-none focus:border-blue-500">
                     <button onclick="handleLogin()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition-all">Login</button>
                     <p id="login-error" class="text-red-500 text-xs mt-4 hidden">Incorrect password.</p>
@@ -341,28 +332,49 @@
             </div>
         </section>
 
-        <section id="dashboard" class="view-section">
-            <div class="max-w-6xl mx-auto pt-4">
-                <div class="flex justify-between items-end mb-8">
-                    <div><h2 class="text-3xl font-bold text-slate-900">Appointments</h2><p class="text-slate-500">Manage your schedule.</p></div>
-                    <div class="flex gap-3">
-                         <div class="bg-white px-4 py-2 rounded-lg shadow-sm border border-slate-100 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-orange-400"></span><span class="text-sm font-bold text-slate-600" id="pending-count">0 Pending</span></div>
-                        <button onclick="logout()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-2 rounded-lg font-bold text-sm transition-colors">Logout</button>
+        <section id="back-office" class="view-section">
+            <div class="max-w-7xl mx-auto pt-4 flex flex-col md:flex-row gap-8">
+                <div class="w-full md:w-64 glass-panel p-6 rounded-2xl h-fit">
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Dashboard</h3>
+                    <div class="space-y-1">
+                        <button onclick="switchAdminTab('inbox')" class="admin-nav-btn active" id="btn-inbox"><i data-lucide="inbox" class="w-4 h-4"></i> Inquiries</button>
+                        <button onclick="switchAdminTab('cms')" class="admin-nav-btn" id="btn-cms"><i data-lucide="pen-tool" class="w-4 h-4"></i> Website Editor</button>
+                    </div>
+                    <div class="mt-8 pt-8 border-t border-slate-200">
+                        <button onclick="logout()" class="text-red-500 text-sm font-bold flex items-center gap-2 hover:text-red-600"><i data-lucide="log-out" class="w-4 h-4"></i> Logout</button>
                     </div>
                 </div>
-                <div class="glass-panel rounded-2xl overflow-hidden shadow-xl">
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse">
-                            <thead>
-                                <tr class="bg-slate-50/80 border-b border-slate-200 text-xs uppercase text-slate-500"><th class="p-6 font-bold">Client Name</th><th class="p-6 font-bold">Service</th><th class="p-6 font-bold">Date & Time</th><th class="p-6 font-bold">Status</th><th class="p-6 font-bold text-right">Actions</th></tr>
-                            </thead>
-                            <tbody id="booking-list" class="text-sm"></tbody>
-                        </table>
+
+                <div class="flex-1">
+                    <div id="admin-inbox" class="admin-tab">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-2xl font-bold text-slate-900">Appointment Requests</h2>
+                            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold" id="pending-count">0 New</span>
+                        </div>
+                        <div class="glass-panel rounded-2xl overflow-hidden shadow-sm">
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left border-collapse">
+                                    <thead><tr class="bg-slate-50/80 border-b border-slate-200 text-xs uppercase text-slate-500"><th class="p-4">Client</th><th class="p-4">Service</th><th class="p-4">Date</th><th class="p-4">Status</th><th class="p-4 text-right">Actions</th></tr></thead>
+                                    <tbody id="booking-list" class="text-sm"></tbody>
+                                </table>
+                            </div>
+                            <div id="empty-state" class="hidden p-12 text-center text-slate-400">No appointments found.</div>
+                        </div>
                     </div>
-                    <div id="empty-state" class="hidden p-12 text-center">
-                        <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-300"><i data-lucide="calendar-x" class="w-8 h-8"></i></div>
-                        <h3 class="text-lg font-bold text-slate-900">No appointments yet</h3>
-                        <p class="text-slate-500">New bookings will appear here instantly.</p>
+
+                    <div id="admin-cms" class="admin-tab hidden">
+                        <div class="bg-blue-50 border border-blue-100 p-6 rounded-2xl mb-6">
+                            <h2 class="text-xl font-bold text-blue-900 mb-2">Live Website Editor</h2>
+                            <p class="text-blue-700 text-sm mb-4">Turn on "Edit Mode" to click and change text directly on the website pages.</p>
+                            <div class="flex gap-4">
+                                <button onclick="toggleEditMode(true)" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold text-sm hover:bg-blue-700">Enable Edit Mode</button>
+                                <button onclick="downloadHTML()" class="bg-white text-blue-600 border border-blue-200 px-4 py-2 rounded-lg font-bold text-sm hover:bg-blue-50">Export HTML Code</button>
+                            </div>
+                        </div>
+                        <div class="glass-panel p-6 rounded-2xl">
+                            <h3 class="font-bold mb-4">Recent Text Changes</h3>
+                            <div id="changes-log" class="text-sm text-slate-500 italic">No unsaved changes in browser memory.</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -370,53 +382,38 @@
 
     </main>
 
+    <footer class="bg-slate-900 text-slate-400 py-12 relative z-10 mt-20">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center text-xs">
+            <p>&copy; 2026 Accounting Croes.</p>
+            <button onclick="router('login')" class="hover:text-white transition-colors opacity-50 hover:opacity-100" title="Admin Login"><i data-lucide="lock" class="w-3 h-3"></i></button>
+        </div>
+    </footer>
+
     <a href="https://wa.me/2975820000" target="_blank" class="fixed bottom-6 right-6 z-40 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition-all hover:scale-110 hover:shadow-green-500/30 flex items-center justify-center"><i data-lucide="message-circle" class="w-6 h-6"></i></a>
-    <div id="toast" class="fixed top-24 right-6 bg-slate-900 text-white px-6 py-4 rounded-xl shadow-2xl transform translate-x-64 opacity-0 transition-all duration-500 z-50 flex items-center gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i><div><h4 class="font-bold text-sm">Success</h4><p class="text-xs text-slate-300" id="toast-msg">Changes saved locally.</p></div></div>
+    <div id="toast" class="fixed top-24 right-6 bg-slate-900 text-white px-6 py-4 rounded-xl shadow-2xl transform translate-x-64 opacity-0 transition-all duration-500 z-50 flex items-center gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i><div><h4 class="font-bold text-sm">Success</h4><p class="text-xs text-slate-300" id="toast-msg">Operation successful.</p></div></div>
 
     <script>
-        // 1. INIT & EMAILJS CONFIG
+        // 1. INIT
         const EMAIL_SERVICE_ID = "service_x7ol38h";   
         const EMAIL_TEMPLATE_ID = "template_3ajpnak"; 
         
         document.addEventListener('DOMContentLoaded', function() {
-            try { 
-                if (typeof emailjs !== 'undefined') { emailjs.init("8rBFXNPpsM9GIWhRR"); } 
-                else { console.warn("EmailJS blocked by browser"); } 
-            } catch (err) { console.error(err); }
-            
+            try { if (typeof emailjs !== 'undefined') emailjs.init("8rBFXNPpsM9GIWhRR"); } catch (err) { console.error(err); }
             const today = new Date().toISOString().split('T')[0];
             const dateInput = document.getElementById('book-date');
             if(dateInput) dateInput.value = today;
-            
             setTimeout(() => { document.getElementById('preloader').classList.add('opacity-0', 'pointer-events-none'); initScrollReveal(); }, 800);
             router('home');
             lucide.createIcons();
             initDates();
+            loadContent(); // Load CMS edits
         });
 
-        // 2. SERVICE MODAL & DATA
+        // 2. SERVICES & MODAL
         const SERVICES_DATA = {
-            tax: { 
-                title: "Tax Preparation", 
-                img: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80",
-                icon: "calculator", 
-                items: ["BBO / BAZV / BAVP Filing", "Proft Tax Returns", "Personal Income Tax", "Fiscal Advice"], 
-                desc: "We ensure 100% compliance with Aruba's tax laws (Dimp). We handle the monthly filing so you never miss a deadline." 
-            },
-            payroll: { 
-                title: "Payroll Services", 
-                img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80",
-                icon: "users", 
-                items: ["Monthly Payslips", "Wage Tax (Loonbelasting)", "AOV/AZV Premiums", "SVB Mutations"], 
-                desc: "Complete payroll management for your staff. We generate digital payslips and handle all social security interactions." 
-            },
-            advisory: { 
-                title: "Business Advisory", 
-                img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80",
-                icon: "briefcase", 
-                items: ["Chamber of Commerce Setup", "Financial Forecasting", "Audit Support", "Business Strategy"], 
-                desc: "Starting a new business? We help you register at the KvK and set up your financial structure correctly from day one." 
-            }
+            tax: { title: "Tax Preparation", img: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80", icon: "calculator", items: ["BBO / BAZV Filing", "Proft Tax Returns", "Income Tax", "Fiscal Advice"], desc: "We ensure 100% compliance with Aruba's Dimp tax laws." },
+            payroll: { title: "Payroll Services", img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80", icon: "users", items: ["Payslips", "Wage Tax", "AOV/AZV", "SVB Mutations"], desc: "Complete payroll management. Happy employees get paid on time." },
+            advisory: { title: "Business Advisory", img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80", icon: "briefcase", items: ["KvK Setup", "Forecasting", "Audit Support", "Strategy"], desc: "Starting a new business? We guide you through the setup." }
         };
 
         function openService(id) {
@@ -424,17 +421,13 @@
             if(!data) return;
             document.getElementById('modal-title').innerText = data.title;
             document.getElementById('modal-desc').innerText = data.desc;
-            document.getElementById('modal-bg-img').src = data.img; // Set header image
+            document.getElementById('modal-bg-img').src = data.img;
             document.getElementById('modal-icon').innerHTML = `<i data-lucide="${data.icon}" class="w-6 h-6 text-white"></i>`;
             document.getElementById('modal-list').innerHTML = data.items.map(i => `<li class="flex items-center gap-2 text-sm text-slate-600"><div class="w-1.5 h-1.5 rounded-full bg-blue-500"></div>${i}</li>`).join('');
-            
-            const btn = document.getElementById('modal-btn');
-            btn.onclick = () => { closeServiceModal(); router('contact'); document.getElementById('book-service').value = data.title; };
-            
+            document.getElementById('modal-btn').onclick = () => { closeServiceModal(); router('contact'); document.getElementById('book-service').value = data.title; };
             document.getElementById('service-modal').classList.remove('hidden');
             lucide.createIcons();
         }
-
         function closeServiceModal() { document.getElementById('service-modal').classList.add('hidden'); }
 
         // 3. DATABASE
@@ -466,22 +459,9 @@
             DB.addBooking(formData);
 
             if (typeof emailjs !== 'undefined') {
-                emailjs.send(EMAIL_SERVICE_ID, EMAIL_TEMPLATE_ID, {
-                    to_name: "Accounting Croes",
-                    name: formData.name,
-                    email: formData.email,
-                    date: formData.date,
-                    time: formData.time,
-                    service: formData.service,
-                    reply_to: formData.email
-                }).then(
-                    function(response) { showToast("Success!", "Booking sent to your inbox!"); finishBooking(e, btn, originalText); },
-                    function(error) { console.error(error); alert("Network Error. Booking saved to Dashboard."); finishBooking(e, btn, originalText); }
-                );
-            } else {
-                alert("Offline Mode. Booking saved to Dashboard.");
-                finishBooking(e, btn, originalText);
-            }
+                emailjs.send(EMAIL_SERVICE_ID, EMAIL_TEMPLATE_ID, { to_name: "Accounting Croes", name: formData.name, email: formData.email, date: formData.date, time: formData.time, service: formData.service, reply_to: formData.email })
+                .then(() => { showToast("Success!", "Booking sent!"); finishBooking(e, btn, originalText); }, () => { alert("Network Error. Booking saved to Dashboard."); finishBooking(e, btn, originalText); });
+            } else { alert("Offline. Booking saved to Dashboard."); finishBooking(e, btn, originalText); }
         }
 
         function finishBooking(e, btn, originalText) {
@@ -491,61 +471,100 @@
             setTimeout(() => { btn.innerText = originalText; btn.classList.remove('bg-green-600', 'opacity-75'); btn.disabled = false; router('home'); }, 2000);
         }
 
-        // 5. WORKER PORTAL
+        // 5. ADMIN BACK OFFICE
         function handleLogin() {
-            const pass = document.getElementById('admin-pass').value;
-            if (pass === 'admin123') { 
+            if (document.getElementById('admin-pass').value === 'admin123') { 
                 document.getElementById('admin-pass').value = '';
                 document.getElementById('login-error').classList.add('hidden');
                 renderDashboard();
-                router('dashboard');
+                router('back-office');
             } else { document.getElementById('login-error').classList.remove('hidden'); }
         }
 
-        function logout() { router('home'); }
+        function switchAdminTab(tabId) {
+            document.querySelectorAll('.admin-tab').forEach(el => el.classList.add('hidden'));
+            document.getElementById('admin-' + tabId).classList.remove('hidden');
+            document.querySelectorAll('.admin-nav-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById('btn-' + tabId).classList.add('active');
+        }
 
         function renderDashboard() {
             const bookings = DB.getKey();
             const tbody = document.getElementById('booking-list');
-            const emptyState = document.getElementById('empty-state');
             const pendingCount = document.getElementById('pending-count');
             tbody.innerHTML = '';
             
             const pending = bookings.filter(b => b.status === 'Pending').length;
-            if(pendingCount) pendingCount.innerText = `${pending} Pending`;
+            pendingCount.innerText = `${pending} New`;
             
-            if (bookings.length === 0) { emptyState.classList.remove('hidden'); return; } else { emptyState.classList.add('hidden'); }
+            if (bookings.length === 0) { document.getElementById('empty-state').classList.remove('hidden'); return; } 
+            else { document.getElementById('empty-state').classList.add('hidden'); }
 
             bookings.sort((a, b) => b.id - a.id).forEach(b => {
-                const tr = document.createElement('tr');
-                tr.className = "border-b border-slate-100 hover:bg-slate-50 transition-colors";
-                const statusClass = b.status === 'Confirmed' ? 'status-confirmed' : 'status-pending';
-                tr.innerHTML = `<td class="p-6"><div class="font-bold">${b.name}</div><div class="text-xs text-gray-500">${b.email}</div></td><td class="p-6">${b.service}</td><td class="p-6"><div class="font-bold">${b.date}</div><div class="text-xs text-gray-500">${b.time}</div></td><td class="p-6"><span class="status-badge ${statusClass}">${b.status}</span></td><td class="p-6 text-right space-x-2">${b.status === 'Pending' ? `<button onclick="confirmBooking(${b.id})" class="text-xs bg-green-100 text-green-700 px-3 py-2 rounded font-bold">Confirm</button>` : ''}<button onclick="deleteBooking(${b.id})" class="text-xs bg-red-50 text-red-600 px-3 py-2 rounded font-bold">Delete</button></td>`;
-                tbody.appendChild(tr);
+                const statusColor = b.status === 'Confirmed' ? 'text-green-600 bg-green-50' : 'text-orange-600 bg-orange-50';
+                tbody.innerHTML += `<tr class="border-b border-slate-100 hover:bg-slate-50"><td class="p-4 font-bold text-slate-800">${b.name}<br><span class="text-xs text-slate-400 font-normal">${b.email}</span></td><td class="p-4 text-slate-600">${b.service}</td><td class="p-4 text-slate-600">${b.date}<br><span class="text-xs">${b.time}</span></td><td class="p-4"><span class="px-2 py-1 rounded text-xs font-bold uppercase ${statusColor}">${b.status}</span></td><td class="p-4 text-right space-x-1">${b.status === 'Pending' ? `<button onclick="confirmBooking(${b.id})" class="text-xs bg-green-100 text-green-700 px-3 py-1 rounded font-bold hover:bg-green-200">Accept</button>` : ''}<button onclick="deleteBooking(${b.id})" class="text-xs bg-red-50 text-red-600 px-3 py-1 rounded font-bold hover:bg-red-100">Delete</button></td></tr>`;
             });
         }
 
         function confirmBooking(id) { DB.updateStatus(id, 'Confirmed'); renderDashboard(); }
         function deleteBooking(id) { if(confirm("Delete?")) { DB.delete(id); renderDashboard(); } }
+        function logout() { toggleEditMode(false); router('home'); }
 
-        // 6. UTILS
+        // 6. CMS (LIVE EDITOR)
+        function toggleEditMode(enable) {
+            const elements = document.querySelectorAll('[data-editable="true"]');
+            const toolbar = document.getElementById('edit-toolbar');
+            
+            if (enable) {
+                document.body.classList.add('editing-active');
+                toolbar.classList.remove('hidden');
+                router('home'); // Go to home to start editing
+                elements.forEach(el => { el.contentEditable = "true"; });
+                showToast("Edit Mode On", "Click any text to change it.");
+            } else {
+                document.body.classList.remove('editing-active');
+                toolbar.classList.add('hidden');
+                elements.forEach(el => { el.contentEditable = "false"; });
+            }
+        }
+
+        function saveEdits() {
+            const changes = {};
+            document.querySelectorAll('[data-editable="true"]').forEach(el => {
+                changes[el.id] = el.innerHTML;
+                localStorage.setItem('cms_' + el.id, el.innerHTML);
+            });
+            showToast("Saved!", "Changes saved to browser memory.");
+            document.getElementById('changes-log').innerText = "Last saved: " + new Date().toLocaleTimeString();
+        }
+
+        function loadContent() {
+            document.querySelectorAll('[data-editable="true"]').forEach(el => {
+                const saved = localStorage.getItem('cms_' + el.id);
+                if (saved) el.innerHTML = saved;
+            });
+        }
+
+        function downloadHTML() {
+            alert("In a real app, this would download the updated index.html file.");
+        }
+
+        // 7. UTILS
         function router(pageId) {
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-            const target = document.getElementById(pageId);
-            if(target) target.classList.add('active');
+            document.getElementById(pageId).classList.add('active');
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             const navBtn = document.getElementById(`nav-${pageId}`);
             if(navBtn) navBtn.classList.add('active');
-            const menu = document.getElementById('mobile-menu');
-            if(menu) { menu.classList.add('hidden'); menu.classList.remove('flex'); }
-            if(pageId === 'portal') document.getElementById('admin-pass').value = '';
+            document.getElementById('mobile-menu').classList.add('hidden');
+            if(pageId === 'login') document.getElementById('admin-pass').value = '';
             window.scrollTo({ top: 0, behavior: 'instant' });
             setTimeout(initScrollReveal, 100);
         }
 
         function toggleMobileMenu() { const menu = document.getElementById('mobile-menu'); if (menu.classList.contains('hidden')) { menu.classList.remove('hidden'); menu.classList.add('flex'); } else { menu.classList.add('hidden'); menu.classList.remove('flex'); } }
         function calculateTax() { const val = parseFloat(document.getElementById('calc-input').value) || 0; document.getElementById('res-sub').innerText = 'ƒ ' + val.toFixed(2); document.getElementById('res-tax').innerText = '+ ƒ ' + (val * 0.07).toFixed(2); document.getElementById('res-total').innerText = 'ƒ ' + (val * 1.07).toFixed(2); }
-        function toggleAdmin() { const editableElements = document.querySelectorAll('.editable'); alert("Admin mode: You can now double-click text to edit it."); editableElements.forEach(el => el.contentEditable = "true"); }
+        function toggleAdmin() { router('login'); }
         function showToast(title, msg) { const toast = document.getElementById('toast'); if(toast) { toast.querySelector('h4').innerText = title; document.getElementById('toast-msg').innerText = msg; toast.classList.remove('translate-x-64', 'opacity-0'); setTimeout(() => toast.classList.add('translate-x-64', 'opacity-0'), 3000); } }
         function initScrollReveal() { const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('is-visible'); }); }, { threshold: 0.1 }); document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el)); }
         function initDates() { const today = new Date(); let year = today.getFullYear(); let month = today.getMonth(); let deadline = new Date(year, month, 15); if (today.getDate() > 15) { deadline = new Date(year, month + 1, 15); } const diffTime = Math.abs(deadline - today); const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); document.getElementById('days-left').innerText = diffDays; document.getElementById('deadline-date').innerText = deadline.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }); }
