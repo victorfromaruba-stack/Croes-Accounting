@@ -66,18 +66,6 @@
         
         .human-img { transition: transform 0.5s ease; }
         .group:hover .human-img { transform: scale(1.03); }
-        
-        /* New Blue Card Styles */
-        .blue-card {
-            position: relative;
-            overflow: hidden;
-            border-radius: 1.5rem;
-            transition: all 0.5s ease;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .blue-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px -5px rgba(59, 130, 246, 0.3); }
-        .blue-card img { transition: transform 0.7s ease; }
-        .blue-card:hover img { transform: scale(1.1); }
     </style>
 </head>
 <body class="text-slate-800 antialiased selection:bg-blue-100 selection:text-blue-900">
@@ -198,48 +186,45 @@
                 <p class="text-slate-500 text-lg">Click any service to see how we help your business grow.</p>
             </div>
             <div class="grid md:grid-cols-3 gap-8">
-                <div onclick="openService('tax')" class="blue-card reveal-on-scroll cursor-pointer group">
-                    <div class="absolute inset-0 z-0">
-                        <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-30 group-hover:opacity-40">
-                        <div class="absolute inset-0 bg-gradient-to-br from-blue-900/95 via-blue-800/90 to-blue-900/95"></div>
-                    </div>
-                    <div class="relative z-10 p-8 h-full flex flex-col">
-                        <div class="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center text-white mb-6 border border-white/20">
+                <div onclick="openService('tax')" class="group relative h-[450px] overflow-hidden rounded-[2rem] shadow-2xl cursor-pointer reveal-on-scroll border border-white/20">
+                    <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=800&q=80" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-900/80 to-blue-800/40 opacity-90 transition-opacity duration-500 group-hover:opacity-85"></div>
+                    
+                    <div class="relative h-full p-8 flex flex-col justify-end text-white z-10">
+                        <div class="absolute top-8 right-8 w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/20">
                             <i data-lucide="calculator" class="w-7 h-7"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-3">Bookkeeping & Tax</h3>
-                        <p class="text-blue-100 leading-relaxed mb-6">We handle the paperwork. You focus on sales. BBO, Profit Tax, and yearly statements.</p>
-                        <span class="mt-auto text-sm font-bold text-white flex items-center gap-2 opacity-80 group-hover:opacity-100">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                        <h3 class="text-2xl font-bold mb-2">Bookkeeping & Tax</h3>
+                        <p class="text-blue-100 text-sm mb-6 leading-relaxed opacity-90">We handle the paperwork so you can focus on sales. BBO, Profit Tax, and full compliance.</p>
+                        <span class="inline-flex items-center gap-2 text-sm font-bold bg-white/10 backdrop-blur-md px-4 py-2 rounded-full w-fit group-hover:bg-white group-hover:text-blue-900 transition-all">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
                     </div>
                 </div>
 
-                <div onclick="openService('payroll')" class="blue-card reveal-on-scroll cursor-pointer group">
-                    <div class="absolute inset-0 z-0">
-                        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-30 group-hover:opacity-40">
-                        <div class="absolute inset-0 bg-gradient-to-br from-blue-900/95 via-blue-800/90 to-blue-900/95"></div>
-                    </div>
-                    <div class="relative z-10 p-8 h-full flex flex-col">
-                        <div class="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center text-white mb-6 border border-white/20">
+                <div onclick="openService('payroll')" class="group relative h-[450px] overflow-hidden rounded-[2rem] shadow-2xl cursor-pointer reveal-on-scroll border border-white/20">
+                    <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-900/80 to-blue-800/40 opacity-90 transition-opacity duration-500 group-hover:opacity-85"></div>
+                    
+                    <div class="relative h-full p-8 flex flex-col justify-end text-white z-10">
+                        <div class="absolute top-8 right-8 w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/20">
                             <i data-lucide="users" class="w-7 h-7"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-3">Payroll & HR</h3>
-                        <p class="text-blue-100 leading-relaxed mb-6">Happy employees get paid on time. We manage slips, wage tax, and social premiums.</p>
-                        <span class="mt-auto text-sm font-bold text-white flex items-center gap-2 opacity-80 group-hover:opacity-100">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                        <h3 class="text-2xl font-bold mb-2">Payroll & HR</h3>
+                        <p class="text-blue-100 text-sm mb-6 leading-relaxed opacity-90">Happy employees get paid on time. We manage payslips, wage tax, and social premiums.</p>
+                        <span class="inline-flex items-center gap-2 text-sm font-bold bg-white/10 backdrop-blur-md px-4 py-2 rounded-full w-fit group-hover:bg-white group-hover:text-blue-900 transition-all">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
                     </div>
                 </div>
 
-                <div onclick="openService('advisory')" class="blue-card reveal-on-scroll cursor-pointer group">
-                    <div class="absolute inset-0 z-0">
-                        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-30 group-hover:opacity-40">
-                        <div class="absolute inset-0 bg-gradient-to-br from-blue-900/95 via-blue-800/90 to-blue-900/95"></div>
-                    </div>
-                    <div class="relative z-10 p-8 h-full flex flex-col">
-                        <div class="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center text-white mb-6 border border-white/20">
+                <div onclick="openService('advisory')" class="group relative h-[450px] overflow-hidden rounded-[2rem] shadow-2xl cursor-pointer reveal-on-scroll border border-white/20">
+                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-900/80 to-blue-800/40 opacity-90 transition-opacity duration-500 group-hover:opacity-85"></div>
+                    
+                    <div class="relative h-full p-8 flex flex-col justify-end text-white z-10">
+                        <div class="absolute top-8 right-8 w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/20">
                             <i data-lucide="briefcase" class="w-7 h-7"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-3">Business Advisory</h3>
-                        <p class="text-blue-100 leading-relaxed mb-6">Starting up? We guide you through Chamber of Commerce, Dimp, and Bank setup.</p>
-                        <span class="mt-auto text-sm font-bold text-white flex items-center gap-2 opacity-80 group-hover:opacity-100">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                        <h3 class="text-2xl font-bold mb-2">Business Advisory</h3>
+                        <p class="text-blue-100 text-sm mb-6 leading-relaxed opacity-90">Starting up? We guide you through Chamber of Commerce, Dimp, and Bank setup.</p>
+                        <span class="inline-flex items-center gap-2 text-sm font-bold bg-white/10 backdrop-blur-md px-4 py-2 rounded-full w-fit group-hover:bg-white group-hover:text-blue-900 transition-all">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
                     </div>
                 </div>
             </div>
