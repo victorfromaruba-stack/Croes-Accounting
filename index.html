@@ -47,12 +47,15 @@
         #service-modal.hidden { pointer-events: none; opacity: 0; }
         #service-modal:not(.hidden) { pointer-events: auto; opacity: 1; }
         html { scroll-behavior: auto; }
+        
         .human-img { transition: transform 0.5s ease; }
         .group:hover .human-img { transform: scale(1.03); }
         .blue-card { position: relative; overflow: hidden; border-radius: 1.5rem; transition: all 0.5s ease; border: 1px solid rgba(255,255,255,0.1); }
         .blue-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px -5px rgba(59, 130, 246, 0.3); }
         .blue-card img { transition: transform 0.7s ease; }
         .blue-card:hover img { transform: scale(1.1); }
+        
+        /* Edit Mode & Admin */
         .editing-active [data-editable="true"]:hover { outline: 2px dashed #3B82F6; cursor: text; background: rgba(59, 130, 246, 0.1); border-radius: 4px; }
         .editing-active [data-editable="true"]:focus { outline: 2px solid #3B82F6; background: white; cursor: text; }
         .admin-nav-btn { width: 100%; text-align: left; padding: 12px 16px; border-radius: 12px; color: #64748B; font-weight: 500; transition: all 0.2s; display: flex; align-items: center; gap: 12px; }
@@ -254,38 +257,6 @@
             </div>
         </section>
 
-        <section id="tools" class="view-section">
-            <div class="max-w-4xl mx-auto pt-10">
-                <div class="bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 overflow-hidden reveal-on-scroll">
-                    <div class="grid md:grid-cols-2">
-                        <div class="p-10 md:p-12">
-                            <div class="flex items-center gap-3 mb-6">
-                                <div class="p-2 bg-blue-100 text-blue-700 rounded-lg"><i data-lucide="percent" class="w-5 h-5"></i></div>
-                                <h2 class="text-2xl font-bold text-slate-900">BBO Estimator</h2>
-                            </div>
-                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Invoice Amount (AWG)</label>
-                            <div class="relative mb-8">
-                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xl">ƒ</span>
-                                <input type="number" id="calc-input" placeholder="0.00" class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 pl-10 pr-4 text-2xl font-bold text-slate-900 outline-none focus:border-blue-500 focus:bg-white transition-all" oninput="calculateTax()">
-                            </div>
-                            <div class="space-y-4">
-                                <div class="flex justify-between items-center text-sm text-slate-500"><span>Subtotal</span><span id="res-sub">ƒ 0.00</span></div>
-                                <div class="flex justify-between items-center text-sm text-slate-500"><span>BBO/BAZV/BAVP (7%)</span><span id="res-tax" class="text-red-500 font-medium">+ ƒ 0.00</span></div>
-                                <div class="h-px bg-slate-100"></div>
-                                <div class="flex justify-between items-center"><span class="font-bold text-slate-900">Total Invoice</span><span id="res-total" class="font-bold text-2xl text-blue-600">ƒ 0.00</span></div>
-                            </div>
-                        </div>
-                        <div class="bg-slate-900 text-white p-10 md:p-12 flex flex-col justify-between relative overflow-hidden">
-                            <div class="absolute top-0 right-0 w-64 h-64 bg-blue-600 rounded-full blur-[80px] opacity-20"></div>
-                            <div><h3 class="text-xl font-bold mb-2">Next Deadline</h3><p class="text-slate-400 text-sm">Official date for Dimp tax filing.</p></div>
-                            <div class="my-8 text-center"><div class="text-6xl font-bold tracking-tight mb-2" id="days-left">0</div><div class="text-sm font-medium text-blue-400 uppercase tracking-widest">Days Remaining</div></div>
-                            <div class="bg-white/10 backdrop-blur-md rounded-xl p-4 flex items-center gap-4"><div class="bg-blue-500 p-2 rounded-lg"><i data-lucide="calendar-clock" class="w-6 h-6"></i></div><div><p class="text-sm font-bold" id="deadline-date">...</p><p class="text-xs text-slate-400">Mark your calendar.</p></div></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <section id="contact" class="view-section">
             <div class="max-w-2xl mx-auto pt-10">
                 <div class="glass-panel p-8 md:p-12 rounded-[2.5rem] shadow-xl reveal-on-scroll">
@@ -344,13 +315,9 @@
                         <button onclick="logout()" class="text-red-500 text-sm font-bold flex items-center gap-2 hover:text-red-600"><i data-lucide="log-out" class="w-4 h-4"></i> Logout</button>
                     </div>
                 </div>
-
                 <div class="flex-1">
                     <div id="admin-inbox" class="admin-tab">
-                        <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-2xl font-bold text-slate-900">Appointment Requests</h2>
-                            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold" id="pending-count">0 New</span>
-                        </div>
+                        <div class="flex justify-between items-center mb-6"><h2 class="text-2xl font-bold text-slate-900">Requests</h2><span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold" id="pending-count">0 New</span></div>
                         <div class="glass-panel rounded-2xl overflow-hidden shadow-sm">
                             <div class="overflow-x-auto">
                                 <table class="w-full text-left border-collapse">
@@ -361,20 +328,16 @@
                             <div id="empty-state" class="hidden p-12 text-center text-slate-400">No appointments found.</div>
                         </div>
                     </div>
-
                     <div id="admin-cms" class="admin-tab hidden">
                         <div class="bg-blue-50 border border-blue-100 p-6 rounded-2xl mb-6">
-                            <h2 class="text-xl font-bold text-blue-900 mb-2">Live Website Editor</h2>
-                            <p class="text-blue-700 text-sm mb-4">Turn on "Edit Mode" to click and change text directly on the website pages.</p>
+                            <h2 class="text-xl font-bold text-blue-900 mb-2">Live Editor</h2>
+                            <p class="text-blue-700 text-sm mb-4">Turn on "Edit Mode" to change text on the website.</p>
                             <div class="flex gap-4">
                                 <button onclick="toggleEditMode(true)" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold text-sm hover:bg-blue-700">Enable Edit Mode</button>
-                                <button onclick="downloadHTML()" class="bg-white text-blue-600 border border-blue-200 px-4 py-2 rounded-lg font-bold text-sm hover:bg-blue-50">Export HTML Code</button>
+                                <button onclick="downloadHTML()" class="bg-white text-blue-600 border border-blue-200 px-4 py-2 rounded-lg font-bold text-sm hover:bg-blue-50">Export Code</button>
                             </div>
                         </div>
-                        <div class="glass-panel p-6 rounded-2xl">
-                            <h3 class="font-bold mb-4">Recent Text Changes</h3>
-                            <div id="changes-log" class="text-sm text-slate-500 italic">No unsaved changes in browser memory.</div>
-                        </div>
+                        <div class="glass-panel p-6 rounded-2xl"><h3 class="font-bold mb-4">Changes</h3><div id="changes-log" class="text-sm text-slate-500 italic">No unsaved changes.</div></div>
                     </div>
                 </div>
             </div>
@@ -393,7 +356,6 @@
     <div id="toast" class="fixed top-24 right-6 bg-slate-900 text-white px-6 py-4 rounded-xl shadow-2xl transform translate-x-64 opacity-0 transition-all duration-500 z-50 flex items-center gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i><div><h4 class="font-bold text-sm">Success</h4><p class="text-xs text-slate-300" id="toast-msg">Operation successful.</p></div></div>
 
     <script>
-        // 1. INIT
         const EMAIL_SERVICE_ID = "service_x7ol38h";   
         const EMAIL_TEMPLATE_ID = "template_3ajpnak"; 
         
@@ -405,11 +367,9 @@
             setTimeout(() => { document.getElementById('preloader').classList.add('opacity-0', 'pointer-events-none'); initScrollReveal(); }, 800);
             router('home');
             lucide.createIcons();
-            initDates();
-            loadContent(); // Load CMS edits
+            loadContent();
         });
 
-        // 2. SERVICES & MODAL
         const SERVICES_DATA = {
             tax: { title: "Tax Preparation", img: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80", icon: "calculator", items: ["BBO / BAZV Filing", "Proft Tax Returns", "Income Tax", "Fiscal Advice"], desc: "We ensure 100% compliance with Aruba's Dimp tax laws." },
             payroll: { title: "Payroll Services", img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80", icon: "users", items: ["Payslips", "Wage Tax", "AOV/AZV", "SVB Mutations"], desc: "Complete payroll management. Happy employees get paid on time." },
@@ -430,7 +390,6 @@
         }
         function closeServiceModal() { document.getElementById('service-modal').classList.add('hidden'); }
 
-        // 3. DATABASE
         const DB = {
             getKey: () => { try { return JSON.parse(localStorage.getItem('croes_bookings')) || []; } catch(e) { return []; } },
             save: (data) => localStorage.setItem('croes_bookings', JSON.stringify(data)),
@@ -439,7 +398,6 @@
             delete: (id) => { let data = DB.getKey(); data = data.filter(b => b.id !== id); DB.save(data); }
         };
 
-        // 4. BOOKING
         function handleBooking(e) {
             e.preventDefault(); 
             const btn = e.target.querySelector('button');
@@ -471,7 +429,6 @@
             setTimeout(() => { btn.innerText = originalText; btn.classList.remove('bg-green-600', 'opacity-75'); btn.disabled = false; router('home'); }, 2000);
         }
 
-        // 5. ADMIN BACK OFFICE
         function handleLogin() {
             if (document.getElementById('admin-pass').value === 'admin123') { 
                 document.getElementById('admin-pass').value = '';
@@ -506,21 +463,40 @@
             });
         }
 
-        function confirmBooking(id) { DB.updateStatus(id, 'Confirmed'); renderDashboard(); }
+        // CONFIRM BOOKING FUNCTION
+        function confirmBooking(id) {
+            const bookings = DB.getKey();
+            const booking = bookings.find(b => b.id === id);
+            if (!booking) return;
+
+            DB.updateStatus(id, 'Confirmed');
+            renderDashboard();
+
+            // REPLACE THIS WITH YOUR NEW TEMPLATE ID FROM EMAILJS
+            const CONFIRM_TEMPLATE_ID = "PASTE_NEW_CONFIRM_TEMPLATE_ID_HERE"; 
+
+            emailjs.send(EMAIL_SERVICE_ID, CONFIRM_TEMPLATE_ID, {
+                to_name: booking.name,
+                to_email: booking.email,
+                service: booking.service,
+                date: booking.date,
+                time: booking.time
+            }).then(() => showToast("Success", "Confirmation sent!"), 
+                    (err) => { console.error(err); showToast("Warning", "Status updated, email failed."); });
+        }
+
         function deleteBooking(id) { if(confirm("Delete?")) { DB.delete(id); renderDashboard(); } }
         function logout() { toggleEditMode(false); router('home'); }
 
-        // 6. CMS (LIVE EDITOR)
         function toggleEditMode(enable) {
             const elements = document.querySelectorAll('[data-editable="true"]');
             const toolbar = document.getElementById('edit-toolbar');
-            
             if (enable) {
                 document.body.classList.add('editing-active');
                 toolbar.classList.remove('hidden');
-                router('home'); // Go to home to start editing
+                router('home');
                 elements.forEach(el => { el.contentEditable = "true"; });
-                showToast("Edit Mode On", "Click any text to change it.");
+                showToast("Edit Mode On", "Click text to change.");
             } else {
                 document.body.classList.remove('editing-active');
                 toolbar.classList.add('hidden');
@@ -534,7 +510,7 @@
                 changes[el.id] = el.innerHTML;
                 localStorage.setItem('cms_' + el.id, el.innerHTML);
             });
-            showToast("Saved!", "Changes saved to browser memory.");
+            showToast("Saved!", "Changes saved.");
             document.getElementById('changes-log').innerText = "Last saved: " + new Date().toLocaleTimeString();
         }
 
@@ -545,11 +521,8 @@
             });
         }
 
-        function downloadHTML() {
-            alert("In a real app, this would download the updated index.html file.");
-        }
+        function downloadHTML() { alert("In a real app, this would download the file."); }
 
-        // 7. UTILS
         function router(pageId) {
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
@@ -563,11 +536,9 @@
         }
 
         function toggleMobileMenu() { const menu = document.getElementById('mobile-menu'); if (menu.classList.contains('hidden')) { menu.classList.remove('hidden'); menu.classList.add('flex'); } else { menu.classList.add('hidden'); menu.classList.remove('flex'); } }
-        function calculateTax() { const val = parseFloat(document.getElementById('calc-input').value) || 0; document.getElementById('res-sub').innerText = 'ƒ ' + val.toFixed(2); document.getElementById('res-tax').innerText = '+ ƒ ' + (val * 0.07).toFixed(2); document.getElementById('res-total').innerText = 'ƒ ' + (val * 1.07).toFixed(2); }
-        function toggleAdmin() { router('login'); }
         function showToast(title, msg) { const toast = document.getElementById('toast'); if(toast) { toast.querySelector('h4').innerText = title; document.getElementById('toast-msg').innerText = msg; toast.classList.remove('translate-x-64', 'opacity-0'); setTimeout(() => toast.classList.add('translate-x-64', 'opacity-0'), 3000); } }
         function initScrollReveal() { const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('is-visible'); }); }, { threshold: 0.1 }); document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el)); }
-        function initDates() { const today = new Date(); let year = today.getFullYear(); let month = today.getMonth(); let deadline = new Date(year, month, 15); if (today.getDate() > 15) { deadline = new Date(year, month + 1, 15); } const diffTime = Math.abs(deadline - today); const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); document.getElementById('days-left').innerText = diffDays; document.getElementById('deadline-date').innerText = deadline.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }); }
+        function initDates() { const today = new Date(); let year = today.getFullYear(); let month = today.getMonth(); let deadline = new Date(year, month, 15); if (today.getDate() > 15) { deadline = new Date(year, month + 1, 15); } const diffTime = Math.abs(deadline - today); const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); }
     </script>
 </body>
 </html>
