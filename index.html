@@ -47,30 +47,21 @@
         #service-modal.hidden { pointer-events: none; opacity: 0; }
         #service-modal:not(.hidden) { pointer-events: auto; opacity: 1; }
         html { scroll-behavior: auto; }
-        
         .human-img { transition: transform 0.5s ease; }
         .group:hover .human-img { transform: scale(1.03); }
-        
-        /* Blue Card Styles */
         .blue-card { position: relative; overflow: hidden; border-radius: 1.5rem; transition: all 0.5s ease; border: 1px solid rgba(255,255,255,0.1); }
         .blue-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px -5px rgba(59, 130, 246, 0.3); }
         .blue-card img { transition: transform 0.7s ease; }
         .blue-card:hover img { transform: scale(1.1); }
-        
-        /* Edit Mode Styles */
         .editing-active [data-editable="true"]:hover { outline: 2px dashed #3B82F6; cursor: text; background: rgba(59, 130, 246, 0.1); border-radius: 4px; }
-        .editing-active [data-editable="true"]:focus { outline: 2px solid #3B82F6; background: white; cursor: text; color: #000; }
-        
-        .edit-overlay { display: none; }
-        .editing-active .edit-overlay { display: flex; }
-        
-        .add-btn { display: none; }
-        .editing-active .add-btn { display: inline-flex; }
-
-        /* Admin Nav */
+        .editing-active [data-editable="true"]:focus { outline: 2px solid #3B82F6; background: white; cursor: text; }
         .admin-nav-btn { width: 100%; text-align: left; padding: 12px 16px; border-radius: 12px; color: #64748B; font-weight: 500; transition: all 0.2s; display: flex; align-items: center; gap: 12px; }
         .admin-nav-btn:hover { background: #F1F5F9; color: #1E293B; }
         .admin-nav-btn.active { background: #E0F2FE; color: #0284C7; font-weight: 600; }
+        .edit-overlay { display: none; }
+        .editing-active .edit-overlay { display: flex; }
+        .add-btn { display: none; }
+        .editing-active .add-btn { display: inline-flex; }
     </style>
 </head>
 <body class="text-slate-800 antialiased selection:bg-blue-100 selection:text-blue-900 flex flex-col min-h-screen">
@@ -336,6 +327,7 @@
                     <div class="space-y-1">
                         <button onclick="switchAdminTab('inbox')" class="admin-nav-btn active" id="btn-inbox"><i data-lucide="inbox" class="w-4 h-4"></i> Inquiries</button>
                         <button onclick="switchAdminTab('cms')" class="admin-nav-btn" id="btn-cms"><i data-lucide="pen-tool" class="w-4 h-4"></i> Website Editor</button>
+                        <button onclick="switchAdminTab('db')" class="admin-nav-btn" id="btn-db"><i data-lucide="database" class="w-4 h-4"></i> Database</button>
                     </div>
                     <div class="mt-8 pt-8 border-t border-slate-200">
                         <button onclick="logout()" class="text-red-500 text-sm font-bold flex items-center gap-2 hover:text-red-600"><i data-lucide="log-out" class="w-4 h-4"></i> Logout</button>
@@ -360,10 +352,22 @@
                             <p class="text-blue-700 text-sm mb-4">Turn on "Edit Mode" to change text or manage cards.</p>
                             <div class="flex gap-4">
                                 <button onclick="toggleEditMode(true)" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold text-sm hover:bg-blue-700">Enable Edit Mode</button>
-                                <button onclick="downloadHTML()" class="bg-white text-blue-600 border border-blue-200 px-4 py-2 rounded-lg font-bold text-sm hover:bg-blue-50">Export Code</button>
                             </div>
                         </div>
                         <div class="glass-panel p-6 rounded-2xl"><h3 class="font-bold mb-4">Status</h3><div id="changes-log" class="text-sm text-slate-500 italic">No unsaved changes.</div></div>
+                    </div>
+                    <div id="admin-db" class="admin-tab hidden">
+                        <div class="bg-slate-50 border border-slate-100 p-6 rounded-2xl mb-6">
+                            <h2 class="text-xl font-bold text-slate-900 mb-2">Database Manager</h2>
+                            <p class="text-slate-500 text-sm mb-4">Backup your data to a file or restore it on a new device.</p>
+                            <div class="flex gap-4">
+                                <button onclick="downloadBackup()" class="bg-slate-800 text-white px-6 py-3 rounded-lg font-bold text-sm hover:bg-slate-900 flex items-center gap-2"><i data-lucide="download" class="w-4 h-4"></i> Backup Data</button>
+                                <label class="bg-white text-slate-700 border border-slate-200 px-6 py-3 rounded-lg font-bold text-sm hover:bg-slate-50 cursor-pointer flex items-center gap-2">
+                                    <i data-lucide="upload" class="w-4 h-4"></i> Restore Data
+                                    <input type="file" onchange="restoreBackup(this)" class="hidden" accept=".json">
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -382,14 +386,13 @@
     <div id="toast" class="fixed top-24 right-6 bg-slate-900 text-white px-6 py-4 rounded-xl shadow-2xl transform translate-x-64 opacity-0 transition-all duration-500 z-50 flex items-center gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i><div><h4 class="font-bold text-sm">Success</h4><p class="text-xs text-slate-300" id="toast-msg">Operation successful.</p></div></div>
 
     <script>
-        // CONFIG
+        // INIT
         const EMAIL_SERVICE_ID = "service_x7ol38h";   
-        const ADMIN_TEMPLATE_ID = "template_3ajpnak"; // Notification for you (the admin)
+        const EMAIL_TEMPLATE_ID = "template_3ajpnak"; 
         
         // --- ⚠️ PASTE YOUR CLIENT CONFIRMATION TEMPLATE ID BELOW ⚠️ ---
         const CONFIRM_TEMPLATE_ID = "PASTE_YOUR_CLIENT_TEMPLATE_ID_HERE"; 
 
-        // INIT
         document.addEventListener('DOMContentLoaded', function() {
             try { if (typeof emailjs !== 'undefined') emailjs.init("8rBFXNPpsM9GIWhRR"); } catch (err) { console.error(err); }
             const today = new Date().toISOString().split('T')[0];
@@ -467,7 +470,7 @@
 
             DB.addBooking(formData);
 
-            emailjs.send(EMAIL_SERVICE_ID, ADMIN_TEMPLATE_ID, {
+            emailjs.send(EMAIL_SERVICE_ID, EMAIL_TEMPLATE_ID, {
                 to_name: "Accounting Croes",
                 name: formData.name,
                 email: formData.email,
@@ -588,6 +591,14 @@
             document.querySelectorAll('[data-editable="true"]').forEach(el => { if(el.id) { changes[el.id] = el.innerHTML; localStorage.setItem('cms_' + el.id, el.innerHTML); } });
             localStorage.setItem('cms_structure_services', document.getElementById('services-grid').innerHTML);
             localStorage.setItem('cms_structure_team', document.getElementById('team-grid').innerHTML);
+            // Save DB state
+            const fullDump = {
+                cms: { ...changes },
+                structure_services: document.getElementById('services-grid').innerHTML,
+                structure_team: document.getElementById('team-grid').innerHTML,
+                bookings: DB.getKey()
+            };
+            localStorage.setItem('full_backup', JSON.stringify(fullDump));
             showToast("Saved!", "Layout saved.");
         }
 
@@ -600,7 +611,40 @@
             lucide.createIcons();
         }
 
-        function downloadHTML() { alert("In a real app, this would download the file."); }
+        // DB MGR
+        function downloadBackup() {
+            saveEdits(); // Ensure current state is saved first
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
+                bookings: DB.getKey(),
+                cms_services: localStorage.getItem('cms_structure_services'),
+                cms_team: localStorage.getItem('cms_structure_team'),
+                // We'd add text overrides here in a real app, simplified for robustness
+            }));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "croes-data.json");
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        }
+
+        function restoreBackup(input) {
+            const file = input.files[0];
+            if(!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if(data.bookings) DB.save(data.bookings);
+                    if(data.cms_services) localStorage.setItem('cms_structure_services', data.cms_services);
+                    if(data.cms_team) localStorage.setItem('cms_structure_team', data.cms_team);
+                    showToast("Restored!", "Reloading page...");
+                    setTimeout(() => location.reload(), 1000);
+                } catch(err) { alert("Invalid backup file."); }
+            };
+            reader.readAsText(file);
+        }
+
         function router(pageId) { document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active')); document.getElementById(pageId).classList.add('active'); document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active')); const navBtn = document.getElementById(`nav-${pageId}`); if(navBtn) navBtn.classList.add('active'); document.getElementById('mobile-menu').classList.add('hidden'); if(pageId === 'login') document.getElementById('admin-pass').value = ''; window.scrollTo({ top: 0, behavior: 'instant' }); setTimeout(initScrollReveal, 100); }
         function toggleMobileMenu() { const menu = document.getElementById('mobile-menu'); if (menu.classList.contains('hidden')) { menu.classList.remove('hidden'); menu.classList.add('flex'); } else { menu.classList.add('hidden'); menu.classList.remove('flex'); } }
         function calculateTax() { const val = parseFloat(document.getElementById('calc-input').value) || 0; document.getElementById('res-sub').innerText = 'ƒ ' + val.toFixed(2); document.getElementById('res-tax').innerText = '+ ƒ ' + (val * 0.07).toFixed(2); document.getElementById('res-total').innerText = 'ƒ ' + (val * 1.07).toFixed(2); }
