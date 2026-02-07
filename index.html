@@ -1,14 +1,8 @@
-You are absolutely right. In the previous code, the Service cards looked clickable (cursor changed to a pointer), but they didn't actually open anything.
+It sounds like you might have accidentally **pasted my explanation text** (the part where I said "You are absolutely right...") into your `index.html` file along with the code.
 
-I have fixed this by adding a **"Service Details Modal"**.
+If you see sentences like *"What’s new in this version"* or *"Here is the Fixed & Complete Code"* appearing at the top of your actual website, that is the issue.
 
-**What’s new in this version:**
-
-1. **Clickable Cards:** When you click a service (e.g., "Tax Preparation"), a beautiful glass pop-up opens.
-2. **Detailed Info:** It shows exactly what is included in that service.
-3. **"Book This" Button:** Inside the pop-up, there is a button that takes you directly to the booking form and **automatically selects** the correct service for them.
-
-Here is the **Fixed & Complete Code**:
+Here is the **Clean Code** again. **Copy ONLY the code block below** and replace everything in your file with it.
 
 ```html
 <!DOCTYPE html>
@@ -35,7 +29,6 @@ Here is the **Fixed & Complete Code**:
                     },
                     animation: {
                         'blob': 'blob 20s infinite',
-                        'fade-in': 'fadeIn 0.3s ease-out forwards',
                         'slide-up': 'slideUp 0.4s ease-out forwards',
                     },
                     keyframes: {
@@ -45,7 +38,6 @@ Here is the **Fixed & Complete Code**:
                             '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
                             '100%': { transform: 'translate(0px, 0px) scale(1)' },
                         },
-                        fadeIn: { from: { opacity: '0' }, to: { opacity: '1' } },
                         slideUp: { from: { opacity: '0', transform: 'translateY(20px)' }, to: { opacity: '1', transform: 'translateY(0)' } }
                     }
                 }
@@ -72,12 +64,12 @@ Here is the **Fixed & Complete Code**:
         .reveal-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
         .view-section { display: none; animation: slideUp 0.5s ease forwards; }
         .view-section.active { display: block; }
-        html { scroll-behavior: auto; }
         
         /* Modal Styles */
         #service-modal { transition: opacity 0.3s ease; }
         #service-modal.hidden { pointer-events: none; opacity: 0; }
         #service-modal:not(.hidden) { pointer-events: auto; opacity: 1; }
+        html { scroll-behavior: auto; }
     </style>
 </head>
 <body class="text-slate-800 antialiased selection:bg-blue-100 selection:text-blue-900">
@@ -325,22 +317,27 @@ Here is the **Fixed & Complete Code**:
     <div id="toast" class="fixed top-24 right-6 bg-slate-900 text-white px-6 py-4 rounded-xl shadow-2xl transform translate-x-64 opacity-0 transition-all duration-500 z-50 flex items-center gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i><div><h4 class="font-bold text-sm">Success</h4><p class="text-xs text-slate-300" id="toast-msg">Changes saved locally.</p></div></div>
 
     <script>
-        // --- 1. EMAIL & DATA CONFIG ---
+        // 1. INIT & EMAILJS CONFIG
+        const EMAIL_SERVICE_ID = "service_x7ol38h";   
+        const EMAIL_TEMPLATE_ID = "template_3ajpnak"; 
+        
         document.addEventListener('DOMContentLoaded', function() {
-            try { if (typeof emailjs !== 'undefined') { emailjs.init("8rBFXNPpsM9GIWhRR"); } else { console.warn("EmailJS not loaded"); } } catch (err) { console.error(err); }
+            try { 
+                if (typeof emailjs !== 'undefined') { emailjs.init("8rBFXNPpsM9GIWhRR"); } 
+                else { console.warn("EmailJS blocked by browser"); } 
+            } catch (err) { console.error(err); }
+            
             const today = new Date().toISOString().split('T')[0];
             const dateInput = document.getElementById('book-date');
             if(dateInput) dateInput.value = today;
+            
             setTimeout(() => { document.getElementById('preloader').classList.add('opacity-0', 'pointer-events-none'); initScrollReveal(); }, 800);
             router('home');
             lucide.createIcons();
             initDates();
         });
 
-        const EMAIL_SERVICE_ID = "service_x7ol38h";   
-        const EMAIL_TEMPLATE_ID = "template_3ajpnak"; 
-
-        // --- 2. SERVICE DETAILS LOGIC ---
+        // 2. SERVICE MODAL
         const SERVICES_DATA = {
             tax: { title: "Tax Preparation", icon: "calculator", items: ["BBO / BAZV / BAVP Filing", "Proft Tax Returns", "Personal Income Tax", "Fiscal Advice"], desc: "We ensure 100% compliance with Aruba's tax laws (Dimp). We handle the monthly filing so you never miss a deadline." },
             payroll: { title: "Payroll Services", icon: "users", items: ["Monthly Payslips", "Wage Tax (Loonbelasting)", "AOV/AZV Premiums", "SVB Mutations"], desc: "Complete payroll management for your staff. We generate digital payslips and handle all social security interactions." },
@@ -364,7 +361,7 @@ Here is the **Fixed & Complete Code**:
 
         function closeServiceModal() { document.getElementById('service-modal').classList.add('hidden'); }
 
-        // --- 3. DATABASE ENGINE ---
+        // 3. DATABASE
         const DB = {
             getKey: () => { try { return JSON.parse(localStorage.getItem('croes_bookings')) || []; } catch(e) { return []; } },
             save: (data) => localStorage.setItem('croes_bookings', JSON.stringify(data)),
@@ -373,7 +370,7 @@ Here is the **Fixed & Complete Code**:
             delete: (id) => { let data = DB.getKey(); data = data.filter(b => b.id !== id); DB.save(data); }
         };
 
-        // --- 4. BOOKING HANDLER ---
+        // 4. BOOKING
         function handleBooking(e) {
             e.preventDefault(); 
             const btn = e.target.querySelector('button');
@@ -403,7 +400,7 @@ Here is the **Fixed & Complete Code**:
                     reply_to: formData.email
                 }).then(
                     function(response) { showToast("Success!", "Booking sent to your inbox!"); finishBooking(e, btn, originalText); },
-                    function(error) { alert("Network Error. Booking saved to Dashboard."); finishBooking(e, btn, originalText); }
+                    function(error) { console.error(error); alert("Network Error. Booking saved to Dashboard."); finishBooking(e, btn, originalText); }
                 );
             } else {
                 alert("Offline Mode. Booking saved to Dashboard.");
@@ -418,7 +415,7 @@ Here is the **Fixed & Complete Code**:
             setTimeout(() => { btn.innerText = originalText; btn.classList.remove('bg-green-600', 'opacity-75'); btn.disabled = false; router('home'); }, 2000);
         }
 
-        // --- 5. WORKER PORTAL ---
+        // 5. WORKER PORTAL
         function handleLogin() {
             const pass = document.getElementById('admin-pass').value;
             if (pass === 'admin123') { 
@@ -455,7 +452,7 @@ Here is the **Fixed & Complete Code**:
         function confirmBooking(id) { DB.updateStatus(id, 'Confirmed'); renderDashboard(); }
         function deleteBooking(id) { if(confirm("Delete?")) { DB.delete(id); renderDashboard(); } }
 
-        // --- 6. UTILS ---
+        // 6. UTILS
         function router(pageId) {
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
             const target = document.getElementById(pageId);
