@@ -1,36 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="antialiased">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accounting Croes | The Premier Firm of Aruba</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Accounting Croes | Aruba's Premier Financial Firm</title>
+    <meta name="description" content="Trusted accounting services in Oranjestad, Aruba since 2003.">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <script src="https://unpkg.com/lucide@latest"></script>
-    
     <script src="https://cdn.tailwindcss.com"></script>
     
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
                         brand: {
-                            bg: '#F8FAFC', primary: '#0F172A', accent: '#0EA5E9',
-                            accentLight: '#E0F2FE', text: '#334155', muted: '#64748B'
+                            dark: '#0B0F19',       // Deep Navy/Black
+                            primary: '#1E293B',    // Slate 800
+                            accent: '#3B82F6',     // Royal Blue
+                            success: '#10B981',    // Emerald
+                            surface: '#ffffff',
+                            subtle: '#94A3B8'
                         }
                     },
                     animation: {
-                        'float': 'float 10s ease-in-out infinite',
-                        'marquee': 'marquee 30s linear infinite',
+                        'blob': 'blob 10s infinite',
+                        'fade-up': 'fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
                     },
                     keyframes: {
-                        float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-20px)' } },
-                        marquee: { '0%': { transform: 'translateX(100%)' }, '100%': { transform: 'translateX(-100%)' } }
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        fadeUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
                     }
                 }
             }
@@ -38,295 +50,462 @@
     </script>
 
     <style>
-        /* --- PERFORMANCE OPTIMIZATIONS --- */
+        /* --- Premium Polish CSS --- */
         
-        /* 1. Native Scroll Behavior (Crucial for "smooth" feel) */
-        html { 
-            font-size: 16px; 
-            -webkit-font-smoothing: antialiased;
-            /* We handle smooth scrolling via JS for links only, to keep wheel scroll fast */
-            scroll-behavior: auto; 
+        /* 1. Glassmorphism that actually looks expensive */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
         }
 
-        /* 2. Hardware Accelerated Backgrounds */
-        .accelerate-gpu {
-            transform: translateZ(0);
-            backface-visibility: hidden;
-            will-change: transform;
+        /* 2. Gradient Mesh Background */
+        .mesh-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
+            background-color: #F8FAFC;
+            overflow: hidden;
         }
-
-        /* 3. Better Scrollbar visibility */
-        ::-webkit-scrollbar { width: 14px; }
-        ::-webkit-scrollbar-track { background: #F1F5F9; }
-        ::-webkit-scrollbar-thumb { 
-            background: #94A3B8; 
-            border-radius: 7px; 
-            border: 3px solid #F1F5F9; 
-            min-height: 50px;
-        }
-        ::-webkit-scrollbar-thumb:hover { background: #64748B; }
-
-        /* 4. Optimized Cursor (Pointer Events None is Critical) */
-        .cursor-dot, .cursor-outline {
-            position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); 
-            border-radius: 50%; z-index: 9999; pointer-events: none;
-            will-change: transform; /* Performance fix */
-        }
-        .cursor-dot { width: 8px; height: 8px; background-color: #0EA5E9; }
-        .cursor-outline { width: 40px; height: 40px; border: 1px solid rgba(14, 165, 233, 0.5); transition: width 0.15s, height 0.15s; }
-        
-        /* 5. Glassmorphism Optimization */
-        /* Reducing blur radius slightly improves scrolling FPS on laptops */
-        .glass {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+        .mesh-blob {
+            position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.6;
+            animation: blob 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        /* Page Transitions */
-        .page-section { 
-            display: none; 
-            opacity: 0; 
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-        .page-section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Utilities */
-        .text-gradient { background: linear-gradient(135deg, #0F172A 0%, #0EA5E9 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        #preloader { transition: opacity 0.5s ease, visibility 0.5s; }
-        #preloader.loaded { opacity: 0; visibility: hidden; }
+        /* 3. Utility Classes */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Prevent horizontal scroll issues */
-        body { overflow-x: hidden; width: 100%; position: relative; }
+        .reveal-on-scroll { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
+
+        /* 4. Admin Edit Highlights */
+        [contenteditable="true"] { outline: 2px dashed #3B82F6; border-radius: 4px; padding: 2px; cursor: text; background: rgba(59, 130, 246, 0.1); }
+        [contenteditable="true"]:focus { outline: 2px solid #3B82F6; background: white; }
+
+        /* 5. Navigation State */
+        .nav-item.active { color: #3B82F6; font-weight: 600; }
+        .nav-item.active::after { content: ''; display: block; width: 100%; height: 2px; background: #3B82F6; border-radius: 2px; margin-top: 2px; }
+
+        /* 6. Smooth Page Switching */
+        .view-section { display: none; animation: fadeUp 0.5s ease forwards; }
+        .view-section.active { display: block; }
     </style>
 </head>
-<body class="bg-brand-bg text-brand-text font-sans antialiased flex flex-col min-h-screen">
+<body class="text-slate-800 antialiased selection:bg-blue-100 selection:text-blue-900">
 
-    <div class="cursor-dot hidden md:block"></div>
-    <div class="cursor-outline hidden md:block"></div>
+    <div class="mesh-bg">
+        <div class="mesh-blob bg-blue-200 w-96 h-96 top-0 left-0 mix-blend-multiply"></div>
+        <div class="mesh-blob bg-cyan-200 w-96 h-96 top-0 right-0 mix-blend-multiply" style="animation-delay: 2s"></div>
+        <div class="mesh-blob bg-pink-100 w-96 h-96 -bottom-32 left-20 mix-blend-multiply" style="animation-delay: 4s"></div>
+    </div>
 
-    <div id="preloader" class="fixed inset-0 bg-white z-[9999] flex items-center justify-center">
+    <div id="preloader" class="fixed inset-0 bg-white z-[100] flex items-center justify-center transition-opacity duration-500">
         <div class="text-center">
-            <div class="w-16 h-16 bg-brand-accent rounded-xl animate-bounce mx-auto mb-4 flex items-center justify-center text-white font-bold text-2xl">A</div>
-            <div class="text-brand-primary font-bold">Loading...</div>
+            <div class="w-16 h-16 border-4 border-blue-100 border-t-blue-600 rounded-full animate-spin mx-auto mb-4"></div>
+            <p class="text-sm font-semibold text-slate-500 tracking-widest uppercase">Accounting Croes</p>
         </div>
     </div>
 
-    <div class="fixed top-0 left-0 w-full h-1 z-[100]">
-        <div class="h-full bg-brand-accent transition-all duration-75 ease-out" id="scrollProgress" style="width: 0%"></div>
-    </div>
-
-    <div class="fixed inset-0 pointer-events-none z-0">
-        <div class="absolute inset-0 opacity-40" style="background-image: radial-gradient(#cbd5e1 1px, transparent 1px); background-size: 32px 32px;"></div>
-        <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-100/50 rounded-full blur-[80px] animate-float accelerate-gpu"></div>
-        <div class="absolute bottom-[-10%] right-[-10%] w-[400px] h-[400px] bg-cyan-100/50 rounded-full blur-[60px] animate-float accelerate-gpu" style="animation-delay: -5s;"></div>
-    </div>
-
-    <nav class="fixed w-full z-50 glass top-0 transition-all duration-300" id="navbar">
+    <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 border-white/40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <a href="#home" onclick="navTo(event, 'home')" class="flex items-center gap-3 group">
-                    <div class="w-10 h-10 bg-brand-accent rounded-lg flex items-center justify-center text-white shadow-lg group-hover:scale-105 transition-transform">
+            <div class="flex justify-between items-center h-20">
+                <a href="#home" onclick="router('home')" class="flex items-center gap-3 group cursor-pointer">
+                    <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-800 text-white rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30 group-hover:scale-105 transition-transform">
                         <span class="font-bold text-xl">A</span>
                     </div>
-                    <span class="font-bold text-lg text-brand-primary">Accounting Croes</span>
+                    <div>
+                        <h1 class="font-bold text-lg leading-none text-slate-900">Accounting Croes</h1>
+                        <p class="text-[10px] text-slate-500 font-medium tracking-wider uppercase mt-1">Est. 2003 • Aruba</p>
+                    </div>
                 </a>
-                
-                <div class="hidden md:flex items-center gap-6">
-                    <a href="#home" onclick="navTo(event, 'home')" class="text-sm font-medium hover:text-brand-accent transition-colors">Home</a>
-                    <a href="#services" onclick="navTo(event, 'services')" class="text-sm font-medium hover:text-brand-accent transition-colors">Services</a>
-                    <a href="#resources" onclick="navTo(event, 'resources')" class="text-sm font-medium hover:text-brand-accent transition-colors">Resources</a>
-                    <a href="#contact" onclick="navTo(event, 'contact')" class="bg-brand-primary hover:bg-brand-accent text-white px-5 py-2.5 rounded-full text-sm font-bold transition-all shadow-lg hover:-translate-y-0.5">Book Now</a>
+
+                <div class="hidden md:flex items-center gap-8">
+                    <button onclick="router('home')" class="nav-item text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors" id="nav-home">Home</button>
+                    <button onclick="router('services')" class="nav-item text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors" id="nav-services">Services</button>
+                    <button onclick="router('tools')" class="nav-item text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors" id="nav-tools">Tools</button>
+                    <button onclick="router('contact')" class="nav-item text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors" id="nav-contact">Contact</button>
                 </div>
+
+                <div class="hidden md:flex items-center gap-3">
+                    <button onclick="toggleAdmin()" class="p-2 text-slate-400 hover:text-blue-600 transition-colors" title="Double click text to edit"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
+                    <a href="tel:+2975820000" class="px-5 py-2.5 bg-slate-900 text-white text-sm font-semibold rounded-full hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5">Book Consultation</a>
+                </div>
+
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-slate-600"><i data-lucide="menu" class="w-6 h-6"></i></button>
             </div>
+        </div>
+        
+        <div id="mobile-menu" class="hidden absolute top-20 left-0 w-full bg-white border-b border-gray-100 shadow-xl p-4 flex-col gap-2 md:hidden">
+            <button onclick="router('home')" class="w-full text-left p-3 rounded-lg hover:bg-gray-50 font-medium">Home</button>
+            <button onclick="router('services')" class="w-full text-left p-3 rounded-lg hover:bg-gray-50 font-medium">Services</button>
+            <button onclick="router('tools')" class="w-full text-left p-3 rounded-lg hover:bg-gray-50 font-medium">Tools (BBO Calc)</button>
+            <button onclick="router('contact')" class="w-full text-left p-3 rounded-lg hover:bg-gray-50 font-medium">Contact</button>
         </div>
     </nav>
 
-    <main class="flex-grow pt-28 px-4 sm:px-0 relative z-10">
-        
-        <div id="home" class="page-section active">
-            <div class="max-w-7xl mx-auto px-4 lg:px-8 py-12 lg:py-24">
-                <div class="grid lg:grid-cols-2 gap-12 items-center">
-                    <div>
-                        <div class="inline-block px-3 py-1 rounded-full bg-blue-50 text-brand-accent text-xs font-bold uppercase tracking-wider mb-6 border border-blue-100">
-                            Aruba's Premier Firm
+    <main class="pt-24 pb-20 px-4 sm:px-6 relative z-10 min-h-screen max-w-7xl mx-auto">
+
+        <section id="home" class="view-section active">
+            <div class="grid lg:grid-cols-2 gap-12 items-center py-12 lg:py-20">
+                <div class="order-2 lg:order-1">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold uppercase tracking-widest mb-6">
+                        <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span> Open for New Clients
+                    </div>
+                    <h1 class="text-5xl lg:text-7xl font-bold tracking-tight text-slate-900 mb-6 leading-[1.1]">
+                        We speak <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">Accounting.</span>
+                    </h1>
+                    <p class="text-lg text-slate-500 mb-8 leading-relaxed max-w-lg editable" id="hero-text">
+                        Stop worrying about BBO, profit tax, and payroll. We are Aruba's most trusted family firm, handling your numbers so you can focus on your business.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <button onclick="router('contact')" class="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-2xl shadow-lg shadow-blue-500/20 transition-all hover:-translate-y-1 flex items-center gap-2">
+                            Get Started <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                        <button onclick="router('services')" class="px-8 py-4 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-semibold rounded-2xl transition-all">
+                            Our Services
+                        </button>
+                    </div>
+                    
+                    <div class="mt-12 pt-8 border-t border-slate-200 grid grid-cols-3 gap-8">
+                        <div>
+                            <p class="text-3xl font-bold text-slate-900">20+</p>
+                            <p class="text-xs text-slate-500 uppercase tracking-wider font-medium mt-1">Years Exp.</p>
                         </div>
-                        <h1 class="text-5xl lg:text-7xl font-extrabold text-brand-primary mb-6 leading-tight">
-                            Your Future.<br><span class="text-gradient">Our Priority.</span>
-                        </h1>
-                        <p class="text-xl text-brand-muted mb-8 max-w-lg leading-relaxed">
-                            Professional accounting with a family touch. Trusted by local businesses since 2003.
-                        </p>
-                        <div class="flex gap-4">
-                            <button onclick="navTo(event, 'contact')" class="px-8 py-4 bg-brand-accent hover:bg-sky-500 text-white rounded-xl font-bold transition-all shadow-lg shadow-sky-200">Get Started</button>
-                            <button onclick="navTo(event, 'services')" class="px-8 py-4 bg-white text-brand-primary border border-gray-200 hover:bg-gray-50 rounded-xl font-bold transition-all">View Services</button>
+                        <div>
+                            <p class="text-3xl font-bold text-slate-900">500+</p>
+                            <p class="text-xs text-slate-500 uppercase tracking-wider font-medium mt-1">Clients</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-bold text-slate-900">100%</p>
+                            <p class="text-xs text-slate-500 uppercase tracking-wider font-medium mt-1">Compliance</p>
                         </div>
                     </div>
-                    <div class="relative hidden lg:block">
-                        <div class="absolute inset-0 bg-brand-accent/20 rounded-[3rem] rotate-6 transform translate-y-4 blur-sm accelerate-gpu"></div>
-                        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=80" class="relative rounded-[3rem] shadow-2xl w-full object-cover h-[500px] border-4 border-white accelerate-gpu">
+                </div>
+                
+                <div class="order-1 lg:order-2 relative">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-cyan-400/20 rounded-[3rem] rotate-3 blur-2xl transform translate-y-4"></div>
+                    <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1000&q=80" alt="Office" class="relative rounded-[3rem] shadow-2xl border-4 border-white w-full object-cover h-[500px]">
+                    
+                    <div class="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-4 animate-[bounce_4s_infinite]">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600">
+                            <i data-lucide="check-circle-2" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-slate-900">Tax Deadline</p>
+                            <p class="text-xs text-slate-500">You are prepared.</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div id="services" class="page-section">
-            <div class="max-w-7xl mx-auto px-4 lg:px-8 py-12">
-                <div class="text-center mb-16">
-                    <h2 class="text-4xl font-bold text-brand-primary mb-4">Our Expertise</h2>
-                    <p class="text-brand-muted">Tailored financial solutions for your business.</p>
+        <section id="services" class="view-section">
+            <div class="text-center max-w-3xl mx-auto mb-16 pt-10">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">Complete Financial Clarity</h2>
+                <p class="text-slate-500 text-lg">Everything you need to run a business in Aruba, under one roof.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass-panel p-8 rounded-3xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group cursor-pointer border-t-4 border-t-transparent hover:border-t-blue-500">
+                    <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                        <i data-lucide="calculator" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Bookkeeping & Tax</h3>
+                    <p class="text-slate-500 leading-relaxed mb-6">Monthly processing of invoices, bank statements, and filing of BBO/BAZV/BAVP.</p>
+                    <span class="text-sm font-bold text-blue-600 flex items-center gap-1 group-hover:gap-2 transition-all">Learn more <i data-lucide="chevron-right" class="w-4 h-4"></i></span>
                 </div>
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-                        <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-brand-accent mb-6 group-hover:bg-brand-accent group-hover:text-white transition-colors">
-                            <i data-lucide="briefcase" class="w-7 h-7"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-brand-primary mb-3">Bookkeeping</h3>
-                        <p class="text-brand-muted leading-relaxed">Complete monthly management of your records, ensuring total compliance with Aruban law.</p>
+
+                <div class="glass-panel p-8 rounded-3xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group cursor-pointer border-t-4 border-t-transparent hover:border-t-cyan-500">
+                    <div class="w-14 h-14 bg-cyan-50 rounded-2xl flex items-center justify-center text-cyan-600 mb-6 group-hover:bg-cyan-600 group-hover:text-white transition-colors">
+                        <i data-lucide="users" class="w-7 h-7"></i>
                     </div>
-                    <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-                        <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-brand-accent mb-6 group-hover:bg-brand-accent group-hover:text-white transition-colors">
-                            <i data-lucide="pie-chart" class="w-7 h-7"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-brand-primary mb-3">Tax Strategy</h3>
-                        <p class="text-brand-muted leading-relaxed">Proactive planning to minimize liabilities for BBO, Profit Tax, and Income Tax.</p>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Payroll Services</h3>
+                    <p class="text-slate-500 leading-relaxed mb-6">Payslips, wage tax (Loonbelasting), and AOV/AZV premiums managed accurately.</p>
+                    <span class="text-sm font-bold text-cyan-600 flex items-center gap-1 group-hover:gap-2 transition-all">Learn more <i data-lucide="chevron-right" class="w-4 h-4"></i></span>
+                </div>
+
+                <div class="glass-panel p-8 rounded-3xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group cursor-pointer border-t-4 border-t-transparent hover:border-t-indigo-500">
+                    <div class="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                        <i data-lucide="briefcase" class="w-7 h-7"></i>
                     </div>
-                    <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-                        <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-brand-accent mb-6 group-hover:bg-brand-accent group-hover:text-white transition-colors">
-                            <i data-lucide="users" class="w-7 h-7"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-brand-primary mb-3">Payroll</h3>
-                        <p class="text-brand-muted leading-relaxed">On-time salary processing, pay slips, and SVB/Tax filings managed for you.</p>
-                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Business Advisory</h3>
+                    <p class="text-slate-500 leading-relaxed mb-6">Company formation, chamber of commerce registration, and financial forecasting.</p>
+                    <span class="text-sm font-bold text-indigo-600 flex items-center gap-1 group-hover:gap-2 transition-all">Learn more <i data-lucide="chevron-right" class="w-4 h-4"></i></span>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div id="resources" class="page-section">
-            <div class="max-w-5xl mx-auto px-4 lg:px-8 py-12">
-                <div class="bg-white rounded-[2.5rem] shadow-2xl overflow-hidden border border-gray-100 flex flex-col md:flex-row">
-                    <div class="p-10 md:w-1/2 flex flex-col justify-center">
-                        <h2 class="text-3xl font-bold text-brand-primary mb-2">BBO Calculator</h2>
-                        <p class="text-brand-muted mb-8">Estimate your 7% tax quickly.</p>
-                        
-                        <div class="space-y-4">
+        <section id="tools" class="view-section">
+            <div class="max-w-4xl mx-auto pt-10">
+                <div class="bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 overflow-hidden">
+                    <div class="grid md:grid-cols-2">
+                        <div class="p-10 md:p-12">
+                            <div class="flex items-center gap-3 mb-6">
+                                <div class="p-2 bg-blue-100 text-blue-700 rounded-lg"><i data-lucide="percent" class="w-5 h-5"></i></div>
+                                <h2 class="text-2xl font-bold text-slate-900">BBO Estimator</h2>
+                            </div>
+                            
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Invoice Amount (AWG)</label>
+                            <div class="relative mb-8">
+                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xl">ƒ</span>
+                                <input type="number" id="calc-input" placeholder="0.00" class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 pl-10 pr-4 text-2xl font-bold text-slate-900 outline-none focus:border-blue-500 focus:bg-white transition-all" oninput="calculateTax()">
+                            </div>
+
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center text-sm text-slate-500">
+                                    <span>Subtotal</span>
+                                    <span id="res-sub">ƒ 0.00</span>
+                                </div>
+                                <div class="flex justify-between items-center text-sm text-slate-500">
+                                    <span>BBO/BAZV/BAVP (7%)</span>
+                                    <span id="res-tax" class="text-red-500 font-medium">+ ƒ 0.00</span>
+                                </div>
+                                <div class="h-px bg-slate-100"></div>
+                                <div class="flex justify-between items-center">
+                                    <span class="font-bold text-slate-900">Total Invoice</span>
+                                    <span id="res-total" class="font-bold text-2xl text-blue-600">ƒ 0.00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-900 text-white p-10 md:p-12 flex flex-col justify-between relative overflow-hidden">
+                            <div class="absolute top-0 right-0 w-64 h-64 bg-blue-600 rounded-full blur-[80px] opacity-20"></div>
+                            
                             <div>
-                                <label class="text-xs font-bold uppercase text-gray-400 ml-1">Amount (AWG)</label>
-                                <input type="number" id="calcInput" class="w-full bg-gray-50 p-4 rounded-xl border border-gray-200 font-bold text-xl outline-none focus:border-brand-accent focus:bg-white transition-all" placeholder="0.00" oninput="updateCalc()">
+                                <h3 class="text-xl font-bold mb-2">Next Deadline</h3>
+                                <p class="text-slate-400 text-sm">Official date for Dimp tax filing.</p>
                             </div>
-                            <div class="bg-brand-primary p-6 rounded-2xl text-white">
-                                <div class="text-sm opacity-75 mb-1">Total Tax (7%)</div>
-                                <div class="text-4xl font-bold">ƒ <span id="calcResult">0.00</span></div>
+
+                            <div class="my-8 text-center">
+                                <div class="text-6xl font-bold tracking-tight mb-2" id="days-left">0</div>
+                                <div class="text-sm font-medium text-blue-400 uppercase tracking-widest">Days Remaining</div>
+                            </div>
+
+                            <div class="bg-white/10 backdrop-blur-md rounded-xl p-4 flex items-center gap-4">
+                                <div class="bg-blue-500 p-2 rounded-lg"><i data-lucide="calendar-clock" class="w-6 h-6"></i></div>
+                                <div>
+                                    <p class="text-sm font-bold" id="deadline-date">...</p>
+                                    <p class="text-xs text-slate-400">Mark your calendar.</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="bg-blue-50 md:w-1/2 p-10 flex flex-col justify-center items-center text-center">
-                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg mb-6 text-brand-accent">
-                            <i data-lucide="calendar" class="w-10 h-10"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-brand-primary">Next Deadline</h3>
-                        <div class="text-4xl font-extrabold text-brand-accent my-2">15th</div>
-                        <p class="text-brand-muted">of this month</p>
-                        <span class="inline-block mt-4 px-3 py-1 bg-red-100 text-red-600 text-xs font-bold rounded-full uppercase">Loonbelasting / BBO</span>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div id="contact" class="page-section">
-            <div class="max-w-3xl mx-auto px-4 lg:px-8 py-12">
-                <div class="text-center mb-10">
-                    <h2 class="text-4xl font-bold text-brand-primary">Get in Touch</h2>
-                </div>
-                <div class="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-2xl border border-gray-100">
-                    <form onsubmit="event.preventDefault(); alert('Message Sent!');" class="space-y-6">
+        <section id="contact" class="view-section">
+            <div class="max-w-2xl mx-auto pt-10">
+                <div class="glass-panel p-8 md:p-12 rounded-[2.5rem] shadow-xl">
+                    <div class="text-center mb-10">
+                        <h2 class="text-3xl font-bold text-slate-900 mb-2">Let's Talk Business</h2>
+                        <p class="text-slate-500">Fill out the form below. We usually reply within 2 hours.</p>
+                    </div>
+
+                    <form onsubmit="handleForm(event)" class="space-y-6">
                         <div class="grid md:grid-cols-2 gap-6">
-                            <div class="space-y-1">
-                                <label class="text-sm font-bold text-brand-primary ml-1">Name</label>
-                                <input type="text" class="w-full bg-gray-50 border border-gray-200 p-4 rounded-xl outline-none focus:border-brand-accent transition-all" placeholder="John Doe">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Your Name</label>
+                                <input type="text" required class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
                             </div>
-                            <div class="space-y-1">
-                                <label class="text-sm font-bold text-brand-primary ml-1">Email</label>
-                                <input type="email" class="w-full bg-gray-50 border border-gray-200 p-4 rounded-xl outline-none focus:border-brand-accent transition-all" placeholder="john@example.com">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Phone Number</label>
+                                <input type="tel" required class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
                             </div>
                         </div>
-                        <div class="space-y-1">
-                            <label class="text-sm font-bold text-brand-primary ml-1">Message</label>
-                            <textarea rows="4" class="w-full bg-gray-50 border border-gray-200 p-4 rounded-xl outline-none focus:border-brand-accent transition-all" placeholder="How can we help?"></textarea>
+                        
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Service Needed</label>
+                            <select class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all text-slate-700">
+                                <option>General Inquiry</option>
+                                <option>Bookkeeping Quote</option>
+                                <option>Tax Help</option>
+                                <option>Payroll Setup</option>
+                            </select>
                         </div>
-                        <button class="w-full bg-brand-primary hover:bg-brand-accent text-white font-bold py-4 rounded-xl shadow-lg transition-all text-lg">Send Message</button>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Message</label>
+                            <textarea rows="4" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-slate-900 text-white font-bold py-4 rounded-xl hover:bg-slate-800 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1">
+                            Send Message
+                        </button>
                     </form>
                 </div>
             </div>
-        </div>
+        </section>
 
     </main>
 
-    <footer class="bg-brand-primary text-white py-12 mt-auto relative z-10">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <p class="opacity-50 text-sm">&copy; 2026 Accounting Croes. All rights reserved.</p>
+    <a href="https://wa.me/2975820000" target="_blank" class="fixed bottom-6 right-6 z-40 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition-all hover:scale-110 hover:shadow-green-500/30 flex items-center justify-center">
+        <i data-lucide="message-circle" class="w-6 h-6"></i>
+    </a>
+
+    <div id="toast" class="fixed top-24 right-6 bg-slate-900 text-white px-6 py-4 rounded-xl shadow-2xl transform translate-x-64 opacity-0 transition-all duration-500 z-50 flex items-center gap-3">
+        <i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i>
+        <div>
+            <h4 class="font-bold text-sm">Success</h4>
+            <p class="text-xs text-slate-300">Changes saved locally.</p>
         </div>
-    </footer>
+    </div>
 
     <script>
-        // --- 1. OPTIMIZED CURSOR (Using requestAnimationFrame) ---
-        const cursorDot = document.querySelector('.cursor-dot');
-        const cursorOutline = document.querySelector('.cursor-outline');
-        let mouseX = 0, mouseY = 0;
-        let cursorX = 0, cursorY = 0;
-
-        window.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            
-            // Instant update for the dot
-            cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
-        });
-
-        // Smooth loop for the outline
-        function animateCursor() {
-            // Linear interpolation for smooth lag effect
-            cursorX += (mouseX - cursorX) * 0.15;
-            cursorY += (mouseY - cursorY) * 0.15;
-            
-            cursorOutline.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`;
-            requestAnimationFrame(animateCursor);
-        }
-        animateCursor();
-
-        // --- 2. OPTIMIZED SCROLLBAR (Passive Listener) ---
-        window.addEventListener('scroll', () => {
-            requestAnimationFrame(() => {
-                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                const scrolled = (window.scrollY / height) * 100;
-                document.getElementById("scrollProgress").style.width = scrolled + "%";
-            });
-        }, { passive: true });
-
-        // --- 3. NAVIGATION LOGIC ---
-        function navTo(e, pageId) {
-            e.preventDefault();
-            
-            // 1. Update Menu State
-            document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+        // --- 1. CORE ROUTER (SPA Feel) ---
+        function router(pageId) {
+            // Update Active State
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
             
-            // 2. Scroll to top instantly (Native feel)
-            window.scrollTo({ top: 0, behavior: 'instant' });
+            // Update Nav State
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            const navBtn = document.getElementById(`nav-${pageId}`);
+            if(navBtn) navBtn.classList.add('active');
+
+            // Close mobile menu if open
+            document.getElementById('mobile-menu').classList.add('hidden');
+            document.getElementById('mobile-menu').classList.remove('flex');
+            
+            // Scroll top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Re-trigger scroll animations
+            initScrollReveal();
         }
 
-        // --- 4. CALCULATOR ---
-        function updateCalc() {
-            const val = parseFloat(document.getElementById('calcInput').value) || 0;
-            document.getElementById('calcResult').innerText = (val * 0.07).toFixed(2);
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                menu.classList.add('flex');
+            } else {
+                menu.classList.add('hidden');
+                menu.classList.remove('flex');
+            }
         }
 
-        // Init
+        // --- 2. CALCULATOR LOGIC (Formatted currency) ---
+        function calculateTax() {
+            const input = document.getElementById('calc-input').value;
+            const val = parseFloat(input) || 0;
+            const tax = val * 0.07;
+            const total = val + tax;
+            
+            document.getElementById('res-sub').innerText = formatCurrency(val);
+            document.getElementById('res-tax').innerText = "+ " + formatCurrency(tax);
+            document.getElementById('res-total').innerText = formatCurrency(total);
+        }
+
+        function formatCurrency(num) {
+            return 'ƒ ' + num.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+        }
+
+        // --- 3. DATE LOGIC (Aruba Deadline) ---
+        function initDates() {
+            const today = new Date();
+            let year = today.getFullYear();
+            let month = today.getMonth();
+            
+            // Aruba deadline is 15th of next month if we passed the 15th
+            let deadline = new Date(year, month, 15);
+            if (today.getDate() > 15) {
+                deadline = new Date(year, month + 1, 15);
+            }
+            
+            // Calculate Diff
+            const diffTime = Math.abs(deadline - today);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+            
+            document.getElementById('days-left').innerText = diffDays;
+            document.getElementById('deadline-date').innerText = deadline.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+        }
+
+        // --- 4. ADMIN MODE (Double Click to Edit) ---
+        let isAdmin = false;
+        function toggleAdmin() {
+            isAdmin = !isAdmin;
+            const editableElements = document.querySelectorAll('.editable');
+            
+            if (isAdmin) {
+                showToast("Admin Mode Active", "Double click any text to edit.");
+                editableElements.forEach(el => {
+                    el.contentEditable = "true";
+                    el.addEventListener('blur', () => {
+                        localStorage.setItem('site-content-' + el.id, el.innerHTML);
+                        showToast("Saved", "Content updated locally.");
+                    });
+                });
+            } else {
+                showToast("Admin Mode Off", "Editing disabled.");
+                editableElements.forEach(el => el.contentEditable = "false");
+            }
+        }
+
+        function loadContent() {
+            document.querySelectorAll('.editable').forEach(el => {
+                const saved = localStorage.getItem('site-content-' + el.id);
+                if (saved) el.innerHTML = saved;
+            });
+        }
+
+        function showToast(title, msg) {
+            const toast = document.getElementById('toast');
+            toast.querySelector('h4').innerText = title;
+            toast.querySelector('p').innerText = msg;
+            toast.classList.remove('translate-x-64', 'opacity-0');
+            setTimeout(() => toast.classList.add('translate-x-64', 'opacity-0'), 3000);
+        }
+
+        function handleForm(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerText;
+            btn.innerText = "Sending...";
+            setTimeout(() => {
+                btn.innerText = "Message Sent!";
+                btn.classList.add('bg-green-600');
+                showToast("Success", "We will contact you shortly.");
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.classList.remove('bg-green-600');
+                    e.target.reset();
+                }, 2000);
+            }, 1500);
+        }
+
+        // --- 5. ANIMATION OBSERVER ---
+        function initScrollReveal() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.glass-panel, h2, p').forEach(el => {
+                el.classList.add('reveal-on-scroll');
+                observer.observe(el);
+            });
+        }
+
+        // --- INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
-            setTimeout(() => document.getElementById('preloader').classList.add('loaded'), 500);
+            initDates();
+            loadContent();
+            
+            // Simulate heavy loading for "premium" feel
+            setTimeout(() => {
+                document.getElementById('preloader').classList.add('opacity-0', 'pointer-events-none');
+                initScrollReveal();
+            }, 800);
+            
+            // Default Route
+            router('home');
         });
     </script>
 </body>
