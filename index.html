@@ -47,23 +47,30 @@
         #service-modal.hidden { pointer-events: none; opacity: 0; }
         #service-modal:not(.hidden) { pointer-events: auto; opacity: 1; }
         html { scroll-behavior: auto; }
+        
         .human-img { transition: transform 0.5s ease; }
         .group:hover .human-img { transform: scale(1.03); }
+        
+        /* Blue Card Styles */
         .blue-card { position: relative; overflow: hidden; border-radius: 1.5rem; transition: all 0.5s ease; border: 1px solid rgba(255,255,255,0.1); }
         .blue-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px -5px rgba(59, 130, 246, 0.3); }
         .blue-card img { transition: transform 0.7s ease; }
         .blue-card:hover img { transform: scale(1.1); }
+        
+        /* Edit Mode Styles */
         .editing-active [data-editable="true"]:hover { outline: 2px dashed #3B82F6; cursor: text; background: rgba(59, 130, 246, 0.1); border-radius: 4px; }
-        .editing-active [data-editable="true"]:focus { outline: 2px solid #3B82F6; background: white; cursor: text; }
+        .editing-active [data-editable="true"]:focus { outline: 2px solid #3B82F6; background: white; cursor: text; color: #000; }
+        
+        .edit-overlay { display: none; }
+        .editing-active .edit-overlay { display: flex; }
+        
+        .add-btn { display: none; }
+        .editing-active .add-btn { display: inline-flex; }
+
+        /* Admin Nav */
         .admin-nav-btn { width: 100%; text-align: left; padding: 12px 16px; border-radius: 12px; color: #64748B; font-weight: 500; transition: all 0.2s; display: flex; align-items: center; gap: 12px; }
         .admin-nav-btn:hover { background: #F1F5F9; color: #1E293B; }
         .admin-nav-btn.active { background: #E0F2FE; color: #0284C7; font-weight: 600; }
-        
-        /* Edit Mode Overlays */
-        .edit-overlay { display: none; }
-        .editing-active .edit-overlay { display: flex; }
-        .add-btn { display: none; }
-        .editing-active .add-btn { display: inline-flex; }
     </style>
 </head>
 <body class="text-slate-800 antialiased selection:bg-blue-100 selection:text-blue-900 flex flex-col min-h-screen">
@@ -184,10 +191,7 @@
             <div id="services-grid" class="grid md:grid-cols-3 gap-8">
                 <div class="blue-card reveal-on-scroll cursor-pointer group h-[450px]" onclick="handleCardClick(this, 'tax')">
                     <div class="absolute top-4 right-4 z-50 edit-overlay"><button onclick="deleteItem(this); event.stopPropagation();" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>
-                    <div class="absolute inset-0 z-0">
-                        <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-30 group-hover:opacity-40">
-                        <div class="absolute inset-0 bg-gradient-to-br from-blue-900/95 via-blue-800/90 to-blue-900/95"></div>
-                    </div>
+                    <div class="absolute inset-0 z-0"><img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-30 group-hover:opacity-40"><div class="absolute inset-0 bg-gradient-to-br from-blue-900/95 via-blue-800/90 to-blue-900/95"></div></div>
                     <div class="relative z-10 p-8 h-full flex flex-col">
                         <div class="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center text-white mb-6 border border-white/20"><i data-lucide="calculator" class="w-7 h-7"></i></div>
                         <h3 class="text-xl font-bold text-white mb-3" data-editable="true">Bookkeeping & Tax</h3>
@@ -197,10 +201,7 @@
                 </div>
                 <div class="blue-card reveal-on-scroll cursor-pointer group h-[450px]" onclick="handleCardClick(this, 'payroll')">
                     <div class="absolute top-4 right-4 z-50 edit-overlay"><button onclick="deleteItem(this); event.stopPropagation();" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>
-                    <div class="absolute inset-0 z-0">
-                        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-30 group-hover:opacity-40">
-                        <div class="absolute inset-0 bg-gradient-to-br from-blue-900/95 via-blue-800/90 to-blue-900/95"></div>
-                    </div>
+                    <div class="absolute inset-0 z-0"><img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-30 group-hover:opacity-40"><div class="absolute inset-0 bg-gradient-to-br from-blue-900/95 via-blue-800/90 to-blue-900/95"></div></div>
                     <div class="relative z-10 p-8 h-full flex flex-col">
                         <div class="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center text-white mb-6 border border-white/20"><i data-lucide="users" class="w-7 h-7"></i></div>
                         <h3 class="text-xl font-bold text-white mb-3" data-editable="true">Payroll & HR</h3>
@@ -210,10 +211,7 @@
                 </div>
                 <div class="blue-card reveal-on-scroll cursor-pointer group h-[450px]" onclick="handleCardClick(this, 'advisory')">
                     <div class="absolute top-4 right-4 z-50 edit-overlay"><button onclick="deleteItem(this); event.stopPropagation();" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>
-                    <div class="absolute inset-0 z-0">
-                        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-30 group-hover:opacity-40">
-                        <div class="absolute inset-0 bg-gradient-to-br from-blue-900/95 via-blue-800/90 to-blue-900/95"></div>
-                    </div>
+                    <div class="absolute inset-0 z-0"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-30 group-hover:opacity-40"><div class="absolute inset-0 bg-gradient-to-br from-blue-900/95 via-blue-800/90 to-blue-900/95"></div></div>
                     <div class="relative z-10 p-8 h-full flex flex-col">
                         <div class="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center text-white mb-6 border border-white/20"><i data-lucide="briefcase" class="w-7 h-7"></i></div>
                         <h3 class="text-xl font-bold text-white mb-3" data-editable="true">Business Advisory</h3>
@@ -384,10 +382,14 @@
     <div id="toast" class="fixed top-24 right-6 bg-slate-900 text-white px-6 py-4 rounded-xl shadow-2xl transform translate-x-64 opacity-0 transition-all duration-500 z-50 flex items-center gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i><div><h4 class="font-bold text-sm">Success</h4><p class="text-xs text-slate-300" id="toast-msg">Operation successful.</p></div></div>
 
     <script>
-        // INIT
+        // CONFIG
         const EMAIL_SERVICE_ID = "service_x7ol38h";   
-        const EMAIL_TEMPLATE_ID = "template_3ajpnak"; 
+        const ADMIN_TEMPLATE_ID = "template_3ajpnak"; // Notification for you (the admin)
         
+        // --- ⚠️ PASTE YOUR CLIENT CONFIRMATION TEMPLATE ID BELOW ⚠️ ---
+        const CONFIRM_TEMPLATE_ID = "PASTE_YOUR_CLIENT_TEMPLATE_ID_HERE"; 
+
+        // INIT
         document.addEventListener('DOMContentLoaded', function() {
             try { if (typeof emailjs !== 'undefined') emailjs.init("8rBFXNPpsM9GIWhRR"); } catch (err) { console.error(err); }
             const today = new Date().toISOString().split('T')[0];
@@ -400,6 +402,7 @@
             loadContent();
         });
 
+        // DATA & LOGIC
         const SERVICES_DATA = {
             tax: { title: "Tax Preparation", img: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80", icon: "calculator", items: ["BBO / BAZV Filing", "Proft Tax Returns", "Income Tax", "Fiscal Advice"], desc: "We ensure 100% compliance with Aruba's Dimp tax laws." },
             payroll: { title: "Payroll Services", img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80", icon: "users", items: ["Payslips", "Wage Tax", "AOV/AZV", "SVB Mutations"], desc: "Complete payroll management. Happy employees get paid on time." },
@@ -408,13 +411,10 @@
 
         function handleCardClick(el, id) {
             if(document.body.classList.contains('editing-active')) return;
-            if (SERVICES_DATA[id]) {
-                openService(id);
-            } else {
+            if (SERVICES_DATA[id]) { openService(id); } else {
                 const title = el.querySelector('h3').innerText;
                 const desc = el.querySelector('p').innerText;
                 const img = el.querySelector('img').src;
-                
                 document.getElementById('modal-title').innerText = title;
                 document.getElementById('modal-desc').innerText = desc;
                 document.getElementById('modal-bg-img').src = img;
@@ -448,6 +448,7 @@
             delete: (id) => { let data = DB.getKey(); data = data.filter(b => b.id !== id); DB.save(data); }
         };
 
+        // BOOKING (CLIENT -> ADMIN)
         function handleBooking(e) {
             e.preventDefault(); 
             const btn = e.target.querySelector('button');
@@ -466,19 +467,63 @@
 
             DB.addBooking(formData);
 
-            if (typeof emailjs !== 'undefined') {
-                emailjs.send(EMAIL_SERVICE_ID, EMAIL_TEMPLATE_ID, { to_name: "Accounting Croes", name: formData.name, email: formData.email, date: formData.date, time: formData.time, service: formData.service, reply_to: formData.email })
-                .then(() => { showToast("Success!", "Booking sent!"); finishBooking(e, btn, originalText); }, () => { alert("Network Error. Booking saved to Dashboard."); finishBooking(e, btn, originalText); });
-            } else { alert("Offline. Booking saved to Dashboard."); finishBooking(e, btn, originalText); }
+            emailjs.send(EMAIL_SERVICE_ID, ADMIN_TEMPLATE_ID, {
+                to_name: "Accounting Croes",
+                name: formData.name,
+                email: formData.email,
+                date: formData.date,
+                time: formData.time,
+                service: formData.service,
+                reply_to: formData.email
+            }).then(
+                () => { showToast("Success!", "Booking request sent!"); finishBooking(e, btn, originalText); },
+                (err) => { console.error(err); alert("Network Error. Request saved locally."); finishBooking(e, btn, originalText); }
+            );
         }
 
         function finishBooking(e, btn, originalText) {
-            e.target.reset();
-            btn.innerText = "Done!";
-            btn.classList.add('bg-green-600');
+            e.target.reset(); btn.innerText = "Done!"; btn.classList.add('bg-green-600');
             setTimeout(() => { btn.innerText = originalText; btn.classList.remove('bg-green-600', 'opacity-75'); btn.disabled = false; router('home'); }, 2000);
         }
 
+        // CONFIRMATION (ADMIN -> CLIENT)
+        function confirmBooking(id) {
+            const bookings = DB.getKey();
+            const booking = bookings.find(b => b.id === id);
+            if (!booking) return;
+
+            // Safety Check
+            if(CONFIRM_TEMPLATE_ID === "PASTE_YOUR_CLIENT_TEMPLATE_ID_HERE") {
+                alert("Error: You haven't added the Client Template ID in the code yet.");
+                return;
+            }
+
+            if(confirm(`Send confirmation email to ${booking.email}?`)) {
+                DB.updateStatus(id, 'Confirmed');
+                renderDashboard();
+
+                const emailParams = {
+                    to_name: booking.name,
+                    to_email: booking.email,      // Used by standard templates
+                    client_email: booking.email,  // Backup variable
+                    reply_to: booking.email,      // Backup variable
+                    service: booking.service,
+                    date: booking.date,
+                    time: booking.time
+                };
+
+                emailjs.send(EMAIL_SERVICE_ID, CONFIRM_TEMPLATE_ID, emailParams)
+                .then(
+                    () => showToast("Success", "Confirmation email sent!"), 
+                    (err) => { console.error("EmailJS Error:", err); alert("Email failed. Check console."); }
+                );
+            }
+        }
+
+        function deleteBooking(id) { if(confirm("Delete?")) { DB.delete(id); renderDashboard(); } }
+        function logout() { toggleEditMode(false); router('home'); }
+
+        // ADMIN & CMS
         function handleLogin() {
             if (document.getElementById('admin-pass').value === 'admin123') { 
                 document.getElementById('admin-pass').value = '';
@@ -500,79 +545,25 @@
             const tbody = document.getElementById('booking-list');
             const pendingCount = document.getElementById('pending-count');
             tbody.innerHTML = '';
-            
             const pending = bookings.filter(b => b.status === 'Pending').length;
             pendingCount.innerText = `${pending} New`;
-            
             if (bookings.length === 0) { document.getElementById('empty-state').classList.remove('hidden'); return; } 
             else { document.getElementById('empty-state').classList.add('hidden'); }
-
             bookings.sort((a, b) => b.id - a.id).forEach(b => {
                 const statusColor = b.status === 'Confirmed' ? 'text-green-600 bg-green-50' : 'text-orange-600 bg-orange-50';
                 tbody.innerHTML += `<tr class="border-b border-slate-100 hover:bg-slate-50"><td class="p-4 font-bold text-slate-800">${b.name}<br><span class="text-xs text-slate-400 font-normal">${b.email}</span></td><td class="p-4 text-slate-600">${b.service}</td><td class="p-4 text-slate-600">${b.date}<br><span class="text-xs">${b.time}</span></td><td class="p-4"><span class="px-2 py-1 rounded text-xs font-bold uppercase ${statusColor}">${b.status}</span></td><td class="p-4 text-right space-x-1">${b.status === 'Pending' ? `<button onclick="confirmBooking(${b.id})" class="text-xs bg-green-100 text-green-700 px-3 py-1 rounded font-bold hover:bg-green-200">Accept</button>` : ''}<button onclick="deleteBooking(${b.id})" class="text-xs bg-red-50 text-red-600 px-3 py-1 rounded font-bold hover:bg-red-100">Delete</button></td></tr>`;
             });
         }
 
-        // --- UPDATED CONFIRM FUNCTION (Robust) ---
-        function confirmBooking(id) {
-            const bookings = DB.getKey();
-            const booking = bookings.find(b => b.id === id);
-            
-            if (!booking) return;
-
-            // 1. Update local status
-            DB.updateStatus(id, 'Confirmed');
-            renderDashboard();
-
-            // 2. Send Confirmation Email
-            // PASTE YOUR NEW "Client Confirmation" TEMPLATE ID BELOW:
-            const CONFIRM_TEMPLATE_ID = "template_kc2lb6b"; 
-
-            if(typeof emailjs !== 'undefined') {
-                // We send the email in 3 variable names to be safe
-                emailjs.send(EMAIL_SERVICE_ID, CONFIRM_TEMPLATE_ID, {
-                    to_name: booking.name,
-                    
-                    // Variable 1: Standard
-                    to_email: booking.email,
-                    
-                    // Variable 2: Standard Reply-To
-                    reply_to: booking.email,
-                    
-                    // Variable 3: Explicit Custom
-                    client_email: booking.email,
-                    
-                    service: booking.service,
-                    date: booking.date,
-                    time: booking.time
-                }).then(
-                    function() {
-                        showToast("Success", "Confirmation email sent!");
-                    },
-                    function(error) {
-                        console.error("Email failed:", error);
-                        showToast("Warning", "Status updated, but email failed.");
-                    }
-                );
-            }
-        }
-
-        function deleteBooking(id) { if(confirm("Delete?")) { DB.delete(id); renderDashboard(); } }
-        function logout() { toggleEditMode(false); router('home'); }
-
-        // CMS
         function toggleEditMode(enable) {
             const elements = document.querySelectorAll('[data-editable="true"]');
             const toolbar = document.getElementById('edit-toolbar');
             if (enable) {
-                document.body.classList.add('editing-active');
-                toolbar.classList.remove('hidden');
-                router('home');
+                document.body.classList.add('editing-active'); toolbar.classList.remove('hidden'); router('home');
                 elements.forEach(el => { el.contentEditable = "true"; });
                 showToast("Edit Mode On", "You can now add/remove cards.");
             } else {
-                document.body.classList.remove('editing-active');
-                toolbar.classList.add('hidden');
+                document.body.classList.remove('editing-active'); toolbar.classList.add('hidden');
                 elements.forEach(el => { el.contentEditable = "false"; });
             }
         }
@@ -580,50 +571,24 @@
         function addItem(type) {
             const grid = document.getElementById(type + '-grid');
             let newItemHTML = '';
-            
             if (type === 'service') {
-                newItemHTML = `
-                <div class="blue-card reveal-on-scroll cursor-pointer group h-[450px]" onclick="handleCardClick(this, 'new')">
-                    <div class="absolute top-4 right-4 z-50 edit-overlay"><button onclick="deleteItem(this); event.stopPropagation();" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>
-                    <div class="absolute inset-0 z-0"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-30 group-hover:opacity-40"><div class="absolute inset-0 bg-gradient-to-br from-blue-900/95 via-blue-800/90 to-blue-900/95"></div></div>
-                    <div class="relative z-10 p-8 h-full flex flex-col">
-                        <div class="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center text-white mb-6 border border-white/20"><i data-lucide="star" class="w-7 h-7"></i></div>
-                        <h3 class="text-xl font-bold text-white mb-3" data-editable="true">New Service Title</h3>
-                        <p class="text-blue-100 leading-relaxed mb-6 opacity-80" data-editable="true">Description of your new service goes here. Click to edit.</p>
-                        <span class="mt-auto text-sm font-bold text-white flex items-center gap-2">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
-                    </div>
-                </div>`;
+                newItemHTML = `<div class="blue-card reveal-on-scroll cursor-pointer group h-[450px]" onclick="handleCardClick(this, 'new')"><div class="absolute top-4 right-4 z-50 edit-overlay"><button onclick="deleteItem(this); event.stopPropagation();" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="absolute inset-0 z-0"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-30 group-hover:opacity-40"><div class="absolute inset-0 bg-gradient-to-br from-blue-900/95 via-blue-800/90 to-blue-900/95"></div></div><div class="relative z-10 p-8 h-full flex flex-col"><div class="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center text-white mb-6 border border-white/20"><i data-lucide="star" class="w-7 h-7"></i></div><h3 class="text-xl font-bold text-white mb-3" data-editable="true">New Service</h3><p class="text-blue-100 leading-relaxed mb-6 opacity-80" data-editable="true">Description goes here.</p><span class="mt-auto text-sm font-bold text-white flex items-center gap-2">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span></div></div>`;
             } else if (type === 'team') {
-                newItemHTML = `
-                <div class="group cursor-pointer relative">
-                    <div class="absolute top-4 right-4 z-50 edit-overlay"><button onclick="deleteItem(this)" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>
-                    <div class="relative overflow-hidden rounded-3xl mb-4 shadow-lg"><img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=800&q=80" class="human-img w-full h-80 object-cover"><div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6"><p class="text-white text-sm font-medium" data-editable="true">"Ready to help."</p></div></div>
-                    <h3 class="text-xl font-bold text-slate-900" data-editable="true">New Member</h3>
-                    <p class="text-blue-600 font-medium text-sm" data-editable="true">Position Title</p>
-                </div>`;
+                newItemHTML = `<div class="group cursor-pointer relative"><div class="absolute top-4 right-4 z-50 edit-overlay"><button onclick="deleteItem(this)" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="relative overflow-hidden rounded-3xl mb-4 shadow-lg"><img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=800&q=80" class="human-img w-full h-80 object-cover"><div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6"><p class="text-white text-sm font-medium" data-editable="true">"Ready to help."</p></div></div><h3 class="text-xl font-bold text-slate-900" data-editable="true">New Member</h3><p class="text-blue-600 font-medium text-sm" data-editable="true">Position</p></div>`;
             }
             grid.insertAdjacentHTML('beforeend', newItemHTML);
             lucide.createIcons();
-            const newElements = grid.lastElementChild.querySelectorAll('[data-editable="true"]');
-            newElements.forEach(el => el.contentEditable = "true");
+            if(document.body.classList.contains('editing-active')) { const newElements = grid.lastElementChild.querySelectorAll('[data-editable="true"]'); newElements.forEach(el => el.contentEditable = "true"); }
         }
 
-        function deleteItem(btn) {
-            if(confirm("Are you sure you want to delete this item?")) {
-                const item = btn.closest('.group') || btn.closest('.blue-card');
-                if(item) item.remove();
-            }
-        }
+        function deleteItem(btn) { if(confirm("Delete item?")) { const item = btn.closest('.group') || btn.closest('.blue-card'); if(item) item.remove(); } }
 
         function saveEdits() {
             const changes = {};
-            document.querySelectorAll('[data-editable="true"]').forEach(el => {
-                if(el.id) { changes[el.id] = el.innerHTML; localStorage.setItem('cms_' + el.id, el.innerHTML); }
-            });
+            document.querySelectorAll('[data-editable="true"]').forEach(el => { if(el.id) { changes[el.id] = el.innerHTML; localStorage.setItem('cms_' + el.id, el.innerHTML); } });
             localStorage.setItem('cms_structure_services', document.getElementById('services-grid').innerHTML);
             localStorage.setItem('cms_structure_team', document.getElementById('team-grid').innerHTML);
-            showToast("Saved!", "Layout and text saved.");
-            document.getElementById('changes-log').innerText = "Last saved: " + new Date().toLocaleTimeString();
+            showToast("Saved!", "Layout saved.");
         }
 
         function loadContent() {
@@ -631,13 +596,11 @@
             if(servicesHTML) document.getElementById('services-grid').innerHTML = servicesHTML;
             const teamHTML = localStorage.getItem('cms_structure_team');
             if(teamHTML) document.getElementById('team-grid').innerHTML = teamHTML;
-            document.querySelectorAll('[data-editable="true"]').forEach(el => {
-                if(el.id) { const saved = localStorage.getItem('cms_' + el.id); if (saved) el.innerHTML = saved; }
-            });
+            document.querySelectorAll('[data-editable="true"]').forEach(el => { if(el.id) { const saved = localStorage.getItem('cms_' + el.id); if (saved) el.innerHTML = saved; } });
             lucide.createIcons();
         }
 
-        function downloadHTML() { alert("In a real app, this would download the updated index.html file."); }
+        function downloadHTML() { alert("In a real app, this would download the file."); }
         function router(pageId) { document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active')); document.getElementById(pageId).classList.add('active'); document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active')); const navBtn = document.getElementById(`nav-${pageId}`); if(navBtn) navBtn.classList.add('active'); document.getElementById('mobile-menu').classList.add('hidden'); if(pageId === 'login') document.getElementById('admin-pass').value = ''; window.scrollTo({ top: 0, behavior: 'instant' }); setTimeout(initScrollReveal, 100); }
         function toggleMobileMenu() { const menu = document.getElementById('mobile-menu'); if (menu.classList.contains('hidden')) { menu.classList.remove('hidden'); menu.classList.add('flex'); } else { menu.classList.add('hidden'); menu.classList.remove('flex'); } }
         function calculateTax() { const val = parseFloat(document.getElementById('calc-input').value) || 0; document.getElementById('res-sub').innerText = 'ƒ ' + val.toFixed(2); document.getElementById('res-tax').innerText = '+ ƒ ' + (val * 0.07).toFixed(2); document.getElementById('res-total').innerText = 'ƒ ' + (val * 1.07).toFixed(2); }
