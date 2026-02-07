@@ -47,12 +47,6 @@
             border-bottom: 1px solid rgba(226, 232, 240, 0.8);
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
-        /* Service Card Specific Glass */
-        .service-card {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-        }
         .mesh-bg {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
             background-color: #F8FAFC; overflow: hidden; transform: translateZ(0);
@@ -72,6 +66,18 @@
         
         .human-img { transition: transform 0.5s ease; }
         .group:hover .human-img { transform: scale(1.03); }
+        
+        /* New Blue Card Styles */
+        .blue-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.5rem;
+            transition: all 0.5s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .blue-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px -5px rgba(59, 130, 246, 0.3); }
+        .blue-card img { transition: transform 0.7s ease; }
+        .blue-card:hover img { transform: scale(1.1); }
     </style>
 </head>
 <body class="text-slate-800 antialiased selection:bg-blue-100 selection:text-blue-900">
@@ -126,10 +132,14 @@
     <div id="service-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4">
         <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeServiceModal()"></div>
         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg relative z-10 overflow-hidden animate-slide-up">
-            <div class="bg-gradient-to-r from-blue-600 to-blue-700 p-8 text-white relative">
-                <button onclick="closeServiceModal()" class="absolute top-4 right-4 text-white/70 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
-                <div id="modal-icon" class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4 backdrop-blur-md"></div>
-                <h3 id="modal-title" class="text-2xl font-bold">Service Title</h3>
+            <div class="relative h-48 overflow-hidden">
+                <img id="modal-bg-img" src="" class="absolute inset-0 w-full h-full object-cover">
+                <div class="absolute inset-0 bg-blue-900/80 backdrop-blur-sm"></div>
+                <div class="absolute inset-0 p-8 text-white flex flex-col justify-end">
+                    <button onclick="closeServiceModal()" class="absolute top-4 right-4 text-white/70 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
+                    <div id="modal-icon" class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4 backdrop-blur-md"></div>
+                    <h3 id="modal-title" class="text-2xl font-bold">Service Title</h3>
+                </div>
             </div>
             <div class="p-8">
                 <p id="modal-desc" class="text-slate-600 leading-relaxed mb-6">Description goes here.</p>
@@ -188,51 +198,48 @@
                 <p class="text-slate-500 text-lg">Click any service to see how we help your business grow.</p>
             </div>
             <div class="grid md:grid-cols-3 gap-8">
-                <div onclick="openService('tax')" class="service-card p-8 rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-500 group cursor-pointer relative overflow-hidden reveal-on-scroll border-t-4 border-t-transparent hover:border-t-blue-500">
+                <div onclick="openService('tax')" class="blue-card reveal-on-scroll cursor-pointer group">
                     <div class="absolute inset-0 z-0">
-                        <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-10 group-hover:opacity-20 group-hover:scale-110 transition-all duration-700">
-                        <div class="absolute inset-0 bg-gradient-to-t from-white via-white/80 to-transparent"></div>
+                        <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-30 group-hover:opacity-40">
+                        <div class="absolute inset-0 bg-gradient-to-br from-blue-900/95 via-blue-800/90 to-blue-900/95"></div>
                     </div>
-                    
-                    <div class="relative z-10">
-                        <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors shadow-sm">
+                    <div class="relative z-10 p-8 h-full flex flex-col">
+                        <div class="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center text-white mb-6 border border-white/20">
                             <i data-lucide="calculator" class="w-7 h-7"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-3">Bookkeeping & Tax</h3>
-                        <p class="text-slate-500 leading-relaxed mb-6 font-medium">We handle the paperwork. You focus on sales. BBO, Profit Tax, and yearly statements.</p>
-                        <span class="text-sm font-bold text-blue-600 flex items-center gap-1 group-hover:gap-2 transition-all bg-white/50 w-fit px-3 py-1 rounded-full">View Details <i data-lucide="chevron-right" class="w-4 h-4"></i></span>
+                        <h3 class="text-xl font-bold text-white mb-3">Bookkeeping & Tax</h3>
+                        <p class="text-blue-100 leading-relaxed mb-6">We handle the paperwork. You focus on sales. BBO, Profit Tax, and yearly statements.</p>
+                        <span class="mt-auto text-sm font-bold text-white flex items-center gap-2 opacity-80 group-hover:opacity-100">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
                     </div>
                 </div>
 
-                <div onclick="openService('payroll')" class="service-card p-8 rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-500 group cursor-pointer relative overflow-hidden reveal-on-scroll border-t-4 border-t-transparent hover:border-t-cyan-500">
+                <div onclick="openService('payroll')" class="blue-card reveal-on-scroll cursor-pointer group">
                     <div class="absolute inset-0 z-0">
-                        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-10 group-hover:opacity-20 group-hover:scale-110 transition-all duration-700">
-                        <div class="absolute inset-0 bg-gradient-to-t from-white via-white/80 to-transparent"></div>
+                        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-30 group-hover:opacity-40">
+                        <div class="absolute inset-0 bg-gradient-to-br from-blue-900/95 via-blue-800/90 to-blue-900/95"></div>
                     </div>
-
-                    <div class="relative z-10">
-                        <div class="w-14 h-14 bg-cyan-50 rounded-2xl flex items-center justify-center text-cyan-600 mb-6 group-hover:bg-cyan-600 group-hover:text-white transition-colors shadow-sm">
+                    <div class="relative z-10 p-8 h-full flex flex-col">
+                        <div class="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center text-white mb-6 border border-white/20">
                             <i data-lucide="users" class="w-7 h-7"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-3">Payroll & HR</h3>
-                        <p class="text-slate-500 leading-relaxed mb-6 font-medium">Happy employees get paid on time. We manage slips, wage tax, and social premiums.</p>
-                        <span class="text-sm font-bold text-cyan-600 flex items-center gap-1 group-hover:gap-2 transition-all bg-white/50 w-fit px-3 py-1 rounded-full">View Details <i data-lucide="chevron-right" class="w-4 h-4"></i></span>
+                        <h3 class="text-xl font-bold text-white mb-3">Payroll & HR</h3>
+                        <p class="text-blue-100 leading-relaxed mb-6">Happy employees get paid on time. We manage slips, wage tax, and social premiums.</p>
+                        <span class="mt-auto text-sm font-bold text-white flex items-center gap-2 opacity-80 group-hover:opacity-100">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
                     </div>
                 </div>
 
-                <div onclick="openService('advisory')" class="service-card p-8 rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-500 group cursor-pointer relative overflow-hidden reveal-on-scroll border-t-4 border-t-transparent hover:border-t-indigo-500">
+                <div onclick="openService('advisory')" class="blue-card reveal-on-scroll cursor-pointer group">
                     <div class="absolute inset-0 z-0">
-                        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-10 group-hover:opacity-20 group-hover:scale-110 transition-all duration-700">
-                        <div class="absolute inset-0 bg-gradient-to-t from-white via-white/80 to-transparent"></div>
+                        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-30 group-hover:opacity-40">
+                        <div class="absolute inset-0 bg-gradient-to-br from-blue-900/95 via-blue-800/90 to-blue-900/95"></div>
                     </div>
-
-                    <div class="relative z-10">
-                        <div class="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-colors shadow-sm">
+                    <div class="relative z-10 p-8 h-full flex flex-col">
+                        <div class="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center text-white mb-6 border border-white/20">
                             <i data-lucide="briefcase" class="w-7 h-7"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-3">Business Advisory</h3>
-                        <p class="text-slate-500 leading-relaxed mb-6 font-medium">Starting up? We guide you through Chamber of Commerce, Dimp, and Bank setup.</p>
-                        <span class="text-sm font-bold text-indigo-600 flex items-center gap-1 group-hover:gap-2 transition-all bg-white/50 w-fit px-3 py-1 rounded-full">View Details <i data-lucide="chevron-right" class="w-4 h-4"></i></span>
+                        <h3 class="text-xl font-bold text-white mb-3">Business Advisory</h3>
+                        <p class="text-blue-100 leading-relaxed mb-6">Starting up? We guide you through Chamber of Commerce, Dimp, and Bank setup.</p>
+                        <span class="mt-auto text-sm font-bold text-white flex items-center gap-2 opacity-80 group-hover:opacity-100">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
                     </div>
                 </div>
             </div>
@@ -402,11 +409,29 @@
             initDates();
         });
 
-        // 2. SERVICE MODAL
+        // 2. SERVICE MODAL & DATA
         const SERVICES_DATA = {
-            tax: { title: "Tax Preparation", icon: "calculator", items: ["BBO / BAZV / BAVP Filing", "Proft Tax Returns", "Personal Income Tax", "Fiscal Advice"], desc: "We ensure 100% compliance with Aruba's tax laws (Dimp). We handle the monthly filing so you never miss a deadline." },
-            payroll: { title: "Payroll Services", icon: "users", items: ["Monthly Payslips", "Wage Tax (Loonbelasting)", "AOV/AZV Premiums", "SVB Mutations"], desc: "Complete payroll management for your staff. We generate digital payslips and handle all social security interactions." },
-            advisory: { title: "Business Advisory", icon: "briefcase", items: ["Chamber of Commerce Setup", "Financial Forecasting", "Audit Support", "Business Strategy"], desc: "Starting a new business? We help you register at the KvK and set up your financial structure correctly from day one." }
+            tax: { 
+                title: "Tax Preparation", 
+                img: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80",
+                icon: "calculator", 
+                items: ["BBO / BAZV / BAVP Filing", "Proft Tax Returns", "Personal Income Tax", "Fiscal Advice"], 
+                desc: "We ensure 100% compliance with Aruba's tax laws (Dimp). We handle the monthly filing so you never miss a deadline." 
+            },
+            payroll: { 
+                title: "Payroll Services", 
+                img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80",
+                icon: "users", 
+                items: ["Monthly Payslips", "Wage Tax (Loonbelasting)", "AOV/AZV Premiums", "SVB Mutations"], 
+                desc: "Complete payroll management for your staff. We generate digital payslips and handle all social security interactions." 
+            },
+            advisory: { 
+                title: "Business Advisory", 
+                img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80",
+                icon: "briefcase", 
+                items: ["Chamber of Commerce Setup", "Financial Forecasting", "Audit Support", "Business Strategy"], 
+                desc: "Starting a new business? We help you register at the KvK and set up your financial structure correctly from day one." 
+            }
         };
 
         function openService(id) {
@@ -414,6 +439,7 @@
             if(!data) return;
             document.getElementById('modal-title').innerText = data.title;
             document.getElementById('modal-desc').innerText = data.desc;
+            document.getElementById('modal-bg-img').src = data.img; // Set header image
             document.getElementById('modal-icon').innerHTML = `<i data-lucide="${data.icon}" class="w-6 h-6 text-white"></i>`;
             document.getElementById('modal-list').innerHTML = data.items.map(i => `<li class="flex items-center gap-2 text-sm text-slate-600"><div class="w-1.5 h-1.5 rounded-full bg-blue-500"></div>${i}</li>`).join('');
             
