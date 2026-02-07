@@ -47,21 +47,30 @@
         #service-modal.hidden { pointer-events: none; opacity: 0; }
         #service-modal:not(.hidden) { pointer-events: auto; opacity: 1; }
         html { scroll-behavior: auto; }
+        
         .human-img { transition: transform 0.5s ease; }
         .group:hover .human-img { transform: scale(1.03); }
+        
+        /* Blue Card Styles */
         .blue-card { position: relative; overflow: hidden; border-radius: 1.5rem; transition: all 0.5s ease; border: 1px solid rgba(255,255,255,0.1); }
         .blue-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px -5px rgba(59, 130, 246, 0.3); }
         .blue-card img { transition: transform 0.7s ease; }
         .blue-card:hover img { transform: scale(1.1); }
+        
+        /* Edit Mode Styles */
         .editing-active [data-editable="true"]:hover { outline: 2px dashed #3B82F6; cursor: text; background: rgba(59, 130, 246, 0.1); border-radius: 4px; }
-        .editing-active [data-editable="true"]:focus { outline: 2px solid #3B82F6; background: white; cursor: text; }
+        .editing-active [data-editable="true"]:focus { outline: 2px solid #3B82F6; background: white; cursor: text; color: #000; }
+        
+        .edit-overlay { display: none; }
+        .editing-active .edit-overlay { display: flex; }
+        
+        .add-btn { display: none; }
+        .editing-active .add-btn { display: inline-flex; }
+
+        /* Admin Nav */
         .admin-nav-btn { width: 100%; text-align: left; padding: 12px 16px; border-radius: 12px; color: #64748B; font-weight: 500; transition: all 0.2s; display: flex; align-items: center; gap: 12px; }
         .admin-nav-btn:hover { background: #F1F5F9; color: #1E293B; }
         .admin-nav-btn.active { background: #E0F2FE; color: #0284C7; font-weight: 600; }
-        .edit-overlay { display: none; }
-        .editing-active .edit-overlay { display: flex; }
-        .add-btn { display: none; }
-        .editing-active .add-btn { display: inline-flex; }
     </style>
 </head>
 <body class="text-slate-800 antialiased selection:bg-blue-100 selection:text-blue-900 flex flex-col min-h-screen">
@@ -88,15 +97,8 @@
 
     <nav class="fixed top-0 w-full z-50 glass-panel">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <a href="#home" onclick="router('home')" class="flex items-center gap-3 group cursor-pointer">
-                    <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-800 text-white rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30 group-hover:scale-105 transition-transform">
-                        <span class="font-bold text-xl">A</span>
-                    </div>
-                    <div>
-                        <h1 class="font-bold text-lg leading-none text-slate-900">Accounting Croes</h1>
-                        <p class="text-[10px] text-slate-500 font-medium tracking-wider uppercase mt-1">Est. 2003 • Aruba</p>
-                    </div>
+            <div class="flex justify-between items-center h-24"> <a href="#home" onclick="router('home')" class="flex items-center gap-3 group cursor-pointer">
+                    <img src="logo.png" alt="Accounting Croes" class="h-14 w-auto object-contain group-hover:scale-105 transition-transform duration-300">
                 </a>
                 <div class="hidden md:flex items-center gap-8">
                     <button onclick="router('home')" class="nav-item text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors active" id="nav-home">Home</button>
@@ -109,7 +111,7 @@
                 <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-slate-600"><i data-lucide="menu" class="w-6 h-6"></i></button>
             </div>
         </div>
-        <div id="mobile-menu" class="hidden absolute top-20 left-0 w-full bg-white border-b border-gray-100 shadow-xl p-4 flex-col gap-2 md:hidden">
+        <div id="mobile-menu" class="hidden absolute top-24 left-0 w-full bg-white border-b border-gray-100 shadow-xl p-4 flex-col gap-2 md:hidden">
             <button onclick="router('home')" class="w-full text-left p-3 rounded-lg hover:bg-gray-50 font-medium">Home</button>
             <button onclick="router('services')" class="w-full text-left p-3 rounded-lg hover:bg-gray-50 font-medium">Services</button>
             <button onclick="router('team')" class="w-full text-left p-3 rounded-lg hover:bg-gray-50 font-medium">Team</button>
@@ -470,7 +472,7 @@
 
             DB.addBooking(formData);
 
-            emailjs.send(EMAIL_SERVICE_ID, EMAIL_TEMPLATE_ID, {
+            emailjs.send(EMAIL_SERVICE_ID, ADMIN_TEMPLATE_ID, {
                 to_name: "Accounting Croes",
                 name: formData.name,
                 email: formData.email,
