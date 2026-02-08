@@ -5,17 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>Accounting Croes | Aruba's Premier Financial Firm</title>
-    <meta name="description" content="Expert tax preparation, payroll services, and business advisory in Aruba. Trusted by local businesses since 2003.">
-    <meta property="og:title" content="Accounting Croes | Real People. Real Results.">
-    <meta property="og:description" content="Aruba's dedicated family firm for Tax, Payroll, and Advisory.">
+    <meta name="description" content="Expert tax preparation, payroll services, and business advisory in Aruba.">
     <meta property="og:image" content="https://croesaccounting.com/logo.png">
-    <meta property="og:url" content="https://croesaccounting.com">
     <link rel="icon" href="logo.png" type="image/png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
@@ -26,31 +22,17 @@
                 extend: {
                     fontFamily: { sans: ['Manrope', 'sans-serif'] },
                     colors: {
-                        // EXACT BRAND COLORS
-                        brand: { 
-                            navy: '#0C3B53',   // Primary Dark
-                            teal: '#23869D',   // Primary Light
-                            accent: '#4FD1C5', // Highlight
-                            surface: '#F8FAFC', // Background
-                            glass: 'rgba(255, 255, 255, 0.7)'
-                        }
+                        brand: { navy: '#0C3B53', teal: '#23869D', accent: '#4FD1C5', surface: '#F0F4F8' }
                     },
                     animation: {
-                        'aurora': 'aurora 20s infinite',
-                        'slide-up': 'slideUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-                        'shimmer': 'shimmer 4s linear infinite',
-                        'float': 'float 6s ease-in-out infinite',
+                        'blob': 'blob 20s infinite',
+                        'slide-up': 'slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'shimmer': 'shimmer 3s linear infinite',
                     },
                     keyframes: {
-                        aurora: { 
-                            '0%': { transform: 'translate(0px, 0px) scale(1)' }, 
-                            '33%': { transform: 'translate(30px, -50px) scale(1.2)' }, 
-                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' }, 
-                            '100%': { transform: 'translate(0px, 0px) scale(1)' } 
-                        },
-                        slideUp: { from: { opacity: '0', transform: 'translateY(40px)' }, to: { opacity: '1', transform: 'translateY(0)' } },
-                        shimmer: { from: { backgroundPosition: '0 0' }, to: { backgroundPosition: '-200% 0' } },
-                        float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-20px)' } }
+                        blob: { '0%': { transform: 'translate(0px, 0px) scale(1)' }, '33%': { transform: 'translate(30px, -50px) scale(1.1)' }, '66%': { transform: 'translate(-20px, 20px) scale(0.9)' }, '100%': { transform: 'translate(0px, 0px) scale(1)' } },
+                        slideUp: { from: { opacity: '0', transform: 'translateY(30px)' }, to: { opacity: '1', transform: 'translateY(0)' } },
+                        shimmer: { from: { backgroundPosition: '0 0' }, to: { backgroundPosition: '-200% 0' } }
                     }
                 }
             }
@@ -58,106 +40,56 @@
     </script>
 
     <style>
-        /* --- MASTER CLASS CSS --- */
-        
-        /* 1. Luxurious Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #F8FAFC; }
-        ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 99px; }
+        /* --- CORE STYLES --- */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #F0F4F8; }
+        ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 5px; border: 2px solid #F0F4F8; }
         ::-webkit-scrollbar-thumb:hover { background: #23869D; }
 
-        /* 2. Frosted Glass Navigation */
-        .glass-panel { 
-            background: rgba(255, 255, 255, 0.85); 
-            backdrop-filter: blur(16px); 
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.5); 
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02); 
-        }
-
-        /* 3. Text Gradient (Liquid Metal Effect) */
-        .text-shimmer { 
-            background: linear-gradient(to right, #0C3B53 20%, #23869D 40%, #4FD1C5 50%, #23869D 60%, #0C3B53 80%); 
-            background-size: 200% auto; 
-            color: #000; 
-            background-clip: text; 
-            text-fill-color: transparent; 
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent; 
-            animation: shimmer 5s linear infinite; 
-        }
-
-        /* 4. Primary Button (The "Click Me" Glow) */
-        .btn-primary { 
-            background: #0C3B53; 
-            color: white; 
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: 0.5s;
-        }
-        .btn-primary:hover::before { left: 100%; }
-        .btn-primary:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 20px 40px -10px rgba(12, 59, 83, 0.4); 
-        }
-
-        /* 5. Card Grid System (Impossible to Overlap) */
-        .brand-card { 
-            position: relative; 
-            overflow: hidden; 
-            border-radius: 1.5rem; 
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); 
-            background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            border: 1px solid rgba(0,0,0,0.03);
-            
-            /* CSS GRID FIX: Row 1 = Flexible space, Row 2 = Content */
-            display: grid;
-            grid-template-rows: 1fr auto; 
-            height: 520px; /* Taller for elegance */
-        }
-        .brand-card:hover { 
-            transform: translateY(-8px); 
-            box-shadow: 0 30px 60px -15px rgba(12, 59, 83, 0.2); 
-            border-color: rgba(35, 134, 157, 0.2);
-        }
-        .brand-card img { transition: transform 1.2s ease; }
-        .brand-card:hover img { transform: scale(1.1); }
-        .card-overlay { 
-            background: linear-gradient(to top, rgba(12, 59, 83, 0.98) 10%, rgba(12, 59, 83, 0.7) 50%, rgba(12, 59, 83, 0.1) 100%); 
-        }
-
-        /* Utils */
-        .reveal-on-scroll { opacity: 0; transform: translateY(40px); transition: all 1s cubic-bezier(0.16, 1, 0.3, 1); }
+        .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(12, 59, 83, 0.08); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03); }
+        .mesh-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background-color: #F8FAFC; overflow: hidden; transform: translateZ(0); }
+        .mesh-blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4; animation: blob 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        .reveal-on-scroll { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
         .reveal-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
-        .view-section { display: none; animation: slideUp 0.8s forwards; }
+        .view-section { display: none; animation: slideUp 0.6s ease forwards; }
         .view-section.active { display: block; }
         #service-modal { transition: opacity 0.3s ease; }
         #service-modal.hidden { pointer-events: none; opacity: 0; }
         #service-modal:not(.hidden) { pointer-events: auto; opacity: 1; }
         
-        /* Hidden Admin Tools */
-        .editing-active [data-editable="true"]:hover { outline: 2px dashed #23869D; cursor: text; background: rgba(35, 134, 157, 0.05); border-radius: 4px; }
-        .edit-overlay, .add-btn { display: none; }
-        .editing-active .edit-overlay, .editing-active .add-btn { display: inline-flex; }
-        
-        /* Dynamic Add Button Styling */
-        .add-btn { 
-            background: #23869D; color: white; padding: 12px 24px; border-radius: 99px; font-weight: 600; 
-            margin: 30px auto 0; transition: all 0.2s; display: flex; align-items: center; gap: 8px; 
-            box-shadow: 0 10px 20px rgba(35, 134, 157, 0.3);
+        .text-shimmer { background: linear-gradient(to right, #0C3B53 20%, #23869D 40%, #23869D 60%, #0C3B53 80%); background-size: 200% auto; color: #000; background-clip: text; text-fill-color: transparent; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shimmer 4s linear infinite; }
+        .btn-primary { background: #0C3B53; color: white; transition: all 0.4s ease; border: 1px solid rgba(255,255,255,0.1); }
+        .btn-primary:hover { background: #0F4C6A; transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(35, 134, 157, 0.4); }
+
+        /* --- CARD LAYOUT (Fixed for Mobile & Desktop) --- */
+        .brand-card { 
+            position: relative; 
+            overflow: hidden; 
+            border-radius: 1.5rem; 
+            transition: all 0.5s ease; 
+            background: white;
+            box-shadow: 0 10px 30px -10px rgba(12, 59, 83, 0.1);
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; /* Ensures spacing */
+            height: 500px;
         }
+        .brand-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgba(12, 59, 83, 0.25); }
+        .brand-card img { transition: transform 0.8s ease; }
+        .brand-card:hover img { transform: scale(1.08); }
+        .card-overlay { background: linear-gradient(to top, rgba(12, 59, 83, 0.95) 20%, rgba(12, 59, 83, 0.6) 60%, rgba(12, 59, 83, 0.1) 100%); }
+
+        /* Admin & Edit */
+        .editing-active [data-editable="true"]:hover { outline: 2px dashed #23869D; cursor: text; background: rgba(35, 134, 157, 0.1); }
+        .edit-overlay { display: none; }
+        .editing-active .edit-overlay { display: inline-flex; }
+        
+        /* Dynamic Button Style */
+        .add-btn { background: #23869D; color: white; padding: 12px 24px; border-radius: 99px; font-weight: bold; margin: 30px auto; transition: transform 0.2s; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(35, 134, 157, 0.3); }
         .add-btn:hover { transform: scale(1.05); background: #0C3B53; }
 
-        .admin-nav-btn { width: 100%; text-align: left; padding: 14px 20px; border-radius: 12px; color: #64748B; font-weight: 600; transition: all 0.2s; display: flex; align-items: center; gap: 12px; }
+        .admin-nav-btn { width: 100%; text-align: left; padding: 12px 16px; border-radius: 12px; color: #64748B; font-weight: 600; transition: all 0.2s; display: flex; align-items: center; gap: 12px; }
         .admin-nav-btn:hover { background: #F0F9FF; color: #0C3B53; }
         .admin-nav-btn.active { background: #E0F2FE; color: #0C3B53; }
     </style>
@@ -165,120 +97,115 @@
 <body class="text-slate-600 antialiased selection:bg-brand-teal selection:text-white flex flex-col min-h-screen">
 
     <div class="mesh-bg">
-        <div class="mesh-blob bg-blue-100 w-[800px] h-[800px] -top-20 -left-20 mix-blend-multiply opacity-40 animate-aurora"></div>
-        <div class="mesh-blob bg-teal-100 w-[600px] h-[600px] top-40 -right-20 mix-blend-multiply opacity-40 animate-aurora" style="animation-delay: 2s"></div>
-        <div class="mesh-blob bg-indigo-50 w-[800px] h-[800px] -bottom-40 left-1/2 mix-blend-multiply opacity-40 animate-aurora" style="animation-delay: 4s"></div>
+        <div class="mesh-blob bg-blue-100 w-96 h-96 top-0 left-0 mix-blend-multiply opacity-50"></div>
+        <div class="mesh-blob bg-teal-100 w-96 h-96 top-0 right-0 mix-blend-multiply opacity-50" style="animation-delay: 2s"></div>
+        <div class="mesh-blob bg-slate-200 w-96 h-96 -bottom-32 left-20 mix-blend-multiply opacity-50" style="animation-delay: 4s"></div>
     </div>
 
-    <div id="edit-toolbar" class="fixed top-36 left-1/2 -translate-x-1/2 z-[60] bg-brand-navy/90 text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-4 hidden transition-transform duration-300 border border-white/10 backdrop-blur-xl">
+    <div id="edit-toolbar" class="fixed top-28 left-1/2 -translate-x-1/2 z-[60] bg-brand-navy text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-4 hidden transition-transform duration-300 border border-white/10 backdrop-blur-md">
         <div class="w-3 h-3 bg-brand-accent rounded-full animate-pulse"></div>
-        <span class="font-bold text-sm tracking-wide">CMS ACTIVE</span>
-        <button onclick="saveEdits()" class="bg-brand-teal hover:bg-brand-accent text-white px-5 py-1.5 rounded-full text-xs font-bold transition-colors shadow-lg">SAVE CHANGES</button>
+        <span class="font-bold text-sm">Editor Active</span>
+        <button onclick="saveEdits()" class="bg-brand-teal hover:bg-brand-accent text-white px-4 py-1.5 rounded-full text-xs font-bold transition-colors">Save</button>
         <button onclick="toggleEditMode(false)" class="hover:text-slate-300"><i data-lucide="x" class="w-4 h-4"></i></button>
     </div>
 
     <div id="preloader" class="fixed inset-0 bg-white z-[100] flex items-center justify-center transition-opacity duration-700">
         <div class="text-center">
-            <div class="w-20 h-20 border-4 border-slate-100 border-t-brand-navy rounded-full animate-spin mx-auto mb-6"></div>
-            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes</p>
+            <div class="w-16 h-16 border-4 border-slate-100 border-t-brand-navy rounded-full animate-spin mx-auto mb-4"></div>
+            <p class="text-sm font-bold text-brand-navy tracking-widest uppercase">Accounting Croes</p>
         </div>
     </div>
 
     <nav class="fixed top-0 w-full z-50 glass-panel transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-6 sm:px-8">
-            <div class="flex justify-between items-center h-24 md:h-32"> 
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20 md:h-28"> 
                 <a href="#home" onclick="router('home')" class="flex items-center gap-3 group cursor-pointer">
-                    <img src="logo.png" alt="Accounting Croes" class="h-16 md:h-24 w-auto object-contain transition-transform duration-500 group-hover:scale-105 drop-shadow-sm">
+                    <img src="logo.png" alt="Accounting Croes" class="h-12 md:h-20 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
                 </a>
-                
-                <div class="hidden md:flex items-center gap-12">
-                    <button onclick="router('home')" class="nav-item text-sm font-bold text-slate-500 hover:text-brand-navy transition-colors tracking-wide active" id="nav-home">Home</button>
-                    <button onclick="router('services')" class="nav-item text-sm font-bold text-slate-500 hover:text-brand-navy transition-colors tracking-wide" id="nav-services">Services</button>
-                    <button onclick="router('team')" class="nav-item text-sm font-bold text-slate-500 hover:text-brand-navy transition-colors tracking-wide" id="nav-team">Team</button>
+                <div class="hidden md:flex items-center gap-10">
+                    <button onclick="router('home')" class="nav-item text-sm font-bold text-slate-500 hover:text-brand-navy transition-colors active" id="nav-home">Home</button>
+                    <button onclick="router('services')" class="nav-item text-sm font-bold text-slate-500 hover:text-brand-navy transition-colors" id="nav-services">Services</button>
+                    <button onclick="router('team')" class="nav-item text-sm font-bold text-slate-500 hover:text-brand-navy transition-colors" id="nav-team">Team</button>
                 </div>
-                <div class="hidden md:flex items-center gap-4">
-                    <button onclick="router('contact')" class="btn-primary px-8 py-3 text-sm font-bold rounded-full shadow-lg shadow-brand-navy/20 flex items-center gap-2 tracking-wide">
-                        Book Appointment
-                    </button>
+                <div class="hidden md:flex items-center gap-3">
+                    <button onclick="router('contact')" class="btn-primary px-6 py-3 text-sm font-bold rounded-xl shadow-lg flex items-center gap-2">Book Appointment</button>
                 </div>
-                
-                <button onclick="toggleMobileMenu()" class="md:hidden p-3 text-brand-navy hover:bg-slate-100 rounded-full transition-colors"><i data-lucide="menu" class="w-8 h-8"></i></button>
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-brand-navy"><i data-lucide="menu" class="w-8 h-8"></i></button>
             </div>
         </div>
-        
-        <div id="mobile-menu" class="hidden absolute top-24 md:top-32 left-0 w-full bg-white/95 backdrop-blur-xl border-b border-gray-100 shadow-2xl">
-            <div class="p-6 flex flex-col gap-2">
-                <button onclick="router('home')" class="w-full text-left p-4 rounded-2xl hover:bg-slate-50 font-bold text-brand-navy text-xl transition-colors">Home</button>
-                <button onclick="router('services')" class="w-full text-left p-4 rounded-2xl hover:bg-slate-50 font-bold text-brand-navy text-xl transition-colors">Services</button>
-                <button onclick="router('team')" class="w-full text-left p-4 rounded-2xl hover:bg-slate-50 font-bold text-brand-navy text-xl transition-colors">Team</button>
-                <button onclick="router('contact')" class="w-full text-left p-4 rounded-2xl bg-brand-navy text-white font-bold text-xl shadow-lg mt-4 flex items-center justify-between">Book Now <i data-lucide="arrow-right" class="w-5 h-5"></i></button>
+        <div id="mobile-menu" class="hidden absolute top-20 left-0 w-full bg-white border-b border-gray-100 shadow-xl">
+            <div class="p-4 flex flex-col gap-1">
+                <button onclick="router('home')" class="w-full text-left p-4 rounded-xl hover:bg-slate-50 font-bold text-brand-navy text-lg">Home</button>
+                <button onclick="router('services')" class="w-full text-left p-4 rounded-xl hover:bg-slate-50 font-bold text-brand-navy text-lg">Services</button>
+                <button onclick="router('team')" class="w-full text-left p-4 rounded-xl hover:bg-slate-50 font-bold text-brand-navy text-lg">Team</button>
+                <button onclick="router('contact')" class="w-full text-left p-4 rounded-xl bg-brand-navy text-white font-bold text-lg shadow-md mt-2">Book Now</button>
             </div>
         </div>
     </nav>
 
     <div id="service-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-brand-navy/80 backdrop-blur-sm transition-opacity duration-500" onclick="closeServiceModal()"></div>
-        <div class="bg-white rounded-[2rem] shadow-2xl w-full max-w-lg relative z-10 overflow-hidden animate-slide-up ring-1 ring-white/20">
-            <div class="relative h-64 overflow-hidden bg-brand-navy">
-                <img id="modal-bg-img" src="" class="absolute inset-0 w-full h-full object-cover opacity-40 scale-105">
-                <div class="absolute inset-0 bg-gradient-to-t from-brand-navy via-brand-navy/50 to-transparent"></div>
-                <div class="absolute inset-0 p-10 text-white flex flex-col justify-end">
-                    <button onclick="closeServiceModal()" class="absolute top-6 right-6 text-white/70 hover:text-white bg-black/20 p-2 rounded-full backdrop-blur-md transition-colors"><i data-lucide="x" class="w-6 h-6"></i></button>
-                    <div id="modal-icon" class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mb-6 backdrop-blur-md border border-white/20 shadow-xl"></div>
-                    <h3 id="modal-title" class="text-3xl font-bold tracking-tight leading-none">Service Title</h3>
+        <div class="absolute inset-0 bg-brand-navy/80 backdrop-blur-sm transition-opacity" onclick="closeServiceModal()"></div>
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg relative z-10 overflow-hidden animate-slide-up">
+            <div class="relative h-60 overflow-hidden bg-brand-navy">
+                <img id="modal-bg-img" src="" class="absolute inset-0 w-full h-full object-cover opacity-40">
+                <div class="absolute inset-0 bg-gradient-to-t from-brand-navy via-brand-navy/60 to-transparent"></div>
+                <div class="absolute inset-0 p-8 text-white flex flex-col justify-end">
+                    <button onclick="closeServiceModal()" class="absolute top-4 right-4 text-white/70 hover:text-white bg-black/20 p-2 rounded-full backdrop-blur-md"><i data-lucide="x" class="w-5 h-5"></i></button>
+                    <div id="modal-icon" class="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center mb-4 backdrop-blur-md border border-white/20 shadow-lg"></div>
+                    <h3 id="modal-title" class="text-3xl font-bold tracking-tight">Service Title</h3>
                 </div>
             </div>
             <div class="p-10">
-                <p id="modal-desc" class="text-slate-600 leading-relaxed mb-10 text-lg font-medium">Description goes here.</p>
-                <div class="space-y-6 mb-10">
-                    <h4 class="text-xs font-extrabold text-brand-teal uppercase tracking-widest">What's Included:</h4>
-                    <ul id="modal-list" class="space-y-4"></ul>
+                <p id="modal-desc" class="text-slate-600 leading-relaxed mb-8 text-lg font-medium">Description goes here.</p>
+                <div class="space-y-4 mb-10">
+                    <h4 class="text-xs font-bold text-brand-teal uppercase tracking-widest">What's Included:</h4>
+                    <ul id="modal-list" class="space-y-3"></ul>
                 </div>
-                <button id="modal-btn" class="w-full py-5 btn-primary font-bold rounded-2xl flex items-center justify-center gap-3 text-lg shadow-xl">
+                <button id="modal-btn" class="w-full py-4 btn-primary font-bold rounded-xl flex items-center justify-center gap-2 text-lg shadow-xl">
                     Book This Service <i data-lucide="arrow-right" class="w-5 h-5"></i>
                 </button>
             </div>
         </div>
     </div>
 
-    <main class="flex-grow pt-40 pb-32 px-4 sm:px-6 relative z-10 max-w-7xl mx-auto w-full">
+    <main class="flex-grow pt-32 pb-20 px-4 sm:px-6 relative z-10 max-w-7xl mx-auto w-full">
 
         <section id="home" class="view-section active">
-            <div class="grid lg:grid-cols-2 gap-20 items-center py-10 lg:py-24">
+            <div class="grid lg:grid-cols-2 gap-16 items-center py-10 lg:py-20">
                 <div class="order-2 lg:order-1">
-                    <div class="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white border border-slate-100 text-brand-navy text-xs font-extrabold uppercase tracking-widest mb-10 reveal-on-scroll shadow-sm hover:shadow-md transition-shadow cursor-default">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 text-brand-navy text-xs font-bold uppercase tracking-widest mb-8 reveal-on-scroll shadow-sm">
                         <span class="w-2 h-2 rounded-full bg-brand-teal animate-pulse"></span> Meet Your New Partner
                     </div>
-                    <h1 class="text-6xl lg:text-8xl font-extrabold tracking-tight text-brand-navy mb-10 leading-[1.05] reveal-on-scroll" data-editable="true" id="home-title">
+                    <h1 class="text-6xl lg:text-8xl font-extrabold tracking-tight text-brand-navy mb-8 leading-[1.05] reveal-on-scroll" data-editable="true" id="home-title">
                         Real People. <br>
                         <span class="text-shimmer">Real Results.</span>
                     </h1>
-                    <p class="text-xl lg:text-2xl text-slate-500 mb-12 leading-relaxed max-w-lg reveal-on-scroll font-medium" data-editable="true" id="home-sub">
+                    <p class="text-xl text-slate-500 mb-10 leading-relaxed max-w-lg reveal-on-scroll font-medium" data-editable="true" id="home-sub">
                         Don't trust your finances to a faceless corporation. We are Aruba's dedicated family firm, here to shake your hand and solve your problems.
                     </p>
-                    <div class="flex flex-wrap gap-5 reveal-on-scroll">
-                        <button onclick="router('contact')" class="btn-primary px-10 py-5 font-bold rounded-full shadow-2xl flex items-center gap-3 text-lg">
+                    <div class="flex flex-wrap gap-4 reveal-on-scroll">
+                        <button onclick="router('contact')" class="btn-primary px-8 py-4 font-bold rounded-2xl shadow-xl flex items-center gap-2">
                             Meet Us <i data-lucide="arrow-right" class="w-5 h-5"></i>
                         </button>
-                        <button onclick="router('team')" class="px-10 py-5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-bold rounded-full transition-all shadow-sm hover:shadow-md text-lg">
+                        <button onclick="router('team')" class="px-8 py-4 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-bold rounded-2xl transition-all shadow-sm hover:shadow-md">
                             View Team
                         </button>
                     </div>
                 </div>
                 <div class="order-1 lg:order-2 relative reveal-on-scroll group">
-                    <div class="absolute inset-0 bg-gradient-to-tr from-brand-navy/30 to-brand-teal/30 rounded-[3rem] rotate-3 blur-3xl transform translate-y-6 opacity-60 group-hover:opacity-100 transition-opacity duration-1000 animate-float"></div>
-                    <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Accounting Team" class="relative rounded-[3rem] shadow-2xl border-[8px] border-white w-full object-cover h-[650px] transition-transform duration-1000 group-hover:scale-[1.02]">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-brand-navy/20 to-brand-teal/20 rounded-[3rem] rotate-3 blur-3xl transform translate-y-4 opacity-70 group-hover:opacity-100 transition-opacity duration-700"></div>
+                    <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Accounting Team" class="relative rounded-[3rem] shadow-2xl border-[6px] border-white w-full object-cover h-[600px] transition-transform duration-700 group-hover:scale-[1.01]">
                 </div>
             </div>
         </section>
 
         <section id="services" class="view-section">
-            <div class="text-center max-w-3xl mx-auto mb-24 pt-10 reveal-on-scroll" id="services-header">
-                <h2 class="text-5xl font-extrabold text-brand-navy mb-6 tracking-tight" data-editable="true" id="svc-title">What We Do For You</h2>
-                <p class="text-slate-500 text-xl font-medium" data-editable="true" id="svc-sub">Click any service to see how we help your business grow.</p>
+            <div class="text-center max-w-3xl mx-auto mb-20 pt-10 reveal-on-scroll" id="services-header">
+                <h2 class="text-4xl font-extrabold text-brand-navy mb-4" data-editable="true" id="svc-title">What We Do For You</h2>
+                <p class="text-slate-500 text-xl" data-editable="true" id="svc-sub">Click any service to see how we help your business grow.</p>
                 </div>
             
-            <div id="services-grid" class="grid md:grid-cols-3 gap-10">
+            <div id="services-grid" class="grid md:grid-cols-3 gap-8">
                 <div class="brand-card reveal-on-scroll cursor-pointer group" onclick="handleCardClick(this, 'tax')">
                     <div class="absolute top-4 right-4 z-50 edit-overlay"><button onclick="deleteItem(this); event.stopPropagation();" class="bg-red-500 text-white p-3 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>
                     <div class="absolute inset-0 z-0">
@@ -286,12 +213,12 @@
                         <div class="absolute inset-0 card-overlay"></div>
                     </div>
                     <div class="relative z-10 p-10 flex items-start">
-                        <div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/30 shadow-xl"><i data-lucide="calculator" class="w-8 h-8"></i></div>
+                        <div class="w-14 h-14 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/30 shadow-lg"><i data-lucide="calculator" class="w-7 h-7"></i></div>
                     </div>
                     <div class="relative z-10 p-10 pt-0 flex flex-col justify-end">
-                        <h3 class="text-3xl font-bold text-white mb-4 leading-tight" data-editable="true">Bookkeeping & Tax</h3>
-                        <p class="text-slate-200 leading-relaxed mb-8 font-medium line-clamp-3 text-lg" data-editable="true">We handle the paperwork. You focus on sales. BBO, Profit Tax, and yearly statements.</p>
-                        <span class="inline-flex items-center gap-3 bg-brand-navy/90 px-6 py-4 rounded-full backdrop-blur-md border border-white/10 text-sm font-bold text-brand-accent group-hover:bg-brand-teal group-hover:text-white transition-all shadow-xl w-fit">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                        <h3 class="text-2xl font-bold text-white mb-3" data-editable="true">Bookkeeping & Tax</h3>
+                        <p class="text-slate-200 leading-relaxed mb-8 font-medium line-clamp-3" data-editable="true">We handle the paperwork. You focus on sales. BBO, Profit Tax, and yearly statements.</p>
+                        <span class="inline-flex items-center gap-2 bg-brand-navy/80 px-5 py-3 rounded-full backdrop-blur-md border border-white/10 text-sm font-bold text-brand-accent group-hover:bg-brand-teal group-hover:text-white transition-all shadow-lg w-fit">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
                     </div>
                 </div>
 
@@ -302,12 +229,12 @@
                         <div class="absolute inset-0 card-overlay"></div>
                     </div>
                     <div class="relative z-10 p-10 flex items-start">
-                        <div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/30 shadow-xl"><i data-lucide="users" class="w-8 h-8"></i></div>
+                        <div class="w-14 h-14 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/30 shadow-lg"><i data-lucide="users" class="w-7 h-7"></i></div>
                     </div>
                     <div class="relative z-10 p-10 pt-0 flex flex-col justify-end">
-                        <h3 class="text-3xl font-bold text-white mb-4 leading-tight" data-editable="true">Payroll & HR</h3>
-                        <p class="text-slate-200 leading-relaxed mb-8 font-medium line-clamp-3 text-lg" data-editable="true">Happy employees get paid on time. We manage slips, wage tax, and social premiums.</p>
-                        <span class="inline-flex items-center gap-3 bg-brand-navy/90 px-6 py-4 rounded-full backdrop-blur-md border border-white/10 text-sm font-bold text-brand-accent group-hover:bg-brand-teal group-hover:text-white transition-all shadow-xl w-fit">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                        <h3 class="text-2xl font-bold text-white mb-3" data-editable="true">Payroll & HR</h3>
+                        <p class="text-slate-200 leading-relaxed mb-8 font-medium line-clamp-3" data-editable="true">Happy employees get paid on time. We manage slips, wage tax, and social premiums.</p>
+                        <span class="inline-flex items-center gap-2 bg-brand-navy/80 px-5 py-3 rounded-full backdrop-blur-md border border-white/10 text-sm font-bold text-brand-accent group-hover:bg-brand-teal group-hover:text-white transition-all shadow-lg w-fit">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
                     </div>
                 </div>
 
@@ -318,83 +245,83 @@
                         <div class="absolute inset-0 card-overlay"></div>
                     </div>
                     <div class="relative z-10 p-10 flex items-start">
-                        <div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/30 shadow-xl"><i data-lucide="briefcase" class="w-8 h-8"></i></div>
+                        <div class="w-14 h-14 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/30 shadow-lg"><i data-lucide="briefcase" class="w-7 h-7"></i></div>
                     </div>
                     <div class="relative z-10 p-10 pt-0 flex flex-col justify-end">
-                        <h3 class="text-3xl font-bold text-white mb-4 leading-tight" data-editable="true">Business Advisory</h3>
-                        <p class="text-slate-200 leading-relaxed mb-8 font-medium line-clamp-3 text-lg" data-editable="true">Starting up? We guide you through Chamber of Commerce, Dimp, and Bank setup.</p>
-                        <span class="inline-flex items-center gap-3 bg-brand-navy/90 px-6 py-4 rounded-full backdrop-blur-md border border-white/10 text-sm font-bold text-brand-accent group-hover:bg-brand-teal group-hover:text-white transition-all shadow-xl w-fit">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+                        <h3 class="text-2xl font-bold text-white mb-3" data-editable="true">Business Advisory</h3>
+                        <p class="text-slate-200 leading-relaxed mb-8 font-medium line-clamp-3" data-editable="true">Starting up? We guide you through Chamber of Commerce, Dimp, and Bank setup.</p>
+                        <span class="inline-flex items-center gap-2 bg-brand-navy/80 px-5 py-3 rounded-full backdrop-blur-md border border-white/10 text-sm font-bold text-brand-accent group-hover:bg-brand-teal group-hover:text-white transition-all shadow-lg w-fit">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
                     </div>
                 </div>
             </div>
         </section>
 
         <section id="team" class="view-section">
-            <div class="text-center max-w-3xl mx-auto mb-24 pt-10 reveal-on-scroll" id="team-header">
-                <h2 class="text-5xl font-extrabold text-brand-navy mb-6 tracking-tight" data-editable="true" id="team-title">The People Behind the Numbers</h2>
-                <p class="text-slate-500 text-xl font-medium" data-editable="true" id="team-sub">We are a family-operated business committed to your success.</p>
-            </div>
+            <div class="text-center max-w-3xl mx-auto mb-20 pt-10 reveal-on-scroll" id="team-header">
+                <h2 class="text-4xl font-extrabold text-brand-navy mb-4" data-editable="true" id="team-title">The People Behind the Numbers</h2>
+                <p class="text-slate-500 text-xl" data-editable="true" id="team-sub">We are a family-operated business committed to your success.</p>
+                </div>
             
-            <div id="team-grid" class="grid md:grid-cols-3 gap-12">
+            <div id="team-grid" class="grid md:grid-cols-3 gap-10">
                 <div class="group cursor-pointer relative reveal-on-scroll">
                     <div class="absolute top-4 right-4 z-50 edit-overlay"><button onclick="deleteItem(this)" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>
-                    <div class="relative overflow-hidden rounded-[2.5rem] mb-8 shadow-2xl aspect-[4/5] border border-slate-100 bg-white">
-                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80" class="human-img w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-brand-navy/95 via-brand-navy/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-10">
-                            <p class="text-white text-lg font-medium italic leading-relaxed" data-editable="true">"I love helping businesses grow and seeing them succeed year after year."</p>
+                    <div class="relative overflow-hidden rounded-[2rem] mb-6 shadow-xl aspect-[4/5] border border-slate-100">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80" class="human-img w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8">
+                            <p class="text-white text-sm font-medium italic" data-editable="true">"I love helping businesses grow."</p>
                         </div>
                     </div>
-                    <h3 class="text-3xl font-extrabold text-brand-navy" data-editable="true">Mr. Croes</h3>
-                    <p class="text-brand-teal font-bold text-sm tracking-widest uppercase mt-2" data-editable="true">Founder & Senior Accountant</p>
+                    <h3 class="text-2xl font-bold text-brand-navy" data-editable="true">Mr. Croes</h3>
+                    <p class="text-brand-teal font-bold text-sm tracking-wide uppercase mt-1" data-editable="true">Founder & Senior Accountant</p>
                 </div>
                 <div class="group cursor-pointer relative reveal-on-scroll">
                     <div class="absolute top-4 right-4 z-50 edit-overlay"><button onclick="deleteItem(this)" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>
-                    <div class="relative overflow-hidden rounded-[2.5rem] mb-8 shadow-2xl aspect-[4/5] border border-slate-100 bg-white">
-                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" class="human-img w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-brand-navy/95 via-brand-navy/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-10">
-                            <p class="text-white text-lg font-medium italic leading-relaxed" data-editable="true">"Accuracy is my passion. I ensure every detail is perfect for you."</p>
+                    <div class="relative overflow-hidden rounded-[2rem] mb-6 shadow-xl aspect-[4/5] border border-slate-100">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" class="human-img w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8">
+                            <p class="text-white text-sm font-medium italic" data-editable="true">"Accuracy is my passion."</p>
                         </div>
                     </div>
-                    <h3 class="text-3xl font-extrabold text-brand-navy" data-editable="true">Sarah Croes</h3>
-                    <p class="text-brand-teal font-bold text-sm tracking-widest uppercase mt-2" data-editable="true">Tax Specialist</p>
+                    <h3 class="text-2xl font-bold text-brand-navy" data-editable="true">Sarah Croes</h3>
+                    <p class="text-brand-teal font-bold text-sm tracking-wide uppercase mt-1" data-editable="true">Tax Specialist</p>
                 </div>
             </div>
         </section>
 
         <section id="tools" class="view-section">
-            <div class="max-w-6xl mx-auto pt-10">
-                <div class="bg-white rounded-[3rem] shadow-2xl border border-slate-100 overflow-hidden reveal-on-scroll">
+            <div class="max-w-5xl mx-auto pt-10">
+                <div class="bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 overflow-hidden reveal-on-scroll">
                     <div class="grid md:grid-cols-2">
-                        <div class="p-14 md:p-20">
-                            <div class="flex items-center gap-5 mb-10">
-                                <div class="p-4 bg-brand-surface text-brand-navy rounded-2xl"><i data-lucide="percent" class="w-8 h-8"></i></div>
-                                <h2 class="text-4xl font-extrabold text-brand-navy">BBO Estimator</h2>
+                        <div class="p-12 md:p-16">
+                            <div class="flex items-center gap-4 mb-8">
+                                <div class="p-3 bg-blue-50 text-brand-navy rounded-xl"><i data-lucide="percent" class="w-6 h-6"></i></div>
+                                <h2 class="text-3xl font-bold text-brand-navy">BBO Estimator</h2>
                             </div>
-                            <label class="block text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-4">Invoice Amount (AWG)</label>
-                            <div class="relative mb-12">
-                                <span class="absolute left-8 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-3xl">ƒ</span>
-                                <input type="number" id="calc-input" placeholder="0.00" class="w-full bg-brand-surface border-0 rounded-2xl py-6 pl-16 pr-8 text-4xl font-extrabold text-brand-navy outline-none focus:ring-2 focus:ring-brand-teal transition-all" oninput="calculateTax()">
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Invoice Amount (AWG)</label>
+                            <div class="relative mb-10">
+                                <span class="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-2xl">ƒ</span>
+                                <input type="number" id="calc-input" placeholder="0.00" class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-5 pl-12 pr-6 text-3xl font-bold text-brand-navy outline-none focus:border-brand-teal focus:bg-white transition-all" oninput="calculateTax()">
                             </div>
-                            <div class="space-y-6">
-                                <div class="flex justify-between items-center text-slate-500 font-medium text-lg"><span>Subtotal</span><span id="res-sub">ƒ 0.00</span></div>
-                                <div class="flex justify-between items-center text-slate-500 font-medium text-lg"><span>BBO/BAZV/BAVP (7%)</span><span id="res-tax" class="text-brand-teal font-bold">+ ƒ 0.00</span></div>
-                                <div class="h-px bg-slate-100 my-4"></div>
-                                <div class="flex justify-between items-center"><span class="font-bold text-brand-navy text-xl">Total Invoice</span><span id="res-total" class="font-extrabold text-4xl text-brand-navy">ƒ 0.00</span></div>
+                            <div class="space-y-5">
+                                <div class="flex justify-between items-center text-slate-500 font-medium"><span>Subtotal</span><span id="res-sub">ƒ 0.00</span></div>
+                                <div class="flex justify-between items-center text-slate-500 font-medium"><span>BBO/BAZV/BAVP (7%)</span><span id="res-tax" class="text-brand-teal font-bold">+ ƒ 0.00</span></div>
+                                <div class="h-px bg-slate-100 my-2"></div>
+                                <div class="flex justify-between items-center"><span class="font-bold text-brand-navy text-lg">Total Invoice</span><span id="res-total" class="font-extrabold text-3xl text-brand-navy">ƒ 0.00</span></div>
                             </div>
                         </div>
-                        <div class="bg-brand-navy text-white p-14 md:p-20 flex flex-col justify-between relative overflow-hidden">
-                            <div class="absolute top-0 right-0 w-96 h-96 bg-brand-teal rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
+                        <div class="bg-brand-navy text-white p-12 md:p-16 flex flex-col justify-between relative overflow-hidden">
+                            <div class="absolute top-0 right-0 w-80 h-80 bg-brand-teal rounded-full blur-[100px] opacity-30 pointer-events-none"></div>
                             <div class="relative z-10">
-                                <h3 class="text-3xl font-bold mb-3">Next Deadline</h3>
-                                <p class="text-slate-300 text-lg">Official date for Dimp tax filing.</p>
+                                <h3 class="text-2xl font-bold mb-2">Next Deadline</h3>
+                                <p class="text-slate-300 text-sm">Official date for Dimp tax filing.</p>
                             </div>
-                            <div class="my-12 text-center relative z-10">
-                                <div class="text-8xl font-extrabold tracking-tighter mb-4" id="days-left">0</div>
+                            <div class="my-10 text-center relative z-10">
+                                <div class="text-7xl font-extrabold tracking-tight mb-2" id="days-left">0</div>
                                 <div class="text-sm font-bold text-brand-accent uppercase tracking-widest">Days Remaining</div>
                             </div>
-                            <div class="bg-white/5 backdrop-blur-xl rounded-3xl p-6 flex items-center gap-6 relative z-10 border border-white/10">
-                                <div class="bg-brand-teal p-4 rounded-2xl text-white shadow-lg"><i data-lucide="calendar-clock" class="w-8 h-8"></i></div>
-                                <div><p class="text-xl font-bold" id="deadline-date">...</p><p class="text-xs text-slate-300 uppercase tracking-widest font-medium mt-1">Mark your calendar</p></div>
+                            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-5 flex items-center gap-5 relative z-10 border border-white/10">
+                                <div class="bg-brand-teal p-3 rounded-xl text-white shadow-lg"><i data-lucide="calendar-clock" class="w-6 h-6"></i></div>
+                                <div><p class="text-lg font-bold" id="deadline-date">...</p><p class="text-xs text-slate-300 uppercase tracking-wide font-medium">Mark your calendar</p></div>
                             </div>
                         </div>
                     </div>
@@ -403,109 +330,109 @@
         </section>
 
         <section id="contact" class="view-section">
-            <div class="max-w-3xl mx-auto pt-10">
-                <div class="glass-panel p-12 md:p-20 rounded-[3rem] shadow-2xl reveal-on-scroll">
-                    <div class="text-center mb-16">
-                        <h2 class="text-5xl font-extrabold text-brand-navy mb-4 tracking-tight">Schedule Appointment</h2>
-                        <p class="text-slate-500 text-xl font-medium">Select a time and our team will prepare for your arrival.</p>
+            <div class="max-w-2xl mx-auto pt-10">
+                <div class="glass-panel p-10 md:p-14 rounded-[3rem] shadow-2xl reveal-on-scroll">
+                    <div class="text-center mb-12">
+                        <h2 class="text-4xl font-extrabold text-brand-navy mb-3">Schedule Appointment</h2>
+                        <p class="text-slate-500 text-lg">Select a time and our team will prepare for your arrival.</p>
                     </div>
-                    <form onsubmit="handleBooking(event)" class="space-y-8">
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <div><label class="block text-xs font-extrabold text-slate-400 mb-3 uppercase tracking-widest">Your Name</label><input type="text" id="book-name" required class="w-full bg-white border border-slate-200 rounded-2xl px-6 py-5 outline-none focus:border-brand-navy focus:ring-1 focus:ring-brand-navy transition-all font-bold text-brand-navy text-lg"></div>
-                            <div><label class="block text-xs font-extrabold text-slate-400 mb-3 uppercase tracking-widest">Email</label><input type="email" id="book-email" required class="w-full bg-white border border-slate-200 rounded-2xl px-6 py-5 outline-none focus:border-brand-navy focus:ring-1 focus:ring-brand-navy transition-all font-bold text-brand-navy text-lg"></div>
+                    <form onsubmit="handleBooking(event)" class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div><label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-wide">Your Name</label><input type="text" id="book-name" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 outline-none focus:border-brand-navy focus:bg-white transition-all font-bold text-brand-navy"></div>
+                            <div><label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-wide">Email</label><input type="email" id="book-email" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 outline-none focus:border-brand-navy focus:bg-white transition-all font-bold text-brand-navy"></div>
                         </div>
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <div><label class="block text-xs font-extrabold text-slate-400 mb-3 uppercase tracking-widest">Date</label><input type="date" id="book-date" required class="w-full bg-white border border-slate-200 rounded-2xl px-6 py-5 outline-none focus:border-brand-navy focus:ring-1 focus:ring-brand-navy text-brand-navy font-bold text-lg transition-all"></div>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div><label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-wide">Date</label><input type="date" id="book-date" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 outline-none focus:border-brand-navy focus:bg-white text-brand-navy font-bold transition-all"></div>
                             <div>
-                                <label class="block text-xs font-extrabold text-slate-400 mb-3 uppercase tracking-widest">Time</label>
-                                <select id="book-time" class="w-full bg-white border border-slate-200 rounded-2xl px-6 py-5 outline-none focus:border-brand-navy focus:ring-1 focus:ring-brand-navy text-brand-navy font-bold text-lg transition-all">
+                                <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-wide">Time</label>
+                                <select id="book-time" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 outline-none focus:border-brand-navy focus:bg-white text-brand-navy font-bold transition-all">
                                     <option>09:00 AM</option><option>10:00 AM</option><option>11:00 AM</option><option>02:00 PM</option><option>03:00 PM</option><option>04:00 PM</option>
                                 </select>
                             </div>
                         </div>
                         <div>
-                            <label class="block text-xs font-extrabold text-slate-400 mb-3 uppercase tracking-widest">Service Needed</label>
-                            <select id="book-service" class="w-full bg-white border border-slate-200 rounded-2xl px-6 py-5 outline-none focus:border-brand-navy focus:ring-1 focus:ring-brand-navy text-brand-navy font-bold text-lg transition-all">
+                            <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-wide">Service Needed</label>
+                            <select id="book-service" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 outline-none focus:border-brand-navy focus:bg-white text-brand-navy font-bold transition-all">
                                 <option>Tax Consultation</option><option>Bookkeeping</option><option>Payroll Services</option><option>Business Advisory</option><option>General Inquiry</option>
                             </select>
                         </div>
-                        <button type="submit" class="w-full btn-primary py-6 rounded-2xl font-bold text-xl shadow-2xl hover:shadow-3xl hover:-translate-y-1 mt-6">Confirm Booking</button>
+                        <button type="submit" class="w-full btn-primary py-5 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl hover:-translate-y-1 mt-4">Confirm Booking</button>
                     </form>
                 </div>
             </div>
         </section>
 
         <section id="login" class="view-section">
-            <div class="max-w-md mx-auto pt-24">
-                <div class="glass-panel p-14 rounded-[3rem] shadow-2xl text-center" id="login-container">
-                    <div class="w-24 h-24 bg-brand-surface rounded-full flex items-center justify-center mx-auto mb-10 text-brand-navy shadow-inner"><i data-lucide="lock" class="w-10 h-10"></i></div>
-                    <h2 class="text-3xl font-extrabold text-brand-navy mb-4">Back Office</h2>
-                    <p class="text-slate-500 mb-10 font-medium text-lg">Authorized personnel only.</p>
-                    <input type="password" id="admin-pass" placeholder="Enter Password" class="w-full bg-white border border-slate-200 rounded-2xl px-8 py-5 mb-6 outline-none focus:border-brand-navy text-center font-bold text-xl tracking-widest">
-                    <button onclick="handleLogin()" class="w-full btn-primary py-5 rounded-2xl font-bold text-lg shadow-xl">Login Dashboard</button>
-                    <p id="login-error" class="text-red-500 text-sm mt-6 font-bold hidden bg-red-50 py-3 rounded-xl border border-red-100">Incorrect password.</p>
+            <div class="max-w-md mx-auto pt-20">
+                <div class="glass-panel p-12 rounded-[2.5rem] shadow-2xl text-center" id="login-container">
+                    <div class="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-8 text-brand-navy"><i data-lucide="lock" class="w-10 h-10"></i></div>
+                    <h2 class="text-3xl font-bold text-brand-navy mb-3">Back Office</h2>
+                    <p class="text-slate-500 mb-10 font-medium">Authorized personnel only.</p>
+                    <input type="password" id="admin-pass" placeholder="Enter Password" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-6 py-4 mb-6 outline-none focus:border-brand-navy text-center font-bold text-lg">
+                    <button onclick="handleLogin()" class="w-full btn-primary py-4 rounded-xl font-bold text-lg shadow-lg">Login Dashboard</button>
+                    <p id="login-error" class="text-red-500 text-sm mt-4 font-bold hidden bg-red-50 py-2 rounded-lg">Incorrect password.</p>
                 </div>
             </div>
         </section>
 
         <section id="back-office" class="view-section">
             <div class="max-w-7xl mx-auto pt-4 flex flex-col md:flex-row gap-8">
-                <div class="w-full md:w-80 glass-panel p-10 rounded-[2.5rem] h-fit shadow-xl">
-                    <h3 class="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-8">Main Menu</h3>
-                    <div class="space-y-3">
+                <div class="w-full md:w-72 glass-panel p-8 rounded-[2rem] h-fit shadow-xl">
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">Main Menu</h3>
+                    <div class="space-y-2">
                         <button onclick="switchAdminTab('inbox')" class="admin-nav-btn active" id="btn-inbox"><i data-lucide="inbox" class="w-5 h-5"></i> Inbox</button>
                         <button onclick="switchAdminTab('cms')" class="admin-nav-btn" id="btn-cms"><i data-lucide="layout" class="w-5 h-5"></i> Site Editor</button>
                         <button onclick="switchAdminTab('db')" class="admin-nav-btn" id="btn-db"><i data-lucide="database" class="w-5 h-5"></i> Database</button>
                     </div>
-                    <div class="mt-12 pt-10 border-t border-slate-100">
-                        <button onclick="logout()" class="text-red-500 text-sm font-bold flex items-center gap-3 hover:text-red-600 transition-colors w-full p-4 hover:bg-red-50 rounded-xl"><i data-lucide="log-out" class="w-5 h-5"></i> Sign Out</button>
+                    <div class="mt-10 pt-10 border-t border-slate-100">
+                        <button onclick="logout()" class="text-red-500 text-sm font-bold flex items-center gap-3 hover:text-red-600 transition-colors w-full p-2 hover:bg-red-50 rounded-lg"><i data-lucide="log-out" class="w-5 h-5"></i> Sign Out</button>
                     </div>
                 </div>
                 <div class="flex-1">
                     <div id="admin-inbox" class="admin-tab">
-                        <div class="flex justify-between items-end mb-10">
-                            <div><h2 class="text-4xl font-extrabold text-brand-navy">Requests</h2><p class="text-slate-500 mt-2 text-lg">Manage incoming appointments.</p></div>
-                            <span class="bg-brand-teal/10 text-brand-teal px-5 py-2 rounded-full text-sm font-bold border border-brand-teal/20" id="pending-count">0 New</span>
+                        <div class="flex justify-between items-end mb-8">
+                            <div><h2 class="text-3xl font-extrabold text-brand-navy">Requests</h2><p class="text-slate-500 mt-1">Manage incoming appointments.</p></div>
+                            <span class="bg-brand-teal/10 text-brand-teal px-4 py-2 rounded-full text-sm font-bold border border-brand-teal/20" id="pending-count">0 New</span>
                         </div>
-                        <div class="glass-panel rounded-[2.5rem] overflow-hidden shadow-xl border-0">
+                        <div class="glass-panel rounded-[2rem] overflow-hidden shadow-xl border-0">
                             <div class="overflow-x-auto">
                                 <table class="w-full text-left border-collapse">
-                                    <thead><tr class="bg-slate-50 border-b border-slate-100 text-xs uppercase text-slate-400 tracking-wider"><th class="p-8 font-bold">Client Details</th><th class="p-8 font-bold">Service Type</th><th class="p-8 font-bold">Scheduled For</th><th class="p-8 font-bold">Status</th><th class="p-8 font-bold text-right">Actions</th></tr></thead>
+                                    <thead><tr class="bg-slate-50 border-b border-slate-100 text-xs uppercase text-slate-400 tracking-wider"><th class="p-6 font-bold">Client Details</th><th class="p-6 font-bold">Service Type</th><th class="p-6 font-bold">Scheduled For</th><th class="p-6 font-bold">Status</th><th class="p-6 font-bold text-right">Actions</th></tr></thead>
                                     <tbody id="booking-list" class="text-sm font-medium"></tbody>
                                 </table>
                             </div>
-                            <div id="empty-state" class="hidden p-24 text-center">
-                                <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-300"><i data-lucide="inbox" class="w-10 h-10"></i></div>
-                                <h3 class="text-xl font-bold text-brand-navy">All caught up!</h3>
-                                <p class="text-slate-400 mt-2">No pending appointments.</p>
+                            <div id="empty-state" class="hidden p-20 text-center">
+                                <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-300"><i data-lucide="inbox" class="w-8 h-8"></i></div>
+                                <h3 class="text-lg font-bold text-brand-navy">All caught up!</h3>
+                                <p class="text-slate-400">No pending appointments.</p>
                             </div>
                         </div>
                     </div>
                     <div id="admin-cms" class="admin-tab hidden">
-                        <div class="bg-blue-50 border border-blue-100 p-12 rounded-[2.5rem] mb-10">
-                            <div class="flex items-start gap-8">
-                                <div class="p-5 bg-brand-navy text-white rounded-3xl shadow-lg"><i data-lucide="pen-tool" class="w-8 h-8"></i></div>
+                        <div class="bg-blue-50 border border-blue-100 p-10 rounded-[2rem] mb-8">
+                            <div class="flex items-start gap-6">
+                                <div class="p-4 bg-brand-navy text-white rounded-2xl"><i data-lucide="pen-tool" class="w-8 h-8"></i></div>
                                 <div>
-                                    <h2 class="text-3xl font-bold text-brand-navy mb-3">Live Visual Editor</h2>
-                                    <p class="text-brand-navy/70 text-base mb-8 max-w-xl leading-relaxed">Activate this mode to click and edit any text on the website directly. You can also add or remove service cards.</p>
-                                    <button onclick="toggleEditMode(true)" class="bg-brand-navy text-white px-8 py-4 rounded-2xl font-bold text-sm hover:bg-slate-800 shadow-xl transition-all flex items-center gap-3">
+                                    <h2 class="text-2xl font-bold text-brand-navy mb-2">Live Visual Editor</h2>
+                                    <p class="text-brand-navy/70 text-sm mb-6 max-w-lg">Activate this mode to click and edit any text on the website directly. You can also add or remove service cards.</p>
+                                    <button onclick="toggleEditMode(true)" class="bg-brand-navy text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-slate-800 shadow-lg transition-all flex items-center gap-2">
                                         Activate Editor <i data-lucide="arrow-right" class="w-4 h-4"></i>
                                     </button>
                                 </div>
                             </div>
                         </div>
-                        <div class="glass-panel p-10 rounded-[2.5rem]"><h3 class="font-bold mb-6 text-brand-navy text-xl">System Status</h3><div id="changes-log" class="text-sm text-slate-500 font-mono bg-slate-50 p-6 rounded-2xl border border-slate-100">Ready. No unsaved changes.</div></div>
+                        <div class="glass-panel p-8 rounded-[2rem]"><h3 class="font-bold mb-4 text-brand-navy">System Status</h3><div id="changes-log" class="text-sm text-slate-500 font-mono bg-slate-50 p-4 rounded-xl border border-slate-100">Ready. No unsaved changes.</div></div>
                     </div>
                     <div id="admin-db" class="admin-tab hidden">
-                        <div class="bg-slate-900 text-white p-12 rounded-[2.5rem] mb-10 relative overflow-hidden">
-                            <div class="absolute top-0 right-0 w-96 h-96 bg-brand-teal rounded-full blur-[100px] opacity-20"></div>
+                        <div class="bg-slate-900 text-white p-10 rounded-[2rem] mb-8 relative overflow-hidden">
+                            <div class="absolute top-0 right-0 w-64 h-64 bg-brand-teal rounded-full blur-[80px] opacity-20"></div>
                             <div class="relative z-10">
-                                <h2 class="text-3xl font-bold mb-4">Data Management</h2>
-                                <p class="text-slate-400 text-base mb-10 max-w-lg leading-relaxed">Since this site is hosted on GitHub (Static), data is stored in your browser. Use this to transfer data between devices.</p>
-                                <div class="flex flex-wrap gap-5">
-                                    <button onclick="downloadBackup()" class="bg-brand-teal text-brand-navy px-8 py-4 rounded-2xl font-bold text-sm hover:bg-white transition-colors flex items-center gap-3 shadow-lg"><i data-lucide="download" class="w-5 h-5"></i> Backup All Data</button>
-                                    <label class="bg-white/10 text-white border border-white/20 px-8 py-4 rounded-2xl font-bold text-sm hover:bg-white/20 cursor-pointer flex items-center gap-3 transition-colors">
-                                        <i data-lucide="upload" class="w-5 h-5"></i> Restore from File
+                                <h2 class="text-2xl font-bold mb-2">Data Management</h2>
+                                <p class="text-slate-400 text-sm mb-8 max-w-md">Since this site is hosted on GitHub (Static), data is stored in your browser. Use this to transfer data between devices.</p>
+                                <div class="flex flex-wrap gap-4">
+                                    <button onclick="downloadBackup()" class="bg-brand-teal text-brand-navy px-6 py-3 rounded-xl font-bold text-sm hover:bg-white transition-colors flex items-center gap-2 shadow-lg"><i data-lucide="download" class="w-4 h-4"></i> Backup All Data</button>
+                                    <label class="bg-white/10 text-white border border-white/20 px-6 py-3 rounded-xl font-bold text-sm hover:bg-white/20 cursor-pointer flex items-center gap-2 transition-colors">
+                                        <i data-lucide="upload" class="w-4 h-4"></i> Restore from File
                                         <input type="file" onchange="restoreBackup(this)" class="hidden" accept=".json">
                                     </label>
                                 </div>
@@ -518,49 +445,49 @@
 
     </main>
 
-    <footer class="bg-brand-navy text-slate-400 py-20 relative z-10 mt-32">
-        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center text-sm font-medium tracking-wide">
-            <div class="flex items-center gap-6">
-                <img src="logo.png" class="h-12 opacity-40 grayscale hover:grayscale-0 transition-all duration-500">
+    <footer class="bg-brand-navy text-slate-400 py-16 relative z-10 mt-20">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center text-sm">
+            <div class="flex items-center gap-4">
+                <img src="logo.png" class="h-10 opacity-50 grayscale hover:grayscale-0 transition-all">
                 <p>&copy; 2026 Accounting Croes. All rights reserved.</p>
             </div>
-            <button onclick="router('login')" class="text-slate-600 hover:text-brand-teal transition-colors p-3 hover:bg-white/5 rounded-full" title="Admin Access"><i data-lucide="lock" class="w-4 h-4"></i></button>
+            <button onclick="router('login')" class="text-slate-600 hover:text-brand-teal transition-colors p-2" title="Admin Access"><i data-lucide="lock" class="w-4 h-4"></i></button>
         </div>
     </footer>
 
-    <a href="https://wa.me/2975820000" target="_blank" class="fixed bottom-10 right-10 z-40 bg-[#25D366] text-white p-5 rounded-full shadow-2xl hover:bg-green-600 transition-all hover:scale-110 hover:shadow-green-500/40 flex items-center justify-center"><i data-lucide="message-circle" class="w-8 h-8"></i></a>
-    <div id="toast" class="fixed top-40 right-10 bg-brand-navy text-white px-8 py-5 rounded-2xl shadow-2xl transform translate-x-96 opacity-0 transition-all duration-500 z-50 flex items-center gap-5 border border-white/10"><div class="bg-brand-teal p-3 rounded-full text-brand-navy"><i data-lucide="check" class="w-5 h-5"></i></div><div><h4 class="font-bold text-base">Success</h4><p class="text-sm text-slate-300" id="toast-msg">Action completed.</p></div></div>
+    <a href="https://wa.me/2975820000" target="_blank" class="fixed bottom-8 right-8 z-40 bg-brand-green text-white p-4 rounded-full shadow-2xl hover:bg-green-600 transition-all hover:scale-110 hover:shadow-green-500/40 flex items-center justify-center"><i data-lucide="message-circle" class="w-7 h-7"></i></a>
+    <div id="toast" class="fixed top-36 right-8 bg-brand-navy text-white px-6 py-4 rounded-2xl shadow-2xl transform translate-x-96 opacity-0 transition-all duration-500 z-50 flex items-center gap-4 border border-white/10"><div class="bg-brand-teal p-2 rounded-full text-brand-navy"><i data-lucide="check" class="w-4 h-4"></i></div><div><h4 class="font-bold text-sm">Success</h4><p class="text-xs text-slate-300" id="toast-msg">Action completed.</p></div></div>
 
     <script>
-        // --- 1. CONFIGURATION ---
+        // CONFIG
         const CONFIG = {
             EMAIL_SERVICE_ID: "service_x7ol38h",
             ADMIN_TEMPLATE_ID: "template_3ajpnak",
-            // ⚠️ REPLACE THIS WITH YOUR CLIENT ID ⚠️
+            // ⚠️ REPLACE WITH YOUR CLIENT ID ⚠️
             CLIENT_TEMPLATE_ID: "PASTE_YOUR_CLIENT_TEMPLATE_ID_HERE" 
         };
 
-        // --- 2. CORE ---
+        // CORE
         document.addEventListener('DOMContentLoaded', function() {
             try { if (typeof emailjs !== 'undefined') emailjs.init("8rBFXNPpsM9GIWhRR"); } catch (err) { console.error(err); }
             const today = new Date().toISOString().split('T')[0];
             const dateInput = document.getElementById('book-date');
             if(dateInput) dateInput.value = today;
-            setTimeout(() => { document.getElementById('preloader').classList.add('opacity-0', 'pointer-events-none'); initScrollReveal(); }, 1500); // Cinematic Delay
+            setTimeout(() => { document.getElementById('preloader').classList.add('opacity-0', 'pointer-events-none'); initScrollReveal(); }, 1200); 
             router('home');
             lucide.createIcons();
             initDates();
             CMS.load();
         });
 
-        // --- 3. SERVICES DATA ---
+        // SERVICES DATA
         const SERVICES_DATA = {
             tax: { title: "Tax Preparation", img: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80", icon: "calculator", items: ["BBO / BAZV Filing", "Proft Tax Returns", "Income Tax", "Fiscal Advice"], desc: "We ensure 100% compliance with Aruba's Dimp tax laws." },
             payroll: { title: "Payroll Services", img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80", icon: "users", items: ["Payslips", "Wage Tax", "AOV/AZV", "SVB Mutations"], desc: "Complete payroll management. Happy employees get paid on time." },
             advisory: { title: "Business Advisory", img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80", icon: "briefcase", items: ["KvK Setup", "Forecasting", "Audit Support", "Strategy"], desc: "Starting a new business? We guide you through the setup." }
         };
 
-        // --- 4. CMS & LOGIC (With Security) ---
+        // CMS ENGINE (With Security)
         const CMS = {
             sanitize: (str) => { const temp = document.createElement('div'); temp.textContent = str; return temp.innerHTML; },
             save: () => {
@@ -608,9 +535,10 @@
                 const grid = document.getElementById(type + '-grid');
                 let html = '';
                 if (type === 'service') {
-                    html = `<div class="brand-card reveal-on-scroll cursor-pointer group" onclick="handleCardClick(this, 'new')"><div class="absolute top-4 right-4 z-50 edit-overlay"><button onclick="deleteItem(this); event.stopPropagation();" class="bg-red-500 text-white p-3 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="absolute inset-0 z-0"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-100"><div class="absolute inset-0 card-overlay"></div></div><div class="relative z-10 p-10 flex items-start"><div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/30 shadow-xl"><i data-lucide="star" class="w-8 h-8"></i></div></div><div class="relative z-10 p-10 pt-0 flex flex-col justify-end"><h3 class="text-3xl font-bold text-white mb-4 leading-tight" data-editable="true">New Service</h3><p class="text-slate-200 leading-relaxed mb-8 font-medium text-lg" data-editable="true">Description.</p><span class="inline-flex items-center gap-3 bg-brand-navy/90 px-6 py-4 rounded-full backdrop-blur-md border border-white/10 text-sm font-bold text-brand-accent group-hover:bg-brand-teal group-hover:text-white transition-all shadow-xl w-fit">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span></div></div>`;
+                    // GRID LAYOUT
+                    html = `<div class="brand-card reveal-on-scroll cursor-pointer group" onclick="handleCardClick(this, 'new')"><div class="absolute top-4 right-4 z-50 edit-overlay"><button onclick="deleteItem(this); event.stopPropagation();" class="bg-red-500 text-white p-3 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="absolute inset-0 z-0"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-100"><div class="absolute inset-0 card-overlay"></div></div><div class="relative z-10 p-10 flex items-start"><div class="w-14 h-14 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/30 shadow-lg"><i data-lucide="star" class="w-7 h-7"></i></div></div><div class="relative z-10 p-10 pt-0 flex flex-col justify-end"><h3 class="text-2xl font-bold text-white mb-3" data-editable="true">New Service</h3><p class="text-slate-200 leading-relaxed mb-8 font-medium" data-editable="true">Description.</p><span class="inline-flex items-center gap-2 bg-brand-navy/80 px-5 py-3 rounded-full backdrop-blur-md border border-white/10 text-sm font-bold text-brand-accent group-hover:bg-brand-teal group-hover:text-white transition-all shadow-lg w-fit">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span></div></div>`;
                 } else {
-                    html = `<div class="group cursor-pointer relative reveal-on-scroll"><div class="absolute top-4 right-4 z-50 edit-overlay"><button onclick="deleteItem(this)" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="relative overflow-hidden rounded-[2.5rem] mb-8 shadow-2xl aspect-[4/5] border border-slate-100 bg-white"><img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=800&q=80" class="human-img w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"><div class="absolute inset-0 bg-gradient-to-t from-brand-navy/95 via-brand-navy/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-10"><p class="text-white text-lg font-medium italic leading-relaxed" data-editable="true">"Ready to help."</p></div></div><h3 class="text-3xl font-extrabold text-brand-navy" data-editable="true">New Member</h3><p class="text-brand-teal font-bold text-sm tracking-widest uppercase mt-2" data-editable="true">Position</p></div>`;
+                    html = `<div class="group cursor-pointer relative reveal-on-scroll"><div class="absolute top-4 right-4 z-50 edit-overlay"><button onclick="deleteItem(this)" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="relative overflow-hidden rounded-[2rem] mb-6 shadow-xl aspect-[4/5] border border-slate-100"><img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=800&q=80" class="human-img w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"><div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8"><p class="text-white text-sm font-medium italic" data-editable="true">"Ready to help."</p></div></div><h3 class="text-2xl font-bold text-brand-navy" data-editable="true">New Member</h3><p class="text-brand-teal font-bold text-sm tracking-wide uppercase mt-1" data-editable="true">Position</p></div>`;
                 }
                 grid.insertAdjacentHTML('beforeend', html);
                 lucide.createIcons();
@@ -706,7 +634,7 @@
                 document.getElementById('modal-title').innerText = title;
                 document.getElementById('modal-desc').innerText = desc;
                 document.getElementById('modal-bg-img').src = img;
-                document.getElementById('modal-icon').innerHTML = `<i data-lucide="star" class="w-8 h-8 text-brand-teal"></i>`;
+                document.getElementById('modal-icon').innerHTML = `<i data-lucide="star" class="w-6 h-6 text-brand-teal"></i>`;
                 document.getElementById('modal-list').innerHTML = `<li class="flex items-center gap-3 text-sm text-slate-600 font-medium"><div class="w-2 h-2 rounded-full bg-brand-teal"></div>Consultation for ${title}</li>`;
                 document.getElementById('modal-btn').onclick = () => { closeServiceModal(); router('contact'); document.getElementById('book-service').value = title; };
                 document.getElementById('service-modal').classList.remove('hidden');
@@ -719,7 +647,7 @@
             document.getElementById('modal-title').innerText = data.title;
             document.getElementById('modal-desc').innerText = data.desc;
             document.getElementById('modal-bg-img').src = data.img;
-            document.getElementById('modal-icon').innerHTML = `<i data-lucide="${data.icon}" class="w-8 h-8 text-brand-teal"></i>`;
+            document.getElementById('modal-icon').innerHTML = `<i data-lucide="${data.icon}" class="w-6 h-6 text-brand-teal"></i>`;
             document.getElementById('modal-list').innerHTML = data.items.map(i => `<li class="flex items-center gap-3 text-sm text-slate-600 font-medium"><div class="w-2 h-2 rounded-full bg-brand-teal"></div>${i}</li>`).join('');
             document.getElementById('modal-btn').onclick = () => { closeServiceModal(); router('contact'); document.getElementById('book-service').value = data.title; };
             document.getElementById('service-modal').classList.remove('hidden');
@@ -756,7 +684,7 @@
                 const statusBadge = b.status === 'Confirmed' 
                     ? '<span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold border border-green-200">CONFIRMED</span>' 
                     : '<span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-bold border border-amber-200">PENDING</span>';
-                tbody.innerHTML += `<tr class="border-b border-slate-50 hover:bg-slate-50/50 transition-colors"><td class="p-8"><div class="font-bold text-brand-navy text-lg">${b.name}</div><div class="text-xs text-slate-400 font-medium">${b.email}</div></td><td class="p-8 text-slate-600 font-medium">${b.service}</td><td class="p-8 text-brand-navy font-bold">${b.date}<br><span class="text-xs text-slate-400 font-normal">${b.time}</span></td><td class="p-8">${statusBadge}</td><td class="p-8 text-right space-x-2">${b.status === 'Pending' ? `<button onclick="confirmBooking(${b.id})" class="text-xs bg-brand-teal text-white px-4 py-2 rounded-lg font-bold hover:bg-teal-600 shadow-md transition-all">Accept</button>` : ''}<button onclick="deleteBooking(${b.id})" class="text-xs bg-white border border-red-100 text-red-500 px-4 py-2 rounded-lg font-bold hover:bg-red-50 transition-all">Remove</button></td></tr>`;
+                tbody.innerHTML += `<tr class="border-b border-slate-50 hover:bg-slate-50/50 transition-colors"><td class="p-6"><div class="font-bold text-brand-navy text-lg">${b.name}</div><div class="text-xs text-slate-400 font-medium">${b.email}</div></td><td class="p-6 text-slate-600 font-medium">${b.service}</td><td class="p-6 text-brand-navy font-bold">${b.date}<br><span class="text-xs text-slate-400 font-normal">${b.time}</span></td><td class="p-6">${statusBadge}</td><td class="p-6 text-right space-x-2">${b.status === 'Pending' ? `<button onclick="confirmBooking(${b.id})" class="text-xs bg-brand-teal text-white px-4 py-2 rounded-lg font-bold hover:bg-teal-600 shadow-md transition-all">Accept</button>` : ''}<button onclick="deleteBooking(${b.id})" class="text-xs bg-white border border-red-100 text-red-500 px-4 py-2 rounded-lg font-bold hover:bg-red-50 transition-all">Remove</button></td></tr>`;
             });
         }
 
