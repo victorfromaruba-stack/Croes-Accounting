@@ -50,16 +50,12 @@
     <style>
         /* --- MASTER CLASS POLISH --- */
         
-        /* 1. Brand Selection Color */
         ::selection { background: #23869D; color: white; }
-
-        /* 2. Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #F8FAFC; }
         ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 99px; }
         ::-webkit-scrollbar-thumb:hover { background: #0C3B53; }
 
-        /* 3. Intelligent Navbar */
         nav { transition: all 0.4s ease; }
         nav.scrolled { 
             background: rgba(255, 255, 255, 0.90); 
@@ -69,7 +65,6 @@
         }
         nav.scrolled .logo-img { height: 48px; }
 
-        /* 4. Text Gradient */
         .text-gradient { 
             background: linear-gradient(to right, #0C3B53 20%, #23869D 40%, #4FD1C5 50%, #23869D 60%, #0C3B53 80%); 
             background-size: 200% auto; 
@@ -79,7 +74,6 @@
             animation: shimmer 5s linear infinite; 
         }
 
-        /* 5. Primary Button (Glow Effect) */
         .btn-primary { 
             background: #0C3B53; color: white; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); 
             position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);
@@ -92,19 +86,21 @@
         .btn-primary:hover::before { left: 100%; }
         .btn-primary:hover { background: #0F4563; transform: translateY(-2px); box-shadow: 0 15px 30px -10px rgba(12, 59, 83, 0.3); }
 
-        /* 6. Card System (Grid Fix) */
         .brand-card { 
             position: relative; overflow: hidden; border-radius: 1.5rem; background: white;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); border: 1px solid rgba(255,255,255,0.5);
             transition: all 0.5s ease;
             display: grid; grid-template-rows: 1fr auto; height: 480px; 
         }
-        .brand-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgba(12, 59, 83, 0.15); border-color: rgba(35, 134, 157, 0.3); }
+        .brand-card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 20px 40px -12px rgba(12, 59, 83, 0.15); 
+            border-color: rgba(35, 134, 157, 0.3);
+        }
         .brand-card img { transition: transform 0.8s ease; }
         .brand-card:hover img { transform: scale(1.05); }
         .card-overlay { background: linear-gradient(to top, rgba(12, 59, 83, 0.98) 10%, rgba(12, 59, 83, 0.5) 60%, rgba(12, 59, 83, 0.05) 100%); }
 
-        /* 7. Floating Input Labels */
         .input-group { position: relative; }
         .input-field { 
             width: 100%; padding: 16px; border-radius: 12px; border: 1px solid #E2E8F0; 
@@ -120,14 +116,17 @@
             transform: translateY(-28px); font-size: 11px; color: #23869D; background: white; padding: 0 4px;
         }
 
-        /* Utils */
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        .nav-link.active { color: #0C3B53; font-weight: 700; }
+        .nav-link.active::after { content: ''; display: block; width: 100%; height: 2px; background: #23869D; border-radius: 2px; margin-top: 4px; }
+        
+        /* Modal & Admin */
         #service-modal { transition: opacity 0.3s ease; z-index: 9999 !important; }
         #service-modal.hidden { pointer-events: none; opacity: 0; }
         #service-modal:not(.hidden) { pointer-events: auto; opacity: 1; }
 
-        /* Admin - Strictly Hidden */
         .editing-active [data-editable="true"]:hover { outline: 2px dashed #23869D; cursor: text; background: rgba(35, 134, 157, 0.05); }
         .edit-overlay, .add-btn { display: none !important; }
         body.editing-active .edit-overlay, body.editing-active .add-btn { display: inline-flex !important; }
@@ -160,10 +159,11 @@
                 <span class="text-2xl font-bold text-brand-navy hidden">CROES</span>
             </a>
             
-            <div class="hidden md:flex items-center gap-10">
+            <div class="hidden md:flex items-center gap-8">
                 <a href="#home" class="nav-link text-sm font-bold text-slate-500 hover:text-brand-navy transition-colors">Home</a>
                 <a href="#services" class="nav-link text-sm font-bold text-slate-500 hover:text-brand-navy transition-colors">Services</a>
                 <a href="#team" class="nav-link text-sm font-bold text-slate-500 hover:text-brand-navy transition-colors">Team</a>
+                <a href="#tools" class="nav-link text-sm font-bold text-slate-500 hover:text-brand-navy transition-colors">Tools</a>
             </div>
             
             <div class="hidden md:flex items-center gap-4">
@@ -177,6 +177,7 @@
             <a href="#home" onclick="toggleMobileMenu()" class="p-5 font-bold text-brand-navy border-b border-gray-50">Home</a>
             <a href="#services" onclick="toggleMobileMenu()" class="p-5 font-bold text-brand-navy border-b border-gray-50">Services</a>
             <a href="#team" onclick="toggleMobileMenu()" class="p-5 font-bold text-brand-navy border-b border-gray-50">Team</a>
+            <a href="#tools" onclick="toggleMobileMenu()" class="p-5 font-bold text-brand-navy border-b border-gray-50">Tools</a>
             <a href="#contact" onclick="toggleMobileMenu()" class="p-5 font-bold text-brand-teal bg-slate-50">Book Appointment</a>
         </div>
     </nav>
@@ -222,7 +223,7 @@
                 <div class="text-center max-w-3xl mx-auto mb-20 reveal" id="services-header">
                     <h2 class="text-4xl font-extrabold text-brand-navy mb-4 tracking-tight" data-editable="true" id="svc-title">What We Do For You</h2>
                     <p class="text-slate-500 text-lg" data-editable="true" id="svc-sub">Professional financial services tailored to your business needs.</p>
-                    </div>
+                </div>
                 
                 <div id="services-grid" class="grid md:grid-cols-3 gap-8">
                     <div class="brand-card reveal" onclick="handleCardClick(this, 'tax')">
@@ -314,40 +315,40 @@
             <div class="max-w-5xl mx-auto px-6">
                 <div class="bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 overflow-hidden reveal">
                     <div class="grid md:grid-cols-2">
-                        <div class="p-12 md:p-16">
-                            <div class="flex items-center gap-4 mb-8">
-                                <div class="p-3 bg-blue-50 text-brand-navy rounded-xl"><i data-lucide="percent" class="w-6 h-6"></i></div>
-                                <h2 class="text-3xl font-bold text-brand-navy">BBO Estimator</h2>
+                        <div class="p-14 md:p-20">
+                            <div class="flex items-center gap-5 mb-10">
+                                <div class="p-4 bg-brand-surface text-brand-navy rounded-2xl"><i data-lucide="percent" class="w-8 h-8"></i></div>
+                                <h2 class="text-4xl font-extrabold text-brand-navy">BBO Estimator</h2>
                             </div>
-                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Invoice Amount (AWG)</label>
-                            <div class="relative mb-10">
-                                <span class="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-2xl">ƒ</span>
-                                <input type="number" id="calc-input" placeholder="0.00" class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-5 pl-12 pr-6 text-3xl font-bold text-brand-navy outline-none focus:border-brand-teal focus:bg-white transition-all" oninput="calculateTax()">
+                            <label class="block text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-4">Invoice Amount (AWG)</label>
+                            <div class="relative mb-12">
+                                <span class="absolute left-8 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-3xl">ƒ</span>
+                                <input type="number" id="calc-input" placeholder="0.00" class="w-full bg-brand-surface border-0 rounded-2xl py-6 pl-16 pr-8 text-4xl font-extrabold text-brand-navy outline-none focus:ring-2 focus:ring-brand-teal transition-all" oninput="calculateTax()">
                             </div>
                             <div class="h-2 w-full bg-slate-100 rounded-full mb-6 overflow-hidden flex">
                                 <div id="bar-sub" class="bg-brand-navy h-full transition-all duration-500" style="width: 0%"></div>
                                 <div id="bar-tax" class="bg-brand-teal h-full transition-all duration-500" style="width: 0%"></div>
                             </div>
-                            <div class="space-y-5">
-                                <div class="flex justify-between items-center text-slate-500 font-medium"><span>Subtotal</span><span id="res-sub">ƒ 0.00</span></div>
-                                <div class="flex justify-between items-center text-slate-500 font-medium"><span>BBO/BAZV/BAVP (7%)</span><span id="res-tax" class="text-brand-teal font-bold">+ ƒ 0.00</span></div>
-                                <div class="h-px bg-slate-100 my-2"></div>
-                                <div class="flex justify-between items-center"><span class="font-bold text-brand-navy text-lg">Total Invoice</span><span id="res-total" class="font-extrabold text-3xl text-brand-navy">ƒ 0.00</span></div>
+                            <div class="space-y-6">
+                                <div class="flex justify-between items-center text-slate-500 font-medium text-lg"><span>Subtotal</span><span id="res-sub">ƒ 0.00</span></div>
+                                <div class="flex justify-between items-center text-slate-500 font-medium text-lg"><span>BBO/BAZV/BAVP (7%)</span><span id="res-tax" class="text-brand-teal font-bold">+ ƒ 0.00</span></div>
+                                <div class="h-px bg-slate-100 my-4"></div>
+                                <div class="flex justify-between items-center"><span class="font-bold text-brand-navy text-xl">Total Invoice</span><span id="res-total" class="font-extrabold text-4xl text-brand-navy">ƒ 0.00</span></div>
                             </div>
                         </div>
-                        <div class="bg-brand-navy text-white p-12 md:p-16 flex flex-col justify-between relative overflow-hidden">
-                            <div class="absolute top-0 right-0 w-80 h-80 bg-brand-teal rounded-full blur-[100px] opacity-30 pointer-events-none"></div>
+                        <div class="bg-brand-navy text-white p-14 md:p-20 flex flex-col justify-between relative overflow-hidden">
+                            <div class="absolute top-0 right-0 w-96 h-96 bg-brand-teal rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
                             <div class="relative z-10">
-                                <h3 class="text-2xl font-bold mb-2">Next Deadline</h3>
-                                <p class="text-slate-300 text-sm">Official date for Dimp tax filing.</p>
+                                <h3 class="text-3xl font-bold mb-3">Next Deadline</h3>
+                                <p class="text-slate-300 text-lg">Official date for Dimp tax filing.</p>
                             </div>
-                            <div class="my-10 text-center relative z-10">
-                                <div class="text-7xl font-extrabold tracking-tight mb-2" id="days-left">0</div>
+                            <div class="my-12 text-center relative z-10">
+                                <div class="text-8xl font-extrabold tracking-tighter mb-4" id="days-left">0</div>
                                 <div class="text-sm font-bold text-brand-accent uppercase tracking-widest">Days Remaining</div>
                             </div>
-                            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-5 flex items-center gap-5 relative z-10 border border-white/10">
-                                <div class="bg-brand-teal p-3 rounded-xl text-white shadow-lg"><i data-lucide="calendar-clock" class="w-6 h-6"></i></div>
-                                <div><p class="text-lg font-bold" id="deadline-date">...</p><p class="text-xs text-slate-300 uppercase tracking-wide font-medium">Mark your calendar</p></div>
+                            <div class="bg-white/5 backdrop-blur-xl rounded-3xl p-6 flex items-center gap-6 relative z-10 border border-white/10">
+                                <div class="bg-brand-teal p-4 rounded-2xl text-white shadow-lg"><i data-lucide="calendar-clock" class="w-8 h-8"></i></div>
+                                <div><p class="text-xl font-bold" id="deadline-date">...</p><p class="text-xs text-slate-300 uppercase tracking-widest font-medium mt-1">Mark your calendar</p></div>
                             </div>
                         </div>
                     </div>
@@ -496,6 +497,19 @@
                 const nav = document.getElementById('navbar');
                 if (window.scrollY > 20) nav.classList.add('scrolled');
                 else nav.classList.remove('scrolled');
+                
+                // Scroll Spy
+                const sections = document.querySelectorAll('section');
+                const navLinks = document.querySelectorAll('.nav-link');
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 150) current = section.getAttribute('id');
+                });
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) link.classList.add('active');
+                });
             });
 
             const today = new Date().toISOString().split('T')[0];
@@ -558,7 +572,7 @@
                 const grid = document.getElementById(type + '-grid');
                 let html = '';
                 if(type === 'service') html = `<div class="brand-card reveal active" onclick="handleCardClick(this, 'new')"><div class="absolute top-4 right-4 z-20 edit-overlay"><button onclick="deleteItem(this); event.stopPropagation();" class="bg-red-500 text-white p-2 rounded-full"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="absolute inset-0 z-0"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-100"><div class="absolute inset-0 card-overlay"></div></div><div class="relative z-10 p-10 flex items-start"><div class="w-14 h-14 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/30"><i data-lucide="star" class="w-7 h-7"></i></div></div><div class="relative z-10 p-10 pt-0 flex flex-col justify-end"><h3 class="text-2xl font-bold text-white mb-3" data-editable="true">New Service</h3><p class="text-slate-200 leading-relaxed mb-6 font-medium text-sm" data-editable="true">Description.</p><span class="inline-flex items-center gap-2 bg-brand-navy/90 px-5 py-3 rounded-full text-xs font-bold text-brand-accent uppercase">View Details</span></div></div>`;
-                else html = `<div class="group cursor-pointer relative reveal active"><div class="absolute top-4 right-4 z-20 edit-overlay"><button onclick="deleteItem(this)" class="bg-red-500 text-white p-2 rounded-full"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="relative overflow-hidden rounded-[2rem] mb-6 shadow-xl aspect-[4/5] border border-slate-100"><img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 to-transparent opacity-80 flex items-end p-8"><p class="text-white text-sm font-medium italic" data-editable="true">"Ready to help."</p></div></div><h3 class="text-2xl font-bold text-brand-navy" data-editable="true">New Member</h3><p class="text-brand-teal font-bold text-xs tracking-widest uppercase mt-1" data-editable="true">Position</p></div>`;
+                else html = `<div class="group cursor-pointer relative reveal active"><div class="absolute top-4 right-4 z-20"><button onclick="deleteItem(this)" class="bg-red-500 text-white p-2 rounded-full"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="relative overflow-hidden rounded-[2rem] mb-6 shadow-xl aspect-[4/5] border border-slate-100"><img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 to-transparent opacity-80 flex items-end p-8"><p class="text-white text-sm font-medium italic" data-editable="true">"Ready to help."</p></div></div><h3 class="text-2xl font-bold text-brand-navy" data-editable="true">New Member</h3><p class="text-brand-teal font-bold text-xs tracking-widest uppercase mt-1" data-editable="true">Position</p></div>`;
                 grid.insertAdjacentHTML('beforeend', html);
                 lucide.createIcons();
                 if(document.body.classList.contains('editing-active')) grid.lastElementChild.querySelectorAll('[data-editable="true"]').forEach(el => el.contentEditable = "true");
