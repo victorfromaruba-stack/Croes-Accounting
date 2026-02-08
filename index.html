@@ -62,7 +62,7 @@
         .btn-primary { background: #0C3B53; color: white; transition: all 0.4s ease; border: 1px solid rgba(255,255,255,0.1); }
         .btn-primary:hover { background: #0F4C6A; transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(35, 134, 157, 0.4); }
 
-        /* --- CARD GRID FIX (Prevents Overlap) --- */
+        /* --- CARD GRID FIX --- */
         .brand-card { 
             position: relative; 
             overflow: hidden; 
@@ -70,21 +70,26 @@
             transition: all 0.5s ease; 
             background: white;
             box-shadow: 0 10px 30px -10px rgba(12, 59, 83, 0.1);
-            
-            /* THE FIX: CSS Grid Layout */
             display: grid;
-            grid-template-rows: 1fr auto; /* Row 1: Flexible space, Row 2: Content */
+            grid-template-rows: 1fr auto; /* Prevents overlap */
             height: 500px;
         }
         .brand-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgba(12, 59, 83, 0.25); }
         .brand-card img { transition: transform 0.8s ease; }
         .brand-card:hover img { transform: scale(1.08); }
-        .card-overlay { background: linear-gradient(to top, rgba(12, 59, 83, 0.95) 20%, rgba(12, 59, 83, 0.6) 60%, rgba(12, 59, 83, 0.1) 100%); }
+        .card-overlay { background: linear-gradient(to top, rgba(12, 59, 83, 0.95) 15%, rgba(12, 59, 83, 0.6) 60%, rgba(12, 59, 83, 0.1) 100%); }
 
         /* Admin & Edit */
         .editing-active [data-editable="true"]:hover { outline: 2px dashed #23869D; cursor: text; background: rgba(35, 134, 157, 0.1); }
-        .edit-overlay, .add-btn { display: none; }
-        .editing-active .edit-overlay, .editing-active .add-btn { display: inline-flex; }
+        
+        /* HIDDEN BY DEFAULT (Security) */
+        .edit-overlay { display: none; }
+        .editing-active .edit-overlay { display: inline-flex; }
+        
+        /* Note: .add-btn class is dynamic now, but we keep style just in case */
+        .add-btn { background: #23869D; color: white; padding: 10px 20px; border-radius: 99px; font-weight: bold; margin-top: 20px; transition: transform 0.2s; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(35, 134, 157, 0.3); }
+        .add-btn:hover { transform: scale(1.05); background: #0C3B53; }
+
         .admin-nav-btn { width: 100%; text-align: left; padding: 12px 16px; border-radius: 12px; color: #64748B; font-weight: 600; transition: all 0.2s; display: flex; align-items: center; gap: 12px; }
         .admin-nav-btn:hover { background: #F0F9FF; color: #0C3B53; }
         .admin-nav-btn.active { background: #E0F2FE; color: #0C3B53; }
@@ -196,10 +201,9 @@
         </section>
 
         <section id="services" class="view-section">
-            <div class="text-center max-w-3xl mx-auto mb-20 pt-10 reveal-on-scroll">
+            <div class="text-center max-w-3xl mx-auto mb-20 pt-10 reveal-on-scroll" id="services-header">
                 <h2 class="text-4xl font-extrabold text-brand-navy mb-4" data-editable="true" id="svc-title">What We Do For You</h2>
                 <p class="text-slate-500 text-xl" data-editable="true" id="svc-sub">Click any service to see how we help your business grow.</p>
-                <button onclick="addItem('service')" class="add-btn mt-8 bg-brand-teal hover:bg-brand-navy text-white px-6 py-3 rounded-full font-bold shadow-lg transform transition-transform hover:scale-105 flex items-center gap-2 mx-auto"><i data-lucide="plus" class="w-4 h-4"></i> Add New Service</button>
             </div>
             
             <div id="services-grid" class="grid md:grid-cols-3 gap-8">
@@ -254,10 +258,9 @@
         </section>
 
         <section id="team" class="view-section">
-            <div class="text-center max-w-3xl mx-auto mb-20 pt-10 reveal-on-scroll">
+            <div class="text-center max-w-3xl mx-auto mb-20 pt-10 reveal-on-scroll" id="team-header">
                 <h2 class="text-4xl font-extrabold text-brand-navy mb-4" data-editable="true" id="team-title">The People Behind the Numbers</h2>
                 <p class="text-slate-500 text-xl" data-editable="true" id="team-sub">We are a family-operated business committed to your success.</p>
-                <button onclick="addItem('team')" class="add-btn mt-8 bg-brand-teal hover:bg-brand-navy text-white px-6 py-3 rounded-full font-bold shadow-lg transform transition-transform hover:scale-105 flex items-center gap-2 mx-auto"><i data-lucide="plus" class="w-4 h-4"></i> Add Member</button>
             </div>
             
             <div id="team-grid" class="grid md:grid-cols-3 gap-10">
@@ -457,7 +460,7 @@
     <div id="toast" class="fixed top-36 right-8 bg-brand-navy text-white px-6 py-4 rounded-2xl shadow-2xl transform translate-x-96 opacity-0 transition-all duration-500 z-50 flex items-center gap-4 border border-white/10"><div class="bg-brand-teal p-2 rounded-full text-brand-navy"><i data-lucide="check" class="w-4 h-4"></i></div><div><h4 class="font-bold text-sm">Success</h4><p class="text-xs text-slate-300" id="toast-msg">Action completed.</p></div></div>
 
     <script>
-        // --- 1. CONFIGURATION ---
+        // CONFIG
         const CONFIG = {
             EMAIL_SERVICE_ID: "service_x7ol38h",
             ADMIN_TEMPLATE_ID: "template_3ajpnak",
@@ -465,7 +468,7 @@
             CLIENT_TEMPLATE_ID: "PASTE_YOUR_CLIENT_TEMPLATE_ID_HERE" 
         };
 
-        // --- 2. CORE ---
+        // CORE
         document.addEventListener('DOMContentLoaded', function() {
             try { if (typeof emailjs !== 'undefined') emailjs.init("8rBFXNPpsM9GIWhRR"); } catch (err) { console.error(err); }
             const today = new Date().toISOString().split('T')[0];
@@ -478,14 +481,14 @@
             CMS.load();
         });
 
-        // --- 3. SERVICES DATA ---
+        // SERVICES DATA
         const SERVICES_DATA = {
             tax: { title: "Tax Preparation", img: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80", icon: "calculator", items: ["BBO / BAZV Filing", "Proft Tax Returns", "Income Tax", "Fiscal Advice"], desc: "We ensure 100% compliance with Aruba's Dimp tax laws." },
             payroll: { title: "Payroll Services", img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80", icon: "users", items: ["Payslips", "Wage Tax", "AOV/AZV", "SVB Mutations"], desc: "Complete payroll management. Happy employees get paid on time." },
             advisory: { title: "Business Advisory", img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80", icon: "briefcase", items: ["KvK Setup", "Forecasting", "Audit Support", "Strategy"], desc: "Starting a new business? We guide you through the setup." }
         };
 
-        // --- 4. CMS & LOGIC ---
+        // CMS ENGINE
         const CMS = {
             sanitize: (str) => { const temp = document.createElement('div'); temp.textContent = str; return temp.innerHTML; },
             save: () => {
@@ -509,19 +512,37 @@
                 const elements = document.querySelectorAll('[data-editable="true"]');
                 const toolbar = document.getElementById('edit-toolbar');
                 if (enable) {
-                    document.body.classList.add('editing-active'); toolbar.classList.remove('hidden'); router('home');
+                    document.body.classList.add('editing-active'); 
+                    toolbar.classList.remove('hidden'); 
+                    router('home');
                     elements.forEach(el => el.contentEditable = "true");
+                    
+                    // INJECT ADD BUTTONS (Security Feature)
+                    if (!document.getElementById('add-svc-btn')) {
+                        document.getElementById('services-header').insertAdjacentHTML('beforeend', `<button id="add-svc-btn" onclick="addItem('service')" class="add-btn"><i data-lucide="plus" class="w-4 h-4"></i> Add Service</button>`);
+                    }
+                    if (!document.getElementById('add-team-btn')) {
+                        document.getElementById('team-header').insertAdjacentHTML('beforeend', `<button id="add-team-btn" onclick="addItem('team')" class="add-btn"><i data-lucide="plus" class="w-4 h-4"></i> Add Member</button>`);
+                    }
+                    lucide.createIcons();
                     showToast("Editor Active", "Tap text to edit.");
                 } else {
-                    document.body.classList.remove('editing-active'); toolbar.classList.add('hidden');
+                    document.body.classList.remove('editing-active'); 
+                    toolbar.classList.add('hidden');
                     elements.forEach(el => el.contentEditable = "false");
+                    
+                    // REMOVE ADD BUTTONS
+                    const btn1 = document.getElementById('add-svc-btn');
+                    const btn2 = document.getElementById('add-team-btn');
+                    if(btn1) btn1.remove();
+                    if(btn2) btn2.remove();
                 }
             },
             addItem: (type) => {
                 const grid = document.getElementById(type + '-grid');
                 let html = '';
                 if (type === 'service') {
-                    // UPDATED TO GRID
+                    // GRID LAYOUT
                     html = `<div class="brand-card reveal-on-scroll cursor-pointer group" onclick="handleCardClick(this, 'new')"><div class="absolute top-4 right-4 z-50 edit-overlay"><button onclick="deleteItem(this); event.stopPropagation();" class="bg-red-500 text-white p-3 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="absolute inset-0 z-0"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-100"><div class="absolute inset-0 card-overlay"></div></div><div class="relative z-10 p-10 flex items-start"><div class="w-14 h-14 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/30 shadow-lg"><i data-lucide="star" class="w-7 h-7"></i></div></div><div class="relative z-10 p-10 pt-0 flex flex-col justify-end"><h3 class="text-2xl font-bold text-white mb-3" data-editable="true">New Service</h3><p class="text-slate-200 leading-relaxed mb-8 font-medium" data-editable="true">Description.</p><span class="inline-flex items-center gap-2 bg-brand-navy/80 px-5 py-3 rounded-full backdrop-blur-md border border-white/10 text-sm font-bold text-brand-accent group-hover:bg-brand-teal group-hover:text-white transition-all shadow-lg w-fit">View Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span></div></div>`;
                 } else {
                     html = `<div class="group cursor-pointer relative reveal-on-scroll"><div class="absolute top-4 right-4 z-50 edit-overlay"><button onclick="deleteItem(this)" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="relative overflow-hidden rounded-[2rem] mb-6 shadow-xl aspect-[4/5] border border-slate-100"><img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=800&q=80" class="human-img w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"><div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8"><p class="text-white text-sm font-medium italic" data-editable="true">"Ready to help."</p></div></div><h3 class="text-2xl font-bold text-brand-navy" data-editable="true">New Member</h3><p class="text-brand-teal font-bold text-sm tracking-wide uppercase mt-1" data-editable="true">Position</p></div>`;
