@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>Accounting Croes | Aruba's Premier Financial Firm</title>
-    <meta name="description" content="Expert tax preparation, payroll services, and business advisory in Aruba. Trusted by local businesses for accuracy and integrity.">
+    <meta name="description" content="Expert tax preparation, payroll services, and business advisory in Aruba. Trusted by local businesses since 2003.">
     <meta property="og:title" content="Accounting Croes | Real People. Real Results.">
     <meta property="og:image" content="https://croesaccounting.com/logo.png">
     <link rel="icon" href="logo.png" type="image/png">
@@ -56,6 +56,7 @@
         ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 99px; }
         ::-webkit-scrollbar-thumb:hover { background: #0C3B53; }
 
+        /* Navbar & Scroll Offset Fix */
         nav { transition: all 0.4s ease; }
         nav.scrolled { 
             background: rgba(255, 255, 255, 0.90); 
@@ -65,6 +66,7 @@
         }
         nav.scrolled .logo-img { height: 48px; }
 
+        /* Text Gradient */
         .text-gradient { 
             background: linear-gradient(to right, #0C3B53 20%, #23869D 40%, #4FD1C5 50%, #23869D 60%, #0C3B53 80%); 
             background-size: 200% auto; 
@@ -74,6 +76,7 @@
             animation: shimmer 5s linear infinite; 
         }
 
+        /* Buttons */
         .btn-primary { 
             background: #0C3B53; color: white; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); 
             position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);
@@ -86,6 +89,7 @@
         .btn-primary:hover::before { left: 100%; }
         .btn-primary:hover { background: #0F4563; transform: translateY(-2px); box-shadow: 0 15px 30px -10px rgba(12, 59, 83, 0.3); }
 
+        /* Card System */
         .brand-card { 
             position: relative; overflow: hidden; border-radius: 1.5rem; background: white;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); border: 1px solid rgba(255,255,255,0.5);
@@ -94,13 +98,14 @@
         }
         .brand-card:hover { 
             transform: translateY(-8px); 
-            box-shadow: 0 20px 40px -12px rgba(12, 59, 83, 0.15); 
+            box-shadow: 0 25px 50px -12px rgba(12, 59, 83, 0.15); 
             border-color: rgba(35, 134, 157, 0.3);
         }
         .brand-card img { transition: transform 0.8s ease; }
         .brand-card:hover img { transform: scale(1.05); }
         .card-overlay { background: linear-gradient(to top, rgba(12, 59, 83, 0.98) 10%, rgba(12, 59, 83, 0.5) 60%, rgba(12, 59, 83, 0.05) 100%); }
 
+        /* Forms */
         .input-group { position: relative; }
         .input-field { 
             width: 100%; padding: 16px; border-radius: 12px; border: 1px solid #E2E8F0; 
@@ -116,12 +121,13 @@
             transform: translateY(-28px); font-size: 11px; color: #23869D; background: white; padding: 0 4px;
         }
 
+        /* Utils */
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
         
         .nav-link.active { color: #0C3B53; font-weight: 700; }
         .nav-link.active::after { content: ''; display: block; width: 100%; height: 2px; background: #23869D; border-radius: 2px; margin-top: 4px; }
-        
+
         /* Modal & Admin */
         #service-modal { transition: opacity 0.3s ease; z-index: 9999 !important; }
         #service-modal.hidden { pointer-events: none; opacity: 0; }
@@ -311,7 +317,7 @@
             </div>
         </section>
 
-        <section id="tools" class="py-20">
+        <section id="tools" class="py-20 scroll-mt-32">
             <div class="max-w-5xl mx-auto px-6">
                 <div class="bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 overflow-hidden reveal">
                     <div class="grid md:grid-cols-2">
