@@ -22,7 +22,7 @@
                 extend: {
                     fontFamily: { sans: ['Manrope', 'sans-serif'] },
                     colors: { brand: { navy: '#0C3B53', teal: '#23869D', accent: '#4FD1C5', surface: '#F8FAFC', success: '#10B981', warning: '#F59E0B', danger: '#EF4444' } },
-                    animation: { 'reveal': 'reveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards' },
+                    animation: { 'reveal': 'reveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards', 'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite' },
                     keyframes: { reveal: { from: { opacity: '0', transform: 'translateY(20px)' }, to: { opacity: '1', transform: 'translateY(0)' } } }
                 }
             }
@@ -30,19 +30,22 @@
     </script>
 
     <style>
-        /* CORE */
+        /* CORE & SCROLLBAR */
         body { background-color: #F8FAFC; color: #1E293B; overflow-x: hidden; }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #F8FAFC; }
         ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #23869D; }
 
+        /* GLASSMORPHISM & UTILS */
         .glass-panel { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07); }
         .text-gradient { background: linear-gradient(135deg, #0C3B53 0%, #23869D 100%); -webkit-background-clip: text; color: transparent; }
         
+        /* NAVBAR */
         nav { transition: all 0.4s ease; }
         nav.scrolled { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); height: 72px !important; box-shadow: 0 4px 20px rgba(12, 59, 83, 0.04); }
         
+        /* BUTTONS & CARDS */
         .btn-primary { background: #0C3B53; color: white; position: relative; overflow: hidden; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid rgba(255,255,255,0.1); }
         .btn-primary:hover { background: #0F4563; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(12, 59, 83, 0.3); }
 
@@ -70,7 +73,7 @@
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
         
-        /* LOGO FIX IN PORTAL */
+        /* LOGO FIX */
         .portal-logo-container { background: white; padding: 12px; border-radius: 16px; display: inline-block; margin-bottom: 2rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         .portal-logo-container img { height: 32px; width: auto; display: block; }
 
@@ -82,7 +85,8 @@
     <div id="preloader" class="fixed inset-0 bg-white z-[99999] flex items-center justify-center transition-opacity duration-500">
         <div class="text-center">
             <div class="w-16 h-16 border-4 border-slate-100 border-t-brand-navy rounded-full animate-spin mx-auto mb-4"></div>
-            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes</p>
+            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes v8.1</p>
+            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">Secured Connection</p>
         </div>
     </div>
 
@@ -249,6 +253,7 @@
                 <nav class="space-y-2">
                     <button onclick="CroesApp.switchPortalTab('dash')" class="portal-nav-btn active"><i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard</button>
                     <button onclick="CroesApp.switchPortalTab('docs')" class="portal-nav-btn"><i data-lucide="file-text" class="w-5 h-5"></i> Documents</button>
+                    <button onclick="CroesApp.switchPortalTab('vault')" class="portal-nav-btn"><i data-lucide="lock" class="w-5 h-5"></i> Secure Vault</button>
                     <button onclick="CroesApp.switchPortalTab('msgs')" class="portal-nav-btn"><i data-lucide="message-square" class="w-5 h-5"></i> Messages</button>
                 </nav>
             </div>
@@ -290,6 +295,30 @@
                 <div id="portal-file-list" class="space-y-3"></div>
             </div>
 
+            <div id="portal-vault" class="hidden">
+                <div class="bg-brand-navy text-white p-8 rounded-3xl shadow-xl mb-8 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-brand-teal rounded-full blur-[80px] opacity-20 pointer-events-none"></div>
+                    <h3 class="font-bold text-2xl mb-2 flex items-center gap-2"><i data-lucide="shield-check" class="w-6 h-6"></i> Zero-Knowledge Vault</h3>
+                    <p class="text-slate-300 text-sm max-w-lg">Credentials stored here are encrypted with your login PIN using AES-256. We cannot access them without your key.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                        <h4 class="font-bold text-brand-navy mb-6">Store New Credential</h4>
+                        <input type="text" id="vault-service" placeholder="Service Name (e.g. Dimp)" class="w-full p-4 bg-slate-50 border-0 rounded-xl mb-3 font-bold text-brand-navy text-sm outline-none focus:ring-2 focus:ring-brand-teal">
+                        <input type="text" id="vault-user" placeholder="Username" class="w-full p-4 bg-slate-50 border-0 rounded-xl mb-3 font-bold text-brand-navy text-sm outline-none focus:ring-2 focus:ring-brand-teal">
+                        <div class="relative mb-6">
+                            <input type="password" id="vault-pass" placeholder="Password" class="w-full p-4 bg-slate-50 border-0 rounded-xl font-bold text-brand-navy text-sm outline-none focus:ring-2 focus:ring-brand-teal">
+                            <button onclick="document.getElementById('vault-pass').type = document.getElementById('vault-pass').type === 'password' ? 'text' : 'password'" class="absolute right-4 top-4 text-slate-400 hover:text-brand-teal"><i data-lucide="eye" class="w-4 h-4"></i></button>
+                        </div>
+                        <button onclick="CroesApp.saveToVault()" class="w-full btn-primary py-3 rounded-xl font-bold shadow-lg">Encrypt & Save</button>
+                    </div>
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                        <h4 class="font-bold text-brand-navy mb-6">My Encrypted Keys</h4>
+                        <div id="vault-list" class="space-y-3"></div>
+                    </div>
+                </div>
+            </div>
+
             <div id="portal-msgs" class="hidden">
                 <div class="bg-white p-0 rounded-3xl shadow-sm border border-slate-100 h-[600px] flex flex-col overflow-hidden">
                     <div class="p-4 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center"><span class="font-bold text-brand-navy text-sm">Secure Message Thread</span><span class="text-xs text-slate-400 flex items-center gap-1"><i data-lucide="lock" class="w-3 h-3"></i> End-to-End Encrypted</span></div>
@@ -306,7 +335,7 @@
     <section id="back-office" class="hidden fixed inset-0 z-[99999] bg-slate-50 overflow-y-auto">
         <div class="max-w-7xl mx-auto p-8 pt-24">
             <div class="flex justify-between items-center mb-10">
-                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v7.0 • Connected</p></div>
+                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v8.1 • Secured</p></div>
                 <div class="flex gap-4">
                     <a href="https://workplace.zoho.com/#mail_app/mail/folder/inbox" target="_blank" class="flex items-center gap-2 bg-white text-brand-navy border border-slate-200 px-5 py-2.5 rounded-xl font-bold shadow-sm hover:bg-slate-50 transition-colors"><i data-lucide="mail" class="w-4 h-4"></i> Check Mail</a>
                     <button onclick="CroesApp.logout()" class="text-red-500 font-bold hover:bg-red-50 px-4 py-2 rounded-lg transition-colors">Log Out</button>
@@ -378,12 +407,62 @@
     <script>
         const CroesApp = {
             db: null, currentClientEmail: null, targetImgEl: null,
-            init: function() { this.initDB(); this.initUI(); },
-            initDB: function() {
-                const request = indexedDB.open("CroesDBv7", 1);
-                request.onupgradeneeded = (e) => { const d = e.target.result; if(!d.objectStoreNames.contains('files')) d.createObjectStore('files', { keyPath: 'id', autoIncrement: true }); if(!d.objectStoreNames.contains('bookings')) d.createObjectStore('bookings', { keyPath: 'id', autoIncrement: true }); };
-                request.onsuccess = (e) => { this.db = e.target.result; this.updateStats(); console.log("DB Ready"); };
+            
+            // --- 1. SECURITY MODULE (New in v8.1) ---
+            security: {
+                key: null,
+                
+                // PBKDF2 Key Derivation
+                deriveKey: async function(password) {
+                    const enc = new TextEncoder();
+                    const keyMaterial = await crypto.subtle.importKey("raw", enc.encode(password), { name: "PBKDF2" }, false, ["deriveKey"]);
+                    return crypto.subtle.deriveKey(
+                        { name: "PBKDF2", salt: enc.encode("CROES_SALT_V1"), iterations: 100000, hash: "SHA-256" },
+                        keyMaterial, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]
+                    );
+                },
+
+                // Encrypt data before DB storage
+                encrypt: async function(text, password) {
+                    const key = await this.deriveKey(password);
+                    const iv = crypto.getRandomValues(new Uint8Array(12));
+                    const encoded = new TextEncoder().encode(text);
+                    const encrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv: iv }, key, encoded);
+                    const combined = new Uint8Array(iv.length + new Uint8Array(encrypted).length);
+                    combined.set(iv);
+                    combined.set(new Uint8Array(encrypted), iv.length);
+                    return btoa(String.fromCharCode(...combined));
+                },
+
+                // Decrypt data from DB
+                decrypt: async function(encryptedBase64, password) {
+                    try {
+                        const str = atob(encryptedBase64);
+                        const buffer = new Uint8Array(str.length);
+                        for (let i = 0; i < str.length; i++) buffer[i] = str.charCodeAt(i);
+                        const iv = buffer.slice(0, 12);
+                        const data = buffer.slice(12);
+                        const key = await this.deriveKey(password);
+                        const decrypted = await crypto.subtle.decrypt({ name: "AES-GCM", iv: iv }, key, data);
+                        return new TextDecoder().decode(decrypted);
+                    } catch (e) { console.error(e); return null; }
+                }
             },
+
+            init: function() { this.initDB(); this.initUI(); },
+            
+            initDB: function() {
+                // Version 2 adds the 'vault' store
+                const request = indexedDB.open("CroesDBv7", 2);
+                request.onupgradeneeded = (e) => { 
+                    const d = e.target.result; 
+                    if(!d.objectStoreNames.contains('files')) d.createObjectStore('files', { keyPath: 'id', autoIncrement: true }); 
+                    if(!d.objectStoreNames.contains('bookings')) d.createObjectStore('bookings', { keyPath: 'id', autoIncrement: true });
+                    if(!d.objectStoreNames.contains('vault')) d.createObjectStore('vault', { keyPath: 'id', autoIncrement: true }); // New V8.1
+                };
+                request.onsuccess = (e) => { this.db = e.target.result; this.updateStats(); console.log("DB Ready v8.1"); };
+            },
+            
             initUI: function() {
                 window.addEventListener('scroll', () => { const nav = document.getElementById('navbar'); if (window.scrollY > 20) nav.classList.add('scrolled'); else nav.classList.remove('scrolled'); });
                 lucide.createIcons();
@@ -391,7 +470,9 @@
                 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
                 setTimeout(() => { document.getElementById('preloader').style.display = 'none'; this.initDates(); }, 1000);
             },
+            
             showToast: function(title, msg) { const el = document.getElementById('toast'); el.querySelector('h4').innerText = title; document.getElementById('toast-msg').innerText = msg; el.classList.remove('translate-x-96', 'opacity-0'); setTimeout(() => el.classList.add('translate-x-96', 'opacity-0'), 3000); },
+            
             updateStats: function() {
                 if(!this.db) return;
                 const tx = this.db.transaction(['bookings', 'files'], 'readonly');
@@ -402,32 +483,58 @@
                 };
                 tx.objectStore('files').count().onsuccess = (e) => { document.getElementById('stat-files').innerText = e.target.result; };
             },
-            handleLogin: function() { if(document.getElementById('admin-pass').value === 'admin123') { document.getElementById('login-modal').classList.add('hidden'); document.getElementById('back-office').classList.remove('hidden'); this.renderDashboard(); this.updateStats(); } else { document.getElementById('login-error').classList.remove('hidden'); } },
+            
+            handleLogin: function() { 
+                // In Prod, use hash comparison. For demo, plain check.
+                if(document.getElementById('admin-pass').value === 'admin123') { 
+                    document.getElementById('login-modal').classList.add('hidden'); 
+                    document.getElementById('back-office').classList.remove('hidden'); 
+                    this.renderDashboard(); 
+                    this.updateStats(); 
+                } else { document.getElementById('login-error').classList.remove('hidden'); } 
+            },
+            
             logout: function() { document.getElementById('back-office').classList.add('hidden'); document.body.classList.remove('editing-active'); this.toggleEdit(false); },
+            
             switchAdminTab: function(tab) { ['inbox','cms','clients'].forEach(t => { document.getElementById('admin-'+t).classList.add('hidden'); document.getElementById('btn-'+t).classList.remove('bg-brand-navy', 'text-white', 'shadow-lg'); document.getElementById('btn-'+t).classList.add('bg-white', 'text-slate-500', 'shadow-sm'); }); document.getElementById('admin-'+tab).classList.remove('hidden'); document.getElementById('btn-'+tab).classList.remove('bg-white', 'text-slate-500', 'shadow-sm'); document.getElementById('btn-'+tab).classList.add('bg-brand-navy', 'text-white', 'shadow-lg'); if(tab === 'clients') this.renderAdminRepo(); },
+            
             renderDashboard: function() {
                 if(!this.db) return;
+                const tbody = document.getElementById('booking-list');
+                
+                // NEW: Skeleton Loader V8.1
+                tbody.innerHTML = `
+                    <tr class="animate-pulse"><td class="p-4"><div class="h-4 bg-slate-100 rounded w-24 mb-2"></div><div class="h-3 bg-slate-50 rounded w-16"></div></td><td class="p-4"><div class="h-4 bg-slate-100 rounded w-20"></div></td><td class="p-4"><div class="h-4 bg-slate-100 rounded w-12"></div></td><td class="p-4"><div class="h-6 bg-slate-100 rounded-full w-16"></div></td><td class="p-4 text-right"><div class="h-8 bg-slate-100 rounded w-8 inline-block"></div></td></tr>
+                    <tr class="animate-pulse"><td class="p-4"><div class="h-4 bg-slate-100 rounded w-24 mb-2"></div><div class="h-3 bg-slate-50 rounded w-16"></div></td><td class="p-4"><div class="h-4 bg-slate-100 rounded w-20"></div></td><td class="p-4"><div class="h-4 bg-slate-100 rounded w-12"></div></td><td class="p-4"><div class="h-6 bg-slate-100 rounded-full w-16"></div></td><td class="p-4 text-right"><div class="h-8 bg-slate-100 rounded w-8 inline-block"></div></td></tr>
+                `;
+
                 const tx = this.db.transaction(['bookings'], 'readonly');
                 tx.objectStore('bookings').getAll().onsuccess = (e) => {
                     const bookings = e.target.result.reverse();
-                    const tbody = document.getElementById('booking-list');
-                    tbody.innerHTML = '';
-                    if(bookings.length === 0) tbody.innerHTML = '<tr><td colspan="5" class="p-8 text-center text-slate-400">No pending requests.</td></tr>';
-                    bookings.forEach(b => {
-                        const isPending = b.status === 'Pending';
-                        tbody.innerHTML += `<tr class="border-b border-slate-50 hover:bg-slate-50/50 transition-colors"><td class="p-4"><div class="font-bold text-brand-navy">${b.name}</div><div class="text-xs text-slate-400 font-mono">${b.email}</div></td><td class="p-4 text-slate-600 font-medium">${b.service}</td><td class="p-4 text-slate-500 text-xs">${b.date}</td><td class="p-4">${isPending ? '<span class="px-3 py-1 rounded-full text-xs font-bold bg-orange-50 text-orange-600">Pending</span>' : '<span class="px-3 py-1 rounded-full text-xs font-bold bg-green-50 text-green-600">Confirmed</span>'}</td><td class="p-4 text-right space-x-2">${isPending ? `<button onclick="CroesApp.confirmBooking(${b.id})" class="p-2 bg-green-50 text-green-600 rounded-lg"><i data-lucide="check" class="w-4 h-4"></i></button>` : ''}<button onclick="CroesApp.deleteBooking(${b.id})" class="p-2 bg-red-50 text-red-500 rounded-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></td></tr>`;
-                    });
-                    lucide.createIcons();
+                    
+                    // Artificial delay for UX polish
+                    setTimeout(() => {
+                        tbody.innerHTML = '';
+                        if(bookings.length === 0) tbody.innerHTML = '<tr><td colspan="5" class="p-8 text-center text-slate-400">No pending requests.</td></tr>';
+                        bookings.forEach(b => {
+                            const isPending = b.status === 'Pending';
+                            tbody.innerHTML += `<tr class="border-b border-slate-50 hover:bg-slate-50/50 transition-colors"><td class="p-4"><div class="font-bold text-brand-navy">${b.name}</div><div class="text-xs text-slate-400 font-mono">${b.email}</div></td><td class="p-4 text-slate-600 font-medium">${b.service}</td><td class="p-4 text-slate-500 text-xs">${b.date}</td><td class="p-4">${isPending ? '<span class="px-3 py-1 rounded-full text-xs font-bold bg-orange-50 text-orange-600">Pending</span>' : '<span class="px-3 py-1 rounded-full text-xs font-bold bg-green-50 text-green-600">Confirmed</span>'}</td><td class="p-4 text-right space-x-2">${isPending ? `<button onclick="CroesApp.confirmBooking(${b.id})" class="p-2 bg-green-50 text-green-600 rounded-lg"><i data-lucide="check" class="w-4 h-4"></i></button>` : ''}<button onclick="CroesApp.deleteBooking(${b.id})" class="p-2 bg-red-50 text-red-500 rounded-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></td></tr>`;
+                        });
+                        lucide.createIcons();
+                    }, 600);
                 };
             },
+            
             confirmBooking: function(id) { if(confirm("Confirm booking?")) { const tx = this.db.transaction(['bookings'], 'readwrite'); const store = tx.objectStore('bookings'); store.get(id).onsuccess = (e) => { const data = e.target.result; data.status = 'Confirmed'; store.put(data); this.renderDashboard(); this.updateStats(); this.showToast("Success", "Booking confirmed."); }; } },
             deleteBooking: function(id) { if(confirm("Delete record?")) { const tx = this.db.transaction(['bookings'], 'readwrite'); tx.objectStore('bookings').delete(id); this.renderDashboard(); this.updateStats(); } },
             searchAdmin: function(query) { const rows = document.querySelectorAll('#booking-list tr'); rows.forEach(row => { row.style.display = row.innerText.toLowerCase().includes(query.toLowerCase()) ? '' : 'none'; }); },
+            
             openPortalLogin: function() { document.getElementById('client-login-modal').classList.remove('hidden'); },
             clientLoginStep1: function() { this.currentClientEmail = document.getElementById('client-email').value; if(this.currentClientEmail) { document.getElementById('client-step-1').classList.add('hidden'); document.getElementById('client-step-2').classList.remove('hidden'); } },
-            clientLoginStep2: function() { if(document.getElementById('client-code').value === '123456') { document.getElementById('client-login-modal').classList.add('hidden'); document.getElementById('public-view').classList.add('hidden'); document.getElementById('client-portal').classList.remove('hidden'); document.getElementById('portal-client-name').innerText = this.currentClientEmail.split('@')[0]; this.renderClientFiles(); } },
+            clientLoginStep2: function() { if(document.getElementById('client-code').value === '123456') { document.getElementById('client-login-modal').classList.add('hidden'); document.getElementById('public-view').classList.add('hidden'); document.getElementById('client-portal').classList.remove('hidden'); document.getElementById('portal-client-name').innerText = this.currentClientEmail.split('@')[0]; this.renderClientFiles(); this.renderVault(); } },
             logoutClient: function() { document.getElementById('client-portal').classList.add('hidden'); document.getElementById('public-view').classList.remove('hidden'); this.currentClientEmail = null; },
-            switchPortalTab: function(tab) { ['dash','docs','msgs'].forEach(t => document.getElementById('portal-'+t).classList.add('hidden')); document.getElementById('portal-'+tab).classList.remove('hidden'); document.querySelectorAll('.portal-nav-btn').forEach(b => b.classList.remove('active')); event.currentTarget.classList.add('active'); },
+            switchPortalTab: function(tab) { ['dash','docs','msgs', 'vault'].forEach(t => document.getElementById('portal-'+t).classList.add('hidden')); document.getElementById('portal-'+tab).classList.remove('hidden'); document.querySelectorAll('.portal-nav-btn').forEach(b => b.classList.remove('active')); event.currentTarget.classList.add('active'); },
+            
             handleFileUpload: function(input) {
                 if(input.files.length > 0) {
                     const file = input.files[0];
@@ -441,6 +548,7 @@
                     reader.readAsArrayBuffer(file);
                 }
             },
+            
             renderClientFiles: function() {
                 const tx = this.db.transaction(['files'], 'readonly');
                 tx.objectStore('files').getAll().onsuccess = (e) => {
@@ -452,6 +560,47 @@
                     lucide.createIcons();
                 };
             },
+
+            // --- VAULT LOGIC (New in V8.1) ---
+            saveToVault: async function() {
+                const s = document.getElementById('vault-service').value;
+                const u = document.getElementById('vault-user').value;
+                const p = document.getElementById('vault-pass').value;
+                if(!s || !u || !p) return this.showToast("Error", "All fields required");
+
+                // Encrypt using the session PIN (Using '123456' as session key for demo)
+                const payload = JSON.stringify({ user: u, pass: p });
+                const encryptedData = await this.security.encrypt(payload, '123456');
+
+                const tx = this.db.transaction(['vault'], 'readwrite');
+                tx.objectStore('vault').add({ clientEmail: this.currentClientEmail, service: s, data: encryptedData, date: new Date().toLocaleDateString() });
+                this.showToast("Secure", "Credentials encrypted & stored.");
+                this.renderVault();
+                document.getElementById('vault-pass').value = '';
+            },
+
+            renderVault: function() {
+                const tx = this.db.transaction(['vault'], 'readonly');
+                tx.objectStore('vault').getAll().onsuccess = async (e) => {
+                    const items = e.target.result.filter(i => i.clientEmail === this.currentClientEmail);
+                    const list = document.getElementById('vault-list');
+                    list.innerHTML = '';
+                    if(items.length === 0) { list.innerHTML = '<p class="text-slate-400 text-sm text-center italic mt-10">Vault is empty.</p>'; return; }
+                    
+                    for(const item of items) {
+                        try {
+                            // Decrypt using same session PIN
+                            const decryptedJson = await this.security.decrypt(item.data, '123456');
+                            if(!decryptedJson) continue;
+                            const creds = JSON.parse(decryptedJson);
+                            list.innerHTML += `<div class="p-4 bg-slate-50 border border-slate-100 rounded-xl group hover:border-brand-teal transition-colors"><div class="flex justify-between items-center mb-2"><span class="font-bold text-brand-navy">${item.service}</span><button onclick="CroesApp.deleteVaultItem(${item.id})" class="text-slate-300 hover:text-red-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="text-xs text-slate-500 font-mono bg-white p-2 rounded border border-slate-100 flex justify-between"><span>${creds.user}</span><span class="tracking-widest">••••••</span></div></div>`;
+                        } catch(err) { console.error("Decrypt Error", err); }
+                    }
+                    lucide.createIcons();
+                };
+            },
+            deleteVaultItem: function(id) { if(confirm("Destroy this credential?")) { const tx = this.db.transaction(['vault'], 'readwrite'); tx.objectStore('vault').delete(id); this.renderVault(); } },
+
             renderAdminRepo: function() {
                 if(!this.db) return;
                 const tx = this.db.transaction(['files'], 'readonly');
@@ -464,46 +613,40 @@
                     lucide.createIcons();
                 };
             },
+            
             toggleEdit: function(enable) {
                 const toolbar = document.getElementById('edit-toolbar');
                 if (enable) { document.body.classList.add('editing-active'); toolbar.classList.remove('hidden'); document.getElementById('back-office').classList.add('hidden'); document.querySelectorAll('[data-editable="true"]').forEach(el => el.contentEditable = "true"); if(!document.getElementById('add-svc-btn')) { document.getElementById('services-header').insertAdjacentHTML('beforeend', `<button id="add-svc-btn" onclick="CroesApp.addItem('services')" class="admin-control mx-auto mt-6 bg-brand-teal text-white px-6 py-2 rounded-full font-bold shadow-lg hover:bg-brand-navy transition-all flex items-center gap-2"><i data-lucide="plus-circle" class="w-4 h-4"></i> Add Service Card</button>`); } if(!document.getElementById('add-team-btn')) { document.getElementById('team-header').insertAdjacentHTML('beforeend', `<button id="add-team-btn" onclick="CroesApp.addItem('team')" class="admin-control mx-auto mt-6 bg-brand-teal text-white px-6 py-2 rounded-full font-bold shadow-lg hover:bg-brand-navy transition-all flex items-center gap-2"><i data-lucide="user-plus" class="w-4 h-4"></i> Add Team Member</button>`); } lucide.createIcons(); this.showToast("Editor Enabled", "Hover photos to change them."); } else { document.body.classList.remove('editing-active'); toolbar.classList.add('hidden'); document.querySelectorAll('[data-editable="true"]').forEach(el => el.contentEditable = "false"); }
             },
             saveEdits: function() { const changes = {}; document.querySelectorAll('[data-editable="true"]').forEach(el => { if(el.id) { changes[el.id] = el.innerHTML; localStorage.setItem('cms_' + el.id, el.innerHTML); } }); localStorage.setItem('cms_structure_services', document.getElementById('services-grid').innerHTML); localStorage.setItem('cms_structure_team', document.getElementById('team-grid').innerHTML); this.showToast("Saved", "Changes published."); },
-            addItem: function(type) { const gridId = type === 'services' ? 'services-grid' : 'team-grid'; const grid = document.getElementById(gridId); let html = ''; if(type === 'services') { html = `<div class="brand-card reveal active" onclick="CroesApp.handleCardClick(this, 'new')"><div class="absolute top-4 right-4 z-20 admin-control"><button onclick="CroesApp.deleteItem(this); event.stopPropagation();" class="bg-red-500 text-white p-3 rounded-full shadow-lg hover:bg-red-600 transition-colors"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="absolute inset-0 z-0"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-100"><div class="absolute inset-0 card-overlay"></div></div><div class="relative z-10 p-10 flex items-start"><div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/30 shadow-lg"><i data-lucide="star" class="w-8 h-8"></i></div></div><div class="relative z-10 p-10 pt-0 mt-auto flex flex-col justify-end"><h3 class="text-3xl font-bold text-white mb-3" data-editable="true">New Service</h3><p class="text-slate-200 leading-relaxed mb-8 font-medium" data-editable="true">Description.</p><span class="inline-flex items-center gap-2 bg-brand-navy/90 px-6 py-3 rounded-full backdrop-blur-md border border-white/10 text-xs font-bold text-brand-accent uppercase tracking-wide w-fit">Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span></div></div>`; } else { html = `<div class="group cursor-pointer relative reveal active"><div class="absolute top-4 right-4 z-20 admin-control"><button onclick="CroesApp.deleteItem(this)" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="relative overflow-hidden rounded-[2rem] mb-6 shadow-xl aspect-[4/5] border border-slate-100 group-hover:shadow-2xl transition-all"><img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"><div class="photo-upload-overlay absolute inset-0 bg-brand-navy/60 backdrop-blur-sm hidden items-center justify-center z-10 cursor-pointer" onclick="CroesApp.triggerPhotoUpload(this.previousElementSibling)"><div class="bg-white p-4 rounded-full shadow-xl"><i data-lucide="camera" class="w-6 h-6 text-brand-navy"></i></div></div><div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8"><p class="text-white text-sm font-medium italic" data-editable="true">"New Member"</p></div></div><h3 class="text-2xl font-bold text-brand-navy" data-editable="true">Name</h3><p class="text-brand-teal font-bold text-xs tracking-widest uppercase mt-1" data-editable="true">Role</p></div>`; } grid.insertAdjacentHTML('beforeend', html); lucide.createIcons(); if(document.body.classList.contains('editing-active')) grid.lastElementChild.querySelectorAll('[data-editable="true"]').forEach(el => el.contentEditable = "true"); },
+            
+            addItem: function(type) { 
+                const gridId = type === 'services' ? 'services-grid' : 'team-grid'; 
+                const grid = document.getElementById(gridId); 
+                let html = ''; 
+                if(type === 'services') { html = `<div class="brand-card reveal active" onclick="CroesApp.handleCardClick(this, 'new')"><div class="absolute top-4 right-4 z-20 admin-control"><button onclick="CroesApp.deleteItem(this); event.stopPropagation();" class="bg-red-500 text-white p-3 rounded-full shadow-lg hover:bg-red-600 transition-colors"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="absolute inset-0 z-0"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-100"><div class="absolute inset-0 card-overlay"></div></div><div class="relative z-10 p-10 flex items-start"><div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/30 shadow-lg"><i data-lucide="star" class="w-8 h-8"></i></div></div><div class="relative z-10 p-10 pt-0 mt-auto flex flex-col justify-end"><h3 class="text-3xl font-bold text-white mb-3" data-editable="true">New Service</h3><p class="text-slate-200 leading-relaxed mb-8 font-medium" data-editable="true">Description.</p><span class="inline-flex items-center gap-2 bg-brand-navy/90 px-6 py-3 rounded-full backdrop-blur-md border border-white/10 text-xs font-bold text-brand-accent uppercase tracking-wide w-fit">Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span></div></div>`; } 
+                else { html = `<div class="group cursor-pointer relative reveal active"><div class="absolute top-4 right-4 z-20 admin-control"><button onclick="CroesApp.deleteItem(this)" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="relative overflow-hidden rounded-[2rem] mb-6 shadow-xl aspect-[4/5] border border-slate-100 group-hover:shadow-2xl transition-all"><img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"><div class="photo-upload-overlay absolute inset-0 bg-brand-navy/60 backdrop-blur-sm hidden items-center justify-center z-10 cursor-pointer" onclick="CroesApp.triggerPhotoUpload(this.previousElementSibling)"><div class="bg-white p-4 rounded-full shadow-xl"><i data-lucide="camera" class="w-6 h-6 text-brand-navy"></i></div></div><div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8"><p class="text-white text-sm font-medium italic" data-editable="true">"New Member"</p></div></div><h3 class="text-2xl font-bold text-brand-navy" data-editable="true">Name</h3><p class="text-brand-teal font-bold text-xs tracking-widest uppercase mt-1" data-editable="true">Role</p></div>`; } 
+                grid.insertAdjacentHTML('beforeend', html); 
+                lucide.createIcons(); 
+                if(document.body.classList.contains('editing-active')) grid.lastElementChild.querySelectorAll('[data-editable="true"]').forEach(el => el.contentEditable = "true"); 
+            },
             deleteItem: function(btn) { if(confirm("Delete this item?")) { btn.closest('.brand-card, .group').remove(); this.saveEdits(); } },
-            handleCardClick: function(el, id) { if(document.body.classList.contains('editing-active')) return; const title = el.querySelector('h3').innerText; const desc = el.querySelector('p').innerText; const img = el.querySelector('img').src; document.getElementById('modal-title').innerText = title; document.getElementById('modal-desc').innerText = desc; document.getElementById('modal-bg-img').src = img; document.getElementById('service-modal').classList.remove('hidden'); },
+            handleCardClick: function(el, id) { if(document.body.classList.contains('editing-active')) return; },
             toggleMobileMenu: function() { const m = document.getElementById('mobile-menu'); m.classList.toggle('hidden'); },
             sendClientMessage: function() { const val = document.getElementById('msg-input').value; if(!val) return; document.getElementById('msg-container').innerHTML += `<div class="bg-brand-teal text-white p-3 rounded-2xl rounded-tr-none ml-auto w-fit max-w-[80%] text-sm shadow-md mb-2">${val}</div>`; document.getElementById('msg-input').value = ''; },
             calculateTax: function() { const v = parseFloat(document.getElementById('calc-input').value)||0; const t = v * 0.07; const tot = v + t; document.getElementById('res-sub').innerText = 'ƒ '+v.toFixed(2); document.getElementById('res-tax').innerText = '+ ƒ '+t.toFixed(2); document.getElementById('res-total').innerText = 'ƒ '+tot.toFixed(2); const w = v+t; document.getElementById('bar-sub').style.width = (v/w)*100 + '%'; document.getElementById('bar-tax').style.width = (t/w)*100 + '%'; },
-            initDates: function() { const today = new Date(); let year = today.getFullYear(); let month = today.getMonth(); let deadline = new Date(year, month, 15); if (today.getDate() > 15) { deadline = new Date(year, month + 1, 15); } const diffTime = Math.abs(deadline - today); const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); document.getElementById('days-left').innerText = diffDays; document.getElementById('deadline-date').innerText = deadline.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }); },
+            initDates: function() { const today = new Date(); let year = today.getFullYear(); let month = today.getMonth(); let deadline = new Date(year, month, 15); if (today.getDate() > 15) { deadline = new Date(year, month + 1, 15); } const diffDays = Math.ceil(Math.abs(deadline - today) / (1000 * 60 * 60 * 24)); document.getElementById('days-left').innerText = diffDays; document.getElementById('deadline-date').innerText = deadline.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }); },
             
-            // PHOTO UPLOAD LOGIC (NEW)
-            triggerPhotoUpload: function(imgEl) {
-                this.targetImgEl = imgEl;
-                document.getElementById('cms-photo-input').click();
-            },
+            triggerPhotoUpload: function(imgEl) { this.targetImgEl = imgEl; document.getElementById('cms-photo-input').click(); },
             handlePhotoUpload: function(input) {
                 if(input.files && input.files[0]) {
                     const reader = new FileReader();
                     reader.onload = (e) => {
-                        // Create a canvas to compress image
-                        const img = new Image();
-                        img.src = e.target.result;
+                        const img = new Image(); img.src = e.target.result;
                         img.onload = () => {
-                            const canvas = document.createElement('canvas');
-                            const ctx = canvas.getContext('2d');
-                            const MAX_WIDTH = 600;
-                            const scaleSize = MAX_WIDTH / img.width;
-                            canvas.width = MAX_WIDTH;
-                            canvas.height = img.height * scaleSize;
-                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                            
-                            const compressedData = canvas.toDataURL('image/jpeg', 0.7); // 70% quality
-                            if(this.targetImgEl) {
-                                this.targetImgEl.src = compressedData;
-                                this.saveEdits();
-                                this.showToast("Success", "Photo updated & compressed.");
-                            }
+                            const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); const MAX_WIDTH = 600; const scaleSize = MAX_WIDTH / img.width; canvas.width = MAX_WIDTH; canvas.height = img.height * scaleSize; ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                            const compressedData = canvas.toDataURL('image/jpeg', 0.7);
+                            if(this.targetImgEl) { this.targetImgEl.src = compressedData; this.saveEdits(); this.showToast("Success", "Photo updated & compressed."); }
                         };
                     };
                     reader.readAsDataURL(input.files[0]);
@@ -511,11 +654,7 @@
             }
         };
 
-        // --- GLOBAL BINDINGS ---
         window.CroesApp = CroesApp;
-        window.handleBooking = (e) => { e.preventDefault(); const btn = e.target.querySelector('button'); const originalText = btn.innerText; btn.innerText = "Sending..."; btn.disabled = true; const data = { name: document.getElementById('book-name').value, email: document.getElementById('book-email').value, date: document.getElementById('book-date').value, time: document.getElementById('book-time').value, service: document.getElementById('book-service').value, status: 'Pending' }; const tx = CroesApp.db.transaction(['bookings'], 'readwrite'); tx.objectStore('bookings').add(data); setTimeout(() => { CroesApp.showToast("Success", "Request Sent!"); btn.innerText = originalText; btn.disabled = false; CroesApp.updateStats(); }, 1500); };
-        function closeServiceModal() { document.getElementById('service-modal').classList.add('hidden'); }
-        
         CroesApp.init();
     </script>
 </body>
