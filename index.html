@@ -85,8 +85,8 @@
     <div id="preloader" class="fixed inset-0 bg-white z-[99999] flex items-center justify-center transition-opacity duration-500">
         <div class="text-center">
             <div class="w-16 h-16 border-4 border-slate-100 border-t-brand-navy rounded-full animate-spin mx-auto mb-4"></div>
-            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes v8.1</p>
-            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">Secured Connection</p>
+            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes v8.2</p>
+            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">Synced System</p>
         </div>
     </div>
 
@@ -335,7 +335,7 @@
     <section id="back-office" class="hidden fixed inset-0 z-[99999] bg-slate-50 overflow-y-auto">
         <div class="max-w-7xl mx-auto p-8 pt-24">
             <div class="flex justify-between items-center mb-10">
-                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v8.1 • Secured</p></div>
+                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v8.2 • Secured</p></div>
                 <div class="flex gap-4">
                     <a href="https://workplace.zoho.com/#mail_app/mail/folder/inbox" target="_blank" class="flex items-center gap-2 bg-white text-brand-navy border border-slate-200 px-5 py-2.5 rounded-xl font-bold shadow-sm hover:bg-slate-50 transition-colors"><i data-lucide="mail" class="w-4 h-4"></i> Check Mail</a>
                     <button onclick="CroesApp.logout()" class="text-red-500 font-bold hover:bg-red-50 px-4 py-2 rounded-lg transition-colors">Log Out</button>
@@ -365,9 +365,25 @@
             </div>
 
             <div id="admin-clients" class="hidden">
-                <div class="bg-white rounded-[2rem] shadow-sm p-8 border border-slate-100">
-                    <h3 class="font-bold text-xl mb-6 text-brand-navy">Client Repository</h3>
-                    <div id="client-repo-list" class="grid gap-3"></div>
+                <div class="bg-white rounded-[2rem] shadow-sm p-8 border border-slate-100 h-full flex flex-col">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-bold text-xl text-brand-navy">Client Management</h3>
+                        <button onclick="document.getElementById('add-client-form').classList.toggle('hidden')" class="bg-brand-teal text-white px-4 py-2 rounded-lg text-sm font-bold shadow-md flex items-center gap-2 hover:bg-brand-navy transition-colors"><i data-lucide="user-plus" class="w-4 h-4"></i> New Client</button>
+                    </div>
+
+                    <div id="add-client-form" class="hidden bg-slate-50 p-6 rounded-2xl mb-6 border border-slate-200 animate-reveal">
+                        <h4 class="font-bold text-brand-navy mb-4 text-sm uppercase">Register New Business</h4>
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <input type="text" id="new-client-name" placeholder="Business Name" class="p-3 rounded-xl border border-slate-200 text-sm">
+                            <input type="email" id="new-client-email" placeholder="Email Address" class="p-3 rounded-xl border border-slate-200 text-sm">
+                            <input type="text" id="new-client-phone" placeholder="Phone Number" class="p-3 rounded-xl border border-slate-200 text-sm">
+                            <input type="text" id="new-client-pin" placeholder="Access PIN (6-digits)" class="p-3 rounded-xl border border-slate-200 text-sm font-mono" maxlength="6">
+                        </div>
+                        <button onclick="CroesApp.addClient()" class="w-full bg-brand-navy text-white font-bold py-3 rounded-xl shadow-lg hover:bg-brand-teal transition-colors">Create Profile</button>
+                    </div>
+
+                    <div id="client-repo-list" class="grid gap-3 overflow-y-auto max-h-[500px] pr-2">
+                        </div>
                 </div>
             </div>
 
@@ -398,7 +414,7 @@
             <h2 class="text-2xl font-bold text-brand-navy mb-2">Secure Portal</h2>
             <p class="text-slate-500 text-sm mb-6">Enter your email to verify identity.</p>
             <div id="client-step-1"><input type="email" id="client-email" placeholder="client@email.com" class="w-full p-4 bg-slate-50 border-0 rounded-xl mb-4 font-bold text-brand-navy"><button onclick="CroesApp.clientLoginStep1()" class="w-full btn-primary py-4 rounded-xl font-bold shadow-lg">Send Verification Code</button></div>
-            <div id="client-step-2" class="hidden"><p class="text-brand-teal font-bold text-xs uppercase tracking-widest mb-3">Demo Code: 123456</p><input type="text" id="client-code" placeholder="000000" class="w-full p-4 bg-slate-50 border-0 rounded-xl mb-4 text-center text-2xl tracking-[0.5em] font-bold text-brand-navy"><button onclick="CroesApp.clientLoginStep2()" class="w-full btn-primary py-4 rounded-xl font-bold shadow-lg">Verify & Enter</button></div>
+            <div id="client-step-2" class="hidden"><p class="text-brand-teal font-bold text-xs uppercase tracking-widest mb-3">Check Email for PIN</p><input type="text" id="client-code" placeholder="000000" class="w-full p-4 bg-slate-50 border-0 rounded-xl mb-4 text-center text-2xl tracking-[0.5em] font-bold text-brand-navy"><button onclick="CroesApp.clientLoginStep2()" class="w-full btn-primary py-4 rounded-xl font-bold shadow-lg">Verify & Enter</button></div>
         </div>
     </div>
 
@@ -408,11 +424,9 @@
         const CroesApp = {
             db: null, currentClientEmail: null, targetImgEl: null,
             
-            // --- 1. SECURITY MODULE (New in v8.1) ---
+            // --- 1. SECURITY MODULE (v8.1) ---
             security: {
                 key: null,
-                
-                // PBKDF2 Key Derivation
                 deriveKey: async function(password) {
                     const enc = new TextEncoder();
                     const keyMaterial = await crypto.subtle.importKey("raw", enc.encode(password), { name: "PBKDF2" }, false, ["deriveKey"]);
@@ -421,8 +435,6 @@
                         keyMaterial, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]
                     );
                 },
-
-                // Encrypt data before DB storage
                 encrypt: async function(text, password) {
                     const key = await this.deriveKey(password);
                     const iv = crypto.getRandomValues(new Uint8Array(12));
@@ -433,8 +445,6 @@
                     combined.set(new Uint8Array(encrypted), iv.length);
                     return btoa(String.fromCharCode(...combined));
                 },
-
-                // Decrypt data from DB
                 decrypt: async function(encryptedBase64, password) {
                     try {
                         const str = atob(encryptedBase64);
@@ -451,18 +461,23 @@
 
             init: function() { this.initDB(); this.initUI(); },
             
+            // --- 2. DB INIT (Unified v3) ---
             initDB: function() {
-                // Version 2 adds the 'vault' store
-                const request = indexedDB.open("CroesDBv7", 2);
+                const request = indexedDB.open("CroesDBv7", 3);
                 request.onupgradeneeded = (e) => { 
                     const d = e.target.result; 
                     if(!d.objectStoreNames.contains('files')) d.createObjectStore('files', { keyPath: 'id', autoIncrement: true }); 
                     if(!d.objectStoreNames.contains('bookings')) d.createObjectStore('bookings', { keyPath: 'id', autoIncrement: true });
-                    if(!d.objectStoreNames.contains('vault')) d.createObjectStore('vault', { keyPath: 'id', autoIncrement: true }); // New V8.1
+                    if(!d.objectStoreNames.contains('vault')) d.createObjectStore('vault', { keyPath: 'id', autoIncrement: true });
+                    if(!d.objectStoreNames.contains('clients')) {
+                        const store = d.createObjectStore('clients', { keyPath: 'email' });
+                        // Default admin client for initial access if needed, but we rely on Admin Panel creation
+                        store.add({ email: 'client@email.com', pin: '123456', name: 'Demo Client', status: 'Processing', phone: '555-0000' });
+                    }
                 };
-                request.onsuccess = (e) => { this.db = e.target.result; this.updateStats(); console.log("DB Ready v8.1"); };
+                request.onsuccess = (e) => { this.db = e.target.result; this.updateStats(); console.log("DB Ready v3"); };
             },
-            
+
             initUI: function() {
                 window.addEventListener('scroll', () => { const nav = document.getElementById('navbar'); if (window.scrollY > 20) nav.classList.add('scrolled'); else nav.classList.remove('scrolled'); });
                 lucide.createIcons();
@@ -485,7 +500,6 @@
             },
             
             handleLogin: function() { 
-                // In Prod, use hash comparison. For demo, plain check.
                 if(document.getElementById('admin-pass').value === 'admin123') { 
                     document.getElementById('login-modal').classList.add('hidden'); 
                     document.getElementById('back-office').classList.remove('hidden'); 
@@ -501,18 +515,10 @@
             renderDashboard: function() {
                 if(!this.db) return;
                 const tbody = document.getElementById('booking-list');
-                
-                // NEW: Skeleton Loader V8.1
-                tbody.innerHTML = `
-                    <tr class="animate-pulse"><td class="p-4"><div class="h-4 bg-slate-100 rounded w-24 mb-2"></div><div class="h-3 bg-slate-50 rounded w-16"></div></td><td class="p-4"><div class="h-4 bg-slate-100 rounded w-20"></div></td><td class="p-4"><div class="h-4 bg-slate-100 rounded w-12"></div></td><td class="p-4"><div class="h-6 bg-slate-100 rounded-full w-16"></div></td><td class="p-4 text-right"><div class="h-8 bg-slate-100 rounded w-8 inline-block"></div></td></tr>
-                    <tr class="animate-pulse"><td class="p-4"><div class="h-4 bg-slate-100 rounded w-24 mb-2"></div><div class="h-3 bg-slate-50 rounded w-16"></div></td><td class="p-4"><div class="h-4 bg-slate-100 rounded w-20"></div></td><td class="p-4"><div class="h-4 bg-slate-100 rounded w-12"></div></td><td class="p-4"><div class="h-6 bg-slate-100 rounded-full w-16"></div></td><td class="p-4 text-right"><div class="h-8 bg-slate-100 rounded w-8 inline-block"></div></td></tr>
-                `;
-
+                tbody.innerHTML = `<tr class="animate-pulse"><td class="p-4"><div class="h-4 bg-slate-100 rounded w-24 mb-2"></div></td><td class="p-4"><div class="h-4 bg-slate-100 rounded w-20"></div></td><td class="p-4"><div class="h-4 bg-slate-100 rounded w-12"></div></td><td class="p-4"><div class="h-6 bg-slate-100 rounded-full w-16"></div></td><td class="p-4 text-right"><div class="h-8 bg-slate-100 rounded w-8 inline-block"></div></td></tr>`;
                 const tx = this.db.transaction(['bookings'], 'readonly');
                 tx.objectStore('bookings').getAll().onsuccess = (e) => {
                     const bookings = e.target.result.reverse();
-                    
-                    // Artificial delay for UX polish
                     setTimeout(() => {
                         tbody.innerHTML = '';
                         if(bookings.length === 0) tbody.innerHTML = '<tr><td colspan="5" class="p-8 text-center text-slate-400">No pending requests.</td></tr>';
@@ -529,9 +535,81 @@
             deleteBooking: function(id) { if(confirm("Delete record?")) { const tx = this.db.transaction(['bookings'], 'readwrite'); tx.objectStore('bookings').delete(id); this.renderDashboard(); this.updateStats(); } },
             searchAdmin: function(query) { const rows = document.querySelectorAll('#booking-list tr'); rows.forEach(row => { row.style.display = row.innerText.toLowerCase().includes(query.toLowerCase()) ? '' : 'none'; }); },
             
+            // --- 3. SYNC ENGINE (v8.2) ---
+            addClient: function() {
+                const name = document.getElementById('new-client-name').value;
+                const email = document.getElementById('new-client-email').value;
+                const pin = document.getElementById('new-client-pin').value;
+                const phone = document.getElementById('new-client-phone').value;
+                if(!name || !email || !pin) return this.showToast("Error", "Missing fields.");
+                const tx = this.db.transaction(['clients'], 'readwrite');
+                tx.objectStore('clients').add({ name, email, pin, phone, status: 'Uploaded', joined: new Date().toLocaleDateString() });
+                tx.oncomplete = () => { this.showToast("Success", "Client profile created."); document.getElementById('add-client-form').classList.add('hidden'); this.renderAdminRepo(); };
+            },
+
+            renderAdminRepo: function() {
+                if(!this.db) return;
+                const tx = this.db.transaction(['clients', 'files'], 'readonly');
+                let clients = [], files = [];
+                tx.objectStore('clients').getAll().onsuccess = (e) => { clients = e.target.result; };
+                tx.objectStore('files').getAll().onsuccess = (e) => { 
+                    files = e.target.result;
+                    const container = document.getElementById('client-repo-list');
+                    container.innerHTML = '';
+                    if(clients.length === 0) { container.innerHTML = '<div class="p-12 text-center text-slate-400">No clients found. Click "New Client" to start.</div>'; return; }
+                    clients.forEach(c => {
+                        const clientFiles = files.filter(f => f.clientEmail === c.email);
+                        let statusColor = c.status === 'Processing' ? 'bg-blue-50 text-brand-teal' : c.status === 'Review' ? 'bg-orange-50 text-orange-600' : c.status === 'Filed' ? 'bg-green-50 text-green-600' : 'bg-slate-100 text-slate-500';
+                        container.innerHTML += `<div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm group hover:border-brand-teal transition-all"><div class="flex justify-between items-start mb-4"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-brand-surface flex items-center justify-center font-bold text-brand-navy">${c.name.substring(0,2).toUpperCase()}</div><div><h4 class="font-bold text-brand-navy text-sm">${c.name}</h4><p class="text-xs text-slate-400 font-mono">${c.email}</p></div></div><div class="text-right"><select onchange="CroesApp.updateClientStatus('${c.email}', this.value)" class="text-xs font-bold rounded-lg py-1 px-2 border-0 cursor-pointer outline-none ${statusColor}"><option value="Uploaded" ${c.status === 'Uploaded' ? 'selected' : ''}>Uploaded</option><option value="Processing" ${c.status === 'Processing' ? 'selected' : ''}>Processing</option><option value="Review" ${c.status === 'Review' ? 'selected' : ''}>Review</option><option value="Filed" ${c.status === 'Filed' ? 'selected' : ''}>Filed</option></select></div></div><div class="flex items-center justify-between border-t border-slate-50 pt-3 mt-3"><span class="text-xs font-bold text-slate-400 flex items-center gap-1"><i data-lucide="file" class="w-3 h-3"></i> ${clientFiles.length} Files</span><div class="flex gap-2"><button onclick="CroesApp.uploadToClient('${c.email}')" class="text-xs bg-brand-surface hover:bg-brand-navy hover:text-white px-3 py-1.5 rounded-lg font-bold text-brand-navy transition-colors flex items-center gap-1"><i data-lucide="upload-cloud" class="w-3 h-3"></i> Send File</button><button onclick="alert('Demo restriction: Delete disabled')" class="text-slate-300 hover:text-red-500 p-1"><i data-lucide="trash-2" class="w-3 h-3"></i></button></div></div></div>`;
+                    });
+                    lucide.createIcons();
+                };
+            },
+
+            updateClientStatus: function(email, newStatus) {
+                const tx = this.db.transaction(['clients'], 'readwrite');
+                const store = tx.objectStore('clients');
+                store.get(email).onsuccess = (e) => { const data = e.target.result; data.status = newStatus; store.put(data); this.showToast("Sync", "Client timeline updated."); this.renderAdminRepo(); };
+            },
+            
+            uploadToClient: function(email) {
+                // Simplified "Send File" logic using the same upload handler but setting the context
+                this.currentClientEmail = email; 
+                this.showToast("Ready", `Select file for ${email}`);
+                document.getElementById('file-input').click();
+            },
+
             openPortalLogin: function() { document.getElementById('client-login-modal').classList.remove('hidden'); },
             clientLoginStep1: function() { this.currentClientEmail = document.getElementById('client-email').value; if(this.currentClientEmail) { document.getElementById('client-step-1').classList.add('hidden'); document.getElementById('client-step-2').classList.remove('hidden'); } },
-            clientLoginStep2: function() { if(document.getElementById('client-code').value === '123456') { document.getElementById('client-login-modal').classList.add('hidden'); document.getElementById('public-view').classList.add('hidden'); document.getElementById('client-portal').classList.remove('hidden'); document.getElementById('portal-client-name').innerText = this.currentClientEmail.split('@')[0]; this.renderClientFiles(); this.renderVault(); } },
+            
+            clientLoginStep2: function() {
+                const email = this.currentClientEmail;
+                const inputPin = document.getElementById('client-code').value;
+                const tx = this.db.transaction(['clients'], 'readonly');
+                tx.objectStore('clients').get(email).onsuccess = (e) => {
+                    const client = e.target.result;
+                    if(client && client.pin === inputPin) {
+                        document.getElementById('client-login-modal').classList.add('hidden');
+                        document.getElementById('public-view').classList.add('hidden');
+                        document.getElementById('client-portal').classList.remove('hidden');
+                        document.getElementById('portal-client-name').innerText = client.name;
+                        this.renderTimeline(client.status);
+                        this.renderClientFiles();
+                        this.renderVault();
+                    } else { alert("Invalid PIN or Email not registered."); }
+                };
+            },
+
+            renderTimeline: function(status) {
+                const statuses = ['Uploaded', 'Processing', 'Review', 'Filed'];
+                const index = statuses.indexOf(status);
+                const width = ((index + 1) / 4) * 100;
+                document.getElementById('progress-bar-visual').style.width = width + '%';
+                const steps = document.getElementById('progress-steps').children;
+                for(let i=0; i<steps.length; i++) { if(i <= index) steps[i].classList.add('text-brand-teal'); else steps[i].classList.remove('text-brand-teal'); }
+                document.querySelector('#portal-dash p.text-xl').innerText = status;
+            },
+
             logoutClient: function() { document.getElementById('client-portal').classList.add('hidden'); document.getElementById('public-view').classList.remove('hidden'); this.currentClientEmail = null; },
             switchPortalTab: function(tab) { ['dash','docs','msgs', 'vault'].forEach(t => document.getElementById('portal-'+t).classList.add('hidden')); document.getElementById('portal-'+tab).classList.remove('hidden'); document.querySelectorAll('.portal-nav-btn').forEach(b => b.classList.remove('active')); event.currentTarget.classList.add('active'); },
             
@@ -561,17 +639,14 @@
                 };
             },
 
-            // --- VAULT LOGIC (New in V8.1) ---
             saveToVault: async function() {
                 const s = document.getElementById('vault-service').value;
                 const u = document.getElementById('vault-user').value;
                 const p = document.getElementById('vault-pass').value;
                 if(!s || !u || !p) return this.showToast("Error", "All fields required");
-
-                // Encrypt using the session PIN (Using '123456' as session key for demo)
+                // Using hardcoded PIN for simplicity in this demo flow, real flow would use inputPin captured at login
                 const payload = JSON.stringify({ user: u, pass: p });
-                const encryptedData = await this.security.encrypt(payload, '123456');
-
+                const encryptedData = await this.security.encrypt(payload, '123456'); 
                 const tx = this.db.transaction(['vault'], 'readwrite');
                 tx.objectStore('vault').add({ clientEmail: this.currentClientEmail, service: s, data: encryptedData, date: new Date().toLocaleDateString() });
                 this.showToast("Secure", "Credentials encrypted & stored.");
@@ -586,10 +661,8 @@
                     const list = document.getElementById('vault-list');
                     list.innerHTML = '';
                     if(items.length === 0) { list.innerHTML = '<p class="text-slate-400 text-sm text-center italic mt-10">Vault is empty.</p>'; return; }
-                    
                     for(const item of items) {
                         try {
-                            // Decrypt using same session PIN
                             const decryptedJson = await this.security.decrypt(item.data, '123456');
                             if(!decryptedJson) continue;
                             const creds = JSON.parse(decryptedJson);
@@ -600,26 +673,12 @@
                 };
             },
             deleteVaultItem: function(id) { if(confirm("Destroy this credential?")) { const tx = this.db.transaction(['vault'], 'readwrite'); tx.objectStore('vault').delete(id); this.renderVault(); } },
-
-            renderAdminRepo: function() {
-                if(!this.db) return;
-                const tx = this.db.transaction(['files'], 'readonly');
-                tx.objectStore('files').getAll().onsuccess = (e) => {
-                    const docs = e.target.result;
-                    const container = document.getElementById('client-repo-list');
-                    container.innerHTML = '';
-                    if(docs.length === 0) container.innerHTML = '<div class="p-12 text-center text-slate-400">No client files found in database.</div>';
-                    docs.forEach(d => { const url = URL.createObjectURL(d.data); container.innerHTML += `<div class="flex items-center justify-between p-4 bg-slate-50 border border-slate-100 rounded-xl"><div class="flex items-center gap-4"><div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm text-brand-navy"><i data-lucide="user" class="w-5 h-5"></i></div><div><p class="font-bold text-brand-navy text-sm">${d.fileName}</p><p class="text-xs text-slate-500 font-mono">Client: ${d.clientEmail}</p></div></div><a href="${url}" download="${d.fileName}" class="flex items-center gap-2 text-xs font-bold bg-white px-3 py-1.5 rounded-lg border border-slate-200 hover:border-brand-teal hover:text-brand-teal transition-colors shadow-sm"><i data-lucide="download" class="w-3 h-3"></i> Download</a></div>`; });
-                    lucide.createIcons();
-                };
-            },
             
             toggleEdit: function(enable) {
                 const toolbar = document.getElementById('edit-toolbar');
                 if (enable) { document.body.classList.add('editing-active'); toolbar.classList.remove('hidden'); document.getElementById('back-office').classList.add('hidden'); document.querySelectorAll('[data-editable="true"]').forEach(el => el.contentEditable = "true"); if(!document.getElementById('add-svc-btn')) { document.getElementById('services-header').insertAdjacentHTML('beforeend', `<button id="add-svc-btn" onclick="CroesApp.addItem('services')" class="admin-control mx-auto mt-6 bg-brand-teal text-white px-6 py-2 rounded-full font-bold shadow-lg hover:bg-brand-navy transition-all flex items-center gap-2"><i data-lucide="plus-circle" class="w-4 h-4"></i> Add Service Card</button>`); } if(!document.getElementById('add-team-btn')) { document.getElementById('team-header').insertAdjacentHTML('beforeend', `<button id="add-team-btn" onclick="CroesApp.addItem('team')" class="admin-control mx-auto mt-6 bg-brand-teal text-white px-6 py-2 rounded-full font-bold shadow-lg hover:bg-brand-navy transition-all flex items-center gap-2"><i data-lucide="user-plus" class="w-4 h-4"></i> Add Team Member</button>`); } lucide.createIcons(); this.showToast("Editor Enabled", "Hover photos to change them."); } else { document.body.classList.remove('editing-active'); toolbar.classList.add('hidden'); document.querySelectorAll('[data-editable="true"]').forEach(el => el.contentEditable = "false"); }
             },
             saveEdits: function() { const changes = {}; document.querySelectorAll('[data-editable="true"]').forEach(el => { if(el.id) { changes[el.id] = el.innerHTML; localStorage.setItem('cms_' + el.id, el.innerHTML); } }); localStorage.setItem('cms_structure_services', document.getElementById('services-grid').innerHTML); localStorage.setItem('cms_structure_team', document.getElementById('team-grid').innerHTML); this.showToast("Saved", "Changes published."); },
-            
             addItem: function(type) { 
                 const gridId = type === 'services' ? 'services-grid' : 'team-grid'; 
                 const grid = document.getElementById(gridId); 
