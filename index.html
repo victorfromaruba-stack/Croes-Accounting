@@ -88,8 +88,8 @@
     <div id="preloader" class="fixed inset-0 bg-white z-[99999] flex items-center justify-center transition-opacity duration-500">
         <div class="text-center">
             <div class="w-16 h-16 border-4 border-slate-100 border-t-brand-navy rounded-full animate-spin mx-auto mb-4"></div>
-            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes v8.6</p>
-            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">Autopilot Enabled</p>
+            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes v8.8</p>
+            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">Universal Keys</p>
         </div>
     </div>
 
@@ -364,7 +364,7 @@
     <section id="back-office" class="hidden fixed inset-0 z-[99999] bg-slate-50 overflow-y-auto">
         <div class="max-w-7xl mx-auto p-8 pt-24">
             <div class="flex justify-between items-center mb-10">
-                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v8.6 • Secured</p></div>
+                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v8.8 • Secured</p></div>
                 <div class="flex gap-4">
                     <a href="https://workplace.zoho.com/#mail_app/mail/folder/inbox" target="_blank" class="flex items-center gap-2 bg-white text-brand-navy border border-slate-200 px-5 py-2.5 rounded-xl font-bold shadow-sm hover:bg-slate-50 transition-colors"><i data-lucide="mail" class="w-4 h-4"></i> Check Mail</a>
                     <button onclick="CroesApp.logout()" class="text-red-500 font-bold hover:bg-red-50 px-4 py-2 rounded-lg transition-colors">Log Out</button>
@@ -454,12 +454,12 @@
             db: null, currentClientEmail: null, currentClientPin: null, targetImgEl: null,
             emailInitialized: false,
 
-            // CONFIGURATION
+            // EMAIL CONFIGURATION (v8.8 - Universal Template)
             emailConfig: {
                 publicKey: "8rBFXNPpsM9GIWhRR",
                 serviceId: "service_x7ol38h",
-                requestTemplateId: "template_3ajpnak",
-                confirmTemplateId: "template_kc2lb6b" 
+                requestTemplateId: "template_3ajpnak", 
+                confirmTemplateId: "template_kc2lb6b"  // Used for Confirmations AND Welcome
             },
 
             // --- SECURITY MODULE ---
@@ -513,7 +513,7 @@
                         store.add({ email: 'client@email.com', pin: '123456', name: 'Demo Client', status: 'Processing', phone: '555-0000' });
                     }
                 };
-                request.onsuccess = (e) => { this.db = e.target.result; this.updateStats(); console.log("DB Ready v8.6"); };
+                request.onsuccess = (e) => { this.db = e.target.result; this.updateStats(); console.log("DB Ready v8.8"); };
             },
 
             initUI: function() {
@@ -581,6 +581,7 @@
                     this.renderDashboard(); 
                     this.updateStats(); 
                     
+                    // SEND CONFIRMATION EMAIL (Universal Template)
                     if(this.emailConfig.publicKey) {
                         if(!this.emailInitialized) { emailjs.init(this.emailConfig.publicKey); this.emailInitialized = true; }
                         emailjs.send(this.emailConfig.serviceId, this.emailConfig.confirmTemplateId, {
@@ -613,7 +614,7 @@
                     document.getElementById('add-client-form').classList.add('hidden'); 
                     this.renderAdminRepo(); 
 
-                    // AUTO-SEND WELCOME EMAIL
+                    // AUTO-SEND WELCOME EMAIL (Uses Universal Template)
                     if(this.emailConfig.publicKey) {
                         if(!this.emailInitialized) { emailjs.init(this.emailConfig.publicKey); this.emailInitialized = true; }
                         emailjs.send(this.emailConfig.serviceId, this.emailConfig.confirmTemplateId, {
@@ -622,7 +623,8 @@
                             service_name: "Client Portal Access",
                             date: new Date().toLocaleDateString(),
                             message: `Welcome to Accounting Croes. Your secure Login PIN is: ${pin}. Please keep this safe.`
-                        }).then(() => { this.showToast("Sent", "Welcome email with PIN sent."); });
+                        }).then(() => { this.showToast("Sent", "Welcome email with PIN sent."); })
+                          .catch(() => { this.showToast("Error", "Limit reached. PIN stored in DB."); });
                     }
                 };
             },
@@ -742,7 +744,7 @@
                 store.get(email).onsuccess = (e) => {
                     const client = e.target.result;
                     if(client) {
-                        // SEND PIN EMAIL
+                        // SEND PIN EMAIL (Uses Universal Template)
                         if(this.emailConfig.publicKey) {
                             if(!this.emailInitialized) { emailjs.init(this.emailConfig.publicKey); this.emailInitialized = true; }
                             
@@ -752,7 +754,8 @@
                                 service_name: "Client Portal Access",
                                 date: new Date().toLocaleTimeString(),
                                 message: `SECURITY ALERT: Your Login PIN is: ${client.pin} . Do not share this.`
-                            }).then(() => { this.showToast("Sent", "PIN sent to your email."); });
+                            }).then(() => { this.showToast("Sent", "PIN sent to your email."); })
+                              .catch(() => { alert(`DEMO: Your PIN is ${client.pin} (Email Limit Reached)`); });
                         }
 
                         this.currentClientEmail = email;
