@@ -450,8 +450,17 @@
     <div id="toast" class="fixed top-24 right-8 bg-brand-navy text-white px-6 py-4 rounded-2xl shadow-2xl transform translate-x-96 opacity-0 transition-all duration-500 z-[110000] flex items-center gap-4 border border-white/10 glass-panel"><div class="bg-brand-teal p-2 rounded-full text-white"><i data-lucide="check" class="w-4 h-4"></i></div><div><h4 class="font-bold text-sm text-white">Success</h4><p class="text-xs text-slate-300" id="toast-msg">Action completed.</p></div></div>
 
     <script>
-        const CroesApp = {
-            db: null, currentClientEmail: null, currentClientPin: null, targetImgEl: null,
+       const CroesApp = {
+    db: null, currentClientEmail: null, currentClientPin: null, targetImgEl: null,
+
+    // PASTE IT RIGHT HERE:
+    emailConfig: {
+        publicKey: "8rBFXNPpsM9GIWhRR",
+        serviceId: "service_x7ol38h",
+        templateId: "template_kc2lb6b"
+    },
+
+
             
             // --- SECURITY MODULE ---
             security: {
@@ -609,13 +618,59 @@
             
             handlePublicBooking: function(e) {
                 e.preventDefault();
+                const btn = e.target.querySelector('button');
+                const originalText = btn.innerText;
+                btn.innerText = "Sending...";
+                btn.disabled = true;
+
                 const name = document.getElementById('book-name').value;
                 const email = document.getElementById('book-email').value;
                 const service = document.getElementById('book-service').value;
+                const date = new Date().toLocaleDateString();
+
+                // 1. Prepare Data
+                const bookingData = { name, email, service, status: 'Pending', date };
+                
+                // 2. Initialize EmailJS (Only runs once)
+                if(!this.emailInitialized) {
+                    // Check if config exists to prevent crash
+                    if(this.emailConfig && this.emailConfig.publicKey !== "YOUR_PUBLIC_KEY") {
+                        emailjs.init(this.emailConfig.publicKey);
+                        this.emailInitialized = true;
+                    }
+                }
+
+                // 3. Send Email
+                emailjs.send(this.emailConfig.serviceId, this.emailConfig.templateId, {
+                    to_name: "Admin",
+                    from_name: name,
+                    from_email: email,
+                    message: `New request for ${service}.`
+                }).then(() => {
+                    // Success: Email sent
+                    this.saveBookingToDB(bookingData);
+                    this.showToast("Success", "Email sent! We will contact you.");
+                }).catch((err) => {
+                    // Fail: Email blocked/error, BUT we still save to DB (Fail-Safe)
+                    console.error("EmailJS Failed:", err);
+                    this.saveBookingToDB(bookingData);
+                    this.showToast("Saved", "Request saved (Email network error).");
+                }).finally(() => {
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                    e.target.reset();
+                });
+            },
+
+            // Helper to ensure DB save happens regardless of email status
+            saveBookingToDB: function(data) {
                 const tx = this.db.transaction(['bookings'], 'readwrite');
-                tx.objectStore('bookings').add({ name, email, service, status: 'Pending', date: new Date().toLocaleDateString() });
-                this.showToast("Success", "Request Sent! We'll contact you soon.");
-                e.target.reset();
+                tx.objectStore('bookings').add(data);
+                this.updateStats();
+                // If you are logged in as admin, refresh the list immediately
+                if(!document.getElementById('back-office').classList.contains('hidden')) {
+                    this.renderDashboard();
+                }
             },
 
             openPortalLogin: function() { document.getElementById('client-login-modal').classList.remove('hidden'); },
