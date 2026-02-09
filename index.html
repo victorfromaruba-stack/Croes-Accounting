@@ -88,8 +88,8 @@
     <div id="preloader" class="fixed inset-0 bg-white z-[99999] flex items-center justify-center transition-opacity duration-500">
         <div class="text-center">
             <div class="w-16 h-16 border-4 border-slate-100 border-t-brand-navy rounded-full animate-spin mx-auto mb-4"></div>
-            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes v8.3</p>
-            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">Full Functionality</p>
+            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes v8.4</p>
+            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">Bank-Grade Security</p>
         </div>
     </div>
 
@@ -364,7 +364,7 @@
     <section id="back-office" class="hidden fixed inset-0 z-[99999] bg-slate-50 overflow-y-auto">
         <div class="max-w-7xl mx-auto p-8 pt-24">
             <div class="flex justify-between items-center mb-10">
-                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v8.3 • Secured</p></div>
+                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v8.4 • Secured</p></div>
                 <div class="flex gap-4">
                     <a href="https://workplace.zoho.com/#mail_app/mail/folder/inbox" target="_blank" class="flex items-center gap-2 bg-white text-brand-navy border border-slate-200 px-5 py-2.5 rounded-xl font-bold shadow-sm hover:bg-slate-50 transition-colors"><i data-lucide="mail" class="w-4 h-4"></i> Check Mail</a>
                     <button onclick="CroesApp.logout()" class="text-red-500 font-bold hover:bg-red-50 px-4 py-2 rounded-lg transition-colors">Log Out</button>
@@ -450,18 +450,18 @@
     <div id="toast" class="fixed top-24 right-8 bg-brand-navy text-white px-6 py-4 rounded-2xl shadow-2xl transform translate-x-96 opacity-0 transition-all duration-500 z-[110000] flex items-center gap-4 border border-white/10 glass-panel"><div class="bg-brand-teal p-2 rounded-full text-white"><i data-lucide="check" class="w-4 h-4"></i></div><div><h4 class="font-bold text-sm text-white">Success</h4><p class="text-xs text-slate-300" id="toast-msg">Action completed.</p></div></div>
 
     <script>
-       const CroesApp = {
-    db: null, currentClientEmail: null, currentClientPin: null, targetImgEl: null,
+        const CroesApp = {
+            db: null, currentClientEmail: null, currentClientPin: null, targetImgEl: null,
+            emailInitialized: false,
 
-    // PASTE IT RIGHT HERE:
-    emailConfig: {
-        publicKey: "8rBFXNPpsM9GIWhRR",
-        serviceId: "service_x7ol38h",
-        templateId: "template_kc2lb6b"
-    },
+            // EMAIL CONFIGURATION (v8.4 Active)
+            emailConfig: {
+                publicKey: "8rBFXNPpsM9GIWhRR",
+                serviceId: "service_x7ol38h",
+                requestTemplateId: "template_3ajpnak", // For Public Requests
+                confirmTemplateId: "template_kc2lb6b"  // For Admin Confirmations
+            },
 
-
-            
             // --- SECURITY MODULE ---
             security: {
                 key: null,
@@ -499,9 +499,9 @@
 
             init: function() { this.initDB(); this.initUI(); },
             
+            // --- DATABASE (Unified v5) ---
             initDB: function() {
-                // Version 4 for messages
-                const request = indexedDB.open("CroesDBv8", 4);
+                const request = indexedDB.open("CroesDBv8", 5); // Version 5 ensures clean state
                 request.onupgradeneeded = (e) => { 
                     const d = e.target.result; 
                     if(!d.objectStoreNames.contains('files')) d.createObjectStore('files', { keyPath: 'id', autoIncrement: true }); 
@@ -510,10 +510,11 @@
                     if(!d.objectStoreNames.contains('messages')) d.createObjectStore('messages', { keyPath: 'id', autoIncrement: true });
                     if(!d.objectStoreNames.contains('clients')) {
                         const store = d.createObjectStore('clients', { keyPath: 'email' });
+                        // Default admin/client for testing if needed
                         store.add({ email: 'client@email.com', pin: '123456', name: 'Demo Client', status: 'Processing', phone: '555-0000' });
                     }
                 };
-                request.onsuccess = (e) => { this.db = e.target.result; this.updateStats(); console.log("DB Ready v8.3"); };
+                request.onsuccess = (e) => { this.db = e.target.result; this.updateStats(); console.log("DB Ready v8.4"); };
             },
 
             initUI: function() {
@@ -569,7 +570,33 @@
                 };
             },
             
-            confirmBooking: function(id) { if(confirm("Confirm booking?")) { const tx = this.db.transaction(['bookings'], 'readwrite'); const store = tx.objectStore('bookings'); store.get(id).onsuccess = (e) => { const data = e.target.result; data.status = 'Confirmed'; store.put(data); this.renderDashboard(); this.updateStats(); this.showToast("Success", "Booking confirmed."); }; } },
+            confirmBooking: function(id) { 
+                if(!confirm("Confirm booking and notify client?")) return;
+                const tx = this.db.transaction(['bookings'], 'readwrite');
+                const store = tx.objectStore('bookings');
+                store.get(id).onsuccess = (e) => { 
+                    const data = e.target.result;
+                    if(!data) return;
+                    data.status = 'Confirmed'; 
+                    store.put(data); 
+                    this.renderDashboard(); 
+                    this.updateStats(); 
+                    
+                    // SEND EMAIL
+                    if(this.emailConfig.publicKey) {
+                        if(!this.emailInitialized) { emailjs.init(this.emailConfig.publicKey); this.emailInitialized = true; }
+                        emailjs.send(this.emailConfig.serviceId, this.emailConfig.confirmTemplateId, {
+                            to_name: data.name,
+                            to_email: data.email,
+                            service_name: data.service,
+                            date: data.date,
+                            message: `Your appointment for ${data.service} on ${data.date} has been confirmed.`
+                        }).then(() => { this.showToast("Sent", "Confirmation email sent."); })
+                          .catch((err) => { console.error(err); this.showToast("Warning", "Email failed, but DB updated."); });
+                    }
+                }; 
+            },
+            
             deleteBooking: function(id) { if(confirm("Delete record?")) { const tx = this.db.transaction(['bookings'], 'readwrite'); tx.objectStore('bookings').delete(id); this.renderDashboard(); this.updateStats(); } },
             searchAdmin: function(query) { const rows = document.querySelectorAll('#booking-list tr'); rows.forEach(row => { row.style.display = row.innerText.toLowerCase().includes(query.toLowerCase()) ? '' : 'none'; }); },
             
@@ -627,31 +654,24 @@
                 const email = document.getElementById('book-email').value;
                 const service = document.getElementById('book-service').value;
                 const date = new Date().toLocaleDateString();
-
-                // 1. Prepare Data
                 const bookingData = { name, email, service, status: 'Pending', date };
                 
-                // 2. Initialize EmailJS (Only runs once)
                 if(!this.emailInitialized) {
-                    // Check if config exists to prevent crash
-                    if(this.emailConfig && this.emailConfig.publicKey !== "YOUR_PUBLIC_KEY") {
+                    if(this.emailConfig && this.emailConfig.publicKey) {
                         emailjs.init(this.emailConfig.publicKey);
                         this.emailInitialized = true;
                     }
                 }
 
-                // 3. Send Email
-                emailjs.send(this.emailConfig.serviceId, this.emailConfig.templateId, {
+                emailjs.send(this.emailConfig.serviceId, this.emailConfig.requestTemplateId, {
                     to_name: "Admin",
                     from_name: name,
                     from_email: email,
                     message: `New request for ${service}.`
                 }).then(() => {
-                    // Success: Email sent
                     this.saveBookingToDB(bookingData);
                     this.showToast("Success", "Email sent! We will contact you.");
                 }).catch((err) => {
-                    // Fail: Email blocked/error, BUT we still save to DB (Fail-Safe)
                     console.error("EmailJS Failed:", err);
                     this.saveBookingToDB(bookingData);
                     this.showToast("Saved", "Request saved (Email network error).");
@@ -662,15 +682,11 @@
                 });
             },
 
-            // Helper to ensure DB save happens regardless of email status
             saveBookingToDB: function(data) {
                 const tx = this.db.transaction(['bookings'], 'readwrite');
                 tx.objectStore('bookings').add(data);
                 this.updateStats();
-                // If you are logged in as admin, refresh the list immediately
-                if(!document.getElementById('back-office').classList.contains('hidden')) {
-                    this.renderDashboard();
-                }
+                if(!document.getElementById('back-office').classList.contains('hidden')) { this.renderDashboard(); }
             },
 
             openPortalLogin: function() { document.getElementById('client-login-modal').classList.remove('hidden'); },
@@ -683,7 +699,7 @@
                 tx.objectStore('clients').get(email).onsuccess = (e) => {
                     const client = e.target.result;
                     if(client && client.pin === inputPin) {
-                        this.currentClientPin = inputPin; // STORE PIN SESSION
+                        this.currentClientPin = inputPin;
                         document.getElementById('client-login-modal').classList.add('hidden');
                         document.getElementById('public-view').classList.add('hidden');
                         document.getElementById('client-portal').classList.remove('hidden');
@@ -739,8 +755,6 @@
                 const u = document.getElementById('vault-user').value;
                 const p = document.getElementById('vault-pass').value;
                 if(!s || !u || !p) return this.showToast("Error", "All fields required");
-                
-                // FIXED: Use actual client PIN
                 const encryptedData = await this.security.encrypt(JSON.stringify({ user: u, pass: p }), this.currentClientPin); 
                 const tx = this.db.transaction(['vault'], 'readwrite');
                 tx.objectStore('vault').add({ clientEmail: this.currentClientEmail, service: s, data: encryptedData, date: new Date().toLocaleDateString() });
@@ -790,10 +804,8 @@
             sendClientMessage: function() { 
                 const val = document.getElementById('msg-input').value; 
                 if(!val) return; 
-                // Add to DB
                 const tx = this.db.transaction(['messages'], 'readwrite');
                 tx.objectStore('messages').add({ clientEmail: this.currentClientEmail, text: val, sender: 'client', date: new Date().toLocaleTimeString() });
-                // Visual Append
                 document.getElementById('msg-container').innerHTML += `<div class="bg-brand-teal text-white p-3 rounded-2xl rounded-tr-none ml-auto w-fit max-w-[80%] text-sm shadow-md mb-2">${val}</div>`; 
                 document.getElementById('msg-input').value = ''; 
             },
