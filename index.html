@@ -22,7 +22,7 @@
                 extend: {
                     fontFamily: { sans: ['Manrope', 'sans-serif'] },
                     colors: { brand: { navy: '#0C3B53', teal: '#23869D', accent: '#4FD1C5', surface: '#F8FAFC', success: '#10B981', warning: '#F59E0B', danger: '#EF4444' } },
-                    animation: { 'reveal': 'reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards', 'scan': 'scan 2s linear infinite' },
+                    animation: { 'reveal': 'reveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards', 'scan': 'scan 2s linear infinite' },
                     keyframes: { reveal: { from: { opacity: '0', transform: 'translateY(20px)' }, to: { opacity: '1', transform: 'translateY(0)' } }, scan: { '0%': { transform: 'translateX(-100%)' }, '100%': { transform: 'translateX(100%)' } } }
                 }
             }
@@ -37,7 +37,7 @@
         ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #23869D; }
 
-        .glass-panel { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07); }
+        .glass-panel { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07); }
         .text-gradient { background: linear-gradient(135deg, #0C3B53 0%, #23869D 100%); -webkit-background-clip: text; color: transparent; }
         
         nav { transition: all 0.4s ease; }
@@ -50,7 +50,7 @@
         .brand-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px rgba(12, 59, 83, 0.15); border-color: rgba(35, 134, 157, 0.3); }
         .card-overlay { background: linear-gradient(to top, rgba(12, 59, 83, 0.95) 10%, rgba(12, 59, 83, 0.4) 60%, rgba(12, 59, 83, 0.05) 100%); }
 
-        /* SECURITY */
+        /* SECURITY & ADMIN */
         .admin-control { display: none !important; }
         body.editing-active .admin-control { display: inline-flex !important; }
         body.editing-active [data-editable="true"]:hover { outline: 2px dashed #23869D; cursor: text; background: rgba(35, 134, 157, 0.05); }
@@ -70,8 +70,8 @@
         .reveal.active { opacity: 1; transform: translateY(0); }
         
         /* LOGO FIX IN PORTAL */
-        .portal-logo-container { background: white; padding: 10px; border-radius: 12px; display: inline-block; margin-bottom: 2rem; }
-        .portal-logo-container img { height: 40px; width: auto; display: block; }
+        .portal-logo-container { background: white; padding: 12px; border-radius: 16px; display: inline-block; margin-bottom: 2rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .portal-logo-container img { height: 32px; width: auto; display: block; }
 
         @media (max-width: 1024px) { .portal-layout { grid-template-columns: 1fr; } .portal-sidebar { display: none; } }
     </style>
@@ -265,6 +265,10 @@
                         </div>
                     </div>
                 </div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 flex items-center gap-6">
+                    <div class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-brand-teal"><i data-lucide="clock" class="w-6 h-6"></i></div>
+                    <div><p class="text-xs font-bold text-slate-400 uppercase">Current Status</p><p class="text-xl font-bold text-brand-navy">Pending Review</p></div>
+                </div>
             </div>
 
             <div id="portal-docs" class="hidden">
@@ -295,7 +299,7 @@
     <section id="back-office" class="hidden fixed inset-0 z-[99999] bg-slate-50 overflow-y-auto">
         <div class="max-w-7xl mx-auto p-8 pt-24">
             <div class="flex justify-between items-center mb-10">
-                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v5.0 • Connected</p></div>
+                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v6.0 • Connected</p></div>
                 <div class="flex gap-4">
                     <a href="https://workplace.zoho.com/#mail_app/mail/folder/inbox" target="_blank" class="flex items-center gap-2 bg-white text-brand-navy border border-slate-200 px-5 py-2.5 rounded-xl font-bold shadow-sm hover:bg-slate-50 transition-colors"><i data-lucide="mail" class="w-4 h-4"></i> Check Mail</a>
                     <button onclick="CroesApp.logout()" class="text-red-500 font-bold hover:bg-red-50 px-4 py-2 rounded-lg transition-colors">Log Out</button>
@@ -369,7 +373,7 @@
             db: null, currentClientEmail: null,
             init: function() { this.initDB(); this.initUI(); },
             initDB: function() {
-                const request = indexedDB.open("CroesDBv5", 1);
+                const request = indexedDB.open("CroesDBv6", 1);
                 request.onupgradeneeded = (e) => { const d = e.target.result; if(!d.objectStoreNames.contains('files')) d.createObjectStore('files', { keyPath: 'id', autoIncrement: true }); if(!d.objectStoreNames.contains('bookings')) d.createObjectStore('bookings', { keyPath: 'id', autoIncrement: true }); };
                 request.onsuccess = (e) => { this.db = e.target.result; this.updateStats(); console.log("DB Ready"); };
             },
@@ -393,7 +397,7 @@
             },
             handleLogin: function() { if(document.getElementById('admin-pass').value === 'admin123') { document.getElementById('login-modal').classList.add('hidden'); document.getElementById('back-office').classList.remove('hidden'); this.renderDashboard(); this.updateStats(); } else { document.getElementById('login-error').classList.remove('hidden'); } },
             logout: function() { document.getElementById('back-office').classList.add('hidden'); document.body.classList.remove('editing-active'); this.toggleEdit(false); },
-            switchAdminTab: function(tab) { ['inbox','cms','clients'].forEach(t => { document.getElementById('admin-'+t).classList.add('hidden'); document.getElementById('btn-'+t).classList.remove('bg-brand-navy', 'text-white', 'shadow-lg'); document.getElementById('btn-'+t).classList.add('bg-white', 'text-slate-500', 'shadow-sm'); }); document.getElementById('admin-'+tab).classList.remove('hidden'); document.getElementById('btn-'+tab).classList.remove('bg-white', 'text-slate-500', 'shadow-sm'); document.getElementById('btn-'+tab).classList.add('bg-brand-navy', 'text-white', 'shadow-lg'); if(tab === 'clients') this.renderAdminRepo(); },
+            switchAdminTab: function(tab) { ['inbox','cms','clients'].forEach(t => { document.getElementById('admin-'+t).classList.add('hidden'); document.getElementById('btn-'+t).classList.remove('bg-brand-navy', 'text-white', 'shadow-lg'); document.getElementById('btn-'+t).classList.add('bg-white', 'text-slate-500', 'shadow-sm'); }); document.getElementById('admin-'+tab).classList.remove('hidden'); document.getElementById('btn-'+tab).classList.remove('bg-white', 'text-slate-500', 'shadow-sm'); document.getElementById('btn-'+tab).classList.add('bg-brand-navy', 'text-white', 'shadow-lg'); if(tab === 'clients') this.renderAdminRepo(); if(tab === 'inbox') this.renderDashboard(); },
             renderDashboard: function() {
                 if(!this.db) return;
                 const tx = this.db.transaction(['bookings'], 'readonly');
@@ -469,7 +473,32 @@
 
         // --- GLOBAL BINDINGS ---
         window.CroesApp = CroesApp;
-        window.handleBooking = (e) => { e.preventDefault(); const btn = e.target.querySelector('button'); const originalText = btn.innerText; btn.innerText = "Sending..."; btn.disabled = true; const data = { name: document.getElementById('book-name').value, email: document.getElementById('book-email').value, date: document.getElementById('book-date').value, time: document.getElementById('book-time').value, service: document.getElementById('book-service').value, status: 'Pending' }; const tx = CroesApp.db.transaction(['bookings'], 'readwrite'); tx.objectStore('bookings').add(data); setTimeout(() => { CroesApp.showToast("Success", "Request Sent!"); btn.innerText = originalText; btn.disabled = false; CroesApp.updateStats(); }, 1500); };
+        window.handleBooking = (e) => { 
+            e.preventDefault(); 
+            const btn = e.target.querySelector('button'); 
+            const originalText = btn.innerText; 
+            btn.innerText = "Sending..."; 
+            btn.disabled = true; 
+            const data = { 
+                name: document.getElementById('book-name').value, 
+                email: document.getElementById('book-email').value, 
+                date: document.getElementById('book-date').value, 
+                time: document.getElementById('book-time').value, 
+                service: document.getElementById('book-service') ? document.getElementById('book-service').value : 'General Inquiry', 
+                status: 'Pending' 
+            }; 
+            const tx = CroesApp.db.transaction(['bookings'], 'readwrite'); 
+            tx.objectStore('bookings').add(data).onsuccess = () => {
+                setTimeout(() => { 
+                    CroesApp.showToast("Success", "Request Sent!"); 
+                    btn.innerText = originalText; 
+                    btn.disabled = false; 
+                    CroesApp.updateStats(); 
+                    // Force refresh if admin dashboard is open
+                    CroesApp.renderDashboard();
+                }, 1500); 
+            };
+        };
         function closeServiceModal() { document.getElementById('service-modal').classList.add('hidden'); }
         
         CroesApp.init();
