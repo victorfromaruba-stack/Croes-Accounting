@@ -22,8 +22,8 @@
                 extend: {
                     fontFamily: { sans: ['Manrope', 'sans-serif'] },
                     colors: { brand: { navy: '#0C3B53', teal: '#23869D', accent: '#4FD1C5', surface: '#F8FAFC', success: '#10B981', warning: '#F59E0B', danger: '#EF4444' } },
-                    animation: { 'reveal': 'reveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards', 'scan': 'scan 2s linear infinite' },
-                    keyframes: { reveal: { from: { opacity: '0', transform: 'translateY(20px)' }, to: { opacity: '1', transform: 'translateY(0)' } }, scan: { '0%': { transform: 'translateX(-100%)' }, '100%': { transform: 'translateX(100%)' } } }
+                    animation: { 'reveal': 'reveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards' },
+                    keyframes: { reveal: { from: { opacity: '0', transform: 'translateY(20px)' }, to: { opacity: '1', transform: 'translateY(0)' } } }
                 }
             }
         }
@@ -50,9 +50,10 @@
         .brand-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px rgba(12, 59, 83, 0.15); border-color: rgba(35, 134, 157, 0.3); }
         .card-overlay { background: linear-gradient(to top, rgba(12, 59, 83, 0.95) 10%, rgba(12, 59, 83, 0.4) 60%, rgba(12, 59, 83, 0.05) 100%); }
 
-        /* SECURITY & ADMIN */
-        .admin-control { display: none !important; }
+        /* ADMIN & EDITING */
+        .admin-control, .photo-upload-overlay { display: none !important; }
         body.editing-active .admin-control { display: inline-flex !important; }
+        body.editing-active .photo-upload-overlay { display: flex !important; }
         body.editing-active [data-editable="true"]:hover { outline: 2px dashed #23869D; cursor: text; background: rgba(35, 134, 157, 0.05); }
 
         /* PORTAL & MODALS */
@@ -84,6 +85,8 @@
             <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes</p>
         </div>
     </div>
+
+    <input type="file" id="cms-photo-input" hidden accept="image/*" onchange="CroesApp.handlePhotoUpload(this)">
 
     <div id="edit-toolbar" class="hidden fixed top-24 left-1/2 -translate-x-1/2 z-[110] bg-brand-navy/95 text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-4 backdrop-blur-md border border-white/10 transition-transform duration-300">
         <div class="w-2 h-2 bg-brand-accent rounded-full animate-pulse"></div>
@@ -211,7 +214,11 @@
                     <div id="team-grid" class="grid md:grid-cols-3 gap-10">
                         <div class="group cursor-pointer relative reveal">
                             <div class="absolute top-4 right-4 z-20 admin-control"><button onclick="CroesApp.deleteItem(this)" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>
-                            <div class="relative overflow-hidden rounded-[2rem] mb-6 shadow-xl aspect-[4/5] border border-slate-100 group-hover:shadow-2xl transition-all"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"><div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8"><p class="text-white text-sm font-medium italic" data-editable="true">"Precision is key."</p></div></div>
+                            <div class="relative overflow-hidden rounded-[2rem] mb-6 shadow-xl aspect-[4/5] border border-slate-100 group-hover:shadow-2xl transition-all">
+                                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                                <div class="photo-upload-overlay absolute inset-0 bg-brand-navy/60 backdrop-blur-sm hidden items-center justify-center z-10 cursor-pointer" onclick="CroesApp.triggerPhotoUpload(this.previousElementSibling)"><div class="bg-white p-4 rounded-full shadow-xl"><i data-lucide="camera" class="w-6 h-6 text-brand-navy"></i></div></div>
+                                <div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8"><p class="text-white text-sm font-medium italic" data-editable="true">"Precision is key."</p></div>
+                            </div>
                             <h3 class="text-2xl font-bold text-brand-navy" data-editable="true">Mr. Croes</h3><p class="text-brand-teal font-bold text-xs tracking-widest uppercase mt-1" data-editable="true">Senior Accountant</p>
                         </div>
                     </div>
@@ -299,7 +306,7 @@
     <section id="back-office" class="hidden fixed inset-0 z-[99999] bg-slate-50 overflow-y-auto">
         <div class="max-w-7xl mx-auto p-8 pt-24">
             <div class="flex justify-between items-center mb-10">
-                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v6.0 • Connected</p></div>
+                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v7.0 • Connected</p></div>
                 <div class="flex gap-4">
                     <a href="https://workplace.zoho.com/#mail_app/mail/folder/inbox" target="_blank" class="flex items-center gap-2 bg-white text-brand-navy border border-slate-200 px-5 py-2.5 rounded-xl font-bold shadow-sm hover:bg-slate-50 transition-colors"><i data-lucide="mail" class="w-4 h-4"></i> Check Mail</a>
                     <button onclick="CroesApp.logout()" class="text-red-500 font-bold hover:bg-red-50 px-4 py-2 rounded-lg transition-colors">Log Out</button>
@@ -370,10 +377,10 @@
 
     <script>
         const CroesApp = {
-            db: null, currentClientEmail: null,
+            db: null, currentClientEmail: null, targetImgEl: null,
             init: function() { this.initDB(); this.initUI(); },
             initDB: function() {
-                const request = indexedDB.open("CroesDBv6", 1);
+                const request = indexedDB.open("CroesDBv7", 1);
                 request.onupgradeneeded = (e) => { const d = e.target.result; if(!d.objectStoreNames.contains('files')) d.createObjectStore('files', { keyPath: 'id', autoIncrement: true }); if(!d.objectStoreNames.contains('bookings')) d.createObjectStore('bookings', { keyPath: 'id', autoIncrement: true }); };
                 request.onsuccess = (e) => { this.db = e.target.result; this.updateStats(); console.log("DB Ready"); };
             },
@@ -397,7 +404,7 @@
             },
             handleLogin: function() { if(document.getElementById('admin-pass').value === 'admin123') { document.getElementById('login-modal').classList.add('hidden'); document.getElementById('back-office').classList.remove('hidden'); this.renderDashboard(); this.updateStats(); } else { document.getElementById('login-error').classList.remove('hidden'); } },
             logout: function() { document.getElementById('back-office').classList.add('hidden'); document.body.classList.remove('editing-active'); this.toggleEdit(false); },
-            switchAdminTab: function(tab) { ['inbox','cms','clients'].forEach(t => { document.getElementById('admin-'+t).classList.add('hidden'); document.getElementById('btn-'+t).classList.remove('bg-brand-navy', 'text-white', 'shadow-lg'); document.getElementById('btn-'+t).classList.add('bg-white', 'text-slate-500', 'shadow-sm'); }); document.getElementById('admin-'+tab).classList.remove('hidden'); document.getElementById('btn-'+tab).classList.remove('bg-white', 'text-slate-500', 'shadow-sm'); document.getElementById('btn-'+tab).classList.add('bg-brand-navy', 'text-white', 'shadow-lg'); if(tab === 'clients') this.renderAdminRepo(); if(tab === 'inbox') this.renderDashboard(); },
+            switchAdminTab: function(tab) { ['inbox','cms','clients'].forEach(t => { document.getElementById('admin-'+t).classList.add('hidden'); document.getElementById('btn-'+t).classList.remove('bg-brand-navy', 'text-white', 'shadow-lg'); document.getElementById('btn-'+t).classList.add('bg-white', 'text-slate-500', 'shadow-sm'); }); document.getElementById('admin-'+tab).classList.remove('hidden'); document.getElementById('btn-'+tab).classList.remove('bg-white', 'text-slate-500', 'shadow-sm'); document.getElementById('btn-'+tab).classList.add('bg-brand-navy', 'text-white', 'shadow-lg'); if(tab === 'clients') this.renderAdminRepo(); },
             renderDashboard: function() {
                 if(!this.db) return;
                 const tx = this.db.transaction(['bookings'], 'readonly');
@@ -459,46 +466,54 @@
             },
             toggleEdit: function(enable) {
                 const toolbar = document.getElementById('edit-toolbar');
-                if (enable) { document.body.classList.add('editing-active'); toolbar.classList.remove('hidden'); document.getElementById('back-office').classList.add('hidden'); document.querySelectorAll('[data-editable="true"]').forEach(el => el.contentEditable = "true"); if(!document.getElementById('add-svc-btn')) { document.getElementById('services-header').insertAdjacentHTML('beforeend', `<button id="add-svc-btn" onclick="CroesApp.addItem('services')" class="admin-control mx-auto mt-6 bg-brand-teal text-white px-6 py-2 rounded-full font-bold shadow-lg hover:bg-brand-navy transition-all flex items-center gap-2"><i data-lucide="plus-circle" class="w-4 h-4"></i> Add Service Card</button>`); } if(!document.getElementById('add-team-btn')) { document.getElementById('team-header').insertAdjacentHTML('beforeend', `<button id="add-team-btn" onclick="CroesApp.addItem('team')" class="admin-control mx-auto mt-6 bg-brand-teal text-white px-6 py-2 rounded-full font-bold shadow-lg hover:bg-brand-navy transition-all flex items-center gap-2"><i data-lucide="user-plus" class="w-4 h-4"></i> Add Team Member</button>`); } lucide.createIcons(); this.showToast("Editor Enabled", "Click text to edit."); } else { document.body.classList.remove('editing-active'); toolbar.classList.add('hidden'); document.querySelectorAll('[data-editable="true"]').forEach(el => el.contentEditable = "false"); }
+                if (enable) { document.body.classList.add('editing-active'); toolbar.classList.remove('hidden'); document.getElementById('back-office').classList.add('hidden'); document.querySelectorAll('[data-editable="true"]').forEach(el => el.contentEditable = "true"); if(!document.getElementById('add-svc-btn')) { document.getElementById('services-header').insertAdjacentHTML('beforeend', `<button id="add-svc-btn" onclick="CroesApp.addItem('services')" class="admin-control mx-auto mt-6 bg-brand-teal text-white px-6 py-2 rounded-full font-bold shadow-lg hover:bg-brand-navy transition-all flex items-center gap-2"><i data-lucide="plus-circle" class="w-4 h-4"></i> Add Service Card</button>`); } if(!document.getElementById('add-team-btn')) { document.getElementById('team-header').insertAdjacentHTML('beforeend', `<button id="add-team-btn" onclick="CroesApp.addItem('team')" class="admin-control mx-auto mt-6 bg-brand-teal text-white px-6 py-2 rounded-full font-bold shadow-lg hover:bg-brand-navy transition-all flex items-center gap-2"><i data-lucide="user-plus" class="w-4 h-4"></i> Add Team Member</button>`); } lucide.createIcons(); this.showToast("Editor Enabled", "Hover photos to change them."); } else { document.body.classList.remove('editing-active'); toolbar.classList.add('hidden'); document.querySelectorAll('[data-editable="true"]').forEach(el => el.contentEditable = "false"); }
             },
             saveEdits: function() { const changes = {}; document.querySelectorAll('[data-editable="true"]').forEach(el => { if(el.id) { changes[el.id] = el.innerHTML; localStorage.setItem('cms_' + el.id, el.innerHTML); } }); localStorage.setItem('cms_structure_services', document.getElementById('services-grid').innerHTML); localStorage.setItem('cms_structure_team', document.getElementById('team-grid').innerHTML); this.showToast("Saved", "Changes published."); },
-            addItem: function(type) { const gridId = type === 'services' ? 'services-grid' : 'team-grid'; const grid = document.getElementById(gridId); let html = ''; if(type === 'services') { html = `<div class="brand-card reveal active" onclick="CroesApp.handleCardClick(this, 'new')"><div class="absolute top-4 right-4 z-20 admin-control"><button onclick="CroesApp.deleteItem(this); event.stopPropagation();" class="bg-red-500 text-white p-3 rounded-full shadow-lg hover:bg-red-600 transition-colors"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="absolute inset-0 z-0"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-100"><div class="absolute inset-0 card-overlay"></div></div><div class="relative z-10 p-10 flex items-start"><div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/30 shadow-lg"><i data-lucide="star" class="w-8 h-8"></i></div></div><div class="relative z-10 p-10 pt-0 mt-auto flex flex-col justify-end"><h3 class="text-3xl font-bold text-white mb-3" data-editable="true">New Service</h3><p class="text-slate-200 leading-relaxed mb-8 font-medium" data-editable="true">Description.</p><span class="inline-flex items-center gap-2 bg-brand-navy/90 px-6 py-3 rounded-full backdrop-blur-md border border-white/10 text-xs font-bold text-brand-accent uppercase tracking-wide w-fit">Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span></div></div>`; } else { html = `<div class="group cursor-pointer relative reveal active"><div class="absolute top-4 right-4 z-20 admin-control"><button onclick="CroesApp.deleteItem(this)" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="relative overflow-hidden rounded-[2rem] mb-6 shadow-xl aspect-[4/5] border border-slate-100"><img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 to-transparent flex items-end p-8"><p class="text-white text-sm font-medium italic" data-editable="true">"New Member"</p></div></div><h3 class="text-2xl font-bold text-brand-navy" data-editable="true">Name</h3><p class="text-brand-teal font-bold text-xs tracking-widest uppercase mt-1" data-editable="true">Role</p></div>`; } grid.insertAdjacentHTML('beforeend', html); lucide.createIcons(); if(document.body.classList.contains('editing-active')) grid.lastElementChild.querySelectorAll('[data-editable="true"]').forEach(el => el.contentEditable = "true"); },
+            addItem: function(type) { const gridId = type === 'services' ? 'services-grid' : 'team-grid'; const grid = document.getElementById(gridId); let html = ''; if(type === 'services') { html = `<div class="brand-card reveal active" onclick="CroesApp.handleCardClick(this, 'new')"><div class="absolute top-4 right-4 z-20 admin-control"><button onclick="CroesApp.deleteItem(this); event.stopPropagation();" class="bg-red-500 text-white p-3 rounded-full shadow-lg hover:bg-red-600 transition-colors"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="absolute inset-0 z-0"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-100"><div class="absolute inset-0 card-overlay"></div></div><div class="relative z-10 p-10 flex items-start"><div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/30 shadow-lg"><i data-lucide="star" class="w-8 h-8"></i></div></div><div class="relative z-10 p-10 pt-0 mt-auto flex flex-col justify-end"><h3 class="text-3xl font-bold text-white mb-3" data-editable="true">New Service</h3><p class="text-slate-200 leading-relaxed mb-8 font-medium" data-editable="true">Description.</p><span class="inline-flex items-center gap-2 bg-brand-navy/90 px-6 py-3 rounded-full backdrop-blur-md border border-white/10 text-xs font-bold text-brand-accent uppercase tracking-wide w-fit">Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span></div></div>`; } else { html = `<div class="group cursor-pointer relative reveal active"><div class="absolute top-4 right-4 z-20 admin-control"><button onclick="CroesApp.deleteItem(this)" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="relative overflow-hidden rounded-[2rem] mb-6 shadow-xl aspect-[4/5] border border-slate-100 group-hover:shadow-2xl transition-all"><img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"><div class="photo-upload-overlay absolute inset-0 bg-brand-navy/60 backdrop-blur-sm hidden items-center justify-center z-10 cursor-pointer" onclick="CroesApp.triggerPhotoUpload(this.previousElementSibling)"><div class="bg-white p-4 rounded-full shadow-xl"><i data-lucide="camera" class="w-6 h-6 text-brand-navy"></i></div></div><div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8"><p class="text-white text-sm font-medium italic" data-editable="true">"New Member"</p></div></div><h3 class="text-2xl font-bold text-brand-navy" data-editable="true">Name</h3><p class="text-brand-teal font-bold text-xs tracking-widest uppercase mt-1" data-editable="true">Role</p></div>`; } grid.insertAdjacentHTML('beforeend', html); lucide.createIcons(); if(document.body.classList.contains('editing-active')) grid.lastElementChild.querySelectorAll('[data-editable="true"]').forEach(el => el.contentEditable = "true"); },
             deleteItem: function(btn) { if(confirm("Delete this item?")) { btn.closest('.brand-card, .group').remove(); this.saveEdits(); } },
             handleCardClick: function(el, id) { if(document.body.classList.contains('editing-active')) return; const title = el.querySelector('h3').innerText; const desc = el.querySelector('p').innerText; const img = el.querySelector('img').src; document.getElementById('modal-title').innerText = title; document.getElementById('modal-desc').innerText = desc; document.getElementById('modal-bg-img').src = img; document.getElementById('service-modal').classList.remove('hidden'); },
             toggleMobileMenu: function() { const m = document.getElementById('mobile-menu'); m.classList.toggle('hidden'); },
             sendClientMessage: function() { const val = document.getElementById('msg-input').value; if(!val) return; document.getElementById('msg-container').innerHTML += `<div class="bg-brand-teal text-white p-3 rounded-2xl rounded-tr-none ml-auto w-fit max-w-[80%] text-sm shadow-md mb-2">${val}</div>`; document.getElementById('msg-input').value = ''; },
             calculateTax: function() { const v = parseFloat(document.getElementById('calc-input').value)||0; const t = v * 0.07; const tot = v + t; document.getElementById('res-sub').innerText = 'ƒ '+v.toFixed(2); document.getElementById('res-tax').innerText = '+ ƒ '+t.toFixed(2); document.getElementById('res-total').innerText = 'ƒ '+tot.toFixed(2); const w = v+t; document.getElementById('bar-sub').style.width = (v/w)*100 + '%'; document.getElementById('bar-tax').style.width = (t/w)*100 + '%'; },
-            initDates: function() { const today = new Date(); let year = today.getFullYear(); let month = today.getMonth(); let deadline = new Date(year, month, 15); if (today.getDate() > 15) { deadline = new Date(year, month + 1, 15); } const diffTime = Math.abs(deadline - today); const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); document.getElementById('days-left').innerText = diffDays; document.getElementById('deadline-date').innerText = deadline.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }); }
+            initDates: function() { const today = new Date(); let year = today.getFullYear(); let month = today.getMonth(); let deadline = new Date(year, month, 15); if (today.getDate() > 15) { deadline = new Date(year, month + 1, 15); } const diffTime = Math.abs(deadline - today); const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); document.getElementById('days-left').innerText = diffDays; document.getElementById('deadline-date').innerText = deadline.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }); },
+            
+            // PHOTO UPLOAD LOGIC (NEW)
+            triggerPhotoUpload: function(imgEl) {
+                this.targetImgEl = imgEl;
+                document.getElementById('cms-photo-input').click();
+            },
+            handlePhotoUpload: function(input) {
+                if(input.files && input.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        // Create a canvas to compress image
+                        const img = new Image();
+                        img.src = e.target.result;
+                        img.onload = () => {
+                            const canvas = document.createElement('canvas');
+                            const ctx = canvas.getContext('2d');
+                            const MAX_WIDTH = 600;
+                            const scaleSize = MAX_WIDTH / img.width;
+                            canvas.width = MAX_WIDTH;
+                            canvas.height = img.height * scaleSize;
+                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                            
+                            const compressedData = canvas.toDataURL('image/jpeg', 0.7); // 70% quality
+                            if(this.targetImgEl) {
+                                this.targetImgEl.src = compressedData;
+                                this.saveEdits();
+                                this.showToast("Success", "Photo updated & compressed.");
+                            }
+                        };
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
         };
 
         // --- GLOBAL BINDINGS ---
         window.CroesApp = CroesApp;
-        window.handleBooking = (e) => { 
-            e.preventDefault(); 
-            const btn = e.target.querySelector('button'); 
-            const originalText = btn.innerText; 
-            btn.innerText = "Sending..."; 
-            btn.disabled = true; 
-            const data = { 
-                name: document.getElementById('book-name').value, 
-                email: document.getElementById('book-email').value, 
-                date: document.getElementById('book-date').value, 
-                time: document.getElementById('book-time').value, 
-                service: document.getElementById('book-service') ? document.getElementById('book-service').value : 'General Inquiry', 
-                status: 'Pending' 
-            }; 
-            const tx = CroesApp.db.transaction(['bookings'], 'readwrite'); 
-            tx.objectStore('bookings').add(data).onsuccess = () => {
-                setTimeout(() => { 
-                    CroesApp.showToast("Success", "Request Sent!"); 
-                    btn.innerText = originalText; 
-                    btn.disabled = false; 
-                    CroesApp.updateStats(); 
-                    // Force refresh if admin dashboard is open
-                    CroesApp.renderDashboard();
-                }, 1500); 
-            };
-        };
+        window.handleBooking = (e) => { e.preventDefault(); const btn = e.target.querySelector('button'); const originalText = btn.innerText; btn.innerText = "Sending..."; btn.disabled = true; const data = { name: document.getElementById('book-name').value, email: document.getElementById('book-email').value, date: document.getElementById('book-date').value, time: document.getElementById('book-time').value, service: document.getElementById('book-service').value, status: 'Pending' }; const tx = CroesApp.db.transaction(['bookings'], 'readwrite'); tx.objectStore('bookings').add(data); setTimeout(() => { CroesApp.showToast("Success", "Request Sent!"); btn.innerText = originalText; btn.disabled = false; CroesApp.updateStats(); }, 1500); };
         function closeServiceModal() { document.getElementById('service-modal').classList.add('hidden'); }
         
         CroesApp.init();
