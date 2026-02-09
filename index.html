@@ -69,7 +69,6 @@
         .upload-zone { border: 2px dashed #CBD5E1; border-radius: 16px; padding: 40px; text-align: center; transition: all 0.3s; background: #fff; cursor: pointer; }
         .upload-zone:hover { border-color: #23869D; background: #F8FAFC; }
 
-        #service-modal { z-index: 10000 !important; }
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
         
@@ -77,7 +76,11 @@
         .portal-logo-container { background: white; padding: 12px; border-radius: 16px; display: inline-block; margin-bottom: 2rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         .portal-logo-container img { height: 32px; width: auto; display: block; }
 
-        @media (max-width: 1024px) { .portal-layout { grid-template-columns: 1fr; } .portal-sidebar { display: none; } }
+        @media (max-width: 1024px) { 
+            .portal-layout { grid-template-columns: 1fr; } 
+            .portal-sidebar { display: none; } 
+            .portal-mobile-nav { display: flex !important; }
+        }
     </style>
 </head>
 <body class="text-slate-600 antialiased bg-brand-surface selection:bg-brand-teal selection:text-white flex flex-col min-h-screen">
@@ -85,8 +88,8 @@
     <div id="preloader" class="fixed inset-0 bg-white z-[99999] flex items-center justify-center transition-opacity duration-500">
         <div class="text-center">
             <div class="w-16 h-16 border-4 border-slate-100 border-t-brand-navy rounded-full animate-spin mx-auto mb-4"></div>
-            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes v8.2</p>
-            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">Synced System</p>
+            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes v8.3</p>
+            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">Full Functionality</p>
         </div>
     </div>
 
@@ -228,8 +231,32 @@
                     </div>
                 </div>
             </section>
+            
+            <section id="contact" class="py-20 bg-brand-surface scroll-mt-20 border-t border-slate-200">
+                <div class="max-w-5xl mx-auto px-6">
+                    <div class="bg-brand-navy rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row">
+                        <div class="p-12 md:p-16 md:w-1/2 text-white relative">
+                            <div class="absolute top-0 right-0 w-64 h-64 bg-brand-teal rounded-full blur-[80px] opacity-20 pointer-events-none"></div>
+                            <h2 class="text-3xl font-bold mb-6">Let's Talk Business</h2>
+                            <p class="text-slate-300 mb-8 leading-relaxed">Ready to streamline your finances? Fill out the form and our team will reach out within 24 hours.</p>
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-4"><div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"><i data-lucide="phone" class="w-5 h-5 text-brand-accent"></i></div><span>+297 582 0000</span></div>
+                                <div class="flex items-center gap-4"><div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"><i data-lucide="mail" class="w-5 h-5 text-brand-accent"></i></div><span>info@croesaccounting.com</span></div>
+                            </div>
+                        </div>
+                        <div class="p-12 md:p-16 md:w-1/2 bg-white">
+                            <form onsubmit="CroesApp.handlePublicBooking(event)" class="space-y-4">
+                                <div><label class="text-xs font-bold text-brand-navy uppercase ml-1">Your Name</label><input type="text" id="book-name" required class="w-full p-3 bg-slate-50 rounded-xl border-0 focus:ring-2 focus:ring-brand-teal mt-1"></div>
+                                <div><label class="text-xs font-bold text-brand-navy uppercase ml-1">Email</label><input type="email" id="book-email" required class="w-full p-3 bg-slate-50 rounded-xl border-0 focus:ring-2 focus:ring-brand-teal mt-1"></div>
+                                <div><label class="text-xs font-bold text-brand-navy uppercase ml-1">Service Needed</label><select id="book-service" class="w-full p-3 bg-slate-50 rounded-xl border-0 focus:ring-2 focus:ring-brand-teal mt-1"><option>Tax Preparation</option><option>Payroll</option><option>Advisory</option></select></div>
+                                <button type="submit" class="w-full btn-primary py-4 rounded-xl font-bold shadow-lg mt-4">Send Request</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-            <footer class="bg-brand-navy relative overflow-hidden pt-24 pb-12 mt-20 text-slate-300">
+            <footer class="bg-brand-navy relative overflow-hidden pt-24 pb-12 text-slate-300">
                 <div class="max-w-7xl mx-auto px-6 relative z-10">
                     <div class="grid md:grid-cols-4 gap-12 mb-20">
                         <div class="col-span-1 md:col-span-1">
@@ -246,8 +273,10 @@
         </main>
     </div>
 
-    <div id="client-portal" class="hidden portal-layout">
-        <aside class="portal-sidebar">
+    <div id="client-portal" class="hidden portal-layout relative">
+        <button onclick="document.querySelector('.portal-sidebar').classList.toggle('hidden'); document.querySelector('.portal-sidebar').classList.toggle('absolute'); document.querySelector('.portal-sidebar').classList.toggle('z-50'); document.querySelector('.portal-sidebar').classList.toggle('h-full');" class="md:hidden absolute top-8 right-8 z-50 p-2 bg-white rounded-lg shadow-md text-brand-navy"><i data-lucide="menu" class="w-6 h-6"></i></button>
+
+        <aside class="portal-sidebar transition-all">
             <div>
                 <div class="portal-logo-container"><img src="logo.png" alt="Logo"></div>
                 <nav class="space-y-2">
@@ -264,7 +293,7 @@
         <main class="p-8 md:p-12 relative overflow-y-auto">
             <div class="flex justify-between items-center mb-10">
                 <div><h1 class="text-3xl font-extrabold text-brand-navy">Client Portal</h1><p class="text-slate-500">Welcome back, <span id="portal-client-name" class="font-bold text-brand-teal">Client</span></p></div>
-                <div class="flex gap-3"><span class="px-4 py-2 bg-white rounded-full text-xs font-bold text-brand-navy shadow-sm border border-slate-100 flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4 text-brand-success"></i> Encrypted Session</span></div>
+                <div class="flex gap-3 hidden md:flex"><span class="px-4 py-2 bg-white rounded-full text-xs font-bold text-brand-navy shadow-sm border border-slate-100 flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4 text-brand-success"></i> Encrypted Session</span></div>
             </div>
 
             <div id="portal-dash">
@@ -335,7 +364,7 @@
     <section id="back-office" class="hidden fixed inset-0 z-[99999] bg-slate-50 overflow-y-auto">
         <div class="max-w-7xl mx-auto p-8 pt-24">
             <div class="flex justify-between items-center mb-10">
-                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v8.2 • Secured</p></div>
+                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v8.3 • Secured</p></div>
                 <div class="flex gap-4">
                     <a href="https://workplace.zoho.com/#mail_app/mail/folder/inbox" target="_blank" class="flex items-center gap-2 bg-white text-brand-navy border border-slate-200 px-5 py-2.5 rounded-xl font-bold shadow-sm hover:bg-slate-50 transition-colors"><i data-lucide="mail" class="w-4 h-4"></i> Check Mail</a>
                     <button onclick="CroesApp.logout()" class="text-red-500 font-bold hover:bg-red-50 px-4 py-2 rounded-lg transition-colors">Log Out</button>
@@ -422,9 +451,9 @@
 
     <script>
         const CroesApp = {
-            db: null, currentClientEmail: null, targetImgEl: null,
+            db: null, currentClientEmail: null, currentClientPin: null, targetImgEl: null,
             
-            // --- 1. SECURITY MODULE (v8.1) ---
+            // --- SECURITY MODULE ---
             security: {
                 key: null,
                 deriveKey: async function(password) {
@@ -461,21 +490,21 @@
 
             init: function() { this.initDB(); this.initUI(); },
             
-            // --- 2. DB INIT (Unified v3) ---
             initDB: function() {
-                const request = indexedDB.open("CroesDBv7", 3);
+                // Version 4 for messages
+                const request = indexedDB.open("CroesDBv8", 4);
                 request.onupgradeneeded = (e) => { 
                     const d = e.target.result; 
                     if(!d.objectStoreNames.contains('files')) d.createObjectStore('files', { keyPath: 'id', autoIncrement: true }); 
                     if(!d.objectStoreNames.contains('bookings')) d.createObjectStore('bookings', { keyPath: 'id', autoIncrement: true });
                     if(!d.objectStoreNames.contains('vault')) d.createObjectStore('vault', { keyPath: 'id', autoIncrement: true });
+                    if(!d.objectStoreNames.contains('messages')) d.createObjectStore('messages', { keyPath: 'id', autoIncrement: true });
                     if(!d.objectStoreNames.contains('clients')) {
                         const store = d.createObjectStore('clients', { keyPath: 'email' });
-                        // Default admin client for initial access if needed, but we rely on Admin Panel creation
                         store.add({ email: 'client@email.com', pin: '123456', name: 'Demo Client', status: 'Processing', phone: '555-0000' });
                     }
                 };
-                request.onsuccess = (e) => { this.db = e.target.result; this.updateStats(); console.log("DB Ready v3"); };
+                request.onsuccess = (e) => { this.db = e.target.result; this.updateStats(); console.log("DB Ready v8.3"); };
             },
 
             initUI: function() {
@@ -535,7 +564,7 @@
             deleteBooking: function(id) { if(confirm("Delete record?")) { const tx = this.db.transaction(['bookings'], 'readwrite'); tx.objectStore('bookings').delete(id); this.renderDashboard(); this.updateStats(); } },
             searchAdmin: function(query) { const rows = document.querySelectorAll('#booking-list tr'); rows.forEach(row => { row.style.display = row.innerText.toLowerCase().includes(query.toLowerCase()) ? '' : 'none'; }); },
             
-            // --- 3. SYNC ENGINE (v8.2) ---
+            // --- SYNC ENGINE ---
             addClient: function() {
                 const name = document.getElementById('new-client-name').value;
                 const email = document.getElementById('new-client-email').value;
@@ -573,10 +602,20 @@
             },
             
             uploadToClient: function(email) {
-                // Simplified "Send File" logic using the same upload handler but setting the context
                 this.currentClientEmail = email; 
                 this.showToast("Ready", `Select file for ${email}`);
                 document.getElementById('file-input').click();
+            },
+            
+            handlePublicBooking: function(e) {
+                e.preventDefault();
+                const name = document.getElementById('book-name').value;
+                const email = document.getElementById('book-email').value;
+                const service = document.getElementById('book-service').value;
+                const tx = this.db.transaction(['bookings'], 'readwrite');
+                tx.objectStore('bookings').add({ name, email, service, status: 'Pending', date: new Date().toLocaleDateString() });
+                this.showToast("Success", "Request Sent! We'll contact you soon.");
+                e.target.reset();
             },
 
             openPortalLogin: function() { document.getElementById('client-login-modal').classList.remove('hidden'); },
@@ -589,6 +628,7 @@
                 tx.objectStore('clients').get(email).onsuccess = (e) => {
                     const client = e.target.result;
                     if(client && client.pin === inputPin) {
+                        this.currentClientPin = inputPin; // STORE PIN SESSION
                         document.getElementById('client-login-modal').classList.add('hidden');
                         document.getElementById('public-view').classList.add('hidden');
                         document.getElementById('client-portal').classList.remove('hidden');
@@ -610,7 +650,7 @@
                 document.querySelector('#portal-dash p.text-xl').innerText = status;
             },
 
-            logoutClient: function() { document.getElementById('client-portal').classList.add('hidden'); document.getElementById('public-view').classList.remove('hidden'); this.currentClientEmail = null; },
+            logoutClient: function() { document.getElementById('client-portal').classList.add('hidden'); document.getElementById('public-view').classList.remove('hidden'); this.currentClientEmail = null; this.currentClientPin = null; },
             switchPortalTab: function(tab) { ['dash','docs','msgs', 'vault'].forEach(t => document.getElementById('portal-'+t).classList.add('hidden')); document.getElementById('portal-'+tab).classList.remove('hidden'); document.querySelectorAll('.portal-nav-btn').forEach(b => b.classList.remove('active')); event.currentTarget.classList.add('active'); },
             
             handleFileUpload: function(input) {
@@ -644,9 +684,9 @@
                 const u = document.getElementById('vault-user').value;
                 const p = document.getElementById('vault-pass').value;
                 if(!s || !u || !p) return this.showToast("Error", "All fields required");
-                // Using hardcoded PIN for simplicity in this demo flow, real flow would use inputPin captured at login
-                const payload = JSON.stringify({ user: u, pass: p });
-                const encryptedData = await this.security.encrypt(payload, '123456'); 
+                
+                // FIXED: Use actual client PIN
+                const encryptedData = await this.security.encrypt(JSON.stringify({ user: u, pass: p }), this.currentClientPin); 
                 const tx = this.db.transaction(['vault'], 'readwrite');
                 tx.objectStore('vault').add({ clientEmail: this.currentClientEmail, service: s, data: encryptedData, date: new Date().toLocaleDateString() });
                 this.showToast("Secure", "Credentials encrypted & stored.");
@@ -663,7 +703,7 @@
                     if(items.length === 0) { list.innerHTML = '<p class="text-slate-400 text-sm text-center italic mt-10">Vault is empty.</p>'; return; }
                     for(const item of items) {
                         try {
-                            const decryptedJson = await this.security.decrypt(item.data, '123456');
+                            const decryptedJson = await this.security.decrypt(item.data, this.currentClientPin);
                             if(!decryptedJson) continue;
                             const creds = JSON.parse(decryptedJson);
                             list.innerHTML += `<div class="p-4 bg-slate-50 border border-slate-100 rounded-xl group hover:border-brand-teal transition-colors"><div class="flex justify-between items-center mb-2"><span class="font-bold text-brand-navy">${item.service}</span><button onclick="CroesApp.deleteVaultItem(${item.id})" class="text-slate-300 hover:text-red-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="text-xs text-slate-500 font-mono bg-white p-2 rounded border border-slate-100 flex justify-between"><span>${creds.user}</span><span class="tracking-widest">••••••</span></div></div>`;
@@ -692,7 +732,16 @@
             deleteItem: function(btn) { if(confirm("Delete this item?")) { btn.closest('.brand-card, .group').remove(); this.saveEdits(); } },
             handleCardClick: function(el, id) { if(document.body.classList.contains('editing-active')) return; },
             toggleMobileMenu: function() { const m = document.getElementById('mobile-menu'); m.classList.toggle('hidden'); },
-            sendClientMessage: function() { const val = document.getElementById('msg-input').value; if(!val) return; document.getElementById('msg-container').innerHTML += `<div class="bg-brand-teal text-white p-3 rounded-2xl rounded-tr-none ml-auto w-fit max-w-[80%] text-sm shadow-md mb-2">${val}</div>`; document.getElementById('msg-input').value = ''; },
+            sendClientMessage: function() { 
+                const val = document.getElementById('msg-input').value; 
+                if(!val) return; 
+                // Add to DB
+                const tx = this.db.transaction(['messages'], 'readwrite');
+                tx.objectStore('messages').add({ clientEmail: this.currentClientEmail, text: val, sender: 'client', date: new Date().toLocaleTimeString() });
+                // Visual Append
+                document.getElementById('msg-container').innerHTML += `<div class="bg-brand-teal text-white p-3 rounded-2xl rounded-tr-none ml-auto w-fit max-w-[80%] text-sm shadow-md mb-2">${val}</div>`; 
+                document.getElementById('msg-input').value = ''; 
+            },
             calculateTax: function() { const v = parseFloat(document.getElementById('calc-input').value)||0; const t = v * 0.07; const tot = v + t; document.getElementById('res-sub').innerText = 'ƒ '+v.toFixed(2); document.getElementById('res-tax').innerText = '+ ƒ '+t.toFixed(2); document.getElementById('res-total').innerText = 'ƒ '+tot.toFixed(2); const w = v+t; document.getElementById('bar-sub').style.width = (v/w)*100 + '%'; document.getElementById('bar-tax').style.width = (t/w)*100 + '%'; },
             initDates: function() { const today = new Date(); let year = today.getFullYear(); let month = today.getMonth(); let deadline = new Date(year, month, 15); if (today.getDate() > 15) { deadline = new Date(year, month + 1, 15); } const diffDays = Math.ceil(Math.abs(deadline - today) / (1000 * 60 * 60 * 24)); document.getElementById('days-left').innerText = diffDays; document.getElementById('deadline-date').innerText = deadline.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }); },
             
