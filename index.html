@@ -88,8 +88,8 @@
     <div id="preloader" class="fixed inset-0 bg-white z-[99999] flex items-center justify-center transition-opacity duration-500">
         <div class="text-center">
             <div class="w-16 h-16 border-4 border-slate-100 border-t-brand-navy rounded-full animate-spin mx-auto mb-4"></div>
-            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes v8.4</p>
-            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">Bank-Grade Security</p>
+            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes v8.6</p>
+            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">Autopilot Enabled</p>
         </div>
     </div>
 
@@ -364,7 +364,7 @@
     <section id="back-office" class="hidden fixed inset-0 z-[99999] bg-slate-50 overflow-y-auto">
         <div class="max-w-7xl mx-auto p-8 pt-24">
             <div class="flex justify-between items-center mb-10">
-                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v8.4 • Secured</p></div>
+                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v8.6 • Secured</p></div>
                 <div class="flex gap-4">
                     <a href="https://workplace.zoho.com/#mail_app/mail/folder/inbox" target="_blank" class="flex items-center gap-2 bg-white text-brand-navy border border-slate-200 px-5 py-2.5 rounded-xl font-bold shadow-sm hover:bg-slate-50 transition-colors"><i data-lucide="mail" class="w-4 h-4"></i> Check Mail</a>
                     <button onclick="CroesApp.logout()" class="text-red-500 font-bold hover:bg-red-50 px-4 py-2 rounded-lg transition-colors">Log Out</button>
@@ -454,12 +454,12 @@
             db: null, currentClientEmail: null, currentClientPin: null, targetImgEl: null,
             emailInitialized: false,
 
-            // EMAIL CONFIGURATION (v8.4 Active)
+            // CONFIGURATION
             emailConfig: {
                 publicKey: "8rBFXNPpsM9GIWhRR",
                 serviceId: "service_x7ol38h",
-                requestTemplateId: "template_3ajpnak", // For Public Requests
-                confirmTemplateId: "template_kc2lb6b"  // For Admin Confirmations
+                requestTemplateId: "template_3ajpnak",
+                confirmTemplateId: "template_kc2lb6b" 
             },
 
             // --- SECURITY MODULE ---
@@ -501,7 +501,7 @@
             
             // --- DATABASE (Unified v5) ---
             initDB: function() {
-                const request = indexedDB.open("CroesDBv8", 5); // Version 5 ensures clean state
+                const request = indexedDB.open("CroesDBv8", 5); 
                 request.onupgradeneeded = (e) => { 
                     const d = e.target.result; 
                     if(!d.objectStoreNames.contains('files')) d.createObjectStore('files', { keyPath: 'id', autoIncrement: true }); 
@@ -510,11 +510,10 @@
                     if(!d.objectStoreNames.contains('messages')) d.createObjectStore('messages', { keyPath: 'id', autoIncrement: true });
                     if(!d.objectStoreNames.contains('clients')) {
                         const store = d.createObjectStore('clients', { keyPath: 'email' });
-                        // Default admin/client for testing if needed
                         store.add({ email: 'client@email.com', pin: '123456', name: 'Demo Client', status: 'Processing', phone: '555-0000' });
                     }
                 };
-                request.onsuccess = (e) => { this.db = e.target.result; this.updateStats(); console.log("DB Ready v8.4"); };
+                request.onsuccess = (e) => { this.db = e.target.result; this.updateStats(); console.log("DB Ready v8.6"); };
             },
 
             initUI: function() {
@@ -582,7 +581,6 @@
                     this.renderDashboard(); 
                     this.updateStats(); 
                     
-                    // SEND EMAIL
                     if(this.emailConfig.publicKey) {
                         if(!this.emailInitialized) { emailjs.init(this.emailConfig.publicKey); this.emailInitialized = true; }
                         emailjs.send(this.emailConfig.serviceId, this.emailConfig.confirmTemplateId, {
@@ -609,7 +607,24 @@
                 if(!name || !email || !pin) return this.showToast("Error", "Missing fields.");
                 const tx = this.db.transaction(['clients'], 'readwrite');
                 tx.objectStore('clients').add({ name, email, pin, phone, status: 'Uploaded', joined: new Date().toLocaleDateString() });
-                tx.oncomplete = () => { this.showToast("Success", "Client profile created."); document.getElementById('add-client-form').classList.add('hidden'); this.renderAdminRepo(); };
+                
+                tx.oncomplete = () => { 
+                    this.showToast("Success", "Client created."); 
+                    document.getElementById('add-client-form').classList.add('hidden'); 
+                    this.renderAdminRepo(); 
+
+                    // AUTO-SEND WELCOME EMAIL
+                    if(this.emailConfig.publicKey) {
+                        if(!this.emailInitialized) { emailjs.init(this.emailConfig.publicKey); this.emailInitialized = true; }
+                        emailjs.send(this.emailConfig.serviceId, this.emailConfig.confirmTemplateId, {
+                            to_name: name,
+                            to_email: email,
+                            service_name: "Client Portal Access",
+                            date: new Date().toLocaleDateString(),
+                            message: `Welcome to Accounting Croes. Your secure Login PIN is: ${pin}. Please keep this safe.`
+                        }).then(() => { this.showToast("Sent", "Welcome email with PIN sent."); });
+                    }
+                };
             },
 
             renderAdminRepo: function() {
@@ -625,10 +640,29 @@
                     clients.forEach(c => {
                         const clientFiles = files.filter(f => f.clientEmail === c.email);
                         let statusColor = c.status === 'Processing' ? 'bg-blue-50 text-brand-teal' : c.status === 'Review' ? 'bg-orange-50 text-orange-600' : c.status === 'Filed' ? 'bg-green-50 text-green-600' : 'bg-slate-100 text-slate-500';
-                        container.innerHTML += `<div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm group hover:border-brand-teal transition-all"><div class="flex justify-between items-start mb-4"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-brand-surface flex items-center justify-center font-bold text-brand-navy">${c.name.substring(0,2).toUpperCase()}</div><div><h4 class="font-bold text-brand-navy text-sm">${c.name}</h4><p class="text-xs text-slate-400 font-mono">${c.email}</p></div></div><div class="text-right"><select onchange="CroesApp.updateClientStatus('${c.email}', this.value)" class="text-xs font-bold rounded-lg py-1 px-2 border-0 cursor-pointer outline-none ${statusColor}"><option value="Uploaded" ${c.status === 'Uploaded' ? 'selected' : ''}>Uploaded</option><option value="Processing" ${c.status === 'Processing' ? 'selected' : ''}>Processing</option><option value="Review" ${c.status === 'Review' ? 'selected' : ''}>Review</option><option value="Filed" ${c.status === 'Filed' ? 'selected' : ''}>Filed</option></select></div></div><div class="flex items-center justify-between border-t border-slate-50 pt-3 mt-3"><span class="text-xs font-bold text-slate-400 flex items-center gap-1"><i data-lucide="file" class="w-3 h-3"></i> ${clientFiles.length} Files</span><div class="flex gap-2"><button onclick="CroesApp.uploadToClient('${c.email}')" class="text-xs bg-brand-surface hover:bg-brand-navy hover:text-white px-3 py-1.5 rounded-lg font-bold text-brand-navy transition-colors flex items-center gap-1"><i data-lucide="upload-cloud" class="w-3 h-3"></i> Send File</button><button onclick="alert('Demo restriction: Delete disabled')" class="text-slate-300 hover:text-red-500 p-1"><i data-lucide="trash-2" class="w-3 h-3"></i></button></div></div></div>`;
+                        
+                        let filesHtml = '';
+                        if(clientFiles.length > 0) {
+                            filesHtml = `<div class="mt-3 space-y-2 bg-slate-50 p-3 rounded-xl">`;
+                            clientFiles.forEach(f => {
+                                const url = URL.createObjectURL(f.data);
+                                filesHtml += `<div class="flex justify-between items-center text-xs"><a href="${url}" download="${f.fileName}" class="text-brand-teal hover:underline flex items-center gap-1"><i data-lucide="file" class="w-3 h-3"></i> ${f.fileName}</a><button onclick="CroesApp.deleteClientFile(${f.id})" class="text-red-400 hover:text-red-600"><i data-lucide="x" class="w-3 h-3"></i></button></div>`;
+                            });
+                            filesHtml += `</div>`;
+                        }
+
+                        container.innerHTML += `<div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm group hover:border-brand-teal transition-all"><div class="flex justify-between items-start mb-4"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-brand-surface flex items-center justify-center font-bold text-brand-navy">${c.name.substring(0,2).toUpperCase()}</div><div><h4 class="font-bold text-brand-navy text-sm">${c.name}</h4><p class="text-xs text-slate-400 font-mono">${c.email} <span class="bg-slate-100 px-1 rounded ml-1 text-[10px]">PIN: ${c.pin}</span></p></div></div><div class="text-right"><select onchange="CroesApp.updateClientStatus('${c.email}', this.value)" class="text-xs font-bold rounded-lg py-1 px-2 border-0 cursor-pointer outline-none ${statusColor}"><option value="Uploaded" ${c.status === 'Uploaded' ? 'selected' : ''}>Uploaded</option><option value="Processing" ${c.status === 'Processing' ? 'selected' : ''}>Processing</option><option value="Review" ${c.status === 'Review' ? 'selected' : ''}>Review</option><option value="Filed" ${c.status === 'Filed' ? 'selected' : ''}>Filed</option></select></div></div><div class="flex items-center justify-between border-t border-slate-50 pt-3 mt-3"><span class="text-xs font-bold text-slate-400 flex items-center gap-1"><i data-lucide="file" class="w-3 h-3"></i> ${clientFiles.length} Files</span><div class="flex gap-2"><button onclick="CroesApp.uploadToClient('${c.email}')" class="text-xs bg-brand-surface hover:bg-brand-navy hover:text-white px-3 py-1.5 rounded-lg font-bold text-brand-navy transition-colors flex items-center gap-1"><i data-lucide="upload-cloud" class="w-3 h-3"></i> Send File</button></div></div>${filesHtml}</div>`;
                     });
                     lucide.createIcons();
                 };
+            },
+
+            deleteClientFile: function(id) {
+                if(confirm("Permanently delete this file?")) {
+                    const tx = this.db.transaction(['files'], 'readwrite');
+                    tx.objectStore('files').delete(id);
+                    tx.oncomplete = () => { this.showToast("Deleted", "File removed."); this.renderAdminRepo(); };
+                }
             },
 
             updateClientStatus: function(email, newStatus) {
@@ -690,7 +724,47 @@
             },
 
             openPortalLogin: function() { document.getElementById('client-login-modal').classList.remove('hidden'); },
-            clientLoginStep1: function() { this.currentClientEmail = document.getElementById('client-email').value; if(this.currentClientEmail) { document.getElementById('client-step-1').classList.add('hidden'); document.getElementById('client-step-2').classList.remove('hidden'); } },
+            
+            clientLoginStep1: function() { 
+                const emailInput = document.getElementById('client-email');
+                const email = emailInput.value.trim();
+                const btn = emailInput.nextElementSibling;
+                
+                if(!email) return this.showToast("Error", "Please enter your email.");
+
+                const originalText = btn.innerText;
+                btn.innerText = "Verifying...";
+                btn.disabled = true;
+
+                const tx = this.db.transaction(['clients'], 'readonly');
+                const store = tx.objectStore('clients');
+                
+                store.get(email).onsuccess = (e) => {
+                    const client = e.target.result;
+                    if(client) {
+                        // SEND PIN EMAIL
+                        if(this.emailConfig.publicKey) {
+                            if(!this.emailInitialized) { emailjs.init(this.emailConfig.publicKey); this.emailInitialized = true; }
+                            
+                            emailjs.send(this.emailConfig.serviceId, this.emailConfig.confirmTemplateId, {
+                                to_name: client.name,
+                                to_email: client.email,
+                                service_name: "Client Portal Access",
+                                date: new Date().toLocaleTimeString(),
+                                message: `SECURITY ALERT: Your Login PIN is: ${client.pin} . Do not share this.`
+                            }).then(() => { this.showToast("Sent", "PIN sent to your email."); });
+                        }
+
+                        this.currentClientEmail = email;
+                        document.getElementById('client-step-1').classList.add('hidden');
+                        document.getElementById('client-step-2').classList.remove('hidden');
+                    } else {
+                        this.showToast("Error", "Email not found.");
+                        btn.innerText = originalText;
+                        btn.disabled = false;
+                    }
+                };
+            },
             
             clientLoginStep2: function() {
                 const email = this.currentClientEmail;
@@ -707,7 +781,7 @@
                         this.renderTimeline(client.status);
                         this.renderClientFiles();
                         this.renderVault();
-                    } else { alert("Invalid PIN or Email not registered."); }
+                    } else { alert("Invalid PIN."); }
                 };
             },
 
