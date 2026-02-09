@@ -52,83 +52,46 @@
 
     <style>
         /* --- 1. PREMIUM UTILITIES --- */
-        
-        /* Smooth Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #F4F7FA; }
         ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; border: 2px solid #F4F7FA; }
         ::-webkit-scrollbar-thumb:hover { background: #23869D; }
 
-        /* Liquid Metal Text */
         .text-gradient { 
             background: linear-gradient(to right, #0C3B53 0%, #23869D 40%, #4FD1C5 50%, #23869D 60%, #0C3B53 100%); 
-            background-size: 200% auto; 
-            -webkit-background-clip: text; 
-            background-clip: text; 
-            color: transparent; 
-            animation: shimmer 6s linear infinite; 
+            background-size: 200% auto; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shimmer 6s linear infinite; 
         }
 
-        /* --- 2. GLASSMORPHISM 4.0 --- */
+        /* --- 2. GLASSMORPHISM --- */
         .glass-panel { 
-            background: rgba(255, 255, 255, 0.85); 
-            backdrop-filter: blur(12px); 
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.5); 
+            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.5); 
         }
-        
-        /* Navbar State */
         nav { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
         nav.scrolled { 
-            background: rgba(255, 255, 255, 0.95); 
-            backdrop-filter: blur(20px); 
-            height: 72px !important; 
-            box-shadow: 0 4px 20px rgba(12, 59, 83, 0.04);
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); height: 72px !important; box-shadow: 0 4px 20px rgba(12, 59, 83, 0.04);
         }
         nav.scrolled .logo-img { height: 42px; }
 
         /* --- 3. INTERACTIVE ELEMENTS --- */
-        
-        /* Button with "Light Reflection" */
         .btn-primary { 
-            background: #0C3B53; 
-            color: white; 
-            position: relative; 
-            overflow: hidden; 
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: all 0.3s ease;
+            background: #0C3B53; color: white; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s ease;
         }
-        .btn-primary:hover { 
-            background: #0F4563; 
-            transform: translateY(-2px); 
-            box-shadow: 0 10px 30px -10px rgba(12, 59, 83, 0.4); 
-        }
+        .btn-primary:hover { background: #0F4563; transform: translateY(-2px); box-shadow: 0 10px 30px -10px rgba(12, 59, 83, 0.4); }
         .btn-primary:active { transform: translateY(0) scale(0.98); }
 
-        /* --- 4. GRID SYSTEM (NO OVERLAP GUARANTEE) --- */
+        /* --- 4. GRID SYSTEM --- */
         .brand-card { 
-            position: relative; 
-            overflow: hidden; 
-            border-radius: 1.5rem; 
-            background: white;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03); 
-            border: 1px solid rgba(255,255,255,0.8);
+            position: relative; overflow: hidden; border-radius: 1.5rem; background: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03); border: 1px solid rgba(255,255,255,0.8);
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            /* THE FIX: */
-            display: grid; 
-            grid-template-rows: 1fr auto; 
-            height: 480px; 
+            display: grid; grid-template-rows: 1fr auto; height: 480px; 
         }
-        .brand-card:hover { 
-            transform: translateY(-8px); 
-            box-shadow: 0 25px 50px -12px rgba(12, 59, 83, 0.15); 
-            border-color: rgba(35, 134, 157, 0.3);
-        }
+        .brand-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgba(12, 59, 83, 0.15); border-color: rgba(35, 134, 157, 0.3); }
         .brand-card img { transition: transform 0.8s ease; }
         .brand-card:hover img { transform: scale(1.05); }
         .card-overlay { background: linear-gradient(to top, rgba(12, 59, 83, 0.98) 10%, rgba(12, 59, 83, 0.5) 60%, rgba(12, 59, 83, 0.05) 100%); }
 
-        /* --- 5. FORMS (Floating Labels) --- */
+        /* --- 5. FORMS --- */
         .input-group { position: relative; }
         .input-field { 
             width: 100%; padding: 16px; border-radius: 12px; border: 1px solid #E2E8F0; 
@@ -136,26 +99,30 @@
         }
         .input-field:focus { border-color: #23869D; box-shadow: 0 0 0 4px rgba(35, 134, 157, 0.1); }
         .input-label {
-            position: absolute; left: 16px; top: 16px; color: #94A3B8; font-size: 15px; font-weight: 500;
-            pointer-events: none; transition: all 0.3s;
+            position: absolute; left: 16px; top: 16px; color: #94A3B8; font-size: 15px; font-weight: 500; pointer-events: none; transition: all 0.3s;
         }
         .input-field:focus + .input-label,
         .input-field:not(:placeholder-shown) + .input-label {
             transform: translateY(-28px); font-size: 12px; color: #23869D; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
         }
 
-        /* --- 6. ADMIN SECURITY (The Wall) --- */
+        /* --- 6. ADMIN --- */
         .editing-active [data-editable="true"]:hover { outline: 2px dashed #23869D; cursor: text; background: rgba(35, 134, 157, 0.05); }
         .edit-overlay, .add-btn { display: none !important; }
         body.editing-active .edit-overlay, body.editing-active .add-btn { display: inline-flex !important; }
 
-        /* Animation Classes */
+        /* Animation */
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        
         #service-modal { transition: opacity 0.3s ease; z-index: 9999 !important; }
         #service-modal.hidden { pointer-events: none; opacity: 0; }
         #service-modal:not(.hidden) { pointer-events: auto; opacity: 1; }
+        
+        /* Footer Specific */
+        .footer-link { transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px; }
+        .footer-link:hover { color: #4FD1C5; transform: translateX(5px); }
+        .footer-icon { background: rgba(255,255,255,0.1); padding: 8px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
+        .footer-link:hover .footer-icon { background: #23869D; color: white; }
     </style>
 </head>
 <body class="text-slate-600 antialiased bg-brand-surface selection:bg-brand-teal selection:text-white flex flex-col min-h-screen">
@@ -180,21 +147,17 @@
                 <img src="logo.png" alt="Accounting Croes" class="logo-img h-14 md:h-20 w-auto object-contain transition-all duration-500 group-hover:scale-105" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
                 <span class="text-2xl font-bold text-brand-navy hidden">CROES</span>
             </a>
-            
             <div class="hidden md:flex items-center gap-10">
                 <a href="#home" class="text-sm font-bold text-slate-500 hover:text-brand-navy transition-colors">Home</a>
                 <a href="#services" class="text-sm font-bold text-slate-500 hover:text-brand-navy transition-colors">Services</a>
                 <a href="#team" class="text-sm font-bold text-slate-500 hover:text-brand-navy transition-colors">Team</a>
                 <a href="#tools" class="text-sm font-bold text-slate-500 hover:text-brand-navy transition-colors">Tools</a>
             </div>
-            
             <div class="hidden md:flex items-center gap-4">
                 <a href="#contact" class="btn-primary px-6 py-3 text-sm font-bold rounded-full shadow-lg flex items-center gap-2">Book Appointment</a>
             </div>
-            
             <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-brand-navy hover:bg-slate-100 rounded-lg transition-colors"><i data-lucide="menu" class="w-7 h-7"></i></button>
         </div>
-        
         <div id="mobile-menu" class="absolute top-full left-0 w-full bg-white/98 backdrop-blur-xl border-b border-gray-100 shadow-xl hidden flex-col transition-all">
             <a href="#home" onclick="toggleMobileMenu()" class="p-5 font-bold text-brand-navy border-b border-gray-50 text-center text-lg">Home</a>
             <a href="#services" onclick="toggleMobileMenu()" class="p-5 font-bold text-brand-navy border-b border-gray-50 text-center text-lg">Services</a>
@@ -211,7 +174,6 @@
                 <div class="absolute top-0 left-0 w-[500px] h-[500px] bg-blue-100/50 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob"></div>
                 <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-teal-100/50 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob" style="animation-delay: 2s"></div>
             </div>
-
             <div class="max-w-7xl mx-auto px-6 w-full grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                 <div class="order-2 lg:order-1 reveal active">
                     <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-brand-navy text-[10px] font-extrabold uppercase tracking-widest mb-6 shadow-sm">
@@ -234,10 +196,6 @@
                     <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Team" class="relative rounded-[2.5rem] shadow-2xl border-[6px] border-white w-full object-cover h-[450px] lg:h-[600px] transition-transform duration-700 group-hover:scale-[1.01]">
                 </div>
             </div>
-            
-            <div class="absolute bottom-6 left-1/2 -translate-x-1/2 text-brand-navy/20 animate-bounce">
-                <i data-lucide="chevron-down" class="w-8 h-8"></i>
-            </div>
         </section>
 
         <section id="services" class="py-24 scroll-mt-20">
@@ -246,7 +204,6 @@
                     <h2 class="text-4xl font-extrabold text-brand-navy mb-4 tracking-tight" data-editable="true" id="svc-title">What We Do For You</h2>
                     <p class="text-slate-500 text-lg" data-editable="true" id="svc-sub">Professional financial services tailored to your business needs.</p>
                 </div>
-                
                 <div id="services-grid" class="grid md:grid-cols-3 gap-8">
                     <div class="brand-card reveal" onclick="handleCardClick(this, 'tax')">
                         <div class="absolute top-4 right-4 z-20 edit-overlay"><button onclick="deleteItem(this); event.stopPropagation();" class="bg-red-500 text-white p-3 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>
@@ -254,41 +211,33 @@
                             <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-100 transition-transform duration-700">
                             <div class="absolute inset-0 card-overlay"></div>
                         </div>
-                        <div class="relative z-10 p-10 flex items-start">
-                            <div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/30 shadow-lg"><i data-lucide="calculator" class="w-8 h-8"></i></div>
-                        </div>
+                        <div class="relative z-10 p-10 flex items-start"><div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/30 shadow-lg"><i data-lucide="calculator" class="w-8 h-8"></i></div></div>
                         <div class="relative z-10 p-10 pt-0 flex flex-col justify-end">
                             <h3 class="text-2xl font-bold text-white mb-3" data-editable="true">Bookkeeping & Tax</h3>
                             <p class="text-slate-200 leading-relaxed mb-6 font-medium line-clamp-3 text-sm" data-editable="true">We handle the paperwork. You focus on sales. BBO, Profit Tax, and yearly statements.</p>
                             <span class="inline-flex items-center gap-2 bg-brand-navy/90 px-5 py-3 rounded-full backdrop-blur-md border border-white/10 text-xs font-bold text-brand-accent uppercase tracking-wide w-fit group-hover:bg-brand-teal transition-all">View Details <i data-lucide="arrow-right" class="w-3 h-3"></i></span>
                         </div>
                     </div>
-
                     <div class="brand-card reveal" onclick="handleCardClick(this, 'payroll')">
                         <div class="absolute top-4 right-4 z-20 edit-overlay"><button onclick="deleteItem(this); event.stopPropagation();" class="bg-red-500 text-white p-3 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>
                         <div class="absolute inset-0 z-0">
                             <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-100 transition-transform duration-700">
                             <div class="absolute inset-0 card-overlay"></div>
                         </div>
-                        <div class="relative z-10 p-10 flex items-start">
-                            <div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/30 shadow-lg"><i data-lucide="users" class="w-8 h-8"></i></div>
-                        </div>
+                        <div class="relative z-10 p-10 flex items-start"><div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/30 shadow-lg"><i data-lucide="users" class="w-8 h-8"></i></div></div>
                         <div class="relative z-10 p-10 pt-0 flex flex-col justify-end">
                             <h3 class="text-2xl font-bold text-white mb-3" data-editable="true">Payroll & HR</h3>
                             <p class="text-slate-200 leading-relaxed mb-6 font-medium line-clamp-3 text-sm" data-editable="true">Happy employees get paid on time. We manage slips, wage tax, and social premiums.</p>
                             <span class="inline-flex items-center gap-2 bg-brand-navy/90 px-5 py-3 rounded-full backdrop-blur-md border border-white/10 text-xs font-bold text-brand-accent uppercase tracking-wide w-fit group-hover:bg-brand-teal transition-all">View Details <i data-lucide="arrow-right" class="w-3 h-3"></i></span>
                         </div>
                     </div>
-
                     <div class="brand-card reveal" onclick="handleCardClick(this, 'advisory')">
                         <div class="absolute top-4 right-4 z-20 edit-overlay"><button onclick="deleteItem(this); event.stopPropagation();" class="bg-red-500 text-white p-3 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>
                         <div class="absolute inset-0 z-0">
                             <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-100 transition-transform duration-700">
                             <div class="absolute inset-0 card-overlay"></div>
                         </div>
-                        <div class="relative z-10 p-10 flex items-start">
-                            <div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/30 shadow-lg"><i data-lucide="briefcase" class="w-8 h-8"></i></div>
-                        </div>
+                        <div class="relative z-10 p-10 flex items-start"><div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/30 shadow-lg"><i data-lucide="briefcase" class="w-8 h-8"></i></div></div>
                         <div class="relative z-10 p-10 pt-0 flex flex-col justify-end">
                             <h3 class="text-2xl font-bold text-white mb-3" data-editable="true">Business Advisory</h3>
                             <p class="text-slate-200 leading-relaxed mb-6 font-medium line-clamp-3 text-sm" data-editable="true">Starting up? We guide you through Chamber of Commerce, Dimp, and Bank setup.</p>
@@ -305,15 +254,12 @@
                     <h2 class="text-4xl font-extrabold text-brand-navy mb-4" data-editable="true" id="team-title">The People Behind the Numbers</h2>
                     <p class="text-slate-500 text-xl" data-editable="true" id="team-sub">We are a family-operated business committed to your success.</p>
                 </div>
-                
                 <div id="team-grid" class="grid md:grid-cols-3 gap-10">
                     <div class="group cursor-pointer relative reveal">
                         <div class="absolute top-4 right-4 z-20 edit-overlay"><button onclick="deleteItem(this)" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>
                         <div class="relative overflow-hidden rounded-[2rem] mb-6 shadow-xl aspect-[4/5] border border-slate-100">
-                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80" class="human-img w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                            <div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8">
-                                <p class="text-white text-sm font-medium italic" data-editable="true">"I love helping businesses grow."</p>
-                            </div>
+                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8"><p class="text-white text-sm font-medium italic" data-editable="true">"I love helping businesses grow."</p></div>
                         </div>
                         <h3 class="text-2xl font-bold text-brand-navy" data-editable="true">Mr. Croes</h3>
                         <p class="text-brand-teal font-bold text-xs tracking-widest uppercase mt-1" data-editable="true">Founder & Senior Accountant</p>
@@ -321,10 +267,8 @@
                     <div class="group cursor-pointer relative reveal">
                         <div class="absolute top-4 right-4 z-20 edit-overlay"><button onclick="deleteItem(this)" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>
                         <div class="relative overflow-hidden rounded-[2rem] mb-6 shadow-xl aspect-[4/5] border border-slate-100">
-                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" class="human-img w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                            <div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8">
-                                <p class="text-white text-sm font-medium italic" data-editable="true">"Accuracy is my passion."</p>
-                            </div>
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8"><p class="text-white text-sm font-medium italic" data-editable="true">"Accuracy is my passion."</p></div>
                         </div>
                         <h3 class="text-2xl font-bold text-brand-navy" data-editable="true">Sarah Croes</h3>
                         <p class="text-brand-teal font-bold text-xs tracking-widest uppercase mt-1" data-editable="true">Tax Specialist</p>
@@ -342,7 +286,6 @@
                                 <div class="p-3 bg-blue-50 text-brand-navy rounded-xl"><i data-lucide="percent" class="w-6 h-6"></i></div>
                                 <h2 class="text-3xl font-bold text-brand-navy">BBO Estimator</h2>
                             </div>
-                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Invoice Amount (AWG)</label>
                             <div class="relative mb-10">
                                 <span class="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-2xl">ƒ</span>
                                 <input type="number" id="calc-input" placeholder="0.00" class="w-full bg-slate-50 border-0 rounded-2xl py-5 pl-12 pr-6 text-3xl font-bold text-brand-navy outline-none focus:ring-2 focus:ring-brand-teal transition-all" oninput="calculateTax()">
@@ -359,7 +302,7 @@
                             </div>
                         </div>
                         <div class="bg-brand-navy text-white p-12 md:p-16 flex flex-col justify-between relative overflow-hidden">
-                            <div class="absolute top-0 right-0 w-80 h-80 bg-brand-teal rounded-full blur-[100px] opacity-20 pointer-events-none"></div>
+                            <div class="absolute top-0 right-0 w-80 h-80 bg-brand-teal rounded-full blur-[100px] opacity-30 pointer-events-none"></div>
                             <div class="relative z-10">
                                 <h3 class="text-2xl font-bold mb-2">Next Deadline</h3>
                                 <p class="text-slate-300 text-sm">Official date for Dimp tax filing.</p>
@@ -387,31 +330,18 @@
                     </div>
                     <form onsubmit="handleBooking(event)" class="space-y-6">
                         <div class="grid md:grid-cols-2 gap-6">
-                            <div class="input-group">
-                                <input type="text" id="book-name" required class="input-field" placeholder=" ">
-                                <label class="input-label">Your Name</label>
-                            </div>
-                            <div class="input-group">
-                                <input type="email" id="book-email" required class="input-field" placeholder=" ">
-                                <label class="input-label">Email Address</label>
-                            </div>
+                            <div class="input-group"><input type="text" id="book-name" required class="input-field" placeholder=" "><label class="input-label">Your Name</label></div>
+                            <div class="input-group"><input type="email" id="book-email" required class="input-field" placeholder=" "><label class="input-label">Email Address</label></div>
                         </div>
                         <div class="grid md:grid-cols-2 gap-6">
+                            <div class="input-group"><input type="date" id="book-date" required class="input-field" placeholder=" "><label class="input-label">Preferred Date</label></div>
                             <div class="input-group">
-                                <input type="date" id="book-date" required class="input-field" placeholder=" ">
-                                <label class="input-label">Preferred Date</label>
-                            </div>
-                            <div class="input-group">
-                                <select id="book-time" class="input-field">
-                                    <option>09:00 AM</option><option>10:00 AM</option><option>11:00 AM</option><option>02:00 PM</option><option>03:00 PM</option><option>04:00 PM</option>
-                                </select>
+                                <select id="book-time" class="input-field"><option>09:00 AM</option><option>10:00 AM</option><option>11:00 AM</option><option>02:00 PM</option><option>03:00 PM</option><option>04:00 PM</option></select>
                                 <label class="input-label">Time Slot</label>
                             </div>
                         </div>
                         <div class="input-group">
-                            <select id="book-service" class="input-field">
-                                <option>Tax Consultation</option><option>Bookkeeping</option><option>Payroll Services</option><option>Business Advisory</option><option>General Inquiry</option>
-                            </select>
+                            <select id="book-service" class="input-field"><option>Tax Consultation</option><option>Bookkeeping</option><option>Payroll Services</option><option>Business Advisory</option><option>General Inquiry</option></select>
                             <label class="input-label">Service Needed</label>
                         </div>
                         <button type="submit" class="w-full btn-primary py-5 rounded-2xl font-bold text-lg shadow-xl mt-4">Confirm Booking</button>
@@ -420,21 +350,54 @@
             </div>
         </section>
 
-        <footer class="bg-brand-navy text-slate-400 py-20 mt-10">
-            <div class="max-w-7xl mx-auto px-6">
-                <div class="flex flex-col md:flex-row justify-between items-center gap-8">
-                    <div class="flex items-center gap-4">
-                        <img src="logo.png" class="h-10 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
-                        <div class="text-sm">
-                            <p class="text-white font-bold">Accounting Croes</p>
-                            <p class="text-xs opacity-60">© 2026. All rights reserved.</p>
+        <footer class="bg-brand-navy relative overflow-hidden pt-20 pb-10 mt-20 text-slate-300">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full z-0 opacity-20 pointer-events-none">
+                <div class="absolute bottom-0 left-1/4 w-96 h-96 bg-brand-teal rounded-full blur-[100px]"></div>
+            </div>
+            <div class="max-w-7xl mx-auto px-6 relative z-10">
+                <div class="grid md:grid-cols-4 gap-12 mb-16">
+                    <div class="col-span-1 md:col-span-1">
+                        <img src="logo.png" class="h-14 mb-6 brightness-0 invert opacity-90">
+                        <p class="text-sm leading-relaxed opacity-80 mb-6">Aruba's trusted financial partner since 2003. We simplify the complex world of taxes and payroll.</p>
+                        <div class="flex gap-4">
+                            <a href="#" class="footer-icon"><i data-lucide="facebook" class="w-4 h-4"></i></a>
+                            <a href="#" class="footer-icon"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+                            <a href="#" class="footer-icon"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
                         </div>
                     </div>
-                    <div class="flex gap-8 text-sm font-medium">
-                        <a href="#home" class="hover:text-white transition-colors">Home</a>
-                        <a href="#services" class="hover:text-white transition-colors">Services</a>
-                        <a href="#contact" class="hover:text-white transition-colors">Contact</a>
-                        <button onclick="document.getElementById('login-modal').classList.remove('hidden')" class="hover:text-brand-accent transition-colors flex items-center gap-2"><i data-lucide="lock" class="w-3 h-3"></i> Admin</button>
+                    <div>
+                        <h4 class="text-white font-bold mb-6 text-lg">Quick Links</h4>
+                        <ul class="space-y-3 text-sm">
+                            <li><a href="#home" class="footer-link">Home</a></li>
+                            <li><a href="#services" class="footer-link">Our Services</a></li>
+                            <li><a href="#team" class="footer-link">Meet the Team</a></li>
+                            <li><a href="#tools" class="footer-link">BBO Calculator</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-bold mb-6 text-lg">Our Expertise</h4>
+                        <ul class="space-y-3 text-sm">
+                            <li><a href="#services" class="footer-link">Tax Preparation</a></li>
+                            <li><a href="#services" class="footer-link">Payroll Management</a></li>
+                            <li><a href="#services" class="footer-link">Business Advisory</a></li>
+                            <li><a href="#services" class="footer-link">Audit Support</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-bold mb-6 text-lg">Contact Us</h4>
+                        <ul class="space-y-4 text-sm">
+                            <li class="flex items-start gap-3"><div class="footer-icon shrink-0"><i data-lucide="map-pin" class="w-4 h-4"></i></div><span>Noord, Aruba</span></li>
+                            <li class="flex items-center gap-3"><div class="footer-icon shrink-0"><i data-lucide="phone" class="w-4 h-4"></i></div><span>+297 582 0000</span></li>
+                            <li class="flex items-center gap-3"><div class="footer-icon shrink-0"><i data-lucide="mail" class="w-4 h-4"></i></div><span>info@croesaccounting.com</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs opacity-60">
+                    <p>&copy; 2026 Accounting Croes. All rights reserved.</p>
+                    <div class="flex items-center gap-6">
+                        <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                        <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                        <button onclick="document.getElementById('login-modal').classList.remove('hidden')" class="hover:text-white transition-colors flex items-center gap-2"><i data-lucide="lock" class="w-3 h-3"></i> Admin</button>
                     </div>
                 </div>
             </div>
@@ -581,8 +544,8 @@
             addItem: (type) => {
                 const grid = document.getElementById(type + '-grid');
                 let html = '';
-                if(type === 'service') html = `<div class="brand-card reveal active" onclick="handleCardClick(this, 'new')"><div class="absolute top-4 right-4 z-20 edit-overlay"><button onclick="deleteItem(this); event.stopPropagation();" class="bg-red-500 text-white p-2 rounded-full"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="absolute inset-0 z-0"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-100"><div class="absolute inset-0 card-overlay"></div></div><div class="relative z-10 p-10 flex items-start"><div class="w-14 h-14 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/30"><i data-lucide="star" class="w-7 h-7"></i></div></div><div class="relative z-10 p-10 pt-0 flex flex-col justify-end"><h3 class="text-2xl font-bold text-white mb-3" data-editable="true">New Service</h3><p class="text-slate-200 leading-relaxed mb-6 font-medium text-sm" data-editable="true">Description.</p><span class="inline-flex items-center gap-2 bg-brand-navy/90 px-5 py-3 rounded-full text-xs font-bold text-brand-accent uppercase">View Details</span></div></div>`;
-                else html = `<div class="group cursor-pointer relative reveal active"><div class="absolute top-4 right-4 z-20 edit-overlay"><button onclick="deleteItem(this)" class="bg-red-500 text-white p-2 rounded-full"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="relative overflow-hidden rounded-[2rem] mb-6 shadow-xl aspect-[4/5] border border-slate-100"><img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 to-transparent opacity-80 flex items-end p-8"><p class="text-white text-sm font-medium italic" data-editable="true">"Ready to help."</p></div></div><h3 class="text-2xl font-bold text-brand-navy" data-editable="true">New Member</h3><p class="text-brand-teal font-bold text-xs tracking-widest uppercase mt-1" data-editable="true">Position</p></div>`;
+                if(type === 'service') html = `<div class="brand-card reveal active" onclick="handleCardClick(this, 'new')"><div class="absolute top-4 right-4 z-20 edit-overlay"><button onclick="deleteItem(this); event.stopPropagation();" class="bg-red-500 text-white p-3 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="absolute inset-0 z-0"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-100"><div class="absolute inset-0 card-overlay"></div></div><div class="relative z-10 p-10 flex items-start"><div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/30 shadow-lg"><i data-lucide="star" class="w-8 h-8"></i></div></div><div class="relative z-10 p-10 pt-0 flex flex-col justify-end"><h3 class="text-2xl font-bold text-white mb-3" data-editable="true">New Service</h3><p class="text-slate-200 leading-relaxed mb-6 font-medium line-clamp-3 text-sm" data-editable="true">Description.</p><span class="inline-flex items-center gap-2 bg-brand-navy/90 px-5 py-3 rounded-full backdrop-blur-md border border-white/10 text-xs font-bold text-brand-accent uppercase tracking-wide w-fit">View Details <i data-lucide="arrow-right" class="w-3 h-3"></i></span></div></div>`;
+                else html = `<div class="group cursor-pointer relative reveal active"><div class="absolute top-4 right-4 z-20 edit-overlay"><button onclick="deleteItem(this)" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="relative overflow-hidden rounded-[2rem] mb-6 shadow-xl aspect-[4/5] border border-slate-100"><img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 to-transparent opacity-80 flex items-end p-8"><p class="text-white text-sm font-medium italic" data-editable="true">"Ready to help."</p></div></div><h3 class="text-2xl font-bold text-brand-navy" data-editable="true">New Member</h3><p class="text-brand-teal font-bold text-xs tracking-widest uppercase mt-1" data-editable="true">Position</p></div>`;
                 grid.insertAdjacentHTML('beforeend', html);
                 lucide.createIcons();
                 if(document.body.classList.contains('editing-active')) grid.lastElementChild.querySelectorAll('[data-editable="true"]').forEach(el => el.contentEditable = "true");
