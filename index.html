@@ -88,8 +88,8 @@
     <div id="preloader" class="fixed inset-0 bg-white z-[99999] flex items-center justify-center transition-opacity duration-500">
         <div class="text-center">
             <div class="w-16 h-16 border-4 border-slate-100 border-t-brand-navy rounded-full animate-spin mx-auto mb-4"></div>
-            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes v8.8</p>
-            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">Universal Keys</p>
+            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes v8.9</p>
+            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">Pro Email Design</p>
         </div>
     </div>
 
@@ -454,12 +454,12 @@
             db: null, currentClientEmail: null, currentClientPin: null, targetImgEl: null,
             emailInitialized: false,
 
-            // EMAIL CONFIGURATION (v8.8 - Universal Template)
+            // EMAIL CONFIGURATION (v8.8 Active)
             emailConfig: {
                 publicKey: "8rBFXNPpsM9GIWhRR",
                 serviceId: "service_x7ol38h",
                 requestTemplateId: "template_3ajpnak", 
-                confirmTemplateId: "template_kc2lb6b"  // Used for Confirmations AND Welcome
+                confirmTemplateId: "template_kc2lb6b"  // USED FOR BOTH CONFIRMATION & WELCOME
             },
 
             // --- SECURITY MODULE ---
@@ -585,13 +585,14 @@
                     if(this.emailConfig.publicKey) {
                         if(!this.emailInitialized) { emailjs.init(this.emailConfig.publicKey); this.emailInitialized = true; }
                         emailjs.send(this.emailConfig.serviceId, this.emailConfig.confirmTemplateId, {
+                            title: "Appointment Confirmed",  // <--- DYNAMIC TITLE
                             to_name: data.name,
                             to_email: data.email,
                             service_name: data.service,
                             date: data.date,
-                            message: `Your appointment for ${data.service} on ${data.date} has been confirmed.`
+                            message: `Your appointment for ${data.service} on ${data.date} has been officially confirmed.`
                         }).then(() => { this.showToast("Sent", "Confirmation email sent."); })
-                          .catch((err) => { console.error(err); this.showToast("Warning", "Email failed, but DB updated."); });
+                          .catch((err) => { console.error(err); this.showToast("Warning", "Email failed (Check Limit)."); });
                     }
                 }; 
             },
@@ -618,13 +619,14 @@
                     if(this.emailConfig.publicKey) {
                         if(!this.emailInitialized) { emailjs.init(this.emailConfig.publicKey); this.emailInitialized = true; }
                         emailjs.send(this.emailConfig.serviceId, this.emailConfig.confirmTemplateId, {
+                            title: "Account Created", // <--- DYNAMIC TITLE
                             to_name: name,
                             to_email: email,
                             service_name: "Client Portal Access",
                             date: new Date().toLocaleDateString(),
                             message: `Welcome to Accounting Croes. Your secure Login PIN is: ${pin}. Please keep this safe.`
                         }).then(() => { this.showToast("Sent", "Welcome email with PIN sent."); })
-                          .catch(() => { this.showToast("Error", "Limit reached. PIN stored in DB."); });
+                          .catch(() => { this.showToast("Error", "Email Limit Reached."); });
                     }
                 };
             },
@@ -749,6 +751,7 @@
                             if(!this.emailInitialized) { emailjs.init(this.emailConfig.publicKey); this.emailInitialized = true; }
                             
                             emailjs.send(this.emailConfig.serviceId, this.emailConfig.confirmTemplateId, {
+                                title: "Login Verification",
                                 to_name: client.name,
                                 to_email: client.email,
                                 service_name: "Client Portal Access",
