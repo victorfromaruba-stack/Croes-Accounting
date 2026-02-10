@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; img-src 'self' https: data: blob:; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.tailwindcss.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;">
     
-    <title>Accounting Croes | Aruba's Premier Financial Firm</title>
+    <title>Accounting Croes | Premium Financial Services</title>
     <link rel="icon" href="favicon.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -18,317 +18,410 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Manrope', 'sans-serif'] },
-                    colors: { brand: { navy: '#0C3B53', teal: '#23869D', accent: '#4FD1C5', surface: '#F8FAFC', success: '#10B981', warning: '#F59E0B', danger: '#EF4444' } },
-                    animation: { 'reveal': 'reveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards' },
-                    keyframes: { reveal: { from: { opacity: '0', transform: 'translateY(20px)' }, to: { opacity: '1', transform: 'translateY(0)' } } }
+                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                    colors: { 
+                        brand: { 
+                            navy: '#0B2447', 
+                            blue: '#19376D',
+                            teal: '#23869D', 
+                            gold: '#C5A059',
+                            surface: '#F3F6F9'
+                        } 
+                    },
+                    boxShadow: {
+                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
+                        'glow': '0 0 20px rgba(35, 134, 157, 0.3)'
+                    }
                 }
             }
         }
     </script>
 
     <style>
-        body { background-color: #F8FAFC; color: #1E293B; overflow-x: hidden; }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #F8FAFC; }
+        body { background-color: #F3F6F9; color: #334155; overflow-x: hidden; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #F3F6F9; }
         ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
-        .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.6); }
-        .text-gradient { background: linear-gradient(135deg, #0C3B53 0%, #23869D 100%); -webkit-background-clip: text; color: transparent; }
-        nav.scrolled { background: rgba(255, 255, 255, 0.95); height: 72px !important; box-shadow: 0 4px 20px rgba(12, 59, 83, 0.04); }
-        .btn-primary { background: #0C3B53; color: white; transition: all 0.3s; }
-        .btn-primary:hover { background: #0F4563; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(12, 59, 83, 0.3); }
-        .portal-layout { display: grid; grid-template-columns: 280px 1fr; min-height: 100vh; background: #F1F5F9; }
-        .portal-nav-btn.active { background: #23869D; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-left: 3px solid #4FD1C5; }
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-        .admin-control { display: none !important; }
-        body.editing-active .admin-control { display: inline-flex !important; }
-        body.editing-active [data-editable="true"]:hover { outline: 2px dashed #23869D; cursor: text; background: rgba(35, 134, 157, 0.05); }
+        
+        /* PREMIUM GLASSMORPHISM */
+        .glass-panel { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.5); }
+        .sidebar-glass { background: rgba(11, 36, 71, 0.95); backdrop-filter: blur(10px); }
+        
+        /* ANIMATIONS */
+        .fade-in-up { animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(20px); }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+        
+        /* UI ELEMENTS */
+        .btn-primary { background: linear-gradient(135deg, #0B2447 0%, #19376D 100%); color: white; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(11, 36, 71, 0.2); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(11, 36, 71, 0.3); }
+        
+        .nav-link { position: relative; }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 0; background: #23869D; transition: width 0.3s; }
+        .nav-link:hover::after { width: 100%; }
+
+        /* PORTAL */
+        .portal-layout { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+        .portal-nav-btn { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 12px; color: #94A3B8; font-weight: 600; transition: all 0.2s; }
+        .portal-nav-btn:hover { background: rgba(255,255,255,0.05); color: white; }
+        .portal-nav-btn.active { background: linear-gradient(90deg, rgba(35, 134, 157, 0.2) 0%, transparent 100%); color: #4FD1C5; border-left: 3px solid #4FD1C5; }
+
+        /* FAQ ACCORDION */
+        details > summary { list-style: none; cursor: pointer; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary ~ * { animation: sweep .5s ease-in-out; }
+        @keyframes sweep { 0%    {opacity: 0; transform: translateY(-10px)} 100%  {opacity: 1; transform: translateY(0)} }
+
         @media (max-width: 1024px) { .portal-layout { grid-template-columns: 1fr; } .portal-sidebar { display: none; } }
     </style>
 </head>
-<body class="text-slate-600 antialiased bg-brand-surface selection:bg-brand-teal selection:text-white flex flex-col min-h-screen">
+<body class="text-slate-600 antialiased flex flex-col min-h-screen">
 
     <div id="preloader" class="fixed inset-0 bg-white z-[99999] flex items-center justify-center transition-opacity duration-500">
         <div class="text-center">
             <div class="w-16 h-16 border-4 border-slate-100 border-t-brand-navy rounded-full animate-spin mx-auto mb-4"></div>
-            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes v11.2</p>
-            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">ID Correction Applied</p>
+            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes</p>
         </div>
     </div>
 
     <input type="file" id="cms-photo-input" hidden accept="image/*" onchange="CroesApp.handlePhotoUpload(this)">
 
-    <div id="edit-toolbar" class="hidden fixed top-24 left-1/2 -translate-x-1/2 z-[110] bg-brand-navy/95 text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-4 backdrop-blur-md border border-white/10 transition-transform duration-300">
-        <div class="w-2 h-2 bg-brand-accent rounded-full animate-pulse"></div>
+    <div id="edit-toolbar" class="hidden fixed top-24 left-1/2 -translate-x-1/2 z-[110] bg-brand-navy/95 text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-4 backdrop-blur-md border border-white/10">
+        <div class="w-2 h-2 bg-brand-gold rounded-full animate-pulse"></div>
         <span class="font-bold text-xs tracking-wide uppercase">Admin Mode</span>
-        <button onclick="CroesApp.saveEdits()" class="bg-brand-teal hover:bg-brand-accent text-white px-4 py-1.5 rounded-full text-xs font-bold transition-colors shadow-lg">SAVE CHANGES</button>
-        <button onclick="CroesApp.toggleEdit(false)" class="hover:text-slate-300 transition-colors"><i data-lucide="x" class="w-4 h-4"></i></button>
+        <button onclick="CroesApp.saveEdits()" class="bg-white/10 hover:bg-white/20 text-white px-4 py-1.5 rounded-full text-xs font-bold transition-colors">SAVE</button>
+        <button onclick="CroesApp.toggleEdit(false)"><i data-lucide="x" class="w-4 h-4"></i></button>
     </div>
 
     <div id="public-view">
-        <nav id="navbar" class="fixed top-0 w-full z-50 h-24 md:h-32 flex items-center transition-all duration-500">
+        <nav id="navbar" class="fixed top-0 w-full z-50 h-24 flex items-center transition-all duration-500 bg-white/80 backdrop-blur-md border-b border-white/50">
             <div class="max-w-7xl mx-auto px-6 w-full flex justify-between items-center">
-                <a href="#home" class="group transition-transform hover:scale-105 duration-300"><img src="logo.png" alt="Accounting Croes" class="logo-img h-14 md:h-20 w-auto object-contain"></a>
+                <a href="#home" class="group"><img src="logo.png" alt="Accounting Croes" class="h-12 w-auto object-contain"></a>
                 <div class="hidden md:flex items-center gap-8">
-                    <a href="#home" class="text-sm font-bold text-slate-600 hover:text-brand-navy transition-colors">Home</a>
-                    <a href="#services" class="text-sm font-bold text-slate-600 hover:text-brand-navy transition-colors">Services</a>
-                    <button onclick="CroesApp.openPortalLogin()" class="text-sm font-bold text-brand-teal hover:text-brand-navy flex items-center gap-2 px-4 py-2 bg-brand-teal/5 hover:bg-brand-teal/10 rounded-lg transition-all border border-transparent hover:border-brand-teal/20"><i data-lucide="shield" class="w-4 h-4"></i> Client Portal</button>
+                    <a href="#home" class="text-sm font-bold text-brand-navy nav-link">Home</a>
+                    <a href="#services" class="text-sm font-bold text-brand-navy nav-link">Services</a>
+                    <a href="#faq" class="text-sm font-bold text-brand-navy nav-link">FAQ</a>
+                    <button onclick="CroesApp.openPortalLogin()" class="text-sm font-bold text-white bg-brand-teal px-6 py-2.5 rounded-full shadow-glow hover:bg-brand-navy transition-all">Client Portal</button>
                 </div>
-                <div class="hidden md:flex items-center gap-4"><a href="#contact" class="btn-primary px-8 py-3 text-sm font-bold rounded-full shadow-lg flex items-center gap-2">Book Appointment <i data-lucide="calendar" class="w-4 h-4"></i></a></div>
-                <button onclick="CroesApp.toggleMobileMenu()" class="md:hidden p-2 text-brand-navy hover:bg-slate-100 rounded-lg transition-colors"><i data-lucide="menu" class="w-7 h-7"></i></button>
+                <div class="md:hidden"><button onclick="CroesApp.toggleMobileMenu()"><i data-lucide="menu" class="w-6 h-6 text-brand-navy"></i></button></div>
             </div>
-            <div id="mobile-menu" class="absolute top-full left-0 w-full bg-white/98 backdrop-blur-xl border-b border-gray-100 shadow-xl hidden flex-col transition-all origin-top">
-                <a href="#home" onclick="CroesApp.toggleMobileMenu()" class="p-5 font-bold text-brand-navy border-b border-gray-50 text-center text-lg">Home</a>
-                <a href="#services" onclick="CroesApp.toggleMobileMenu()" class="p-5 font-bold text-brand-navy border-b border-gray-50 text-center text-lg">Services</a>
-                <button onclick="CroesApp.openPortalLogin()" class="p-5 font-bold text-brand-teal border-b border-gray-50 text-center text-lg w-full bg-slate-50">Client Login</button>
+            <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-white border-b border-gray-100 shadow-xl p-4 flex-col gap-4">
+                <a href="#home" class="block font-bold text-brand-navy">Home</a>
+                <a href="#services" class="block font-bold text-brand-navy">Services</a>
+                <button onclick="CroesApp.openPortalLogin()" class="block w-full text-left font-bold text-brand-teal">Login</button>
             </div>
         </nav>
 
         <main class="flex-grow">
-            <section id="home" class="min-h-screen flex items-center pt-24 pb-16 relative overflow-hidden">
-                <div class="absolute inset-0 z-[-1]"><div class="absolute top-0 left-0 w-[600px] h-[600px] bg-blue-100/40 rounded-full blur-3xl opacity-50 animate-blob"></div><div class="absolute top-0 right-0 w-[600px] h-[600px] bg-teal-100/40 rounded-full blur-3xl opacity-50 animate-blob" style="animation-delay: 2s"></div></div>
-                <div class="max-w-7xl mx-auto px-6 w-full grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-                    <div class="order-2 lg:order-1 reveal active">
-                        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 text-brand-navy text-[10px] font-extrabold uppercase tracking-widest mb-8 shadow-sm cursor-default"><span class="w-2 h-2 rounded-full bg-brand-teal animate-pulse"></span> Consultants</div>
-                        <h1 class="text-[clamp(3rem,5vw,5rem)] font-extrabold tracking-tight text-brand-navy mb-8 leading-[1.05]" data-editable="true" id="home-title">Real People. <br><span class="text-gradient">Real Results.</span></h1>
-                        <p class="text-xl text-slate-500 mb-10 leading-relaxed max-w-lg font-medium" data-editable="true" id="home-sub">Don't trust your finances to a faceless corporation. We are Aruba's dedicated family firm.</p>
-                        <div class="flex flex-col sm:flex-row gap-4"><a href="#contact" class="btn-primary px-8 py-4 font-bold rounded-full shadow-xl flex items-center justify-center gap-2 text-lg">Start Now <i data-lucide="arrow-right" class="w-5 h-5"></i></a></div>
+            <section id="home" class="min-h-screen flex items-center pt-32 pb-20 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-2/3 h-full bg-gradient-to-l from-blue-50 to-transparent -z-10"></div>
+                <div class="max-w-7xl mx-auto px-6 w-full grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="fade-in-up">
+                        <span class="text-brand-teal font-bold tracking-widest text-xs uppercase mb-4 block">Aruba's Premier Firm</span>
+                        <h1 class="text-5xl lg:text-7xl font-extrabold text-brand-navy mb-6 leading-tight">Financial Clarity.<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-teal to-brand-blue">Peace of Mind.</span></h1>
+                        <p class="text-lg text-slate-500 mb-8 max-w-md">Expert tax preparation, payroll management, and strategic advisory for businesses that demand excellence.</p>
+                        <div class="flex gap-4">
+                            <a href="#contact" class="btn-primary px-8 py-4 rounded-full font-bold shadow-lg">Book Consultation</a>
+                            <a href="#services" class="px-8 py-4 rounded-full font-bold text-brand-navy border border-slate-200 hover:bg-white transition-colors">Explore Services</a>
+                        </div>
                     </div>
-                    <div class="order-1 lg:order-2 relative reveal active group"><div class="absolute inset-0 bg-gradient-to-tr from-brand-navy/20 to-brand-teal/20 rounded-[3rem] rotate-3 blur-3xl transform translate-y-6 opacity-0 group-hover:opacity-60 transition-opacity duration-700"></div><img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" class="relative rounded-[2.5rem] shadow-2xl border-[8px] border-white w-full object-cover h-[500px] lg:h-[650px] transition-transform duration-700 group-hover:scale-[1.01]"></div>
+                    <div class="relative fade-in-up" style="animation-delay: 0.2s;">
+                        <div class="absolute inset-0 bg-brand-gold rounded-full blur-[100px] opacity-20"></div>
+                        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1000&q=80" class="relative rounded-[2rem] shadow-2xl border-4 border-white rotate-2 hover:rotate-0 transition-transform duration-700">
+                    </div>
                 </div>
             </section>
 
-            <section id="services" class="py-24 scroll-mt-20">
+            <section id="services" class="py-24 bg-white">
                 <div class="max-w-7xl mx-auto px-6">
-                    <div class="text-center max-w-3xl mx-auto mb-20 reveal" id="services-header">
-                        <h2 class="text-4xl font-extrabold text-brand-navy mb-4 tracking-tight" data-editable="true" id="svc-title">Our Expertise</h2>
-                        <p class="text-slate-500 text-lg" data-editable="true" id="svc-sub">Tailored financial strategies for Aruban businesses.</p>
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl font-bold text-brand-navy">Elite Services</h2>
+                        <p class="text-slate-400 mt-2">Comprehensive solutions for your financial health.</p>
                     </div>
                     <div id="services-grid" class="grid md:grid-cols-3 gap-8">
-                        <div class="brand-card reveal" onclick="CroesApp.handleCardClick(this, 'tax')">
-                            <div class="absolute top-4 right-4 z-20 admin-control"><button onclick="CroesApp.deleteItem(this); event.stopPropagation();" class="bg-red-500 text-white p-3 rounded-full shadow-lg hover:bg-red-600 transition-colors"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>
-                            <div class="absolute inset-0 z-0"><img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-100 transition-transform duration-700 group-hover:scale-105"><div class="absolute inset-0 card-overlay"></div></div>
-                            <div class="relative z-10 p-10 flex items-start"><div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/30 shadow-lg"><i data-lucide="calculator" class="w-8 h-8"></i></div></div>
-                            <div class="relative z-10 p-10 pt-0 mt-auto flex flex-col justify-end"><h3 class="text-3xl font-bold text-white mb-3" data-editable="true">Administration</h3><p class="text-slate-200 leading-relaxed mb-8 font-medium" data-editable="true">Complete administrative support for your business.</p><span class="inline-flex items-center gap-2 bg-brand-navy/90 px-6 py-3 rounded-full backdrop-blur-md border border-white/10 text-xs font-bold text-brand-accent uppercase tracking-wide w-fit group-hover:bg-brand-teal transition-all">Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span></div>
-                        </div>
-                        <div class="brand-card reveal" onclick="CroesApp.handleCardClick(this, 'payroll')">
-                            <div class="absolute top-4 right-4 z-20 admin-control"><button onclick="CroesApp.deleteItem(this); event.stopPropagation();" class="bg-red-500 text-white p-3 rounded-full shadow-lg hover:bg-red-600 transition-colors"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>
-                            <div class="absolute inset-0 z-0"><img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-100 transition-transform duration-700 group-hover:scale-105"><div class="absolute inset-0 card-overlay"></div></div>
-                            <div class="relative z-10 p-10 flex items-start"><div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/30 shadow-lg"><i data-lucide="users" class="w-8 h-8"></i></div></div>
-                            <div class="relative z-10 p-10 pt-0 mt-auto flex flex-col justify-end"><h3 class="text-3xl font-bold text-white mb-3" data-editable="true">Payroll</h3><p class="text-slate-200 leading-relaxed mb-8 font-medium" data-editable="true">Payslips, Wage Tax, and SVB registration.</p><span class="inline-flex items-center gap-2 bg-brand-navy/90 px-6 py-3 rounded-full backdrop-blur-md border border-white/10 text-xs font-bold text-brand-accent uppercase tracking-wide w-fit group-hover:bg-brand-teal transition-all">Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span></div>
-                        </div>
-                        <div class="brand-card reveal" onclick="CroesApp.handleCardClick(this, 'advisory')">
-                            <div class="absolute top-4 right-4 z-20 admin-control"><button onclick="CroesApp.deleteItem(this); event.stopPropagation();" class="bg-red-500 text-white p-3 rounded-full shadow-lg hover:bg-red-600 transition-colors"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>
-                            <div class="absolute inset-0 z-0"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-100 transition-transform duration-700 group-hover:scale-105"><div class="absolute inset-0 card-overlay"></div></div>
-                            <div class="relative z-10 p-10 flex items-start"><div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/30 shadow-lg"><i data-lucide="briefcase" class="w-8 h-8"></i></div></div>
-                            <div class="relative z-10 p-10 pt-0 mt-auto flex flex-col justify-end"><h3 class="text-3xl font-bold text-white mb-3" data-editable="true">Advising</h3><p class="text-slate-200 leading-relaxed mb-8 font-medium" data-editable="true">Financial and tax advise for growth.</p><span class="inline-flex items-center gap-2 bg-brand-navy/90 px-6 py-3 rounded-full backdrop-blur-md border border-white/10 text-xs font-bold text-brand-accent uppercase tracking-wide w-fit group-hover:bg-brand-teal transition-all">Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="tools" class="py-24 scroll-mt-24">
-                <div class="max-w-5xl mx-auto px-6">
-                    <div class="bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 overflow-hidden reveal">
-                        <div class="grid md:grid-cols-2">
-                            <div class="p-12 md:p-16">
-                                <div class="flex items-center gap-4 mb-8">
-                                    <div class="p-3 bg-blue-50 text-brand-navy rounded-xl"><i data-lucide="percent" class="w-6 h-6"></i></div>
-                                    <h2 class="text-3xl font-bold text-brand-navy">BBO Estimator</h2>
-                                </div>
-                                <div class="relative mb-10">
-                                    <span class="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-2xl">ƒ</span>
-                                    <input type="number" id="calc-input" placeholder="0.00" class="w-full bg-slate-50 border-0 rounded-2xl py-5 pl-12 pr-6 text-3xl font-bold text-brand-navy outline-none focus:ring-2 focus:ring-brand-teal transition-all" oninput="CroesApp.calculateTax()">
-                                </div>
-                                <div class="h-2 w-full bg-slate-100 rounded-full mb-6 overflow-hidden flex">
-                                    <div id="bar-sub" class="bg-brand-navy h-full transition-all duration-500" style="width: 0%"></div>
-                                    <div id="bar-tax" class="bg-brand-teal h-full transition-all duration-500" style="width: 0%"></div>
-                                </div>
-                                <div class="space-y-5">
-                                    <div class="flex justify-between items-center text-slate-500 font-medium"><span>Subtotal</span><span id="res-sub">ƒ 0.00</span></div>
-                                    <div class="flex justify-between items-center text-slate-500 font-medium"><span>BBO/BAZV (7%)</span><span id="res-tax" class="text-brand-teal font-bold">+ ƒ 0.00</span></div>
-                                    <div class="h-px bg-slate-100 my-2"></div>
-                                    <div class="flex justify-between items-center"><span class="font-bold text-brand-navy text-lg">Total Invoice</span><span id="res-total" class="font-extrabold text-3xl text-brand-navy">ƒ 0.00</span></div>
+                        <div class="brand-card group cursor-pointer" onclick="CroesApp.handleCardClick(this, 'tax')">
+                            <div class="h-64 overflow-hidden relative">
+                                <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                                <div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-brand-navy/40 to-transparent"></div>
+                                <div class="absolute bottom-6 left-6 text-white">
+                                    <div class="bg-brand-teal w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-white"><i data-lucide="calculator" class="w-5 h-5"></i></div>
+                                    <h3 class="text-xl font-bold">Administration</h3>
                                 </div>
                             </div>
-                            <div class="bg-brand-navy text-white p-12 md:p-16 flex flex-col justify-between relative overflow-hidden">
-                                <div class="absolute top-0 right-0 w-80 h-80 bg-brand-teal rounded-full blur-[100px] opacity-30 pointer-events-none"></div>
-                                <div class="relative z-10">
-                                    <h3 class="text-2xl font-bold mb-2">Next Deadline</h3>
-                                    <p class="text-slate-300 text-sm">Official date for Dimp tax filing.</p>
+                            <div class="p-8 bg-white border border-t-0 border-slate-100 rounded-b-2xl">
+                                <p class="text-slate-500 text-sm leading-relaxed mb-4">Full-cycle administrative support, ensuring your business operations run seamlessly and compliantly.</p>
+                                <span class="text-brand-teal text-xs font-bold uppercase tracking-wide flex items-center gap-2 group-hover:gap-4 transition-all">Learn More <i data-lucide="arrow-right" class="w-3 h-3"></i></span>
+                            </div>
+                        </div>
+                        <div class="brand-card group cursor-pointer" onclick="CroesApp.handleCardClick(this, 'payroll')">
+                            <div class="h-64 overflow-hidden relative">
+                                <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                                <div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-brand-navy/40 to-transparent"></div>
+                                <div class="absolute bottom-6 left-6 text-white">
+                                    <div class="bg-brand-teal w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-white"><i data-lucide="users" class="w-5 h-5"></i></div>
+                                    <h3 class="text-xl font-bold">Payroll</h3>
                                 </div>
-                                <div class="my-10 text-center relative z-10">
-                                    <div class="text-7xl font-extrabold tracking-tight mb-2" id="days-left">0</div>
-                                    <div class="text-sm font-bold text-brand-accent uppercase tracking-widest">Days Remaining</div>
+                            </div>
+                            <div class="p-8 bg-white border border-t-0 border-slate-100 rounded-b-2xl">
+                                <p class="text-slate-500 text-sm leading-relaxed mb-4">Automated payroll processing, wage tax filings, and SVB registration for peace of mind.</p>
+                                <span class="text-brand-teal text-xs font-bold uppercase tracking-wide flex items-center gap-2 group-hover:gap-4 transition-all">Learn More <i data-lucide="arrow-right" class="w-3 h-3"></i></span>
+                            </div>
+                        </div>
+                        <div class="brand-card group cursor-pointer" onclick="CroesApp.handleCardClick(this, 'advisory')">
+                            <div class="h-64 overflow-hidden relative">
+                                <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                                <div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-brand-navy/40 to-transparent"></div>
+                                <div class="absolute bottom-6 left-6 text-white">
+                                    <div class="bg-brand-teal w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-white"><i data-lucide="briefcase" class="w-5 h-5"></i></div>
+                                    <h3 class="text-xl font-bold">Advising</h3>
                                 </div>
-                                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-5 flex items-center gap-5 relative z-10 border border-white/10">
-                                    <div class="bg-brand-teal p-3 rounded-xl text-white shadow-lg"><i data-lucide="calendar-clock" class="w-6 h-6"></i></div>
-                                    <div><p class="text-lg font-bold" id="deadline-date">...</p><p class="text-xs text-slate-300 uppercase tracking-wide font-medium">Mark your calendar</p></div>
-                                </div>
+                            </div>
+                            <div class="p-8 bg-white border border-t-0 border-slate-100 rounded-b-2xl">
+                                <p class="text-slate-500 text-sm leading-relaxed mb-4">Strategic financial and tax advice designed to maximize growth and minimize liability.</p>
+                                <span class="text-brand-teal text-xs font-bold uppercase tracking-wide flex items-center gap-2 group-hover:gap-4 transition-all">Learn More <i data-lucide="arrow-right" class="w-3 h-3"></i></span>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section id="team" class="py-20 bg-white scroll-mt-20">
-                <div class="max-w-7xl mx-auto px-6">
-                    <div class="text-center max-w-3xl mx-auto mb-20 reveal" id="team-header">
-                        <h2 class="text-4xl font-extrabold text-brand-navy mb-4" data-editable="true" id="team-title">Our Team</h2>
-                        <p class="text-slate-500 text-xl" data-editable="true" id="team-sub">Dedicated professionals ready to assist you.</p>
+            <section id="faq" class="py-24 bg-brand-surface border-t border-slate-200">
+                <div class="max-w-4xl mx-auto px-6">
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl font-bold text-brand-navy">Frequently Asked Questions</h2>
+                        <p class="text-slate-400 mt-2">Common inquiries about our services.</p>
                     </div>
-                    <div id="team-grid" class="grid md:grid-cols-3 gap-10">
-                        <div class="group cursor-pointer relative reveal">
-                            <div class="absolute top-4 right-4 z-20 admin-control"><button onclick="CroesApp.deleteItem(this)" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>
-                            <div class="relative overflow-hidden rounded-[2rem] mb-6 shadow-xl aspect-[4/5] border border-slate-100 group-hover:shadow-2xl transition-all">
-                                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                                <div class="photo-upload-overlay absolute inset-0 bg-brand-navy/60 backdrop-blur-sm hidden items-center justify-center z-10 cursor-pointer" onclick="CroesApp.triggerPhotoUpload(this.previousElementSibling)"><div class="bg-white p-4 rounded-full shadow-xl"><i data-lucide="camera" class="w-6 h-6 text-brand-navy"></i></div></div>
-                                <div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8"><p class="text-white text-sm font-medium italic" data-editable="true">"Precision is key."</p></div>
-                            </div>
-                            <h3 class="text-2xl font-bold text-brand-navy" data-editable="true">Mr. Croes</h3><p class="text-brand-teal font-bold text-xs tracking-widest uppercase mt-1" data-editable="true">Senior Accountant</p>
-                        </div>
+                    <div class="space-y-4">
+                        <details class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm group">
+                            <summary class="flex justify-between items-center font-bold text-brand-navy text-lg">What documents do I need for tax filing? <i data-lucide="chevron-down" class="w-5 h-5 text-brand-teal transition-transform group-open:rotate-180"></i></summary>
+                            <p class="mt-4 text-slate-500 leading-relaxed">Typically, we need your financial statements, profit & loss reports, and any relevant receipts. You can upload these securely via our Client Portal.</p>
+                        </details>
+                        <details class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm group">
+                            <summary class="flex justify-between items-center font-bold text-brand-navy text-lg">How do I access the Client Portal? <i data-lucide="chevron-down" class="w-5 h-5 text-brand-teal transition-transform group-open:rotate-180"></i></summary>
+                            <p class="mt-4 text-slate-500 leading-relaxed">Click the "Client Portal" button in the menu. Enter your email to receive a secure, one-time PIN instantly.</p>
+                        </details>
+                        <details class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm group">
+                            <summary class="flex justify-between items-center font-bold text-brand-navy text-lg">What is the deadline for BBO? <i data-lucide="chevron-down" class="w-5 h-5 text-brand-teal transition-transform group-open:rotate-180"></i></summary>
+                            <p class="mt-4 text-slate-500 leading-relaxed">BBO declarations are generally due by the 15th of the following month. We send automated reminders to all our clients.</p>
+                        </details>
                     </div>
                 </div>
             </section>
-            
-            <section id="contact" class="py-20 bg-brand-surface scroll-mt-20 border-t border-slate-200">
-                <div class="max-w-5xl mx-auto px-6">
-                    <div class="bg-brand-navy rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row">
-                        <div class="p-12 md:p-16 md:w-1/2 text-white relative">
-                            <div class="absolute top-0 right-0 w-64 h-64 bg-brand-teal rounded-full blur-[80px] opacity-20 pointer-events-none"></div>
-                            <h2 class="text-3xl font-bold mb-6">Let's Talk Business</h2>
-                            <p class="text-slate-300 mb-8 leading-relaxed">Ready to streamline your finances? Fill out the form and our team will reach out within 24 hours.</p>
+
+            <section id="contact" class="py-24 bg-brand-navy text-white relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+                <div class="max-w-5xl mx-auto px-6 relative z-10 flex flex-col md:flex-row gap-16">
+                    <div class="md:w-1/2">
+                        <h2 class="text-4xl font-bold mb-6">Let's Discuss Your Future</h2>
+                        <p class="text-slate-300 mb-8 text-lg">Ready to optimize your finances? Fill out the form and our senior accountants will reach out within 24 hours.</p>
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-4"><div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center"><i data-lucide="phone" class="w-5 h-5 text-brand-teal"></i></div><div><p class="text-xs text-slate-400 uppercase font-bold">Call Us</p><p class="font-bold">+297 582 0000</p></div></div>
+                            <div class="flex items-center gap-4"><div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center"><i data-lucide="mail" class="w-5 h-5 text-brand-teal"></i></div><div><p class="text-xs text-slate-400 uppercase font-bold">Email Us</p><p class="font-bold">info@croesaccounting.com</p></div></div>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2">
+                        <form onsubmit="CroesApp.handlePublicBooking(event)" class="bg-white p-8 rounded-3xl shadow-2xl text-slate-600">
+                            <h3 class="text-brand-navy font-bold text-xl mb-6">Request Appointment</h3>
                             <div class="space-y-4">
-                                <div class="flex items-center gap-4"><div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"><i data-lucide="phone" class="w-5 h-5 text-brand-accent"></i></div><span>+297 582 0000</span></div>
-                                <div class="flex items-center gap-4"><div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"><i data-lucide="mail" class="w-5 h-5 text-brand-accent"></i></div><span>info@croesaccounting.com</span></div>
+                                <div><label class="text-xs font-bold text-brand-navy uppercase">Full Name</label><input type="text" id="book-name" required class="w-full p-3 bg-slate-50 rounded-xl border border-slate-200 focus:border-brand-teal outline-none mt-1"></div>
+                                <div><label class="text-xs font-bold text-brand-navy uppercase">Email Address</label><input type="email" id="book-email" required class="w-full p-3 bg-slate-50 rounded-xl border border-slate-200 focus:border-brand-teal outline-none mt-1"></div>
+                                <div><label class="text-xs font-bold text-brand-navy uppercase">Service Interest</label><select id="book-service" class="w-full p-3 bg-slate-50 rounded-xl border border-slate-200 focus:border-brand-teal outline-none mt-1"><option>Administration</option><option>Payroll</option><option>Financial and tax advises</option></select></div>
+                                <button type="submit" class="w-full btn-primary py-4 rounded-xl font-bold shadow-lg mt-2">Send Request</button>
                             </div>
-                        </div>
-                        <div class="p-12 md:p-16 md:w-1/2 bg-white">
-                            <form onsubmit="CroesApp.handlePublicBooking(event)" class="space-y-4">
-                                <div><label class="text-xs font-bold text-brand-navy uppercase ml-1">Your Name</label><input type="text" id="book-name" required class="w-full p-3 bg-slate-50 rounded-xl border-0 focus:ring-2 focus:ring-brand-teal mt-1"></div>
-                                <div><label class="text-xs font-bold text-brand-navy uppercase ml-1">Email</label><input type="email" id="book-email" required class="w-full p-3 bg-slate-50 rounded-xl border-0 focus:ring-2 focus:ring-brand-teal mt-1"></div>
-                                <div><label class="text-xs font-bold text-brand-navy uppercase ml-1">Service Needed</label><select id="book-service" class="w-full p-3 bg-slate-50 rounded-xl border-0 focus:ring-2 focus:ring-brand-teal mt-1">
-                                    <option>Administration</option>
-                                    <option>Payroll</option>
-                                    <option>Financial and tax advises</option>
-                                </select></div>
-                                <button type="submit" class="w-full btn-primary py-4 rounded-xl font-bold shadow-lg mt-4">Send Request</button>
-                            </form>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </section>
 
-            <footer class="bg-brand-navy relative overflow-hidden pt-24 pb-12 text-slate-300">
-                <div class="max-w-7xl mx-auto px-6 relative z-10">
-                    <div class="grid md:grid-cols-4 gap-12 mb-20">
-                        <div class="col-span-1 md:col-span-1">
-                            <img src="logo.png" class="h-14 mb-8 opacity-100">
-                            <p class="text-sm leading-relaxed opacity-80 mb-8">Aruba's trusted financial partner. Simplifying tax and payroll for over 20 years.</p>
-                        </div>
-                        <div><h4 class="text-white font-bold mb-6 text-lg">Quick Links</h4><ul class="space-y-3 text-sm"><li><a href="#home" class="hover:text-brand-accent transition-colors">Home</a></li><li><a href="#services" class="hover:text-brand-accent transition-colors">Services</a></li></ul></div>
-                        <div><h4 class="text-white font-bold mb-6 text-lg">Contact</h4><ul class="space-y-4 text-sm"><li class="flex items-center gap-3"><i data-lucide="phone" class="w-4 h-4 text-brand-teal"></i> +297 582 0000</li><li class="flex items-center gap-3"><i data-lucide="mail" class="w-4 h-4 text-brand-teal"></i> info@croesaccounting.com</li><li class="flex items-start gap-3"><i data-lucide="map-pin" class="w-4 h-4 text-brand-teal mt-1"></i> Noord, Aruba</li></ul></div>
-                    </div>
-                    <div class="border-t border-white/10 pt-8 flex justify-between text-xs font-medium"><p>&copy; 2026 Accounting Croes.</p><button onclick="document.getElementById('login-modal').classList.remove('hidden')" class="hover:text-white flex items-center gap-2 opacity-50 hover:opacity-100 transition-opacity"><i data-lucide="lock" class="w-3 h-3"></i> Staff Login</button></div>
-                </div>
+            <footer class="bg-brand-navy pt-12 pb-8 border-t border-white/10 text-slate-400 text-sm text-center">
+                <p>&copy; 2026 Accounting Croes. All rights reserved.</p>
+                <button onclick="document.getElementById('login-modal').classList.remove('hidden')" class="mt-4 hover:text-white transition-colors flex items-center gap-2 mx-auto"><i data-lucide="lock" class="w-3 h-3"></i> Staff Access</button>
             </footer>
         </main>
     </div>
 
-    <section id="back-office" class="hidden fixed inset-0 z-[99999] bg-slate-50 overflow-y-auto">
-        <div class="max-w-7xl mx-auto p-8 pt-24">
+    <div id="client-portal" class="hidden portal-layout relative bg-slate-50">
+        <aside class="portal-sidebar sidebar-glass text-white p-8 flex flex-col justify-between h-full fixed md:relative z-50 w-64 md:w-auto hidden md:flex">
+            <div>
+                <img src="logo.png" class="h-10 mb-10 opacity-90 grayscale brightness-200">
+                <nav class="space-y-2">
+                    <button onclick="CroesApp.switchPortalTab('dash')" class="portal-nav-btn active"><i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard</button>
+                    <button onclick="CroesApp.switchPortalTab('docs')" class="portal-nav-btn"><i data-lucide="file-text" class="w-5 h-5"></i> Documents</button>
+                    <button onclick="CroesApp.switchPortalTab('vault')" class="portal-nav-btn"><i data-lucide="lock" class="w-5 h-5"></i> Secure Vault</button>
+                    <button onclick="CroesApp.switchPortalTab('msgs')" class="portal-nav-btn"><i data-lucide="message-square" class="w-5 h-5"></i> Messages</button>
+                </nav>
+            </div>
+            <button onclick="CroesApp.logoutClient()" class="flex items-center gap-3 text-slate-400 hover:text-white transition-colors"><i data-lucide="log-out" class="w-4 h-4"></i> Sign Out</button>
+        </aside>
+
+        <main class="p-8 md:p-12 overflow-y-auto">
             <div class="flex justify-between items-center mb-10">
-                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v11.2 • Secured</p></div>
+                <div>
+                    <h1 class="text-3xl font-bold text-brand-navy">Dashboard</h1>
+                    <p class="text-slate-500">Welcome back, <span id="portal-client-name" class="font-bold text-brand-teal">Client</span></p>
+                </div>
+                <div class="text-right hidden md:block">
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Today</p>
+                    <p class="text-lg font-bold text-brand-navy" id="current-date">...</p>
+                </div>
+            </div>
+
+            <div id="portal-dash" class="fade-in-up">
+                <div class="grid md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+                        <div class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-brand-blue"><i data-lucide="clock" class="w-6 h-6"></i></div>
+                        <div><p class="text-xs text-slate-400 font-bold uppercase">Status</p><p class="text-xl font-bold text-brand-navy" id="portal-status-text">Active</p></div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+                        <div class="w-12 h-12 bg-teal-50 rounded-full flex items-center justify-center text-brand-teal"><i data-lucide="file" class="w-6 h-6"></i></div>
+                        <div><p class="text-xs text-slate-400 font-bold uppercase">Files</p><p class="text-xl font-bold text-brand-navy" id="portal-file-count">0</p></div>
+                    </div>
+                    <div class="bg-gradient-to-r from-brand-navy to-brand-blue p-6 rounded-2xl shadow-lg text-white flex items-center justify-between">
+                        <div><p class="text-xs opacity-70 font-bold uppercase">Next Action</p><p class="font-bold">Upload Tax Docs</p></div>
+                        <button onclick="CroesApp.switchPortalTab('docs')" class="bg-white/20 p-2 rounded-lg hover:bg-white/30 transition-colors"><i data-lucide="arrow-right" class="w-5 h-5"></i></button>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-brand-navy mb-6">Application Timeline</h3>
+                    <div class="relative pt-4 pb-2">
+                        <div class="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden mb-6"><div class="h-full bg-brand-teal w-1/4 rounded-full transition-all duration-1000" id="progress-bar-visual"></div></div>
+                        <div class="flex justify-between text-xs font-bold text-slate-400 uppercase tracking-wider" id="progress-steps">
+                            <span class="text-brand-teal">Uploaded</span><span>Processing</span><span>Review</span><span>Filed</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="portal-docs" class="hidden fade-in-up">
+                <div class="bg-white p-12 rounded-3xl shadow-sm border border-dashed border-slate-300 text-center hover:border-brand-teal transition-colors cursor-pointer mb-8" onclick="document.getElementById('file-input').click()">
+                    <div class="w-16 h-16 bg-blue-50 text-brand-teal rounded-full flex items-center justify-center mx-auto mb-4"><i data-lucide="cloud-upload" class="w-8 h-8"></i></div>
+                    <h3 class="text-xl font-bold text-brand-navy">Upload Documents</h3>
+                    <p class="text-slate-400 text-sm mb-6">Click to select files (PDF, JPG, PNG)</p>
+                    <input type="file" id="file-input" class="hidden" onchange="CroesApp.handleFileUpload(this)">
+                </div>
+                <h4 class="font-bold text-brand-navy mb-4">My Files</h4>
+                <div id="portal-file-list" class="grid md:grid-cols-2 gap-4"></div>
+            </div>
+
+            <div id="portal-vault" class="hidden fade-in-up">
+                <div class="bg-brand-navy text-white p-8 rounded-3xl shadow-xl mb-8 relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-64 h-64 bg-brand-teal rounded-full blur-[80px] opacity-20"></div>
+                    <h3 class="font-bold text-2xl mb-2 flex items-center gap-2"><i data-lucide="shield-check" class="w-6 h-6"></i> Zero-Knowledge Vault</h3>
+                    <p class="text-slate-300 text-sm max-w-lg">Credentials are encrypted with your PIN. We cannot access them without your key.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                        <h4 class="font-bold text-brand-navy mb-6">Add Credential</h4>
+                        <input type="text" id="vault-service" placeholder="Service Name" class="w-full p-4 bg-slate-50 border-0 rounded-xl mb-3 font-bold text-brand-navy text-sm outline-none focus:ring-2 focus:ring-brand-teal">
+                        <input type="text" id="vault-user" placeholder="Username" class="w-full p-4 bg-slate-50 border-0 rounded-xl mb-3 font-bold text-brand-navy text-sm outline-none focus:ring-2 focus:ring-brand-teal">
+                        <div class="relative mb-6">
+                            <input type="password" id="vault-pass" placeholder="Password" class="w-full p-4 bg-slate-50 border-0 rounded-xl font-bold text-brand-navy text-sm outline-none focus:ring-2 focus:ring-brand-teal">
+                            <button onclick="togglePass()" class="absolute right-4 top-4 text-slate-400"><i data-lucide="eye" class="w-4 h-4"></i></button>
+                        </div>
+                        <button onclick="CroesApp.saveToVault()" class="w-full btn-primary py-3 rounded-xl font-bold shadow-lg">Encrypt & Save</button>
+                    </div>
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                        <h4 class="font-bold text-brand-navy mb-6">Encrypted Keys</h4>
+                        <div id="vault-list" class="space-y-3"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="portal-msgs" class="hidden fade-in-up">
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-100 h-[600px] flex flex-col overflow-hidden">
+                    <div class="p-4 border-b border-slate-100 bg-slate-50 font-bold text-brand-navy flex justify-between items-center">
+                        <span>Secure Support Chat</span>
+                        <span class="text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full">Encrypted</span>
+                    </div>
+                    <div id="msg-container" class="flex-1 overflow-y-auto p-6 space-y-4 bg-slate-50"></div>
+                    <div class="p-4 bg-white border-t border-slate-100 flex gap-3">
+                        <input type="text" id="msg-input" placeholder="Type a message..." class="flex-1 p-3 bg-slate-50 border-0 rounded-xl outline-none focus:ring-2 focus:ring-brand-teal">
+                        <button onclick="CroesApp.sendClientMessage()" class="bg-brand-teal text-white p-3 rounded-xl hover:bg-brand-navy transition-colors"><i data-lucide="send" class="w-5 h-5"></i></button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <section id="back-office" class="hidden fixed inset-0 z-[99999] bg-slate-50 overflow-y-auto">
+        <div class="max-w-7xl mx-auto p-8 pt-12">
+            <div class="flex justify-between items-center mb-10">
+                <div><h2 class="text-3xl font-extrabold text-brand-navy">Command Center</h2><p class="text-slate-500 font-medium">System v12.0</p></div>
                 <div class="flex gap-4">
-                    <a href="https://workplace.zoho.com/#mail_app/mail/folder/inbox" target="_blank" class="flex items-center gap-2 bg-white text-brand-navy border border-slate-200 px-5 py-2.5 rounded-xl font-bold shadow-sm hover:bg-slate-50 transition-colors"><i data-lucide="mail" class="w-4 h-4"></i> Check Mail</a>
-                    <button onclick="CroesApp.logout()" class="text-red-500 font-bold hover:bg-red-50 px-4 py-2 rounded-lg transition-colors">Log Out</button>
+                    <a href="https://workplace.zoho.com" target="_blank" class="flex items-center gap-2 bg-white text-brand-navy border border-slate-200 px-5 py-2.5 rounded-xl font-bold shadow-sm hover:bg-slate-50"><i data-lucide="mail" class="w-4 h-4"></i> Mail</a>
+                    <button onclick="CroesApp.logout()" class="text-red-500 font-bold bg-white px-5 py-2.5 rounded-xl border border-red-100 hover:bg-red-50">Log Out</button>
                 </div>
             </div>
             
-            <div class="grid grid-cols-3 gap-6 mb-10">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100"><p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Total Clients</p><p class="text-3xl font-extrabold text-brand-navy mt-1" id="stat-clients">0</p></div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100"><p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Pending Requests</p><p class="text-3xl font-extrabold text-brand-teal mt-1" id="stat-pending">0</p></div>
-                <button onclick="CroesApp.checkDailyReminders()" class="bg-brand-navy text-white p-6 rounded-2xl shadow-lg border border-slate-100 hover:bg-brand-teal transition-all text-left">
-                    <p class="text-xs font-bold uppercase tracking-wider opacity-80"><i data-lucide="bell" class="w-3 h-3 inline mr-1"></i> Actions</p>
-                    <p class="text-xl font-bold mt-2">Send Daily Reminders</p>
-                    <p class="text-[10px] opacity-60 mt-1">Click to check for tomorrow's appointments</p>
+            <div class="grid grid-cols-4 gap-6 mb-10">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100"><p class="text-slate-400 text-xs font-bold uppercase">Total Clients</p><p class="text-3xl font-extrabold text-brand-navy mt-1" id="stat-clients">0</p></div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100"><p class="text-slate-400 text-xs font-bold uppercase">Requests</p><p class="text-3xl font-extrabold text-brand-teal mt-1" id="stat-pending">0</p></div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100"><p class="text-slate-400 text-xs font-bold uppercase">Files</p><p class="text-3xl font-extrabold text-brand-blue mt-1" id="stat-files">0</p></div>
+                <button onclick="CroesApp.checkDailyReminders()" class="bg-brand-navy text-white p-6 rounded-2xl shadow-lg hover:bg-brand-blue transition-all text-left">
+                    <p class="text-xs font-bold uppercase opacity-80"><i data-lucide="bell" class="w-3 h-3 inline mr-1"></i> Automation</p>
+                    <p class="text-xl font-bold mt-2">Run Reminders</p>
                 </button>
             </div>
 
-            <div class="flex gap-4 mb-10 overflow-x-auto pb-2">
-                <button onclick="CroesApp.switchAdminTab('inbox')" class="px-6 py-2.5 rounded-full font-bold text-sm transition-all bg-brand-navy text-white shadow-lg" id="btn-inbox">Inbox</button>
-                <button onclick="CroesApp.switchAdminTab('clients')" class="px-6 py-2.5 rounded-full font-bold text-sm transition-all bg-white text-slate-500 hover:bg-white hover:text-brand-navy shadow-sm" id="btn-clients">Client Files</button>
-                <button onclick="CroesApp.switchAdminTab('messages')" class="px-6 py-2.5 rounded-full font-bold text-sm transition-all bg-white text-slate-500 hover:bg-white hover:text-brand-navy shadow-sm" id="btn-messages">Messages</button>
-                <button onclick="CroesApp.switchAdminTab('cms')" class="px-6 py-2.5 rounded-full font-bold text-sm transition-all bg-white text-slate-500 hover:bg-white hover:text-brand-navy shadow-sm" id="btn-cms">Site Editor</button>
+            <div class="flex gap-2 mb-8 bg-white p-2 rounded-2xl shadow-sm border border-slate-100 w-fit">
+                <button onclick="CroesApp.switchAdminTab('inbox')" class="px-6 py-2 rounded-xl font-bold text-sm transition-all bg-brand-navy text-white shadow-md" id="btn-inbox">Inbox</button>
+                <button onclick="CroesApp.switchAdminTab('clients')" class="px-6 py-2 rounded-xl font-bold text-sm transition-all text-slate-500 hover:bg-slate-50" id="btn-clients">Clients</button>
+                <button onclick="CroesApp.switchAdminTab('messages')" class="px-6 py-2 rounded-xl font-bold text-sm transition-all text-slate-500 hover:bg-slate-50" id="btn-messages">Chat</button>
+                <button onclick="CroesApp.switchAdminTab('cms')" class="px-6 py-2 rounded-xl font-bold text-sm transition-all text-slate-500 hover:bg-slate-50" id="btn-cms">Editor</button>
             </div>
             
-            <div id="admin-inbox">
+            <div id="admin-inbox" class="fade-in-up">
                 <div class="bg-white rounded-[2rem] shadow-sm p-8 border border-slate-100">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="font-bold text-xl text-brand-navy">Appointment Requests</h3>
-                        <div class="relative"><i data-lucide="search" class="w-4 h-4 absolute left-3 top-3 text-slate-400"></i><input type="text" placeholder="Search..." oninput="CroesApp.searchAdmin(this.value)" class="pl-10 pr-4 py-2 rounded-lg border border-slate-200 text-sm focus:border-brand-teal outline-none"></div>
-                    </div>
-                    <table class="w-full text-left"><thead class="bg-slate-50 text-xs uppercase text-slate-400 font-bold"><tr><th class="p-4 rounded-l-xl">Client</th><th class="p-4">Service</th><th class="p-4">Requested Date</th><th class="p-4">Status</th><th class="p-4 text-right rounded-r-xl">Actions</th></tr></thead><tbody id="booking-list" class="divide-y divide-slate-100 text-sm font-medium"></tbody></table>
+                    <h3 class="font-bold text-xl text-brand-navy mb-6">Appointment Requests</h3>
+                    <table class="w-full text-left"><thead class="bg-slate-50 text-xs uppercase text-slate-400 font-bold"><tr><th class="p-4 rounded-l-xl">Client</th><th class="p-4">Service</th><th class="p-4">Date</th><th class="p-4">Status</th><th class="p-4 text-right rounded-r-xl">Actions</th></tr></thead><tbody id="booking-list" class="divide-y divide-slate-100 text-sm font-medium"></tbody></table>
                 </div>
             </div>
 
-            <div id="admin-clients" class="hidden">
-                <div class="bg-white rounded-[2rem] shadow-sm p-8 border border-slate-100 h-full flex flex-col">
-                    <div class="flex justify-between items-center mb-6">
+            <div id="admin-clients" class="hidden fade-in-up">
+                <div class="bg-white rounded-[2rem] shadow-sm p-8 border border-slate-100">
+                    <div class="flex justify-between mb-6">
                         <h3 class="font-bold text-xl text-brand-navy">Client Management</h3>
-                        <button onclick="document.getElementById('add-client-form').classList.toggle('hidden')" class="bg-brand-teal text-white px-4 py-2 rounded-lg text-sm font-bold shadow-md flex items-center gap-2 hover:bg-brand-navy transition-colors"><i data-lucide="user-plus" class="w-4 h-4"></i> New Client</button>
+                        <button onclick="document.getElementById('add-client-form').classList.toggle('hidden')" class="btn-primary px-4 py-2 rounded-lg text-xs font-bold shadow-md">Add Client</button>
                     </div>
-                    <div id="add-client-form" class="hidden bg-slate-50 p-6 rounded-2xl mb-6 border border-slate-200 animate-reveal">
-                        <h4 class="font-bold text-brand-navy mb-4 text-sm uppercase">Register New Business</h4>
+                    <div id="add-client-form" class="hidden bg-slate-50 p-6 rounded-2xl mb-6 border border-slate-200">
                         <div class="grid grid-cols-2 gap-4 mb-4">
                             <input type="text" id="new-client-name" placeholder="Business Name" class="p-3 rounded-xl border border-slate-200 text-sm">
                             <input type="email" id="new-client-email" placeholder="Email Address" class="p-3 rounded-xl border border-slate-200 text-sm">
                             <input type="text" id="new-client-phone" placeholder="Phone Number" class="p-3 rounded-xl border border-slate-200 text-sm">
                             <input type="text" id="new-client-pin" placeholder="Access PIN (6-digits)" class="p-3 rounded-xl border border-slate-200 text-sm font-mono" maxlength="6">
                         </div>
-                        <button onclick="CroesApp.addClient()" class="w-full bg-brand-navy text-white font-bold py-3 rounded-xl shadow-lg hover:bg-brand-teal transition-colors">Create Profile & Email PIN</button>
+                        <button onclick="CroesApp.addClient()" class="w-full bg-brand-navy text-white font-bold py-3 rounded-xl">Create Profile & Email PIN</button>
                     </div>
-                    <div id="client-repo-list" class="grid gap-3 overflow-y-auto max-h-[500px] pr-2"></div>
+                    <div id="client-repo-list" class="grid gap-4"></div>
                 </div>
             </div>
 
-            <div id="admin-messages" class="hidden">
+            <div id="admin-messages" class="hidden fade-in-up">
                 <div class="grid grid-cols-3 gap-6 h-[600px]">
                     <div class="col-span-1 bg-white rounded-3xl border border-slate-100 p-6 overflow-y-auto">
-                        <h3 class="font-bold text-brand-navy mb-4">Active Chats</h3>
+                        <h3 class="font-bold text-brand-navy mb-4">Inbox</h3>
                         <div id="admin-chat-list" class="space-y-2"></div>
                     </div>
-                    <div class="col-span-2 bg-white rounded-3xl border border-slate-100 p-0 flex flex-col overflow-hidden">
-                        <div class="p-4 border-b border-slate-100 bg-slate-50/50 font-bold text-brand-navy" id="admin-chat-header">Select a client to chat</div>
+                    <div class="col-span-2 bg-white rounded-3xl border border-slate-100 flex flex-col overflow-hidden">
+                        <div class="p-4 border-b border-slate-100 font-bold text-brand-navy" id="admin-chat-header">Select a conversation</div>
                         <div id="admin-chat-window" class="flex-1 overflow-y-auto p-6 space-y-4 bg-slate-50"></div>
                         <div class="p-4 bg-white border-t border-slate-100 flex gap-3">
-                            <input type="text" id="admin-msg-input" placeholder="Type a reply..." class="flex-1 p-3 bg-slate-50 border-0 rounded-xl outline-none focus:ring-2 focus:ring-brand-teal transition-all">
-                            <button onclick="CroesApp.sendAdminMessage()" class="bg-brand-teal text-white p-3 rounded-xl hover:bg-brand-navy transition-colors shadow-lg"><i data-lucide="send" class="w-5 h-5"></i></button>
+                            <input type="text" id="admin-msg-input" placeholder="Type reply..." class="flex-1 p-3 bg-slate-50 border-0 rounded-xl outline-none focus:ring-2 focus:ring-brand-teal">
+                            <button onclick="CroesApp.sendAdminMessage()" class="bg-brand-teal text-white p-3 rounded-xl"><i data-lucide="send" class="w-5 h-5"></i></button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div id="admin-cms" class="hidden">
+            <div id="admin-cms" class="hidden fade-in-up">
                 <div class="bg-white rounded-[2rem] shadow-sm p-12 flex items-center gap-8 border border-slate-100">
                     <div class="p-6 bg-brand-surface rounded-3xl"><i data-lucide="pen-tool" class="w-12 h-12 text-brand-teal"></i></div>
-                    <div><h3 class="font-bold text-2xl text-brand-navy mb-2">Visual Site Editor</h3><p class="text-slate-500 mb-8 max-w-md">Activate edit mode to modify text, add new services, or update team members directly on the live site.</p><button onclick="CroesApp.toggleEdit(true)" class="btn-primary px-8 py-3 rounded-xl font-bold flex items-center gap-2">Enable Editor <i data-lucide="arrow-right" class="w-4 h-4"></i></button></div>
+                    <div><h3 class="font-bold text-2xl text-brand-navy mb-2">Visual Site Editor</h3><p class="text-slate-500 mb-8 max-w-md">Edit text and images directly on the live site.</p><button onclick="CroesApp.toggleEdit(true)" class="btn-primary px-8 py-3 rounded-xl font-bold">Enable Editor</button></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <div id="login-modal" class="fixed inset-0 z-[9999] hidden flex items-center justify-center bg-brand-navy/90 backdrop-blur-md p-4">
-        <div class="bg-white p-10 rounded-[2.5rem] shadow-2xl text-center max-w-sm w-full relative">
-            <button onclick="document.getElementById('login-modal').classList.add('hidden')" class="absolute top-6 right-6 text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-6 h-6"></i></button>
-            <h2 class="text-2xl font-bold text-brand-navy mb-1">Staff Access</h2>
-            <input type="password" id="admin-pass" placeholder="Password" class="w-full p-4 bg-slate-50 border-0 rounded-xl mb-4 text-center font-bold text-brand-navy focus:ring-2 focus:ring-brand-teal transition-all">
-            <button onclick="CroesApp.handleLogin()" class="w-full btn-primary py-4 rounded-xl font-bold shadow-lg">Enter Dashboard</button>
-        </div>
-    </div>
-
-    <div id="confirm-modal" class="fixed inset-0 z-[100000] hidden flex items-center justify-center bg-brand-navy/95 backdrop-blur-md p-4">
+    <div id="confirm-modal" class="fixed inset-0 z-[100000] hidden flex items-center justify-center bg-brand-navy/90 backdrop-blur-md p-4">
         <div class="bg-white p-8 rounded-[2rem] shadow-2xl w-full max-w-md text-center">
             <h3 class="text-xl font-bold text-brand-navy mb-4">Confirm Appointment</h3>
             <p class="text-sm text-slate-500 mb-6">Select the official time for this client.</p>
@@ -346,38 +439,46 @@
         </div>
     </div>
 
+    <div id="login-modal" class="fixed inset-0 z-[9999] hidden flex items-center justify-center bg-brand-navy/90 backdrop-blur-md p-4">
+        <div class="bg-white p-10 rounded-[2.5rem] shadow-2xl text-center max-w-sm w-full relative">
+            <button onclick="document.getElementById('login-modal').classList.add('hidden')" class="absolute top-6 right-6 text-slate-400"><i data-lucide="x" class="w-6 h-6"></i></button>
+            <h2 class="text-2xl font-bold text-brand-navy mb-4">Staff Access</h2>
+            <input type="password" id="admin-pass" placeholder="Password" class="w-full p-4 bg-slate-50 border-0 rounded-xl mb-4 text-center font-bold text-brand-navy focus:ring-2 focus:ring-brand-teal">
+            <button onclick="CroesApp.handleLogin()" class="w-full btn-primary py-4 rounded-xl font-bold shadow-lg">Enter Dashboard</button>
+        </div>
+    </div>
+
     <div id="client-login-modal" class="fixed inset-0 z-[9999] hidden flex items-center justify-center bg-brand-navy/95 backdrop-blur-md p-4">
         <div class="bg-white p-10 rounded-[2.5rem] shadow-2xl text-center max-w-sm w-full relative">
-            <button onclick="document.getElementById('client-login-modal').classList.add('hidden')" class="absolute top-6 right-6 text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-6 h-6"></i></button>
+            <button onclick="document.getElementById('client-login-modal').classList.add('hidden')" class="absolute top-6 right-6 text-slate-400"><i data-lucide="x" class="w-6 h-6"></i></button>
+            <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6 text-brand-teal"><i data-lucide="shield" class="w-8 h-8"></i></div>
             <h2 class="text-2xl font-bold text-brand-navy mb-2">Secure Portal</h2>
             <div id="client-step-1"><input type="email" id="client-email" placeholder="client@email.com" class="w-full p-4 bg-slate-50 border-0 rounded-xl mb-4 font-bold text-brand-navy"><button onclick="CroesApp.clientLoginStep1()" class="w-full btn-primary py-4 rounded-xl font-bold shadow-lg">Send Verification Code</button></div>
             <div id="client-step-2" class="hidden"><p class="text-brand-teal font-bold text-xs uppercase tracking-widest mb-3">Check Email for PIN</p><input type="text" id="client-code" placeholder="000000" class="w-full p-4 bg-slate-50 border-0 rounded-xl mb-4 text-center text-2xl tracking-[0.5em] font-bold text-brand-navy"><button onclick="CroesApp.clientLoginStep2()" class="w-full btn-primary py-4 rounded-xl font-bold shadow-lg">Verify & Enter</button></div>
         </div>
     </div>
 
-    <div id="toast" class="fixed top-24 right-8 bg-brand-navy text-white px-6 py-4 rounded-2xl shadow-2xl transform translate-x-96 opacity-0 transition-all duration-500 z-[110000] flex items-center gap-4 border border-white/10 glass-panel"><div class="bg-brand-teal p-2 rounded-full text-white"><i data-lucide="check" class="w-4 h-4"></i></div><div><h4 class="font-bold text-sm text-white">Success</h4><p class="text-xs text-slate-300" id="toast-msg">Action completed.</p></div></div>
+    <div id="toast" class="fixed top-24 right-8 bg-white border-l-4 border-brand-teal px-6 py-4 rounded-r-xl shadow-2xl transform translate-x-96 opacity-0 transition-all duration-500 z-[110000] flex items-center gap-4"><div class="text-brand-teal"><i data-lucide="check-circle" class="w-6 h-6"></i></div><div><h4 class="font-bold text-sm text-brand-navy">Notification</h4><p class="text-xs text-slate-500" id="toast-msg">Action completed.</p></div></div>
 
     <script>
         const CroesApp = {
             db: null, currentClientEmail: null, currentClientPin: null, targetImgEl: null, activeChatClient: null, emailInitialized: false,
 
-            // EMAIL CONFIG (v11.2 - ID CORRECTED)
+            // EMAIL CONFIG
             emailConfig: {
                 publicKey: "8rBFXNPpsM9GIWhRR",
-                serviceId: "service_x7ol38h", // THIS WAS THE FIX
+                serviceId: "service_x7ol38h",
                 requestTemplateId: "template_3ajpnak", 
                 confirmTemplateId: "template_kc2lb6b"  
             },
 
-            // --- INIT ---
             init: function() { 
                 if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', () => this.start()); } else { this.start(); }
             },
             start: function() { this.initDB(); this.initUI(); },
 
-            // --- DB ---
             initDB: function() {
-                const request = indexedDB.open("CroesDBv11", 1);
+                const request = indexedDB.open("CroesDBv12", 1);
                 request.onupgradeneeded = (e) => { 
                     const d = e.target.result; 
                     if(!d.objectStoreNames.contains('files')) d.createObjectStore('files', { keyPath: 'id', autoIncrement: true }); 
@@ -389,20 +490,20 @@
                         store.add({ email: 'demo@croes.com', pin: '123456', name: 'Demo Corp', status: 'Processing', phone: '555-0000' });
                     }
                 };
-                request.onsuccess = (e) => { this.db = e.target.result; this.updateStats(); console.log("DB Ready v11.2"); };
+                request.onsuccess = (e) => { this.db = e.target.result; this.updateStats(); console.log("DB Ready v12.0"); };
                 request.onerror = (e) => { console.error("DB Fail", e); };
             },
 
             initUI: function() {
-                setTimeout(() => { document.getElementById('preloader').style.display = 'none'; }, 1000);
+                setTimeout(() => { document.getElementById('preloader').style.display = 'none'; }, 800);
                 window.addEventListener('scroll', () => { const nav = document.getElementById('navbar'); if (window.scrollY > 20) nav.classList.add('scrolled'); else nav.classList.remove('scrolled'); });
                 lucide.createIcons();
                 const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); }); }, { threshold: 0.1 });
-                document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-                this.initDates();
+                document.querySelectorAll('.reveal, .fade-in-up').forEach(el => observer.observe(el));
+                document.getElementById('current-date').innerText = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
             },
 
-            // --- CONFIRMATION ---
+            // --- CORE LOGIC (CONFIRMATION, EMAIL, DB) ---
             confirmBooking: function(id) {
                 const tx = this.db.transaction(['bookings'], 'readonly');
                 tx.objectStore('bookings').get(id).onsuccess = (e) => {
@@ -417,79 +518,49 @@
                 const id = parseInt(document.getElementById('conf-id').value);
                 const date = document.getElementById('conf-date').value;
                 const time = document.getElementById('conf-time').value;
-                
                 const tx = this.db.transaction(['bookings'], 'readwrite');
                 const store = tx.objectStore('bookings');
-                
                 store.get(id).onsuccess = (e) => {
                     const data = e.target.result;
                     if(!data) return;
-                    
-                    data.status = 'Confirmed';
-                    data.date = date; 
-                    data.time = time; 
+                    data.status = 'Confirmed'; data.date = date; data.time = time; 
                     store.put(data);
-                    
                     document.getElementById('confirm-modal').classList.add('hidden');
-                    this.renderDashboard();
-                    this.updateStats();
-
+                    this.renderDashboard(); this.updateStats();
                     this.sendEmail(this.emailConfig.confirmTemplateId, {
-                        title: "Appointment Confirmed",
-                        to_name: data.name,
-                        to_email: data.email,
-                        service_name: data.service,
-                        date: date,
-                        time: time, 
-                        message: `We have scheduled you for ${time}.`
+                        title: "Appointment Confirmed", to_name: data.name, to_email: data.email, service_name: data.service, date: date, time: time, message: `We have scheduled you for ${time}.`
                     }, "Confirmation Sent");
                 };
             },
 
-            // --- EMAIL DEBUGGER ---
             sendEmail: function(templateId, params, successMsg) {
                 if(this.emailConfig.publicKey) {
                     if(!this.emailInitialized) { emailjs.init(this.emailConfig.publicKey); this.emailInitialized = true; }
                     emailjs.send(this.emailConfig.serviceId, templateId, params)
                         .then(() => { this.showToast("Sent", successMsg); })
-                        .catch((err) => { 
-                            console.error(err); 
-                            alert(`EMAIL ERROR! Code: ${err.status}, Text: ${err.text}. Check console for details.`); 
-                        });
+                        .catch((err) => { console.error(err); alert(`EMAIL ERROR: ${err.text}`); });
                 }
             },
 
-            // --- REMINDERS ---
             checkDailyReminders: function() {
                 const tx = this.db.transaction(['bookings'], 'readonly');
                 tx.objectStore('bookings').getAll().onsuccess = (e) => {
                     const bookings = e.target.result;
-                    const tomorrow = new Date();
-                    tomorrow.setDate(tomorrow.getDate() + 1);
+                    const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
                     const tomorrowStr = tomorrow.toISOString().split('T')[0];
-                    
                     let sentCount = 0;
                     bookings.forEach(b => {
                         if(b.status === 'Confirmed' && b.date === tomorrowStr) {
                             this.sendEmail(this.emailConfig.confirmTemplateId, {
-                                title: "Appointment Reminder",
-                                to_name: b.name,
-                                to_email: b.email,
-                                service_name: b.service,
-                                date: b.date,
-                                time: b.time || "Morning",
-                                message: "This is a reminder for your appointment tomorrow."
+                                title: "Appointment Reminder", to_name: b.name, to_email: b.email, service_name: b.service, date: b.date, time: b.time || "Morning", message: "This is a reminder for your appointment tomorrow."
                             }, `Reminder sent to ${b.name}`);
                             sentCount++;
                         }
                     });
-                    
-                    if(sentCount === 0) alert("No appointments found for tomorrow (" + tomorrowStr + ").");
-                    else alert(`Sent ${sentCount} reminders.`);
+                    if(sentCount === 0) alert("No appointments found for tomorrow (" + tomorrowStr + ")."); else alert(`Sent ${sentCount} reminders.`);
                 };
             },
 
-            // --- ADMIN CHAT ---
             renderAdminChatList: function() {
                 const tx = this.db.transaction(['messages', 'clients'], 'readonly');
                 let messages = [], clients = [];
@@ -503,7 +574,7 @@
                         if(uniqueEmails.length === 0) list.innerHTML = '<p class="text-xs text-slate-400">No messages yet.</p>';
                         uniqueEmails.forEach(email => {
                             const clientName = clients.find(c => c.email === email)?.name || email;
-                            list.innerHTML += `<div onclick="CroesApp.openAdminChat('${email}')" class="p-3 bg-slate-50 rounded-xl cursor-pointer hover:bg-brand-teal hover:text-white transition-colors mb-2"><p class="font-bold text-sm">${clientName}</p><p class="text-xs opacity-70">${email}</p></div>`;
+                            list.innerHTML += `<div onclick="CroesApp.openAdminChat('${email}')" class="p-4 bg-slate-50 rounded-xl cursor-pointer hover:bg-brand-teal hover:text-white transition-all mb-2 border border-slate-100"><div class="flex justify-between items-center"><p class="font-bold text-sm">${clientName}</p><div class="w-2 h-2 bg-green-400 rounded-full"></div></div><p class="text-xs opacity-70 truncate">${email}</p></div>`;
                         });
                     }, 200);
                 };
@@ -536,7 +607,6 @@
                 this.renderAdminChatWindow();
             },
 
-            // --- UTILS ---
             showToast: function(title, msg) { const el = document.getElementById('toast'); el.querySelector('h4').innerText = title; document.getElementById('toast-msg').innerText = msg; el.classList.remove('translate-x-96', 'opacity-0'); setTimeout(() => el.classList.add('translate-x-96', 'opacity-0'), 3000); },
             updateStats: function() {
                 if(!this.db) return;
@@ -546,11 +616,15 @@
                     document.getElementById('stat-clients').innerText = new Set(b.map(i => i.email)).size;
                     document.getElementById('stat-pending').innerText = b.filter(i => i.status === 'Pending').length;
                 };
-                tx.objectStore('files').count().onsuccess = (e) => { document.getElementById('stat-files').innerText = e.target.result; };
+                tx.objectStore('files').count().onsuccess = (e) => { 
+                    const count = e.target.result;
+                    document.getElementById('stat-files').innerText = count; 
+                    if(document.getElementById('portal-file-count')) document.getElementById('portal-file-count').innerText = count;
+                };
             },
             handleLogin: function() { if(document.getElementById('admin-pass').value === 'admin123') { document.getElementById('login-modal').classList.add('hidden'); document.getElementById('back-office').classList.remove('hidden'); this.renderDashboard(); this.updateStats(); } },
             logout: function() { document.getElementById('back-office').classList.add('hidden'); document.body.classList.remove('editing-active'); this.toggleEdit(false); },
-            switchAdminTab: function(tab) { ['inbox','cms','clients','messages'].forEach(t => { document.getElementById('admin-'+t).classList.add('hidden'); document.getElementById('btn-'+t).classList.remove('bg-brand-navy', 'text-white', 'shadow-lg'); document.getElementById('btn-'+t).classList.add('bg-white', 'text-slate-500', 'shadow-sm'); }); document.getElementById('admin-'+tab).classList.remove('hidden'); document.getElementById('btn-'+tab).classList.remove('bg-white', 'text-slate-500', 'shadow-sm'); document.getElementById('btn-'+tab).classList.add('bg-brand-navy', 'text-white', 'shadow-lg'); if(tab === 'clients') this.renderAdminRepo(); if(tab === 'messages') this.renderAdminChatList(); },
+            switchAdminTab: function(tab) { ['inbox','cms','clients','messages'].forEach(t => { document.getElementById('admin-'+t).classList.add('hidden'); document.getElementById('btn-'+t).classList.remove('bg-brand-navy', 'text-white', 'shadow-lg'); document.getElementById('btn-'+t).classList.add('text-slate-500', 'hover:bg-slate-50'); }); document.getElementById('admin-'+tab).classList.remove('hidden'); document.getElementById('btn-'+tab).classList.remove('text-slate-500', 'hover:bg-slate-50'); document.getElementById('btn-'+tab).classList.add('bg-brand-navy', 'text-white', 'shadow-lg'); if(tab === 'clients') this.renderAdminRepo(); if(tab === 'messages') this.renderAdminChatList(); },
             renderDashboard: function() {
                 if(!this.db) return;
                 const tbody = document.getElementById('booking-list');
@@ -562,7 +636,7 @@
                     bookings.forEach(b => {
                         const isPending = b.status === 'Pending';
                         const timeDisplay = b.time ? `<br><span class="text-xs text-brand-teal font-bold">${b.time}</span>` : '';
-                        tbody.innerHTML += `<tr class="border-b border-slate-50 hover:bg-slate-50/50 transition-colors"><td class="p-4"><div class="font-bold text-brand-navy">${b.name}</div><div class="text-xs text-slate-400 font-mono">${b.email}</div></td><td class="p-4 text-slate-600 font-medium">${b.service}</td><td class="p-4 text-slate-500 text-xs">${b.date}${timeDisplay}</td><td class="p-4">${isPending ? '<span class="px-3 py-1 rounded-full text-xs font-bold bg-orange-50 text-orange-600">Pending</span>' : '<span class="px-3 py-1 rounded-full text-xs font-bold bg-green-50 text-green-600">Confirmed</span>'}</td><td class="p-4 text-right space-x-2">${isPending ? `<button onclick="CroesApp.confirmBooking(${b.id})" class="p-2 bg-green-50 text-green-600 rounded-lg"><i data-lucide="check" class="w-4 h-4"></i></button>` : ''}<button onclick="CroesApp.deleteBooking(${b.id})" class="p-2 bg-red-50 text-red-500 rounded-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></td></tr>`;
+                        tbody.innerHTML += `<tr class="border-b border-slate-50 hover:bg-slate-50/50 transition-colors"><td class="p-4"><div class="font-bold text-brand-navy">${b.name}</div><div class="text-xs text-slate-400 font-mono">${b.email}</div></td><td class="p-4 text-slate-600 font-medium">${b.service}</td><td class="p-4 text-slate-500 text-xs">${b.date}${timeDisplay}</td><td class="p-4">${isPending ? '<span class="px-3 py-1 rounded-full text-xs font-bold bg-orange-100 text-orange-600">Pending</span>' : '<span class="px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-600">Confirmed</span>'}</td><td class="p-4 text-right space-x-2">${isPending ? `<button onclick="CroesApp.confirmBooking(${b.id})" class="p-2 bg-green-50 text-green-600 rounded-lg"><i data-lucide="check" class="w-4 h-4"></i></button>` : ''}<button onclick="CroesApp.deleteBooking(${b.id})" class="p-2 bg-red-50 text-red-500 rounded-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></td></tr>`;
                     });
                     lucide.createIcons();
                 };
@@ -576,25 +650,12 @@
                 const pin = document.getElementById('new-client-pin').value;
                 const phone = document.getElementById('new-client-phone').value;
                 if(!name || !email || !pin) return this.showToast("Error", "Missing fields.");
-                
                 const tx = this.db.transaction(['clients'], 'readwrite');
                 const store = tx.objectStore('clients');
                 const request = store.add({ name, email, pin, phone, status: 'Uploaded', joined: new Date().toLocaleDateString() });
-                
                 request.onsuccess = () => { 
-                    this.showToast("Success", "Client created."); 
-                    document.getElementById('add-client-form').classList.add('hidden'); 
-                    this.renderAdminRepo(); 
-                    
-                    this.sendEmail(this.emailConfig.confirmTemplateId, {
-                        title: "Account Created", 
-                        to_name: name,
-                        to_email: email,
-                        service_name: "Client Portal Access",
-                        date: new Date().toLocaleDateString(),
-                        time: "Active",
-                        message: `Welcome to Accounting Croes. Your secure Login PIN is: ${pin}. Please keep this safe.`
-                    }, "Welcome email sent");
+                    this.showToast("Success", "Client created."); document.getElementById('add-client-form').classList.add('hidden'); this.renderAdminRepo(); 
+                    this.sendEmail(this.emailConfig.confirmTemplateId, { title: "Account Created", to_name: name, to_email: email, service_name: "Client Portal Access", date: new Date().toLocaleDateString(), time: "Active", message: `Welcome to Accounting Croes. Your secure Login PIN is: ${pin}.` }, "Welcome email sent");
                 };
                 request.onerror = (e) => { this.showToast("Error", "Email already exists."); };
             },
@@ -608,110 +669,73 @@
                     files = e.target.result;
                     const container = document.getElementById('client-repo-list');
                     container.innerHTML = '';
-                    if(clients.length === 0) { container.innerHTML = '<div class="p-12 text-center text-slate-400">No clients found.</div>'; return; }
                     clients.forEach(c => {
                         const clientFiles = files.filter(f => f.clientEmail === c.email);
                         let filesHtml = '';
                         if(clientFiles.length > 0) {
-                            filesHtml = `<div class="mt-3 space-y-2 bg-slate-50 p-3 rounded-xl">`;
+                            filesHtml = `<div class="mt-3 space-y-2 bg-slate-50 p-3 rounded-xl border border-slate-100">`;
                             clientFiles.forEach(f => {
                                 const url = URL.createObjectURL(f.data);
                                 filesHtml += `<div class="flex justify-between items-center text-xs"><a href="${url}" download="${f.fileName}" class="text-brand-teal hover:underline flex items-center gap-1"><i data-lucide="file" class="w-3 h-3"></i> ${f.fileName}</a><button onclick="CroesApp.deleteClientFile(${f.id})" class="text-red-400 hover:text-red-600"><i data-lucide="x" class="w-3 h-3"></i></button></div>`;
                             });
                             filesHtml += `</div>`;
                         }
-                        container.innerHTML += `<div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm group hover:border-brand-teal transition-all mb-4"><div class="flex justify-between items-start mb-4"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-brand-surface flex items-center justify-center font-bold text-brand-navy">${c.name.substring(0,2).toUpperCase()}</div><div><h4 class="font-bold text-brand-navy text-sm">${c.name}</h4><p class="text-xs text-slate-400 font-mono">${c.email} <span class="bg-slate-100 px-1 rounded ml-1 text-[10px]">PIN: ${c.pin}</span></p></div></div><div class="text-right"><span class="text-xs bg-slate-100 px-2 py-1 rounded">${c.status}</span></div></div><div class="flex items-center justify-between border-t border-slate-50 pt-3 mt-3"><span class="text-xs font-bold text-slate-400 flex items-center gap-1"><i data-lucide="file" class="w-3 h-3"></i> ${clientFiles.length} Files</span><div class="flex gap-2"><button onclick="CroesApp.uploadToClient('${c.email}')" class="text-xs bg-brand-surface hover:bg-brand-navy hover:text-white px-3 py-1.5 rounded-lg font-bold text-brand-navy transition-colors flex items-center gap-1"><i data-lucide="upload-cloud" class="w-3 h-3"></i> Send File</button></div></div>${filesHtml}</div>`;
+                        container.innerHTML += `<div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm group hover:border-brand-teal transition-all mb-4"><div class="flex justify-between items-start mb-4"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-brand-surface flex items-center justify-center font-bold text-brand-navy">${c.name.substring(0,2).toUpperCase()}</div><div><h4 class="font-bold text-brand-navy text-sm">${c.name}</h4><p class="text-xs text-slate-400 font-mono">${c.email}</p></div></div><div class="text-right"><span class="text-xs bg-slate-100 px-2 py-1 rounded font-bold">${c.status}</span></div></div><div class="flex items-center justify-between border-t border-slate-50 pt-3 mt-3"><span class="text-xs font-bold text-slate-400 flex items-center gap-1"><i data-lucide="file" class="w-3 h-3"></i> ${clientFiles.length} Files</span><button onclick="CroesApp.uploadToClient('${c.email}')" class="text-xs bg-brand-surface hover:bg-brand-navy hover:text-white px-3 py-1.5 rounded-lg font-bold text-brand-navy transition-colors flex items-center gap-1"><i data-lucide="upload-cloud" class="w-3 h-3"></i> Send File</button></div>${filesHtml}</div>`;
                     });
                     lucide.createIcons();
                 };
             },
 
-            deleteClientFile: function(id) { if(confirm("Permanently delete this file?")) { const tx = this.db.transaction(['files'], 'readwrite'); tx.objectStore('files').delete(id); tx.oncomplete = () => { this.showToast("Deleted", "File removed."); this.renderAdminRepo(); }; } },
+            deleteClientFile: function(id) { if(confirm("Delete file?")) { const tx = this.db.transaction(['files'], 'readwrite'); tx.objectStore('files').delete(id); tx.oncomplete = () => { this.showToast("Deleted", "File removed."); this.renderAdminRepo(); }; } },
             uploadToClient: function(email) { this.currentClientEmail = email; this.showToast("Ready", `Select file for ${email}`); document.getElementById('file-input').click(); },
             
             handlePublicBooking: function(e) {
                 e.preventDefault();
-                const btn = e.target.querySelector('button');
-                const originalText = btn.innerText;
-                btn.innerText = "Sending...";
-                btn.disabled = true;
-
+                const btn = e.target.querySelector('button'); btn.innerText = "Sending..."; btn.disabled = true;
                 const name = document.getElementById('book-name').value;
                 const email = document.getElementById('book-email').value;
                 const service = document.getElementById('book-service').value;
                 const date = new Date().toLocaleDateString();
                 const bookingData = { name, email, service, status: 'Pending', date };
                 
-                this.sendEmail(this.emailConfig.requestTemplateId, {
-                    name: name,           
-                    email: email,         
-                    service: service,     
-                    date: date,           
-                    time: "Pending Conf", 
-                    to_email: "info@croesaccounting.com"
-                }, "Request Sent");
-
-                this.saveBookingToDB(bookingData);
-                btn.innerText = originalText;
-                btn.disabled = false;
-                e.target.reset();
+                this.sendEmail(this.emailConfig.requestTemplateId, { name: name, email: email, service: service, date: date, time: "Pending", to_email: "info@croesaccounting.com" }, "Request Sent");
+                const tx = this.db.transaction(['bookings'], 'readwrite');
+                tx.objectStore('bookings').add(bookingData);
+                this.updateStats();
+                btn.innerText = "Send Request"; btn.disabled = false; e.target.reset();
             },
 
-            saveBookingToDB: function(data) { const tx = this.db.transaction(['bookings'], 'readwrite'); tx.objectStore('bookings').add(data); this.updateStats(); if(!document.getElementById('back-office').classList.contains('hidden')) { this.renderDashboard(); } },
-            
             openPortalLogin: function() { document.getElementById('client-login-modal').classList.remove('hidden'); },
             clientLoginStep1: function() { 
-                const emailInput = document.getElementById('client-email');
-                const email = emailInput.value.trim();
-                const btn = emailInput.nextElementSibling;
+                const email = document.getElementById('client-email').value.trim();
                 if(!email) return this.showToast("Error", "Please enter your email.");
-                btn.innerText = "Verifying...";
-                btn.disabled = true;
-
-                const tx = this.db.transaction(['clients'], 'readonly');
-                const store = tx.objectStore('clients');
-                store.get(email).onsuccess = (e) => {
-                    const client = e.target.result;
-                    if(client) {
-                        this.sendEmail(this.emailConfig.confirmTemplateId, {
-                            title: "Login Verification",
-                            to_name: client.name,
-                            to_email: client.email,
-                            service_name: "Client Portal Access",
-                            date: new Date().toLocaleTimeString(),
-                            time: "Login",
-                            message: `SECURITY ALERT: Your Login PIN is: ${client.pin} . Do not share this.`
-                        }, "PIN sent to email");
-
-                        this.currentClientEmail = email;
-                        document.getElementById('client-step-1').classList.add('hidden');
-                        document.getElementById('client-step-2').classList.remove('hidden');
-                    } else {
-                        this.showToast("Error", "Email not found.");
-                        btn.innerText = "Send Verification Code";
-                        btn.disabled = false;
-                    }
-                };
-            },
-            
-            clientLoginStep2: function() {
-                const email = this.currentClientEmail;
-                const inputPin = document.getElementById('client-code').value;
                 const tx = this.db.transaction(['clients'], 'readonly');
                 tx.objectStore('clients').get(email).onsuccess = (e) => {
                     const client = e.target.result;
-                    if(client && client.pin === inputPin) {
-                        this.currentClientPin = inputPin;
+                    if(client) {
+                        this.sendEmail(this.emailConfig.confirmTemplateId, { title: "Login Verification", to_name: client.name, to_email: client.email, service_name: "Access", date: new Date().toLocaleTimeString(), time: "Login", message: `Your Login PIN is: ${client.pin}` }, "PIN sent");
+                        this.currentClientEmail = email;
+                        document.getElementById('client-step-1').classList.add('hidden'); document.getElementById('client-step-2').classList.remove('hidden');
+                    } else { this.showToast("Error", "Email not found."); }
+                };
+            },
+            clientLoginStep2: function() {
+                const pin = document.getElementById('client-code').value;
+                const tx = this.db.transaction(['clients'], 'readonly');
+                tx.objectStore('clients').get(this.currentClientEmail).onsuccess = (e) => {
+                    const client = e.target.result;
+                    if(client && client.pin === pin) {
+                        this.currentClientPin = pin;
                         document.getElementById('client-login-modal').classList.add('hidden');
                         document.getElementById('public-view').classList.add('hidden');
                         document.getElementById('client-portal').classList.remove('hidden');
                         document.getElementById('portal-client-name').innerText = client.name;
+                        document.getElementById('portal-status-text').innerText = client.status;
                         this.switchPortalTab('dash');
-                    } else { alert("Invalid PIN."); }
+                    } else { alert("Invalid PIN"); }
                 };
             },
-
-            logoutClient: function() { document.getElementById('client-portal').classList.add('hidden'); document.getElementById('public-view').classList.remove('hidden'); this.currentClientEmail = null; this.currentClientPin = null; },
+            logoutClient: function() { location.reload(); },
             
             handleFileUpload: function(input) {
                 if(input.files.length > 0) {
@@ -726,20 +750,54 @@
                     reader.readAsArrayBuffer(file);
                 }
             },
-            renderClientFiles: function() { const tx = this.db.transaction(['files'], 'readonly'); tx.objectStore('files').getAll().onsuccess = (e) => { const docs = e.target.result.filter(d => d.clientEmail === this.currentClientEmail); const list = document.getElementById('portal-file-list'); list.innerHTML = ''; if(docs.length === 0) list.innerHTML = '<div class="p-8 text-center text-slate-400 bg-slate-50 rounded-xl border border-slate-100 border-dashed">No documents uploaded yet.</div>'; docs.forEach(d => { const url = URL.createObjectURL(d.data); list.innerHTML += `<div class="flex items-center justify-between p-4 bg-white border border-slate-100 rounded-xl shadow-sm"><div class="flex items-center gap-4"><div class="w-10 h-10 bg-brand-surface rounded-lg flex items-center justify-center text-brand-teal"><i data-lucide="file-text" class="w-5 h-5"></i></div><div><p class="font-bold text-brand-navy text-sm">${d.fileName}</p><p class="text-xs text-slate-400">${d.date}</p></div></div><a href="${url}" download="${d.fileName}" class="p-2 text-slate-400 hover:text-brand-teal hover:bg-brand-surface rounded-lg transition-colors"><i data-lucide="download" class="w-5 h-5"></i></a></div>`; }); lucide.createIcons(); }; },
-            saveToVault: async function() { const s = document.getElementById('vault-service').value; const u = document.getElementById('vault-user').value; const p = document.getElementById('vault-pass').value; if(!s || !u || !p) return this.showToast("Error", "All fields required"); const encryptedData = await this.security.encrypt(JSON.stringify({ user: u, pass: p }), this.currentClientPin); const tx = this.db.transaction(['vault'], 'readwrite'); tx.objectStore('vault').add({ clientEmail: this.currentClientEmail, service: s, data: encryptedData, date: new Date().toLocaleDateString() }); this.showToast("Secure", "Credentials encrypted & stored."); this.renderVault(); document.getElementById('vault-pass').value = ''; },
-            renderVault: function() { const tx = this.db.transaction(['vault'], 'readonly'); tx.objectStore('vault').getAll().onsuccess = async (e) => { const items = e.target.result.filter(i => i.clientEmail === this.currentClientEmail); const list = document.getElementById('vault-list'); list.innerHTML = ''; if(items.length === 0) { list.innerHTML = '<p class="text-slate-400 text-sm text-center italic mt-10">Vault is empty.</p>'; return; } for(const item of items) { try { const decryptedJson = await this.security.decrypt(item.data, this.currentClientPin); if(!decryptedJson) continue; const creds = JSON.parse(decryptedJson); list.innerHTML += `<div class="p-4 bg-slate-50 border border-slate-100 rounded-xl group hover:border-brand-teal transition-colors"><div class="flex justify-between items-center mb-2"><span class="font-bold text-brand-navy">${item.service}</span><button onclick="CroesApp.deleteVaultItem(${item.id})" class="text-slate-300 hover:text-red-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="text-xs text-slate-500 font-mono bg-white p-2 rounded border border-slate-100 flex justify-between"><span>${creds.user}</span><span class="tracking-widest">••••••</span></div></div>`; } catch(err) { console.error("Decrypt Error", err); } } lucide.createIcons(); }; },
-            deleteVaultItem: function(id) { if(confirm("Destroy this credential?")) { const tx = this.db.transaction(['vault'], 'readwrite'); tx.objectStore('vault').delete(id); this.renderVault(); } },
+            renderClientFiles: function() { 
+                const tx = this.db.transaction(['files'], 'readonly'); 
+                tx.objectStore('files').getAll().onsuccess = (e) => { 
+                    const docs = e.target.result.filter(d => d.clientEmail === this.currentClientEmail); 
+                    const list = document.getElementById('portal-file-list'); list.innerHTML = '';
+                    if(docs.length === 0) list.innerHTML = '<div class="col-span-2 p-8 text-center text-slate-400 bg-slate-50 rounded-xl border border-dashed border-slate-300">No documents yet.</div>';
+                    docs.forEach(d => { 
+                        const url = URL.createObjectURL(d.data); 
+                        list.innerHTML += `<div class="bg-white p-4 rounded-xl border border-slate-100 flex items-center gap-4 hover:shadow-md transition-shadow"><div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center text-brand-teal"><i data-lucide="file-text" class="w-5 h-5"></i></div><div class="flex-1"><p class="font-bold text-sm text-brand-navy truncate">${d.fileName}</p><p class="text-xs text-slate-400">${d.date}</p></div><a href="${url}" download="${d.fileName}" class="text-slate-300 hover:text-brand-teal"><i data-lucide="download" class="w-5 h-5"></i></a></div>`; 
+                    }); 
+                    lucide.createIcons(); 
+                }; 
+            },
+            saveToVault: async function() {
+                const s = document.getElementById('vault-service').value; const u = document.getElementById('vault-user').value; const p = document.getElementById('vault-pass').value;
+                if(!s || !u || !p) return this.showToast("Error", "All fields required");
+                const encryptedData = await this.security.encrypt(JSON.stringify({ user: u, pass: p }), this.currentClientPin); 
+                const tx = this.db.transaction(['vault'], 'readwrite'); tx.objectStore('vault').add({ clientEmail: this.currentClientEmail, service: s, data: encryptedData, date: new Date().toLocaleDateString() });
+                this.showToast("Secure", "Stored."); this.renderVault(); document.getElementById('vault-pass').value = '';
+            },
+            renderVault: function() { 
+                const tx = this.db.transaction(['vault'], 'readonly'); 
+                tx.objectStore('vault').getAll().onsuccess = async (e) => { 
+                    const items = e.target.result.filter(i => i.clientEmail === this.currentClientEmail); 
+                    const list = document.getElementById('vault-list'); list.innerHTML = '';
+                    if(items.length === 0) { list.innerHTML = '<p class="text-slate-400 text-sm italic">Vault empty.</p>'; return; }
+                    for(const item of items) { 
+                        try { const json = await this.security.decrypt(item.data, this.currentClientPin); if(!json) continue; const c = JSON.parse(json); 
+                        list.innerHTML += `<div class="bg-slate-50 p-4 rounded-xl border border-slate-100 flex justify-between items-center"><div class="text-sm"><p class="font-bold text-brand-navy">${item.service}</p><p class="text-xs font-mono text-slate-500">${c.user} / ••••••</p></div><button onclick="CroesApp.deleteVaultItem(${item.id})" class="text-slate-300 hover:text-red-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>`; } catch(e) {} 
+                    } lucide.createIcons();
+                }; 
+            },
+            deleteVaultItem: function(id) { if(confirm("Destroy?")) { const tx = this.db.transaction(['vault'], 'readwrite'); tx.objectStore('vault').delete(id); this.renderVault(); } },
+            
             security: { key: null, deriveKey: async function(password) { const enc = new TextEncoder(); const keyMaterial = await crypto.subtle.importKey("raw", enc.encode(password), { name: "PBKDF2" }, false, ["deriveKey"]); return crypto.subtle.deriveKey({ name: "PBKDF2", salt: enc.encode("CROES_SALT_V1"), iterations: 100000, hash: "SHA-256" }, keyMaterial, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]); }, encrypt: async function(text, password) { const key = await this.deriveKey(password); const iv = crypto.getRandomValues(new Uint8Array(12)); const encoded = new TextEncoder().encode(text); const encrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv: iv }, key, encoded); const combined = new Uint8Array(iv.length + new Uint8Array(encrypted).length); combined.set(iv); combined.set(new Uint8Array(encrypted), iv.length); return btoa(String.fromCharCode(...combined)); }, decrypt: async function(encryptedBase64, password) { try { const str = atob(encryptedBase64); const buffer = new Uint8Array(str.length); for (let i = 0; i < str.length; i++) buffer[i] = str.charCodeAt(i); const iv = buffer.slice(0, 12); const data = buffer.slice(12); const key = await this.deriveKey(password); const decrypted = await crypto.subtle.decrypt({ name: "AES-GCM", iv: iv }, key, data); return new TextDecoder().decode(decrypted); } catch (e) { return null; } } },
             toggleEdit: function(enable) { const toolbar = document.getElementById('edit-toolbar'); if (enable) { document.body.classList.add('editing-active'); toolbar.classList.remove('hidden'); document.getElementById('back-office').classList.add('hidden'); document.querySelectorAll('[data-editable="true"]').forEach(el => el.contentEditable = "true"); } else { document.body.classList.remove('editing-active'); toolbar.classList.add('hidden'); document.querySelectorAll('[data-editable="true"]').forEach(el => el.contentEditable = "false"); } },
             saveEdits: function() { this.showToast("Saved", "Changes published."); },
             calculateTax: function() { const v = parseFloat(document.getElementById('calc-input').value)||0; const t = v * 0.07; const tot = v + t; document.getElementById('res-sub').innerText = 'ƒ '+v.toFixed(2); document.getElementById('res-tax').innerText = '+ ƒ '+t.toFixed(2); document.getElementById('res-total').innerText = 'ƒ '+tot.toFixed(2); const w = v+t; document.getElementById('bar-sub').style.width = (v/w)*100 + '%'; document.getElementById('bar-tax').style.width = (t/w)*100 + '%'; },
-            initDates: function() { const today = new Date(); let year = today.getFullYear(); let month = today.getMonth(); let deadline = new Date(year, month, 15); if (today.getDate() > 15) { deadline = new Date(year, month + 1, 15); } const diffDays = Math.ceil(Math.abs(deadline - today) / (1000 * 60 * 60 * 24)); document.getElementById('days-left').innerText = diffDays; document.getElementById('deadline-date').innerText = deadline.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }); },
-            sendClientMessage: function() { const val = document.getElementById('msg-input').value; if(!val) return; const tx = this.db.transaction(['messages'], 'readwrite'); tx.objectStore('messages').add({ clientEmail: this.currentClientEmail, text: val, sender: 'client', date: new Date().toLocaleTimeString() }); document.getElementById('msg-container').innerHTML += `<div class="bg-brand-teal text-white p-3 rounded-2xl rounded-tr-none ml-auto w-fit max-w-[80%] text-sm shadow-md mb-2">${val}</div>`; document.getElementById('msg-input').value = ''; },
+            sendClientMessage: function() { const val = document.getElementById('msg-input').value; if(!val) return; const tx = this.db.transaction(['messages'], 'readwrite'); tx.objectStore('messages').add({ clientEmail: this.currentClientEmail, text: val, sender: 'client', date: new Date().toLocaleTimeString() }); document.getElementById('msg-container').innerHTML += `<div class="ml-auto bg-brand-teal text-white p-3 rounded-2xl rounded-tr-none w-fit max-w-[80%] text-sm shadow-md mb-2">${val}</div>`; document.getElementById('msg-input').value = ''; },
             switchPortalTab: function(tab) { ['dash','docs','msgs', 'vault'].forEach(t => document.getElementById('portal-'+t).classList.add('hidden')); document.getElementById('portal-'+tab).classList.remove('hidden'); document.querySelectorAll('.portal-nav-btn').forEach(b => b.classList.remove('active')); event.currentTarget.classList.add('active'); if(tab === 'msgs') this.renderClientChat(); },
-            renderClientChat: function() { const tx = this.db.transaction(['messages'], 'readonly'); tx.objectStore('messages').getAll().onsuccess = (e) => { const msgs = e.target.result.filter(m => m.clientEmail === this.currentClientEmail); const con = document.getElementById('msg-container'); con.innerHTML = ''; msgs.forEach(m => { const isMe = m.sender === 'client'; con.innerHTML += `<div class="${isMe ? 'ml-auto bg-brand-teal text-white rounded-tr-none' : 'mr-auto bg-white text-slate-600 rounded-tl-none'} p-3 rounded-2xl w-fit max-w-[80%] text-sm shadow-sm mb-2">${m.text}</div>`; }); }; }
+            renderClientChat: function() { const tx = this.db.transaction(['messages'], 'readonly'); tx.objectStore('messages').getAll().onsuccess = (e) => { const msgs = e.target.result.filter(m => m.clientEmail === this.currentClientEmail); const con = document.getElementById('msg-container'); con.innerHTML = ''; msgs.forEach(m => { const isMe = m.sender === 'client'; con.innerHTML += `<div class="${isMe ? 'ml-auto bg-brand-teal text-white rounded-tr-none' : 'mr-auto bg-white text-slate-600 rounded-tl-none'} p-3 rounded-2xl w-fit max-w-[80%] text-sm shadow-sm mb-2">${m.text}</div>`; }); }; },
+            handleCardClick: function() {},
+            deleteItem: function(btn) { if(confirm("Delete item?")) btn.closest('.brand-card').remove(); },
+            triggerPhotoUpload: function(el) {},
+            toggleMobileMenu: function() { const m = document.getElementById('mobile-menu'); m.classList.toggle('hidden'); m.classList.toggle('flex'); }
         };
 
+        function togglePass() { const i = document.getElementById('vault-pass'); i.type = i.type === 'password' ? 'text' : 'password'; }
         CroesApp.init();
     </script>
 </body>
