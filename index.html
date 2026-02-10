@@ -71,8 +71,8 @@
     <div id="preloader" class="fixed inset-0 bg-white z-[99999] flex items-center justify-center transition-opacity duration-500">
         <div class="text-center">
             <div class="w-16 h-16 border-4 border-slate-100 border-t-brand-navy rounded-full animate-spin mx-auto mb-4"></div>
-            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes v9.1</p>
-            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">Fail-Safe Active</p>
+            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes v10.0</p>
+            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">Admin Chat & Live Email</p>
         </div>
     </div>
 
@@ -351,7 +351,7 @@
     <section id="back-office" class="hidden fixed inset-0 z-[99999] bg-slate-50 overflow-y-auto">
         <div class="max-w-7xl mx-auto p-8 pt-24">
             <div class="flex justify-between items-center mb-10">
-                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v9.1 • Secured</p></div>
+                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v10.0 • Secured</p></div>
                 <div class="flex gap-4">
                     <a href="https://workplace.zoho.com/#mail_app/mail/folder/inbox" target="_blank" class="flex items-center gap-2 bg-white text-brand-navy border border-slate-200 px-5 py-2.5 rounded-xl font-bold shadow-sm hover:bg-slate-50 transition-colors"><i data-lucide="mail" class="w-4 h-4"></i> Check Mail</a>
                     <button onclick="CroesApp.logout()" class="text-red-500 font-bold hover:bg-red-50 px-4 py-2 rounded-lg transition-colors">Log Out</button>
@@ -367,6 +367,7 @@
             <div class="flex gap-4 mb-10 overflow-x-auto pb-2">
                 <button onclick="CroesApp.switchAdminTab('inbox')" class="px-6 py-2.5 rounded-full font-bold text-sm transition-all bg-brand-navy text-white shadow-lg" id="btn-inbox">Inbox</button>
                 <button onclick="CroesApp.switchAdminTab('clients')" class="px-6 py-2.5 rounded-full font-bold text-sm transition-all bg-white text-slate-500 hover:bg-white hover:text-brand-navy shadow-sm" id="btn-clients">Client Files</button>
+                <button onclick="CroesApp.switchAdminTab('messages')" class="px-6 py-2.5 rounded-full font-bold text-sm transition-all bg-white text-slate-500 hover:bg-white hover:text-brand-navy shadow-sm" id="btn-messages">Messages</button>
                 <button onclick="CroesApp.switchAdminTab('cms')" class="px-6 py-2.5 rounded-full font-bold text-sm transition-all bg-white text-slate-500 hover:bg-white hover:text-brand-navy shadow-sm" id="btn-cms">Site Editor</button>
             </div>
             
@@ -400,6 +401,23 @@
 
                     <div id="client-repo-list" class="grid gap-3 overflow-y-auto max-h-[500px] pr-2">
                         </div>
+                </div>
+            </div>
+
+            <div id="admin-messages" class="hidden">
+                <div class="grid grid-cols-3 gap-6 h-[600px]">
+                    <div class="col-span-1 bg-white rounded-3xl border border-slate-100 p-6 overflow-y-auto">
+                        <h3 class="font-bold text-brand-navy mb-4">Active Chats</h3>
+                        <div id="admin-chat-list" class="space-y-2"></div>
+                    </div>
+                    <div class="col-span-2 bg-white rounded-3xl border border-slate-100 p-0 flex flex-col overflow-hidden">
+                        <div class="p-4 border-b border-slate-100 bg-slate-50/50 font-bold text-brand-navy" id="admin-chat-header">Select a client to chat</div>
+                        <div id="admin-chat-window" class="flex-1 overflow-y-auto p-6 space-y-4 bg-slate-50"></div>
+                        <div class="p-4 bg-white border-t border-slate-100 flex gap-3">
+                            <input type="text" id="admin-msg-input" placeholder="Type a reply..." class="flex-1 p-3 bg-slate-50 border-0 rounded-xl outline-none focus:ring-2 focus:ring-brand-teal transition-all">
+                            <button onclick="CroesApp.sendAdminMessage()" class="bg-brand-teal text-white p-3 rounded-xl hover:bg-brand-navy transition-colors shadow-lg"><i data-lucide="send" class="w-5 h-5"></i></button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -438,7 +456,7 @@
 
     <script>
         const CroesApp = {
-            db: null, currentClientEmail: null, currentClientPin: null, targetImgEl: null,
+            db: null, currentClientEmail: null, currentClientPin: null, targetImgEl: null, activeChatClient: null,
             emailInitialized: false,
 
             // EMAIL CONFIGURATION
@@ -488,7 +506,7 @@
             
             // --- DATABASE ---
             initDB: function() {
-                const request = indexedDB.open("CroesDBv9", 1); // Bump to v9 to ensure clean creation
+                const request = indexedDB.open("CroesDBv10", 1); // Bump to v10
                 request.onupgradeneeded = (e) => { 
                     const d = e.target.result; 
                     if(!d.objectStoreNames.contains('files')) d.createObjectStore('files', { keyPath: 'id', autoIncrement: true }); 
@@ -496,11 +514,11 @@
                     if(!d.objectStoreNames.contains('vault')) d.createObjectStore('vault', { keyPath: 'id', autoIncrement: true });
                     if(!d.objectStoreNames.contains('messages')) d.createObjectStore('messages', { keyPath: 'id', autoIncrement: true });
                     if(!d.objectStoreNames.contains('clients')) {
-                        const store = d.createObjectStore('clients', { keyPath: 'email' }); // Email is unique key
+                        const store = d.createObjectStore('clients', { keyPath: 'email' });
                         store.add({ email: 'client@email.com', pin: '123456', name: 'Demo Client', status: 'Processing', phone: '555-0000' });
                     }
                 };
-                request.onsuccess = (e) => { this.db = e.target.result; this.updateStats(); console.log("DB Ready v9.1"); };
+                request.onsuccess = (e) => { this.db = e.target.result; this.updateStats(); console.log("DB Ready v10.0"); };
             },
 
             initUI: function() {
@@ -535,7 +553,7 @@
             
             logout: function() { document.getElementById('back-office').classList.add('hidden'); document.body.classList.remove('editing-active'); this.toggleEdit(false); },
             
-            switchAdminTab: function(tab) { ['inbox','cms','clients'].forEach(t => { document.getElementById('admin-'+t).classList.add('hidden'); document.getElementById('btn-'+t).classList.remove('bg-brand-navy', 'text-white', 'shadow-lg'); document.getElementById('btn-'+t).classList.add('bg-white', 'text-slate-500', 'shadow-sm'); }); document.getElementById('admin-'+tab).classList.remove('hidden'); document.getElementById('btn-'+tab).classList.remove('bg-white', 'text-slate-500', 'shadow-sm'); document.getElementById('btn-'+tab).classList.add('bg-brand-navy', 'text-white', 'shadow-lg'); if(tab === 'clients') this.renderAdminRepo(); },
+            switchAdminTab: function(tab) { ['inbox','cms','clients','messages'].forEach(t => { document.getElementById('admin-'+t).classList.add('hidden'); document.getElementById('btn-'+t).classList.remove('bg-brand-navy', 'text-white', 'shadow-lg'); document.getElementById('btn-'+t).classList.add('bg-white', 'text-slate-500', 'shadow-sm'); }); document.getElementById('admin-'+tab).classList.remove('hidden'); document.getElementById('btn-'+tab).classList.remove('bg-white', 'text-slate-500', 'shadow-sm'); document.getElementById('btn-'+tab).classList.add('bg-brand-navy', 'text-white', 'shadow-lg'); if(tab === 'clients') this.renderAdminRepo(); if(tab === 'messages') this.renderAdminChatList(); },
             
             renderDashboard: function() {
                 if(!this.db) return;
@@ -578,7 +596,7 @@
                             date: data.date,
                             message: `Your appointment for ${data.service} on ${data.date} has been officially confirmed.`
                         }).then(() => { this.showToast("Sent", "Confirmation email sent."); })
-                          .catch((err) => { console.error(err); this.showToast("Warning", "Email failed (Check Limit)."); });
+                          .catch((err) => { console.error(err); alert(`EMAIL FAIL: ${err.text}`); });
                     }
                 }; 
             },
@@ -586,7 +604,7 @@
             deleteBooking: function(id) { if(confirm("Delete record?")) { const tx = this.db.transaction(['bookings'], 'readwrite'); tx.objectStore('bookings').delete(id); this.renderDashboard(); this.updateStats(); } },
             searchAdmin: function(query) { const rows = document.querySelectorAll('#booking-list tr'); rows.forEach(row => { row.style.display = row.innerText.toLowerCase().includes(query.toLowerCase()) ? '' : 'none'; }); },
             
-            // --- SYNC ENGINE (Robust Version) ---
+            // --- SYNC ENGINE ---
             addClient: function() {
                 const name = document.getElementById('new-client-name').value;
                 const email = document.getElementById('new-client-email').value;
@@ -596,33 +614,27 @@
                 
                 const tx = this.db.transaction(['clients'], 'readwrite');
                 const store = tx.objectStore('clients');
-                
-                // Add with explicit error handling
                 const request = store.add({ name, email, pin, phone, status: 'Uploaded', joined: new Date().toLocaleDateString() });
                 
-                request.onsuccess = () => {
-                    this.showToast("Success", "Client created.");
-                    document.getElementById('add-client-form').classList.add('hidden');
-                    this.renderAdminRepo();
-                    
-                    // Email logic detached from DB success to prevent UI freezing
+                request.onsuccess = () => { 
+                    this.showToast("Success", "Client created."); 
+                    document.getElementById('add-client-form').classList.add('hidden'); 
+                    this.renderAdminRepo(); 
+
                     if(this.emailConfig.publicKey) {
                         if(!this.emailInitialized) { emailjs.init(this.emailConfig.publicKey); this.emailInitialized = true; }
                         emailjs.send(this.emailConfig.serviceId, this.emailConfig.confirmTemplateId, {
-                            title: "Account Created",
+                            title: "Account Created", 
                             to_name: name,
                             to_email: email,
                             service_name: "Client Portal Access",
                             date: new Date().toLocaleDateString(),
                             message: `Welcome to Accounting Croes. Your secure Login PIN is: ${pin}. Please keep this safe.`
-                        }).catch(e => console.warn("Email failed but client saved:", e));
+                        }).then(() => { this.showToast("Sent", "Welcome email with PIN sent."); })
+                          .catch((err) => { alert(`EMAIL FAIL: ${err.text}`); });
                     }
                 };
-                
-                request.onerror = (e) => {
-                    this.showToast("Error", "Client email already exists.");
-                    console.error("DB Error:", e.target.error);
-                };
+                request.onerror = (e) => { this.showToast("Error", "Email already exists."); };
             },
 
             renderAdminRepo: function() {
@@ -638,7 +650,6 @@
                     clients.forEach(c => {
                         const clientFiles = files.filter(f => f.clientEmail === c.email);
                         let statusColor = c.status === 'Processing' ? 'bg-blue-50 text-brand-teal' : c.status === 'Review' ? 'bg-orange-50 text-orange-600' : c.status === 'Filed' ? 'bg-green-50 text-green-600' : 'bg-slate-100 text-slate-500';
-                        
                         let filesHtml = '';
                         if(clientFiles.length > 0) {
                             filesHtml = `<div class="mt-3 space-y-2 bg-slate-50 p-3 rounded-xl">`;
@@ -648,11 +659,85 @@
                             });
                             filesHtml += `</div>`;
                         }
-
                         container.innerHTML += `<div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm group hover:border-brand-teal transition-all"><div class="flex justify-between items-start mb-4"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-brand-surface flex items-center justify-center font-bold text-brand-navy">${c.name.substring(0,2).toUpperCase()}</div><div><h4 class="font-bold text-brand-navy text-sm">${c.name}</h4><p class="text-xs text-slate-400 font-mono">${c.email} <span class="bg-slate-100 px-1 rounded ml-1 text-[10px]">PIN: ${c.pin}</span></p></div></div><div class="text-right"><select onchange="CroesApp.updateClientStatus('${c.email}', this.value)" class="text-xs font-bold rounded-lg py-1 px-2 border-0 cursor-pointer outline-none ${statusColor}"><option value="Uploaded" ${c.status === 'Uploaded' ? 'selected' : ''}>Uploaded</option><option value="Processing" ${c.status === 'Processing' ? 'selected' : ''}>Processing</option><option value="Review" ${c.status === 'Review' ? 'selected' : ''}>Review</option><option value="Filed" ${c.status === 'Filed' ? 'selected' : ''}>Filed</option></select></div></div><div class="flex items-center justify-between border-t border-slate-50 pt-3 mt-3"><span class="text-xs font-bold text-slate-400 flex items-center gap-1"><i data-lucide="file" class="w-3 h-3"></i> ${clientFiles.length} Files</span><div class="flex gap-2"><button onclick="CroesApp.uploadToClient('${c.email}')" class="text-xs bg-brand-surface hover:bg-brand-navy hover:text-white px-3 py-1.5 rounded-lg font-bold text-brand-navy transition-colors flex items-center gap-1"><i data-lucide="upload-cloud" class="w-3 h-3"></i> Send File</button></div></div>${filesHtml}</div>`;
                     });
                     lucide.createIcons();
                 };
+            },
+
+            // --- ADMIN CHAT MODULE ---
+            renderAdminChatList: function() {
+                const tx = this.db.transaction(['messages', 'clients'], 'readonly');
+                let messages = [], clients = [];
+                tx.objectStore('messages').getAll().onsuccess = (e) => { messages = e.target.result; };
+                tx.objectStore('clients').getAll().onsuccess = (e) => {
+                    clients = e.target.result;
+                    const uniqueEmails = [...new Set(messages.map(m => m.clientEmail))];
+                    const list = document.getElementById('admin-chat-list');
+                    list.innerHTML = '';
+                    uniqueEmails.forEach(email => {
+                        const clientName = clients.find(c => c.email === email)?.name || email;
+                        list.innerHTML += `<div onclick="CroesApp.openAdminChat('${email}')" class="p-3 bg-slate-50 rounded-xl cursor-pointer hover:bg-brand-teal hover:text-white transition-colors"><p class="font-bold text-sm">${clientName}</p><p class="text-xs opacity-70">${email}</p></div>`;
+                    });
+                };
+            },
+            openAdminChat: function(email) {
+                this.activeChatClient = email;
+                document.getElementById('admin-chat-header').innerText = `Chat with ${email}`;
+                this.renderAdminChatWindow();
+            },
+            renderAdminChatWindow: function() {
+                if(!this.activeChatClient) return;
+                const tx = this.db.transaction(['messages'], 'readonly');
+                tx.objectStore('messages').getAll().onsuccess = (e) => {
+                    const chats = e.target.result.filter(m => m.clientEmail === this.activeChatClient);
+                    const win = document.getElementById('admin-chat-window');
+                    win.innerHTML = '';
+                    chats.forEach(c => {
+                        const isMe = c.sender === 'admin';
+                        win.innerHTML += `<div class="${isMe ? 'ml-auto bg-brand-navy text-white rounded-br-none' : 'mr-auto bg-white text-slate-600 rounded-bl-none'} p-3 rounded-2xl w-fit max-w-[80%] text-sm shadow-sm mb-2"><p>${c.text}</p><span class="text-[10px] opacity-50 block text-right mt-1">${c.date}</span></div>`;
+                    });
+                    win.scrollTop = win.scrollHeight;
+                };
+            },
+            sendAdminMessage: function() {
+                const val = document.getElementById('admin-msg-input').value;
+                if(!val || !this.activeChatClient) return;
+                const tx = this.db.transaction(['messages'], 'readwrite');
+                tx.objectStore('messages').add({ clientEmail: this.activeChatClient, text: val, sender: 'admin', date: new Date().toLocaleTimeString() });
+                document.getElementById('admin-msg-input').value = '';
+                this.renderAdminChatWindow();
+            },
+
+            // --- CLIENT CHAT UPDATE ---
+            sendClientMessage: function() { 
+                const val = document.getElementById('msg-input').value; 
+                if(!val) return; 
+                const tx = this.db.transaction(['messages'], 'readwrite');
+                tx.objectStore('messages').add({ clientEmail: this.currentClientEmail, text: val, sender: 'client', date: new Date().toLocaleTimeString() });
+                document.getElementById('msg-container').innerHTML += `<div class="bg-brand-teal text-white p-3 rounded-2xl rounded-tr-none ml-auto w-fit max-w-[80%] text-sm shadow-md mb-2">${val}</div>`; 
+                document.getElementById('msg-input').value = ''; 
+            },
+            // Render Client Chat (Now checks sender)
+            renderClientChat: function() {
+                const tx = this.db.transaction(['messages'], 'readonly');
+                tx.objectStore('messages').getAll().onsuccess = (e) => {
+                    const msgs = e.target.result.filter(m => m.clientEmail === this.currentClientEmail);
+                    const con = document.getElementById('msg-container');
+                    con.innerHTML = '';
+                    msgs.forEach(m => {
+                        const isMe = m.sender === 'client';
+                        con.innerHTML += `<div class="${isMe ? 'ml-auto bg-brand-teal text-white rounded-tr-none' : 'mr-auto bg-white text-slate-600 rounded-tl-none'} p-3 rounded-2xl w-fit max-w-[80%] text-sm shadow-sm mb-2">${m.text}</div>`;
+                    });
+                };
+            },
+            // Hook this into switchPortalTab
+            switchPortalTab: function(tab) { 
+                ['dash','docs','msgs', 'vault'].forEach(t => document.getElementById('portal-'+t).classList.add('hidden')); 
+                document.getElementById('portal-'+tab).classList.remove('hidden'); 
+                document.querySelectorAll('.portal-nav-btn').forEach(b => b.classList.remove('active')); 
+                event.currentTarget.classList.add('active'); 
+                if(tab === 'msgs') this.renderClientChat();
             },
 
             deleteClientFile: function(id) {
@@ -707,8 +792,8 @@
                     this.showToast("Success", "Request Sent! We'll contact you.");
                 }).catch((err) => {
                     console.error("EmailJS Failed:", err);
+                    alert(`EMAIL ERROR: ${err.text}`); // Aggressive error reporting
                     this.saveBookingToDB(bookingData);
-                    this.showToast("Saved", "Request saved (Network error).");
                 }).finally(() => {
                     btn.innerText = originalText;
                     btn.disabled = false;
@@ -753,7 +838,7 @@
                                 date: new Date().toLocaleTimeString(),
                                 message: `SECURITY ALERT: Your Login PIN is: ${client.pin} . Do not share this.`
                             }).then(() => { this.showToast("Sent", "PIN sent to your email."); })
-                              .catch(() => { alert(`DEMO: Your PIN is ${client.pin} (Email Limit Reached)`); });
+                              .catch((err) => { alert(`DEMO: Your PIN is ${client.pin} (${err.text})`); });
                         }
 
                         this.currentClientEmail = email;
@@ -797,7 +882,6 @@
             },
 
             logoutClient: function() { document.getElementById('client-portal').classList.add('hidden'); document.getElementById('public-view').classList.remove('hidden'); this.currentClientEmail = null; this.currentClientPin = null; },
-            switchPortalTab: function(tab) { ['dash','docs','msgs', 'vault'].forEach(t => document.getElementById('portal-'+t).classList.add('hidden')); document.getElementById('portal-'+tab).classList.remove('hidden'); document.querySelectorAll('.portal-nav-btn').forEach(b => b.classList.remove('active')); event.currentTarget.classList.add('active'); },
             
             handleFileUpload: function(input) {
                 if(input.files.length > 0) {
@@ -848,64 +932,3 @@
                     for(const item of items) {
                         try {
                             const decryptedJson = await this.security.decrypt(item.data, this.currentClientPin);
-                            if(!decryptedJson) continue;
-                            const creds = JSON.parse(decryptedJson);
-                            list.innerHTML += `<div class="p-4 bg-slate-50 border border-slate-100 rounded-xl group hover:border-brand-teal transition-colors"><div class="flex justify-between items-center mb-2"><span class="font-bold text-brand-navy">${item.service}</span><button onclick="CroesApp.deleteVaultItem(${item.id})" class="text-slate-300 hover:text-red-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="text-xs text-slate-500 font-mono bg-white p-2 rounded border border-slate-100 flex justify-between"><span>${creds.user}</span><span class="tracking-widest">••••••</span></div></div>`;
-                        } catch(err) { console.error("Decrypt Error", err); }
-                    }
-                    lucide.createIcons();
-                };
-            },
-            deleteVaultItem: function(id) { if(confirm("Destroy this credential?")) { const tx = this.db.transaction(['vault'], 'readwrite'); tx.objectStore('vault').delete(id); this.renderVault(); } },
-            
-            toggleEdit: function(enable) {
-                const toolbar = document.getElementById('edit-toolbar');
-                if (enable) { document.body.classList.add('editing-active'); toolbar.classList.remove('hidden'); document.getElementById('back-office').classList.add('hidden'); document.querySelectorAll('[data-editable="true"]').forEach(el => el.contentEditable = "true"); if(!document.getElementById('add-svc-btn')) { document.getElementById('services-header').insertAdjacentHTML('beforeend', `<button id="add-svc-btn" onclick="CroesApp.addItem('services')" class="admin-control mx-auto mt-6 bg-brand-teal text-white px-6 py-2 rounded-full font-bold shadow-lg hover:bg-brand-navy transition-all flex items-center gap-2"><i data-lucide="plus-circle" class="w-4 h-4"></i> Add Service Card</button>`); } if(!document.getElementById('add-team-btn')) { document.getElementById('team-header').insertAdjacentHTML('beforeend', `<button id="add-team-btn" onclick="CroesApp.addItem('team')" class="admin-control mx-auto mt-6 bg-brand-teal text-white px-6 py-2 rounded-full font-bold shadow-lg hover:bg-brand-navy transition-all flex items-center gap-2"><i data-lucide="user-plus" class="w-4 h-4"></i> Add Team Member</button>`); } lucide.createIcons(); this.showToast("Editor Enabled", "Hover photos to change them."); } else { document.body.classList.remove('editing-active'); toolbar.classList.add('hidden'); document.querySelectorAll('[data-editable="true"]').forEach(el => el.contentEditable = "false"); }
-            },
-            saveEdits: function() { const changes = {}; document.querySelectorAll('[data-editable="true"]').forEach(el => { if(el.id) { changes[el.id] = el.innerHTML; localStorage.setItem('cms_' + el.id, el.innerHTML); } }); localStorage.setItem('cms_structure_services', document.getElementById('services-grid').innerHTML); localStorage.setItem('cms_structure_team', document.getElementById('team-grid').innerHTML); this.showToast("Saved", "Changes published."); },
-            addItem: function(type) { 
-                const gridId = type === 'services' ? 'services-grid' : 'team-grid'; 
-                const grid = document.getElementById(gridId); 
-                let html = ''; 
-                if(type === 'services') { html = `<div class="brand-card reveal active" onclick="CroesApp.handleCardClick(this, 'new')"><div class="absolute top-4 right-4 z-20 admin-control"><button onclick="CroesApp.deleteItem(this); event.stopPropagation();" class="bg-red-500 text-white p-3 rounded-full shadow-lg hover:bg-red-600 transition-colors"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="absolute inset-0 z-0"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-100"><div class="absolute inset-0 card-overlay"></div></div><div class="relative z-10 p-10 flex items-start"><div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/30 shadow-lg"><i data-lucide="star" class="w-8 h-8"></i></div></div><div class="relative z-10 p-10 pt-0 mt-auto flex flex-col justify-end"><h3 class="text-3xl font-bold text-white mb-3" data-editable="true">New Service</h3><p class="text-slate-200 leading-relaxed mb-8 font-medium" data-editable="true">Description.</p><span class="inline-flex items-center gap-2 bg-brand-navy/90 px-6 py-3 rounded-full backdrop-blur-md border border-white/10 text-xs font-bold text-brand-accent uppercase tracking-wide w-fit">Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span></div></div>`; } 
-                else { html = `<div class="group cursor-pointer relative reveal active"><div class="absolute top-4 right-4 z-20 admin-control"><button onclick="CroesApp.deleteItem(this)" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="relative overflow-hidden rounded-[2rem] mb-6 shadow-xl aspect-[4/5] border border-slate-100 group-hover:shadow-2xl transition-all"><img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"><div class="photo-upload-overlay absolute inset-0 bg-brand-navy/60 backdrop-blur-sm hidden items-center justify-center z-10 cursor-pointer" onclick="CroesApp.triggerPhotoUpload(this.previousElementSibling)"><div class="bg-white p-4 rounded-full shadow-xl"><i data-lucide="camera" class="w-6 h-6 text-brand-navy"></i></div></div><div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8"><p class="text-white text-sm font-medium italic" data-editable="true">"New Member"</p></div></div><h3 class="text-2xl font-bold text-brand-navy" data-editable="true">Name</h3><p class="text-brand-teal font-bold text-xs tracking-widest uppercase mt-1" data-editable="true">Role</p></div>`; } 
-                grid.insertAdjacentHTML('beforeend', html); 
-                lucide.createIcons(); 
-                if(document.body.classList.contains('editing-active')) grid.lastElementChild.querySelectorAll('[data-editable="true"]').forEach(el => el.contentEditable = "true"); 
-            },
-            deleteItem: function(btn) { if(confirm("Delete this item?")) { btn.closest('.brand-card, .group').remove(); this.saveEdits(); } },
-            handleCardClick: function(el, id) { if(document.body.classList.contains('editing-active')) return; },
-            toggleMobileMenu: function() { const m = document.getElementById('mobile-menu'); m.classList.toggle('hidden'); },
-            sendClientMessage: function() { 
-                const val = document.getElementById('msg-input').value; 
-                if(!val) return; 
-                const tx = this.db.transaction(['messages'], 'readwrite');
-                tx.objectStore('messages').add({ clientEmail: this.currentClientEmail, text: val, sender: 'client', date: new Date().toLocaleTimeString() });
-                document.getElementById('msg-container').innerHTML += `<div class="bg-brand-teal text-white p-3 rounded-2xl rounded-tr-none ml-auto w-fit max-w-[80%] text-sm shadow-md mb-2">${val}</div>`; 
-                document.getElementById('msg-input').value = ''; 
-            },
-            calculateTax: function() { const v = parseFloat(document.getElementById('calc-input').value)||0; const t = v * 0.07; const tot = v + t; document.getElementById('res-sub').innerText = 'ƒ '+v.toFixed(2); document.getElementById('res-tax').innerText = '+ ƒ '+t.toFixed(2); document.getElementById('res-total').innerText = 'ƒ '+tot.toFixed(2); const w = v+t; document.getElementById('bar-sub').style.width = (v/w)*100 + '%'; document.getElementById('bar-tax').style.width = (t/w)*100 + '%'; },
-            initDates: function() { const today = new Date(); let year = today.getFullYear(); let month = today.getMonth(); let deadline = new Date(year, month, 15); if (today.getDate() > 15) { deadline = new Date(year, month + 1, 15); } const diffDays = Math.ceil(Math.abs(deadline - today) / (1000 * 60 * 60 * 24)); document.getElementById('days-left').innerText = diffDays; document.getElementById('deadline-date').innerText = deadline.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }); },
-            
-            triggerPhotoUpload: function(imgEl) { this.targetImgEl = imgEl; document.getElementById('cms-photo-input').click(); },
-            handlePhotoUpload: function(input) {
-                if(input.files && input.files[0]) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        const img = new Image(); img.src = e.target.result;
-                        img.onload = () => {
-                            const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); const MAX_WIDTH = 600; const scaleSize = MAX_WIDTH / img.width; canvas.width = MAX_WIDTH; canvas.height = img.height * scaleSize; ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                            const compressedData = canvas.toDataURL('image/jpeg', 0.7);
-                            if(this.targetImgEl) { this.targetImgEl.src = compressedData; this.saveEdits(); this.showToast("Success", "Photo updated & compressed."); }
-                        };
-                    };
-                    reader.readAsDataURL(input.files[0]);
-                }
-            }
-        };
-
-        window.CroesApp = CroesApp;
-        CroesApp.init();
-    </script>
-</body>
-</html>
