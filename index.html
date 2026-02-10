@@ -52,8 +52,8 @@
     <div id="preloader" class="fixed inset-0 bg-white z-[99999] flex items-center justify-center transition-opacity duration-500">
         <div class="text-center">
             <div class="w-16 h-16 border-4 border-slate-100 border-t-brand-navy rounded-full animate-spin mx-auto mb-4"></div>
-            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes v11.1</p>
-            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">Debug Mode Active</p>
+            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes v11.2</p>
+            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">ID Correction Applied</p>
         </div>
     </div>
 
@@ -128,6 +128,70 @@
                 </div>
             </section>
 
+            <section id="tools" class="py-24 scroll-mt-24">
+                <div class="max-w-5xl mx-auto px-6">
+                    <div class="bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 overflow-hidden reveal">
+                        <div class="grid md:grid-cols-2">
+                            <div class="p-12 md:p-16">
+                                <div class="flex items-center gap-4 mb-8">
+                                    <div class="p-3 bg-blue-50 text-brand-navy rounded-xl"><i data-lucide="percent" class="w-6 h-6"></i></div>
+                                    <h2 class="text-3xl font-bold text-brand-navy">BBO Estimator</h2>
+                                </div>
+                                <div class="relative mb-10">
+                                    <span class="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-2xl">ƒ</span>
+                                    <input type="number" id="calc-input" placeholder="0.00" class="w-full bg-slate-50 border-0 rounded-2xl py-5 pl-12 pr-6 text-3xl font-bold text-brand-navy outline-none focus:ring-2 focus:ring-brand-teal transition-all" oninput="CroesApp.calculateTax()">
+                                </div>
+                                <div class="h-2 w-full bg-slate-100 rounded-full mb-6 overflow-hidden flex">
+                                    <div id="bar-sub" class="bg-brand-navy h-full transition-all duration-500" style="width: 0%"></div>
+                                    <div id="bar-tax" class="bg-brand-teal h-full transition-all duration-500" style="width: 0%"></div>
+                                </div>
+                                <div class="space-y-5">
+                                    <div class="flex justify-between items-center text-slate-500 font-medium"><span>Subtotal</span><span id="res-sub">ƒ 0.00</span></div>
+                                    <div class="flex justify-between items-center text-slate-500 font-medium"><span>BBO/BAZV (7%)</span><span id="res-tax" class="text-brand-teal font-bold">+ ƒ 0.00</span></div>
+                                    <div class="h-px bg-slate-100 my-2"></div>
+                                    <div class="flex justify-between items-center"><span class="font-bold text-brand-navy text-lg">Total Invoice</span><span id="res-total" class="font-extrabold text-3xl text-brand-navy">ƒ 0.00</span></div>
+                                </div>
+                            </div>
+                            <div class="bg-brand-navy text-white p-12 md:p-16 flex flex-col justify-between relative overflow-hidden">
+                                <div class="absolute top-0 right-0 w-80 h-80 bg-brand-teal rounded-full blur-[100px] opacity-30 pointer-events-none"></div>
+                                <div class="relative z-10">
+                                    <h3 class="text-2xl font-bold mb-2">Next Deadline</h3>
+                                    <p class="text-slate-300 text-sm">Official date for Dimp tax filing.</p>
+                                </div>
+                                <div class="my-10 text-center relative z-10">
+                                    <div class="text-7xl font-extrabold tracking-tight mb-2" id="days-left">0</div>
+                                    <div class="text-sm font-bold text-brand-accent uppercase tracking-widest">Days Remaining</div>
+                                </div>
+                                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-5 flex items-center gap-5 relative z-10 border border-white/10">
+                                    <div class="bg-brand-teal p-3 rounded-xl text-white shadow-lg"><i data-lucide="calendar-clock" class="w-6 h-6"></i></div>
+                                    <div><p class="text-lg font-bold" id="deadline-date">...</p><p class="text-xs text-slate-300 uppercase tracking-wide font-medium">Mark your calendar</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="team" class="py-20 bg-white scroll-mt-20">
+                <div class="max-w-7xl mx-auto px-6">
+                    <div class="text-center max-w-3xl mx-auto mb-20 reveal" id="team-header">
+                        <h2 class="text-4xl font-extrabold text-brand-navy mb-4" data-editable="true" id="team-title">Our Team</h2>
+                        <p class="text-slate-500 text-xl" data-editable="true" id="team-sub">Dedicated professionals ready to assist you.</p>
+                    </div>
+                    <div id="team-grid" class="grid md:grid-cols-3 gap-10">
+                        <div class="group cursor-pointer relative reveal">
+                            <div class="absolute top-4 right-4 z-20 admin-control"><button onclick="CroesApp.deleteItem(this)" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>
+                            <div class="relative overflow-hidden rounded-[2rem] mb-6 shadow-xl aspect-[4/5] border border-slate-100 group-hover:shadow-2xl transition-all">
+                                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                                <div class="photo-upload-overlay absolute inset-0 bg-brand-navy/60 backdrop-blur-sm hidden items-center justify-center z-10 cursor-pointer" onclick="CroesApp.triggerPhotoUpload(this.previousElementSibling)"><div class="bg-white p-4 rounded-full shadow-xl"><i data-lucide="camera" class="w-6 h-6 text-brand-navy"></i></div></div>
+                                <div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8"><p class="text-white text-sm font-medium italic" data-editable="true">"Precision is key."</p></div>
+                            </div>
+                            <h3 class="text-2xl font-bold text-brand-navy" data-editable="true">Mr. Croes</h3><p class="text-brand-teal font-bold text-xs tracking-widest uppercase mt-1" data-editable="true">Senior Accountant</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
             <section id="contact" class="py-20 bg-brand-surface scroll-mt-20 border-t border-slate-200">
                 <div class="max-w-5xl mx-auto px-6">
                     <div class="bg-brand-navy rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row">
@@ -175,7 +239,7 @@
     <section id="back-office" class="hidden fixed inset-0 z-[99999] bg-slate-50 overflow-y-auto">
         <div class="max-w-7xl mx-auto p-8 pt-24">
             <div class="flex justify-between items-center mb-10">
-                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v11.1 • Secured</p></div>
+                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v11.2 • Secured</p></div>
                 <div class="flex gap-4">
                     <a href="https://workplace.zoho.com/#mail_app/mail/folder/inbox" target="_blank" class="flex items-center gap-2 bg-white text-brand-navy border border-slate-200 px-5 py-2.5 rounded-xl font-bold shadow-sm hover:bg-slate-50 transition-colors"><i data-lucide="mail" class="w-4 h-4"></i> Check Mail</a>
                     <button onclick="CroesApp.logout()" class="text-red-500 font-bold hover:bg-red-50 px-4 py-2 rounded-lg transition-colors">Log Out</button>
@@ -297,10 +361,10 @@
         const CroesApp = {
             db: null, currentClientEmail: null, currentClientPin: null, targetImgEl: null, activeChatClient: null, emailInitialized: false,
 
-            // EMAIL CONFIG (v11.1)
+            // EMAIL CONFIG (v11.2 - ID CORRECTED)
             emailConfig: {
                 publicKey: "8rBFXNPpsM9GIWhRR",
-                serviceId: "service_ido3zsi",
+                serviceId: "service_x7ol38h", // THIS WAS THE FIX
                 requestTemplateId: "template_3ajpnak", 
                 confirmTemplateId: "template_kc2lb6b"  
             },
@@ -325,7 +389,7 @@
                         store.add({ email: 'demo@croes.com', pin: '123456', name: 'Demo Corp', status: 'Processing', phone: '555-0000' });
                     }
                 };
-                request.onsuccess = (e) => { this.db = e.target.result; this.updateStats(); console.log("DB Ready v11.1"); };
+                request.onsuccess = (e) => { this.db = e.target.result; this.updateStats(); console.log("DB Ready v11.2"); };
                 request.onerror = (e) => { console.error("DB Fail", e); };
             },
 
@@ -390,7 +454,6 @@
                         .then(() => { this.showToast("Sent", successMsg); })
                         .catch((err) => { 
                             console.error(err); 
-                            // POPUP ALERT FOR DEBUGGING
                             alert(`EMAIL ERROR! Code: ${err.status}, Text: ${err.text}. Check console for details.`); 
                         });
                 }
