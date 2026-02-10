@@ -41,7 +41,6 @@
         .portal-nav-btn.active { background: #23869D; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-left: 3px solid #4FD1C5; }
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        /* Admin specific */
         .admin-control { display: none !important; }
         body.editing-active .admin-control { display: inline-flex !important; }
         body.editing-active [data-editable="true"]:hover { outline: 2px dashed #23869D; cursor: text; background: rgba(35, 134, 157, 0.05); }
@@ -53,8 +52,8 @@
     <div id="preloader" class="fixed inset-0 bg-white z-[99999] flex items-center justify-center transition-opacity duration-500">
         <div class="text-center">
             <div class="w-16 h-16 border-4 border-slate-100 border-t-brand-navy rounded-full animate-spin mx-auto mb-4"></div>
-            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes v11.0</p>
-            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">System Loaded</p>
+            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes v11.1</p>
+            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">Debug Mode Active</p>
         </div>
     </div>
 
@@ -173,98 +172,10 @@
         </main>
     </div>
 
-    <div id="client-portal" class="hidden portal-layout relative">
-        <button onclick="document.querySelector('.portal-sidebar').classList.toggle('hidden'); document.querySelector('.portal-sidebar').classList.toggle('absolute'); document.querySelector('.portal-sidebar').classList.toggle('z-50'); document.querySelector('.portal-sidebar').classList.toggle('h-full');" class="md:hidden absolute top-8 right-8 z-50 p-2 bg-white rounded-lg shadow-md text-brand-navy"><i data-lucide="menu" class="w-6 h-6"></i></button>
-
-        <aside class="portal-sidebar transition-all">
-            <div>
-                <div class="portal-logo-container"><img src="logo.png" alt="Logo"></div>
-                <nav class="space-y-2">
-                    <button onclick="CroesApp.switchPortalTab('dash')" class="portal-nav-btn active"><i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard</button>
-                    <button onclick="CroesApp.switchPortalTab('docs')" class="portal-nav-btn"><i data-lucide="file-text" class="w-5 h-5"></i> Documents</button>
-                    <button onclick="CroesApp.switchPortalTab('vault')" class="portal-nav-btn"><i data-lucide="lock" class="w-5 h-5"></i> Secure Vault</button>
-                    <button onclick="CroesApp.switchPortalTab('msgs')" class="portal-nav-btn"><i data-lucide="message-square" class="w-5 h-5"></i> Messages</button>
-                </nav>
-            </div>
-            <div>
-                <button onclick="CroesApp.logoutClient()" class="text-slate-400 hover:text-white text-sm flex items-center gap-2 w-full px-2 py-2 rounded hover:bg-white/5 transition-colors"><i data-lucide="log-out" class="w-4 h-4"></i> Sign Out</button>
-            </div>
-        </aside>
-        <main class="p-8 md:p-12 relative overflow-y-auto">
-            <div class="flex justify-between items-center mb-10">
-                <div><h1 class="text-3xl font-extrabold text-brand-navy">Client Portal</h1><p class="text-slate-500">Welcome back, <span id="portal-client-name" class="font-bold text-brand-teal">Client</span></p></div>
-                <div class="flex gap-3 hidden md:flex"><span class="px-4 py-2 bg-white rounded-full text-xs font-bold text-brand-navy shadow-sm border border-slate-100 flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4 text-brand-success"></i> Encrypted Session</span></div>
-            </div>
-
-            <div id="portal-dash">
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 mb-8">
-                    <h3 class="font-bold text-brand-navy mb-6 text-lg">Project Timeline</h3>
-                    <div class="relative pt-4 pb-2">
-                        <div class="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden mb-6"><div class="h-full bg-brand-teal w-1/4 rounded-full transition-all duration-1000" id="progress-bar-visual"></div></div>
-                        <div class="flex justify-between text-xs font-bold text-slate-400 uppercase tracking-wider" id="progress-steps">
-                            <span class="text-brand-teal">Uploaded</span><span>Processing</span><span>Review</span><span>Filed</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 flex items-center gap-6">
-                    <div class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-brand-teal"><i data-lucide="clock" class="w-6 h-6"></i></div>
-                    <div><p class="text-xs font-bold text-slate-400 uppercase">Current Status</p><p class="text-xl font-bold text-brand-navy">Pending Review</p></div>
-                </div>
-            </div>
-
-            <div id="portal-docs" class="hidden">
-                <div class="bg-white p-12 rounded-3xl shadow-sm border border-slate-100 text-center upload-zone mb-8 group" id="drop-zone" onclick="document.getElementById('file-input').click()">
-                    <div class="w-16 h-16 bg-blue-50 text-brand-teal rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform"><i data-lucide="cloud-upload" class="w-8 h-8"></i></div>
-                    <h3 class="text-xl font-bold text-brand-navy mb-2">Upload Tax Documents</h3>
-                    <p class="text-slate-400 text-sm mb-6">Drag & drop or click to browse (Max 50MB)</p>
-                    <button class="btn-primary px-6 py-2 rounded-lg font-bold text-sm pointer-events-none">Select Files</button>
-                    <input type="file" id="file-input" class="hidden" onchange="CroesApp.handleFileUpload(this)">
-                </div>
-                <h4 class="font-bold text-brand-navy mb-4 text-lg">My Files</h4>
-                <div id="portal-file-list" class="space-y-3"></div>
-            </div>
-
-            <div id="portal-vault" class="hidden">
-                <div class="bg-brand-navy text-white p-8 rounded-3xl shadow-xl mb-8 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-64 h-64 bg-brand-teal rounded-full blur-[80px] opacity-20 pointer-events-none"></div>
-                    <h3 class="font-bold text-2xl mb-2 flex items-center gap-2"><i data-lucide="shield-check" class="w-6 h-6"></i> Zero-Knowledge Vault</h3>
-                    <p class="text-slate-300 text-sm max-w-lg">Credentials stored here are encrypted with your login PIN using AES-256.</p>
-                </div>
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
-                        <h4 class="font-bold text-brand-navy mb-6">Store New Credential</h4>
-                        <input type="text" id="vault-service" placeholder="Service Name (e.g. Dimp)" class="w-full p-4 bg-slate-50 border-0 rounded-xl mb-3 font-bold text-brand-navy text-sm outline-none focus:ring-2 focus:ring-brand-teal">
-                        <input type="text" id="vault-user" placeholder="Username" class="w-full p-4 bg-slate-50 border-0 rounded-xl mb-3 font-bold text-brand-navy text-sm outline-none focus:ring-2 focus:ring-brand-teal">
-                        <div class="relative mb-6">
-                            <input type="password" id="vault-pass" placeholder="Password" class="w-full p-4 bg-slate-50 border-0 rounded-xl font-bold text-brand-navy text-sm outline-none focus:ring-2 focus:ring-brand-teal">
-                            <button onclick="document.getElementById('vault-pass').type = document.getElementById('vault-pass').type === 'password' ? 'text' : 'password'" class="absolute right-4 top-4 text-slate-400 hover:text-brand-teal"><i data-lucide="eye" class="w-4 h-4"></i></button>
-                        </div>
-                        <button onclick="CroesApp.saveToVault()" class="w-full btn-primary py-3 rounded-xl font-bold shadow-lg">Encrypt & Save</button>
-                    </div>
-                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
-                        <h4 class="font-bold text-brand-navy mb-6">My Encrypted Keys</h4>
-                        <div id="vault-list" class="space-y-3"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="portal-msgs" class="hidden">
-                <div class="bg-white p-0 rounded-3xl shadow-sm border border-slate-100 h-[600px] flex flex-col overflow-hidden">
-                    <div class="p-4 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center"><span class="font-bold text-brand-navy text-sm">Secure Message Thread</span></div>
-                    <div id="msg-container" class="flex-1 overflow-y-auto p-6 space-y-4 bg-slate-50"></div>
-                    <div class="p-4 bg-white border-t border-slate-100 flex gap-3">
-                        <input type="text" id="msg-input" placeholder="Type a secure message..." class="flex-1 p-3 bg-slate-50 border-0 rounded-xl outline-none focus:ring-2 focus:ring-brand-teal transition-all">
-                        <button onclick="CroesApp.sendClientMessage()" class="bg-brand-teal text-white p-3 rounded-xl hover:bg-brand-navy transition-colors shadow-lg"><i data-lucide="send" class="w-5 h-5"></i></button>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
-
     <section id="back-office" class="hidden fixed inset-0 z-[99999] bg-slate-50 overflow-y-auto">
         <div class="max-w-7xl mx-auto p-8 pt-24">
             <div class="flex justify-between items-center mb-10">
-                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v11.0 • Secured</p></div>
+                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v11.1 • Secured</p></div>
                 <div class="flex gap-4">
                     <a href="https://workplace.zoho.com/#mail_app/mail/folder/inbox" target="_blank" class="flex items-center gap-2 bg-white text-brand-navy border border-slate-200 px-5 py-2.5 rounded-xl font-bold shadow-sm hover:bg-slate-50 transition-colors"><i data-lucide="mail" class="w-4 h-4"></i> Check Mail</a>
                     <button onclick="CroesApp.logout()" class="text-red-500 font-bold hover:bg-red-50 px-4 py-2 rounded-lg transition-colors">Log Out</button>
@@ -386,6 +297,7 @@
         const CroesApp = {
             db: null, currentClientEmail: null, currentClientPin: null, targetImgEl: null, activeChatClient: null, emailInitialized: false,
 
+            // EMAIL CONFIG (v11.1)
             emailConfig: {
                 publicKey: "8rBFXNPpsM9GIWhRR",
                 serviceId: "service_ido3zsi",
@@ -393,24 +305,14 @@
                 confirmTemplateId: "template_kc2lb6b"  
             },
 
-            // --- INIT SEQUENCE (FIXED) ---
+            // --- INIT ---
             init: function() { 
-                // Ensure DOM is ready before manipulating it
-                if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', () => this.start());
-                } else {
-                    this.start();
-                }
+                if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', () => this.start()); } else { this.start(); }
             },
+            start: function() { this.initDB(); this.initUI(); },
 
-            start: function() {
-                this.initDB();
-                this.initUI();
-            },
-
-            // --- DATABASE ---
+            // --- DB ---
             initDB: function() {
-                // Version 11 forces a clean upgrade if schema changed
                 const request = indexedDB.open("CroesDBv11", 1);
                 request.onupgradeneeded = (e) => { 
                     const d = e.target.result; 
@@ -420,22 +322,15 @@
                     if(!d.objectStoreNames.contains('messages')) d.createObjectStore('messages', { keyPath: 'id', autoIncrement: true });
                     if(!d.objectStoreNames.contains('clients')) {
                         const store = d.createObjectStore('clients', { keyPath: 'email' });
-                        // Default Demo Client
                         store.add({ email: 'demo@croes.com', pin: '123456', name: 'Demo Corp', status: 'Processing', phone: '555-0000' });
                     }
                 };
-                request.onsuccess = (e) => { 
-                    this.db = e.target.result; 
-                    this.updateStats(); 
-                    console.log("DB Ready v11.0"); 
-                };
+                request.onsuccess = (e) => { this.db = e.target.result; this.updateStats(); console.log("DB Ready v11.1"); };
                 request.onerror = (e) => { console.error("DB Fail", e); };
             },
 
             initUI: function() {
-                // Safety timeout to ensure preloader goes away even if DB is slow
                 setTimeout(() => { document.getElementById('preloader').style.display = 'none'; }, 1000);
-                
                 window.addEventListener('scroll', () => { const nav = document.getElementById('navbar'); if (window.scrollY > 20) nav.classList.add('scrolled'); else nav.classList.remove('scrolled'); });
                 lucide.createIcons();
                 const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); }); }, { threshold: 0.1 });
@@ -443,14 +338,12 @@
                 this.initDates();
             },
 
-            // --- CONFIRMATION WITH TIME (NEW) ---
+            // --- CONFIRMATION ---
             confirmBooking: function(id) {
-                // Open the modal instead of auto-confirming
                 const tx = this.db.transaction(['bookings'], 'readonly');
                 tx.objectStore('bookings').get(id).onsuccess = (e) => {
-                    const data = e.target.result;
                     document.getElementById('conf-id').value = id;
-                    document.getElementById('conf-date').value = new Date().toISOString().split('T')[0]; // Default to today
+                    document.getElementById('conf-date').value = new Date().toISOString().split('T')[0];
                     document.getElementById('conf-time').value = "09:00";
                     document.getElementById('confirm-modal').classList.remove('hidden');
                 };
@@ -469,38 +362,41 @@
                     if(!data) return;
                     
                     data.status = 'Confirmed';
-                    data.date = date; // Update with confirmed date
-                    data.time = time; // Save confirmed time
+                    data.date = date; 
+                    data.time = time; 
                     store.put(data);
                     
                     document.getElementById('confirm-modal').classList.add('hidden');
                     this.renderDashboard();
                     this.updateStats();
 
-                    // Send Email
                     this.sendEmail(this.emailConfig.confirmTemplateId, {
                         title: "Appointment Confirmed",
                         to_name: data.name,
                         to_email: data.email,
                         service_name: data.service,
                         date: date,
-                        time: time, // Now sending specific time
-                        message: `We have scheduled you for ${time}. Please bring your ID.`
+                        time: time, 
+                        message: `We have scheduled you for ${time}.`
                     }, "Confirmation Sent");
                 };
             },
 
-            // --- EMAIL HELPER ---
+            // --- EMAIL DEBUGGER ---
             sendEmail: function(templateId, params, successMsg) {
                 if(this.emailConfig.publicKey) {
                     if(!this.emailInitialized) { emailjs.init(this.emailConfig.publicKey); this.emailInitialized = true; }
                     emailjs.send(this.emailConfig.serviceId, templateId, params)
                         .then(() => { this.showToast("Sent", successMsg); })
-                        .catch((err) => { console.error(err); this.showToast("Email Error", "Saved to DB, but email failed."); });
+                        .catch((err) => { 
+                            console.error(err); 
+                            // POPUP ALERT FOR DEBUGGING
+                            alert(`EMAIL ERROR! Code: ${err.status}, Text: ${err.text}. Check console for details.`); 
+                        });
                 }
             },
 
-            // --- REMINDERS SYSTEM (NEW) ---
+            // --- REMINDERS ---
             checkDailyReminders: function() {
                 const tx = this.db.transaction(['bookings'], 'readonly');
                 tx.objectStore('bookings').getAll().onsuccess = (e) => {
@@ -530,7 +426,7 @@
                 };
             },
 
-            // --- ADMIN CHAT (Restored) ---
+            // --- ADMIN CHAT ---
             renderAdminChatList: function() {
                 const tx = this.db.transaction(['messages', 'clients'], 'readonly');
                 let messages = [], clients = [];
@@ -546,7 +442,7 @@
                             const clientName = clients.find(c => c.email === email)?.name || email;
                             list.innerHTML += `<div onclick="CroesApp.openAdminChat('${email}')" class="p-3 bg-slate-50 rounded-xl cursor-pointer hover:bg-brand-teal hover:text-white transition-colors mb-2"><p class="font-bold text-sm">${clientName}</p><p class="text-xs opacity-70">${email}</p></div>`;
                         });
-                    }, 200); // Small delay to ensure both DB reads finish
+                    }, 200);
                 };
             },
             openAdminChat: function(email) {
@@ -577,9 +473,8 @@
                 this.renderAdminChatWindow();
             },
 
-            // --- CORE FUNCTIONS ---
+            // --- UTILS ---
             showToast: function(title, msg) { const el = document.getElementById('toast'); el.querySelector('h4').innerText = title; document.getElementById('toast-msg').innerText = msg; el.classList.remove('translate-x-96', 'opacity-0'); setTimeout(() => el.classList.add('translate-x-96', 'opacity-0'), 3000); },
-            
             updateStats: function() {
                 if(!this.db) return;
                 const tx = this.db.transaction(['bookings', 'files'], 'readonly');
@@ -590,31 +485,9 @@
                 };
                 tx.objectStore('files').count().onsuccess = (e) => { document.getElementById('stat-files').innerText = e.target.result; };
             },
-            
-            handleLogin: function() { 
-                if(document.getElementById('admin-pass').value === 'admin123') { 
-                    document.getElementById('login-modal').classList.add('hidden'); 
-                    document.getElementById('back-office').classList.remove('hidden'); 
-                    this.renderDashboard(); 
-                    this.updateStats(); 
-                } 
-            },
-            
+            handleLogin: function() { if(document.getElementById('admin-pass').value === 'admin123') { document.getElementById('login-modal').classList.add('hidden'); document.getElementById('back-office').classList.remove('hidden'); this.renderDashboard(); this.updateStats(); } },
             logout: function() { document.getElementById('back-office').classList.add('hidden'); document.body.classList.remove('editing-active'); this.toggleEdit(false); },
-            
-            switchAdminTab: function(tab) { 
-                ['inbox','cms','clients','messages'].forEach(t => { 
-                    document.getElementById('admin-'+t).classList.add('hidden'); 
-                    document.getElementById('btn-'+t).classList.remove('bg-brand-navy', 'text-white', 'shadow-lg'); 
-                    document.getElementById('btn-'+t).classList.add('bg-white', 'text-slate-500', 'shadow-sm'); 
-                }); 
-                document.getElementById('admin-'+tab).classList.remove('hidden'); 
-                document.getElementById('btn-'+tab).classList.remove('bg-white', 'text-slate-500', 'shadow-sm'); 
-                document.getElementById('btn-'+tab).classList.add('bg-brand-navy', 'text-white', 'shadow-lg'); 
-                if(tab === 'clients') this.renderAdminRepo(); 
-                if(tab === 'messages') this.renderAdminChatList(); 
-            },
-            
+            switchAdminTab: function(tab) { ['inbox','cms','clients','messages'].forEach(t => { document.getElementById('admin-'+t).classList.add('hidden'); document.getElementById('btn-'+t).classList.remove('bg-brand-navy', 'text-white', 'shadow-lg'); document.getElementById('btn-'+t).classList.add('bg-white', 'text-slate-500', 'shadow-sm'); }); document.getElementById('admin-'+tab).classList.remove('hidden'); document.getElementById('btn-'+tab).classList.remove('bg-white', 'text-slate-500', 'shadow-sm'); document.getElementById('btn-'+tab).classList.add('bg-brand-navy', 'text-white', 'shadow-lg'); if(tab === 'clients') this.renderAdminRepo(); if(tab === 'messages') this.renderAdminChatList(); },
             renderDashboard: function() {
                 if(!this.db) return;
                 const tbody = document.getElementById('booking-list');
@@ -631,7 +504,6 @@
                     lucide.createIcons();
                 };
             },
-            
             deleteBooking: function(id) { if(confirm("Delete record?")) { const tx = this.db.transaction(['bookings'], 'readwrite'); tx.objectStore('bookings').delete(id); this.renderDashboard(); this.updateStats(); } },
             searchAdmin: function(query) { const rows = document.querySelectorAll('#booking-list tr'); rows.forEach(row => { row.style.display = row.innerText.toLowerCase().includes(query.toLowerCase()) ? '' : 'none'; }); },
             
@@ -651,7 +523,6 @@
                     document.getElementById('add-client-form').classList.add('hidden'); 
                     this.renderAdminRepo(); 
                     
-                    // SEND WELCOME EMAIL (With PIN)
                     this.sendEmail(this.emailConfig.confirmTemplateId, {
                         title: "Account Created", 
                         to_name: name,
@@ -692,19 +563,8 @@
                 };
             },
 
-            deleteClientFile: function(id) {
-                if(confirm("Permanently delete this file?")) {
-                    const tx = this.db.transaction(['files'], 'readwrite');
-                    tx.objectStore('files').delete(id);
-                    tx.oncomplete = () => { this.showToast("Deleted", "File removed."); this.renderAdminRepo(); };
-                }
-            },
-            
-            uploadToClient: function(email) {
-                this.currentClientEmail = email; 
-                this.showToast("Ready", `Select file for ${email}`);
-                document.getElementById('file-input').click();
-            },
+            deleteClientFile: function(id) { if(confirm("Permanently delete this file?")) { const tx = this.db.transaction(['files'], 'readwrite'); tx.objectStore('files').delete(id); tx.oncomplete = () => { this.showToast("Deleted", "File removed."); this.renderAdminRepo(); }; } },
+            uploadToClient: function(email) { this.currentClientEmail = email; this.showToast("Ready", `Select file for ${email}`); document.getElementById('file-input').click(); },
             
             handlePublicBooking: function(e) {
                 e.preventDefault();
@@ -719,7 +579,6 @@
                 const date = new Date().toLocaleDateString();
                 const bookingData = { name, email, service, status: 'Pending', date };
                 
-                // Alert Admin via Email
                 this.sendEmail(this.emailConfig.requestTemplateId, {
                     name: name,           
                     email: email,         
@@ -735,15 +594,9 @@
                 e.target.reset();
             },
 
-            saveBookingToDB: function(data) {
-                const tx = this.db.transaction(['bookings'], 'readwrite');
-                tx.objectStore('bookings').add(data);
-                this.updateStats();
-                if(!document.getElementById('back-office').classList.contains('hidden')) { this.renderDashboard(); }
-            },
-
-            openPortalLogin: function() { document.getElementById('client-login-modal').classList.remove('hidden'); },
+            saveBookingToDB: function(data) { const tx = this.db.transaction(['bookings'], 'readwrite'); tx.objectStore('bookings').add(data); this.updateStats(); if(!document.getElementById('back-office').classList.contains('hidden')) { this.renderDashboard(); } },
             
+            openPortalLogin: function() { document.getElementById('client-login-modal').classList.remove('hidden'); },
             clientLoginStep1: function() { 
                 const emailInput = document.getElementById('client-email');
                 const email = emailInput.value.trim();
@@ -810,58 +663,11 @@
                     reader.readAsArrayBuffer(file);
                 }
             },
-            
-            renderClientFiles: function() {
-                const tx = this.db.transaction(['files'], 'readonly');
-                tx.objectStore('files').getAll().onsuccess = (e) => {
-                    const docs = e.target.result.filter(d => d.clientEmail === this.currentClientEmail);
-                    const list = document.getElementById('portal-file-list');
-                    list.innerHTML = '';
-                    if(docs.length === 0) list.innerHTML = '<div class="p-8 text-center text-slate-400 bg-slate-50 rounded-xl border border-slate-100 border-dashed">No documents uploaded yet.</div>';
-                    docs.forEach(d => { const url = URL.createObjectURL(d.data); list.innerHTML += `<div class="flex items-center justify-between p-4 bg-white border border-slate-100 rounded-xl shadow-sm"><div class="flex items-center gap-4"><div class="w-10 h-10 bg-brand-surface rounded-lg flex items-center justify-center text-brand-teal"><i data-lucide="file-text" class="w-5 h-5"></i></div><div><p class="font-bold text-brand-navy text-sm">${d.fileName}</p><p class="text-xs text-slate-400">${d.date}</p></div></div><a href="${url}" download="${d.fileName}" class="p-2 text-slate-400 hover:text-brand-teal hover:bg-brand-surface rounded-lg transition-colors"><i data-lucide="download" class="w-5 h-5"></i></a></div>`; });
-                    lucide.createIcons();
-                };
-            },
-
-            saveToVault: async function() {
-                const s = document.getElementById('vault-service').value;
-                const u = document.getElementById('vault-user').value;
-                const p = document.getElementById('vault-pass').value;
-                if(!s || !u || !p) return this.showToast("Error", "All fields required");
-                const encryptedData = await this.security.encrypt(JSON.stringify({ user: u, pass: p }), this.currentClientPin); 
-                const tx = this.db.transaction(['vault'], 'readwrite');
-                tx.objectStore('vault').add({ clientEmail: this.currentClientEmail, service: s, data: encryptedData, date: new Date().toLocaleDateString() });
-                this.showToast("Secure", "Credentials encrypted & stored.");
-                this.renderVault(); // Refresh Vault
-            },
-
-            renderVault: function() {
-                const tx = this.db.transaction(['vault'], 'readonly');
-                tx.objectStore('vault').getAll().onsuccess = async (e) => {
-                    const items = e.target.result.filter(i => i.clientEmail === this.currentClientEmail);
-                    const list = document.getElementById('vault-list');
-                    list.innerHTML = '';
-                    if(items.length === 0) { list.innerHTML = '<p class="text-slate-400 text-sm text-center italic mt-10">Vault is empty.</p>'; return; }
-                    for(const item of items) {
-                        try {
-                            const decryptedJson = await this.security.decrypt(item.data, this.currentClientPin);
-                            if(!decryptedJson) continue;
-                            const creds = JSON.parse(decryptedJson);
-                            list.innerHTML += `<div class="p-4 bg-slate-50 border border-slate-100 rounded-xl group hover:border-brand-teal transition-colors"><div class="flex justify-between items-center mb-2"><span class="font-bold text-brand-navy">${item.service}</span><button onclick="CroesApp.deleteVaultItem(${item.id})" class="text-slate-300 hover:text-red-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="text-xs text-slate-500 font-mono bg-white p-2 rounded border border-slate-100 flex justify-between"><span>${creds.user}</span><span class="tracking-widest">••••••</span></div></div>`;
-                        } catch(err) { console.error("Decrypt Error", err); }
-                    }
-                    lucide.createIcons();
-                };
-            },
+            renderClientFiles: function() { const tx = this.db.transaction(['files'], 'readonly'); tx.objectStore('files').getAll().onsuccess = (e) => { const docs = e.target.result.filter(d => d.clientEmail === this.currentClientEmail); const list = document.getElementById('portal-file-list'); list.innerHTML = ''; if(docs.length === 0) list.innerHTML = '<div class="p-8 text-center text-slate-400 bg-slate-50 rounded-xl border border-slate-100 border-dashed">No documents uploaded yet.</div>'; docs.forEach(d => { const url = URL.createObjectURL(d.data); list.innerHTML += `<div class="flex items-center justify-between p-4 bg-white border border-slate-100 rounded-xl shadow-sm"><div class="flex items-center gap-4"><div class="w-10 h-10 bg-brand-surface rounded-lg flex items-center justify-center text-brand-teal"><i data-lucide="file-text" class="w-5 h-5"></i></div><div><p class="font-bold text-brand-navy text-sm">${d.fileName}</p><p class="text-xs text-slate-400">${d.date}</p></div></div><a href="${url}" download="${d.fileName}" class="p-2 text-slate-400 hover:text-brand-teal hover:bg-brand-surface rounded-lg transition-colors"><i data-lucide="download" class="w-5 h-5"></i></a></div>`; }); lucide.createIcons(); }; },
+            saveToVault: async function() { const s = document.getElementById('vault-service').value; const u = document.getElementById('vault-user').value; const p = document.getElementById('vault-pass').value; if(!s || !u || !p) return this.showToast("Error", "All fields required"); const encryptedData = await this.security.encrypt(JSON.stringify({ user: u, pass: p }), this.currentClientPin); const tx = this.db.transaction(['vault'], 'readwrite'); tx.objectStore('vault').add({ clientEmail: this.currentClientEmail, service: s, data: encryptedData, date: new Date().toLocaleDateString() }); this.showToast("Secure", "Credentials encrypted & stored."); this.renderVault(); document.getElementById('vault-pass').value = ''; },
+            renderVault: function() { const tx = this.db.transaction(['vault'], 'readonly'); tx.objectStore('vault').getAll().onsuccess = async (e) => { const items = e.target.result.filter(i => i.clientEmail === this.currentClientEmail); const list = document.getElementById('vault-list'); list.innerHTML = ''; if(items.length === 0) { list.innerHTML = '<p class="text-slate-400 text-sm text-center italic mt-10">Vault is empty.</p>'; return; } for(const item of items) { try { const decryptedJson = await this.security.decrypt(item.data, this.currentClientPin); if(!decryptedJson) continue; const creds = JSON.parse(decryptedJson); list.innerHTML += `<div class="p-4 bg-slate-50 border border-slate-100 rounded-xl group hover:border-brand-teal transition-colors"><div class="flex justify-between items-center mb-2"><span class="font-bold text-brand-navy">${item.service}</span><button onclick="CroesApp.deleteVaultItem(${item.id})" class="text-slate-300 hover:text-red-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="text-xs text-slate-500 font-mono bg-white p-2 rounded border border-slate-100 flex justify-between"><span>${creds.user}</span><span class="tracking-widest">••••••</span></div></div>`; } catch(err) { console.error("Decrypt Error", err); } } lucide.createIcons(); }; },
             deleteVaultItem: function(id) { if(confirm("Destroy this credential?")) { const tx = this.db.transaction(['vault'], 'readwrite'); tx.objectStore('vault').delete(id); this.renderVault(); } },
-            
-            // --- SECURITY & UTILS ---
-            security: {
-                key: null,
-                deriveKey: async function(password) { const enc = new TextEncoder(); const keyMaterial = await crypto.subtle.importKey("raw", enc.encode(password), { name: "PBKDF2" }, false, ["deriveKey"]); return crypto.subtle.deriveKey({ name: "PBKDF2", salt: enc.encode("CROES_SALT_V1"), iterations: 100000, hash: "SHA-256" }, keyMaterial, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]); },
-                encrypt: async function(text, password) { const key = await this.deriveKey(password); const iv = crypto.getRandomValues(new Uint8Array(12)); const encoded = new TextEncoder().encode(text); const encrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv: iv }, key, encoded); const combined = new Uint8Array(iv.length + new Uint8Array(encrypted).length); combined.set(iv); combined.set(new Uint8Array(encrypted), iv.length); return btoa(String.fromCharCode(...combined)); },
-                decrypt: async function(encryptedBase64, password) { try { const str = atob(encryptedBase64); const buffer = new Uint8Array(str.length); for (let i = 0; i < str.length; i++) buffer[i] = str.charCodeAt(i); const iv = buffer.slice(0, 12); const data = buffer.slice(12); const key = await this.deriveKey(password); const decrypted = await crypto.subtle.decrypt({ name: "AES-GCM", iv: iv }, key, data); return new TextDecoder().decode(decrypted); } catch (e) { return null; } }
-            },
+            security: { key: null, deriveKey: async function(password) { const enc = new TextEncoder(); const keyMaterial = await crypto.subtle.importKey("raw", enc.encode(password), { name: "PBKDF2" }, false, ["deriveKey"]); return crypto.subtle.deriveKey({ name: "PBKDF2", salt: enc.encode("CROES_SALT_V1"), iterations: 100000, hash: "SHA-256" }, keyMaterial, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]); }, encrypt: async function(text, password) { const key = await this.deriveKey(password); const iv = crypto.getRandomValues(new Uint8Array(12)); const encoded = new TextEncoder().encode(text); const encrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv: iv }, key, encoded); const combined = new Uint8Array(iv.length + new Uint8Array(encrypted).length); combined.set(iv); combined.set(new Uint8Array(encrypted), iv.length); return btoa(String.fromCharCode(...combined)); }, decrypt: async function(encryptedBase64, password) { try { const str = atob(encryptedBase64); const buffer = new Uint8Array(str.length); for (let i = 0; i < str.length; i++) buffer[i] = str.charCodeAt(i); const iv = buffer.slice(0, 12); const data = buffer.slice(12); const key = await this.deriveKey(password); const decrypted = await crypto.subtle.decrypt({ name: "AES-GCM", iv: iv }, key, data); return new TextDecoder().decode(decrypted); } catch (e) { return null; } } },
             toggleEdit: function(enable) { const toolbar = document.getElementById('edit-toolbar'); if (enable) { document.body.classList.add('editing-active'); toolbar.classList.remove('hidden'); document.getElementById('back-office').classList.add('hidden'); document.querySelectorAll('[data-editable="true"]').forEach(el => el.contentEditable = "true"); } else { document.body.classList.remove('editing-active'); toolbar.classList.add('hidden'); document.querySelectorAll('[data-editable="true"]').forEach(el => el.contentEditable = "false"); } },
             saveEdits: function() { this.showToast("Saved", "Changes published."); },
             calculateTax: function() { const v = parseFloat(document.getElementById('calc-input').value)||0; const t = v * 0.07; const tot = v + t; document.getElementById('res-sub').innerText = 'ƒ '+v.toFixed(2); document.getElementById('res-tax').innerText = '+ ƒ '+t.toFixed(2); document.getElementById('res-total').innerText = 'ƒ '+tot.toFixed(2); const w = v+t; document.getElementById('bar-sub').style.width = (v/w)*100 + '%'; document.getElementById('bar-tax').style.width = (t/w)*100 + '%'; },
