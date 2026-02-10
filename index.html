@@ -6,9 +6,7 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; img-src 'self' https: data: blob:; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.tailwindcss.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;">
     
     <title>Accounting Croes | Aruba's Premier Financial Firm</title>
-    <meta name="description" content="Expert tax preparation, payroll services, and business advisory in Aruba. Trusted by local businesses.">
     <link rel="icon" href="favicon.png" type="image/png">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
@@ -22,7 +20,7 @@
                 extend: {
                     fontFamily: { sans: ['Manrope', 'sans-serif'] },
                     colors: { brand: { navy: '#0C3B53', teal: '#23869D', accent: '#4FD1C5', surface: '#F8FAFC', success: '#10B981', warning: '#F59E0B', danger: '#EF4444' } },
-                    animation: { 'reveal': 'reveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards', 'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite' },
+                    animation: { 'reveal': 'reveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards' },
                     keyframes: { reveal: { from: { opacity: '0', transform: 'translateY(20px)' }, to: { opacity: '1', transform: 'translateY(0)' } } }
                 }
             }
@@ -34,36 +32,20 @@
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #F8FAFC; }
         ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #23869D; }
-        .glass-panel { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07); }
+        .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.6); }
         .text-gradient { background: linear-gradient(135deg, #0C3B53 0%, #23869D 100%); -webkit-background-clip: text; color: transparent; }
-        nav { transition: all 0.4s ease; }
-        nav.scrolled { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); height: 72px !important; box-shadow: 0 4px 20px rgba(12, 59, 83, 0.04); }
-        .btn-primary { background: #0C3B53; color: white; position: relative; overflow: hidden; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid rgba(255,255,255,0.1); }
+        nav.scrolled { background: rgba(255, 255, 255, 0.95); height: 72px !important; box-shadow: 0 4px 20px rgba(12, 59, 83, 0.04); }
+        .btn-primary { background: #0C3B53; color: white; transition: all 0.3s; }
         .btn-primary:hover { background: #0F4563; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(12, 59, 83, 0.3); }
-        .brand-card { position: relative; overflow: hidden; border-radius: 1.5rem; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.03); transition: all 0.5s ease; display: grid; grid-template-rows: 1fr auto; height: 100%; min-height: 460px; border: 1px solid #F1F5F9; }
-        .brand-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px rgba(12, 59, 83, 0.15); border-color: rgba(35, 134, 157, 0.3); }
-        .card-overlay { background: linear-gradient(to top, rgba(12, 59, 83, 0.95) 10%, rgba(12, 59, 83, 0.4) 60%, rgba(12, 59, 83, 0.05) 100%); }
-        .admin-control, .photo-upload-overlay { display: none !important; }
-        body.editing-active .admin-control { display: inline-flex !important; }
-        body.editing-active .photo-upload-overlay { display: flex !important; }
-        body.editing-active [data-editable="true"]:hover { outline: 2px dashed #23869D; cursor: text; background: rgba(35, 134, 157, 0.05); }
         .portal-layout { display: grid; grid-template-columns: 280px 1fr; min-height: 100vh; background: #F1F5F9; }
-        .portal-sidebar { background: #0C3B53; color: white; padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; }
-        .portal-nav-btn { width: 100%; text-align: left; padding: 14px 16px; border-radius: 12px; color: #94A3B8; font-weight: 600; transition: all 0.2s; display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
-        .portal-nav-btn:hover, .portal-nav-btn.active { background: rgba(255,255,255,0.1); color: white; }
-        .portal-nav-btn.active { background: #23869D; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-left: 3px solid #4FD1C5; }
-        .upload-zone { border: 2px dashed #CBD5E1; border-radius: 16px; padding: 40px; text-align: center; transition: all 0.3s; background: #fff; cursor: pointer; }
-        .upload-zone:hover { border-color: #23869D; background: #F8FAFC; }
+        .portal-nav-btn.active { background: #23869D; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-left: 3px solid #4FD1C5; }
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        .portal-logo-container { background: white; padding: 12px; border-radius: 16px; display: inline-block; margin-bottom: 2rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .portal-logo-container img { height: 32px; width: auto; display: block; }
-        @media (max-width: 1024px) { 
-            .portal-layout { grid-template-columns: 1fr; } 
-            .portal-sidebar { display: none; } 
-            .portal-mobile-nav { display: flex !important; }
-        }
+        /* Admin specific */
+        .admin-control { display: none !important; }
+        body.editing-active .admin-control { display: inline-flex !important; }
+        body.editing-active [data-editable="true"]:hover { outline: 2px dashed #23869D; cursor: text; background: rgba(35, 134, 157, 0.05); }
+        @media (max-width: 1024px) { .portal-layout { grid-template-columns: 1fr; } .portal-sidebar { display: none; } }
     </style>
 </head>
 <body class="text-slate-600 antialiased bg-brand-surface selection:bg-brand-teal selection:text-white flex flex-col min-h-screen">
@@ -71,8 +53,8 @@
     <div id="preloader" class="fixed inset-0 bg-white z-[99999] flex items-center justify-center transition-opacity duration-500">
         <div class="text-center">
             <div class="w-16 h-16 border-4 border-slate-100 border-t-brand-navy rounded-full animate-spin mx-auto mb-4"></div>
-            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes v10.0</p>
-            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">Admin Chat & Live Email</p>
+            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes v11.0</p>
+            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">System Loaded</p>
         </div>
     </div>
 
@@ -92,8 +74,6 @@
                 <div class="hidden md:flex items-center gap-8">
                     <a href="#home" class="text-sm font-bold text-slate-600 hover:text-brand-navy transition-colors">Home</a>
                     <a href="#services" class="text-sm font-bold text-slate-600 hover:text-brand-navy transition-colors">Services</a>
-                    <a href="#tools" class="text-sm font-bold text-slate-600 hover:text-brand-navy transition-colors">BBO Tool</a>
-                    <a href="#team" class="text-sm font-bold text-slate-600 hover:text-brand-navy transition-colors">Team</a>
                     <button onclick="CroesApp.openPortalLogin()" class="text-sm font-bold text-brand-teal hover:text-brand-navy flex items-center gap-2 px-4 py-2 bg-brand-teal/5 hover:bg-brand-teal/10 rounded-lg transition-all border border-transparent hover:border-brand-teal/20"><i data-lucide="shield" class="w-4 h-4"></i> Client Portal</button>
                 </div>
                 <div class="hidden md:flex items-center gap-4"><a href="#contact" class="btn-primary px-8 py-3 text-sm font-bold rounded-full shadow-lg flex items-center gap-2">Book Appointment <i data-lucide="calendar" class="w-4 h-4"></i></a></div>
@@ -102,9 +82,7 @@
             <div id="mobile-menu" class="absolute top-full left-0 w-full bg-white/98 backdrop-blur-xl border-b border-gray-100 shadow-xl hidden flex-col transition-all origin-top">
                 <a href="#home" onclick="CroesApp.toggleMobileMenu()" class="p-5 font-bold text-brand-navy border-b border-gray-50 text-center text-lg">Home</a>
                 <a href="#services" onclick="CroesApp.toggleMobileMenu()" class="p-5 font-bold text-brand-navy border-b border-gray-50 text-center text-lg">Services</a>
-                <a href="#tools" onclick="CroesApp.toggleMobileMenu()" class="p-5 font-bold text-brand-navy border-b border-gray-50 text-center text-lg">BBO Tool</a>
                 <button onclick="CroesApp.openPortalLogin()" class="p-5 font-bold text-brand-teal border-b border-gray-50 text-center text-lg w-full bg-slate-50">Client Login</button>
-                <a href="#contact" class="p-5 font-bold text-white bg-brand-navy text-center text-lg">Book Now</a>
             </div>
         </nav>
 
@@ -151,70 +129,6 @@
                 </div>
             </section>
 
-            <section id="tools" class="py-24 scroll-mt-24">
-                <div class="max-w-5xl mx-auto px-6">
-                    <div class="bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 overflow-hidden reveal">
-                        <div class="grid md:grid-cols-2">
-                            <div class="p-12 md:p-16">
-                                <div class="flex items-center gap-4 mb-8">
-                                    <div class="p-3 bg-blue-50 text-brand-navy rounded-xl"><i data-lucide="percent" class="w-6 h-6"></i></div>
-                                    <h2 class="text-3xl font-bold text-brand-navy">BBO Estimator</h2>
-                                </div>
-                                <div class="relative mb-10">
-                                    <span class="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-2xl">ƒ</span>
-                                    <input type="number" id="calc-input" placeholder="0.00" class="w-full bg-slate-50 border-0 rounded-2xl py-5 pl-12 pr-6 text-3xl font-bold text-brand-navy outline-none focus:ring-2 focus:ring-brand-teal transition-all" oninput="CroesApp.calculateTax()">
-                                </div>
-                                <div class="h-2 w-full bg-slate-100 rounded-full mb-6 overflow-hidden flex">
-                                    <div id="bar-sub" class="bg-brand-navy h-full transition-all duration-500" style="width: 0%"></div>
-                                    <div id="bar-tax" class="bg-brand-teal h-full transition-all duration-500" style="width: 0%"></div>
-                                </div>
-                                <div class="space-y-5">
-                                    <div class="flex justify-between items-center text-slate-500 font-medium"><span>Subtotal</span><span id="res-sub">ƒ 0.00</span></div>
-                                    <div class="flex justify-between items-center text-slate-500 font-medium"><span>BBO/BAZV (7%)</span><span id="res-tax" class="text-brand-teal font-bold">+ ƒ 0.00</span></div>
-                                    <div class="h-px bg-slate-100 my-2"></div>
-                                    <div class="flex justify-between items-center"><span class="font-bold text-brand-navy text-lg">Total Invoice</span><span id="res-total" class="font-extrabold text-3xl text-brand-navy">ƒ 0.00</span></div>
-                                </div>
-                            </div>
-                            <div class="bg-brand-navy text-white p-12 md:p-16 flex flex-col justify-between relative overflow-hidden">
-                                <div class="absolute top-0 right-0 w-80 h-80 bg-brand-teal rounded-full blur-[100px] opacity-30 pointer-events-none"></div>
-                                <div class="relative z-10">
-                                    <h3 class="text-2xl font-bold mb-2">Next Deadline</h3>
-                                    <p class="text-slate-300 text-sm">Official date for Dimp tax filing.</p>
-                                </div>
-                                <div class="my-10 text-center relative z-10">
-                                    <div class="text-7xl font-extrabold tracking-tight mb-2" id="days-left">0</div>
-                                    <div class="text-sm font-bold text-brand-accent uppercase tracking-widest">Days Remaining</div>
-                                </div>
-                                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-5 flex items-center gap-5 relative z-10 border border-white/10">
-                                    <div class="bg-brand-teal p-3 rounded-xl text-white shadow-lg"><i data-lucide="calendar-clock" class="w-6 h-6"></i></div>
-                                    <div><p class="text-lg font-bold" id="deadline-date">...</p><p class="text-xs text-slate-300 uppercase tracking-wide font-medium">Mark your calendar</p></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="team" class="py-20 bg-white scroll-mt-20">
-                <div class="max-w-7xl mx-auto px-6">
-                    <div class="text-center max-w-3xl mx-auto mb-20 reveal" id="team-header">
-                        <h2 class="text-4xl font-extrabold text-brand-navy mb-4" data-editable="true" id="team-title">Our Team</h2>
-                        <p class="text-slate-500 text-xl" data-editable="true" id="team-sub">Dedicated professionals ready to assist you.</p>
-                    </div>
-                    <div id="team-grid" class="grid md:grid-cols-3 gap-10">
-                        <div class="group cursor-pointer relative reveal">
-                            <div class="absolute top-4 right-4 z-20 admin-control"><button onclick="CroesApp.deleteItem(this)" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>
-                            <div class="relative overflow-hidden rounded-[2rem] mb-6 shadow-xl aspect-[4/5] border border-slate-100 group-hover:shadow-2xl transition-all">
-                                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                                <div class="photo-upload-overlay absolute inset-0 bg-brand-navy/60 backdrop-blur-sm hidden items-center justify-center z-10 cursor-pointer" onclick="CroesApp.triggerPhotoUpload(this.previousElementSibling)"><div class="bg-white p-4 rounded-full shadow-xl"><i data-lucide="camera" class="w-6 h-6 text-brand-navy"></i></div></div>
-                                <div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8"><p class="text-white text-sm font-medium italic" data-editable="true">"Precision is key."</p></div>
-                            </div>
-                            <h3 class="text-2xl font-bold text-brand-navy" data-editable="true">Mr. Croes</h3><p class="text-brand-teal font-bold text-xs tracking-widest uppercase mt-1" data-editable="true">Senior Accountant</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
             <section id="contact" class="py-20 bg-brand-surface scroll-mt-20 border-t border-slate-200">
                 <div class="max-w-5xl mx-auto px-6">
                     <div class="bg-brand-navy rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row">
@@ -249,9 +163,8 @@
                         <div class="col-span-1 md:col-span-1">
                             <img src="logo.png" class="h-14 mb-8 opacity-100">
                             <p class="text-sm leading-relaxed opacity-80 mb-8">Aruba's trusted financial partner. Simplifying tax and payroll for over 20 years.</p>
-                            <div class="flex gap-4"><a href="#" class="p-2 bg-white/5 rounded-full hover:bg-brand-teal hover:text-white transition-all"><i data-lucide="facebook" class="w-5 h-5"></i></a><a href="#" class="p-2 bg-white/5 rounded-full hover:bg-brand-teal hover:text-white transition-all"><i data-lucide="instagram" class="w-5 h-5"></i></a></div>
                         </div>
-                        <div><h4 class="text-white font-bold mb-6 text-lg">Quick Links</h4><ul class="space-y-3 text-sm"><li><a href="#home" class="hover:text-brand-accent transition-colors">Home</a></li><li><a href="#services" class="hover:text-brand-accent transition-colors">Services</a></li><li><a href="#team" class="hover:text-brand-accent transition-colors">Team</a></li></ul></div>
+                        <div><h4 class="text-white font-bold mb-6 text-lg">Quick Links</h4><ul class="space-y-3 text-sm"><li><a href="#home" class="hover:text-brand-accent transition-colors">Home</a></li><li><a href="#services" class="hover:text-brand-accent transition-colors">Services</a></li></ul></div>
                         <div><h4 class="text-white font-bold mb-6 text-lg">Contact</h4><ul class="space-y-4 text-sm"><li class="flex items-center gap-3"><i data-lucide="phone" class="w-4 h-4 text-brand-teal"></i> +297 582 0000</li><li class="flex items-center gap-3"><i data-lucide="mail" class="w-4 h-4 text-brand-teal"></i> info@croesaccounting.com</li><li class="flex items-start gap-3"><i data-lucide="map-pin" class="w-4 h-4 text-brand-teal mt-1"></i> Noord, Aruba</li></ul></div>
                     </div>
                     <div class="border-t border-white/10 pt-8 flex justify-between text-xs font-medium"><p>&copy; 2026 Accounting Croes.</p><button onclick="document.getElementById('login-modal').classList.remove('hidden')" class="hover:text-white flex items-center gap-2 opacity-50 hover:opacity-100 transition-opacity"><i data-lucide="lock" class="w-3 h-3"></i> Staff Login</button></div>
@@ -315,7 +228,7 @@
                 <div class="bg-brand-navy text-white p-8 rounded-3xl shadow-xl mb-8 relative overflow-hidden">
                     <div class="absolute top-0 right-0 w-64 h-64 bg-brand-teal rounded-full blur-[80px] opacity-20 pointer-events-none"></div>
                     <h3 class="font-bold text-2xl mb-2 flex items-center gap-2"><i data-lucide="shield-check" class="w-6 h-6"></i> Zero-Knowledge Vault</h3>
-                    <p class="text-slate-300 text-sm max-w-lg">Credentials stored here are encrypted with your login PIN using AES-256. We cannot access them without your key.</p>
+                    <p class="text-slate-300 text-sm max-w-lg">Credentials stored here are encrypted with your login PIN using AES-256.</p>
                 </div>
                 <div class="grid md:grid-cols-2 gap-8">
                     <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
@@ -337,7 +250,7 @@
 
             <div id="portal-msgs" class="hidden">
                 <div class="bg-white p-0 rounded-3xl shadow-sm border border-slate-100 h-[600px] flex flex-col overflow-hidden">
-                    <div class="p-4 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center"><span class="font-bold text-brand-navy text-sm">Secure Message Thread</span><span class="text-xs text-slate-400 flex items-center gap-1"><i data-lucide="lock" class="w-3 h-3"></i> End-to-End Encrypted</span></div>
+                    <div class="p-4 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center"><span class="font-bold text-brand-navy text-sm">Secure Message Thread</span></div>
                     <div id="msg-container" class="flex-1 overflow-y-auto p-6 space-y-4 bg-slate-50"></div>
                     <div class="p-4 bg-white border-t border-slate-100 flex gap-3">
                         <input type="text" id="msg-input" placeholder="Type a secure message..." class="flex-1 p-3 bg-slate-50 border-0 rounded-xl outline-none focus:ring-2 focus:ring-brand-teal transition-all">
@@ -351,7 +264,7 @@
     <section id="back-office" class="hidden fixed inset-0 z-[99999] bg-slate-50 overflow-y-auto">
         <div class="max-w-7xl mx-auto p-8 pt-24">
             <div class="flex justify-between items-center mb-10">
-                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v10.0 • Secured</p></div>
+                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v11.0 • Secured</p></div>
                 <div class="flex gap-4">
                     <a href="https://workplace.zoho.com/#mail_app/mail/folder/inbox" target="_blank" class="flex items-center gap-2 bg-white text-brand-navy border border-slate-200 px-5 py-2.5 rounded-xl font-bold shadow-sm hover:bg-slate-50 transition-colors"><i data-lucide="mail" class="w-4 h-4"></i> Check Mail</a>
                     <button onclick="CroesApp.logout()" class="text-red-500 font-bold hover:bg-red-50 px-4 py-2 rounded-lg transition-colors">Log Out</button>
@@ -361,7 +274,11 @@
             <div class="grid grid-cols-3 gap-6 mb-10">
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100"><p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Total Clients</p><p class="text-3xl font-extrabold text-brand-navy mt-1" id="stat-clients">0</p></div>
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100"><p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Pending Requests</p><p class="text-3xl font-extrabold text-brand-teal mt-1" id="stat-pending">0</p></div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100"><p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Files Uploaded</p><p class="text-3xl font-extrabold text-brand-accent mt-1" id="stat-files">0</p></div>
+                <button onclick="CroesApp.checkDailyReminders()" class="bg-brand-navy text-white p-6 rounded-2xl shadow-lg border border-slate-100 hover:bg-brand-teal transition-all text-left">
+                    <p class="text-xs font-bold uppercase tracking-wider opacity-80"><i data-lucide="bell" class="w-3 h-3 inline mr-1"></i> Actions</p>
+                    <p class="text-xl font-bold mt-2">Send Daily Reminders</p>
+                    <p class="text-[10px] opacity-60 mt-1">Click to check for tomorrow's appointments</p>
+                </button>
             </div>
 
             <div class="flex gap-4 mb-10 overflow-x-auto pb-2">
@@ -377,7 +294,7 @@
                         <h3 class="font-bold text-xl text-brand-navy">Appointment Requests</h3>
                         <div class="relative"><i data-lucide="search" class="w-4 h-4 absolute left-3 top-3 text-slate-400"></i><input type="text" placeholder="Search..." oninput="CroesApp.searchAdmin(this.value)" class="pl-10 pr-4 py-2 rounded-lg border border-slate-200 text-sm focus:border-brand-teal outline-none"></div>
                     </div>
-                    <table class="w-full text-left"><thead class="bg-slate-50 text-xs uppercase text-slate-400 font-bold"><tr><th class="p-4 rounded-l-xl">Client</th><th class="p-4">Service</th><th class="p-4">Date</th><th class="p-4">Status</th><th class="p-4 text-right rounded-r-xl">Actions</th></tr></thead><tbody id="booking-list" class="divide-y divide-slate-100 text-sm font-medium"></tbody></table>
+                    <table class="w-full text-left"><thead class="bg-slate-50 text-xs uppercase text-slate-400 font-bold"><tr><th class="p-4 rounded-l-xl">Client</th><th class="p-4">Service</th><th class="p-4">Requested Date</th><th class="p-4">Status</th><th class="p-4 text-right rounded-r-xl">Actions</th></tr></thead><tbody id="booking-list" class="divide-y divide-slate-100 text-sm font-medium"></tbody></table>
                 </div>
             </div>
 
@@ -387,7 +304,6 @@
                         <h3 class="font-bold text-xl text-brand-navy">Client Management</h3>
                         <button onclick="document.getElementById('add-client-form').classList.toggle('hidden')" class="bg-brand-teal text-white px-4 py-2 rounded-lg text-sm font-bold shadow-md flex items-center gap-2 hover:bg-brand-navy transition-colors"><i data-lucide="user-plus" class="w-4 h-4"></i> New Client</button>
                     </div>
-
                     <div id="add-client-form" class="hidden bg-slate-50 p-6 rounded-2xl mb-6 border border-slate-200 animate-reveal">
                         <h4 class="font-bold text-brand-navy mb-4 text-sm uppercase">Register New Business</h4>
                         <div class="grid grid-cols-2 gap-4 mb-4">
@@ -396,11 +312,9 @@
                             <input type="text" id="new-client-phone" placeholder="Phone Number" class="p-3 rounded-xl border border-slate-200 text-sm">
                             <input type="text" id="new-client-pin" placeholder="Access PIN (6-digits)" class="p-3 rounded-xl border border-slate-200 text-sm font-mono" maxlength="6">
                         </div>
-                        <button onclick="CroesApp.addClient()" class="w-full bg-brand-navy text-white font-bold py-3 rounded-xl shadow-lg hover:bg-brand-teal transition-colors">Create Profile</button>
+                        <button onclick="CroesApp.addClient()" class="w-full bg-brand-navy text-white font-bold py-3 rounded-xl shadow-lg hover:bg-brand-teal transition-colors">Create Profile & Email PIN</button>
                     </div>
-
-                    <div id="client-repo-list" class="grid gap-3 overflow-y-auto max-h-[500px] pr-2">
-                        </div>
+                    <div id="client-repo-list" class="grid gap-3 overflow-y-auto max-h-[500px] pr-2"></div>
                 </div>
             </div>
 
@@ -434,19 +348,33 @@
         <div class="bg-white p-10 rounded-[2.5rem] shadow-2xl text-center max-w-sm w-full relative">
             <button onclick="document.getElementById('login-modal').classList.add('hidden')" class="absolute top-6 right-6 text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-6 h-6"></i></button>
             <h2 class="text-2xl font-bold text-brand-navy mb-1">Staff Access</h2>
-            <p class="text-slate-400 text-sm mb-6">Enter credentials to continue.</p>
             <input type="password" id="admin-pass" placeholder="Password" class="w-full p-4 bg-slate-50 border-0 rounded-xl mb-4 text-center font-bold text-brand-navy focus:ring-2 focus:ring-brand-teal transition-all">
             <button onclick="CroesApp.handleLogin()" class="w-full btn-primary py-4 rounded-xl font-bold shadow-lg">Enter Dashboard</button>
-            <p id="login-error" class="text-red-500 text-xs font-bold mt-4 hidden bg-red-50 py-2 rounded-lg">Incorrect Password</p>
+        </div>
+    </div>
+
+    <div id="confirm-modal" class="fixed inset-0 z-[100000] hidden flex items-center justify-center bg-brand-navy/95 backdrop-blur-md p-4">
+        <div class="bg-white p-8 rounded-[2rem] shadow-2xl w-full max-w-md text-center">
+            <h3 class="text-xl font-bold text-brand-navy mb-4">Confirm Appointment</h3>
+            <p class="text-sm text-slate-500 mb-6">Select the official time for this client.</p>
+            <input type="hidden" id="conf-id">
+            <div class="mb-4 text-left">
+                <label class="text-xs font-bold text-brand-navy uppercase ml-1">Confirmed Date</label>
+                <input type="date" id="conf-date" class="w-full p-3 bg-slate-50 rounded-xl border border-slate-200 mt-1">
+            </div>
+            <div class="mb-6 text-left">
+                <label class="text-xs font-bold text-brand-navy uppercase ml-1">Confirmed Time</label>
+                <input type="time" id="conf-time" class="w-full p-3 bg-slate-50 rounded-xl border border-slate-200 mt-1">
+            </div>
+            <button onclick="CroesApp.finalizeConfirmation()" class="w-full btn-primary py-4 rounded-xl font-bold shadow-lg mb-2">Send Confirmation Email</button>
+            <button onclick="document.getElementById('confirm-modal').classList.add('hidden')" class="w-full py-3 text-slate-400 font-bold hover:text-brand-navy">Cancel</button>
         </div>
     </div>
 
     <div id="client-login-modal" class="fixed inset-0 z-[9999] hidden flex items-center justify-center bg-brand-navy/95 backdrop-blur-md p-4">
         <div class="bg-white p-10 rounded-[2.5rem] shadow-2xl text-center max-w-sm w-full relative">
             <button onclick="document.getElementById('client-login-modal').classList.add('hidden')" class="absolute top-6 right-6 text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-6 h-6"></i></button>
-            <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6 text-brand-teal"><i data-lucide="shield" class="w-8 h-8"></i></div>
             <h2 class="text-2xl font-bold text-brand-navy mb-2">Secure Portal</h2>
-            <p class="text-slate-500 text-sm mb-6">Enter your email to verify identity.</p>
             <div id="client-step-1"><input type="email" id="client-email" placeholder="client@email.com" class="w-full p-4 bg-slate-50 border-0 rounded-xl mb-4 font-bold text-brand-navy"><button onclick="CroesApp.clientLoginStep1()" class="w-full btn-primary py-4 rounded-xl font-bold shadow-lg">Send Verification Code</button></div>
             <div id="client-step-2" class="hidden"><p class="text-brand-teal font-bold text-xs uppercase tracking-widest mb-3">Check Email for PIN</p><input type="text" id="client-code" placeholder="000000" class="w-full p-4 bg-slate-50 border-0 rounded-xl mb-4 text-center text-2xl tracking-[0.5em] font-bold text-brand-navy"><button onclick="CroesApp.clientLoginStep2()" class="w-full btn-primary py-4 rounded-xl font-bold shadow-lg">Verify & Enter</button></div>
         </div>
@@ -456,10 +384,8 @@
 
     <script>
         const CroesApp = {
-            db: null, currentClientEmail: null, currentClientPin: null, targetImgEl: null, activeChatClient: null,
-            emailInitialized: false,
+            db: null, currentClientEmail: null, currentClientPin: null, targetImgEl: null, activeChatClient: null, emailInitialized: false,
 
-            // EMAIL CONFIGURATION
             emailConfig: {
                 publicKey: "8rBFXNPpsM9GIWhRR",
                 serviceId: "service_ido3zsi",
@@ -467,46 +393,25 @@
                 confirmTemplateId: "template_kc2lb6b"  
             },
 
-            // --- SECURITY MODULE ---
-            security: {
-                key: null,
-                deriveKey: async function(password) {
-                    const enc = new TextEncoder();
-                    const keyMaterial = await crypto.subtle.importKey("raw", enc.encode(password), { name: "PBKDF2" }, false, ["deriveKey"]);
-                    return crypto.subtle.deriveKey(
-                        { name: "PBKDF2", salt: enc.encode("CROES_SALT_V1"), iterations: 100000, hash: "SHA-256" },
-                        keyMaterial, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]
-                    );
-                },
-                encrypt: async function(text, password) {
-                    const key = await this.deriveKey(password);
-                    const iv = crypto.getRandomValues(new Uint8Array(12));
-                    const encoded = new TextEncoder().encode(text);
-                    const encrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv: iv }, key, encoded);
-                    const combined = new Uint8Array(iv.length + new Uint8Array(encrypted).length);
-                    combined.set(iv);
-                    combined.set(new Uint8Array(encrypted), iv.length);
-                    return btoa(String.fromCharCode(...combined));
-                },
-                decrypt: async function(encryptedBase64, password) {
-                    try {
-                        const str = atob(encryptedBase64);
-                        const buffer = new Uint8Array(str.length);
-                        for (let i = 0; i < str.length; i++) buffer[i] = str.charCodeAt(i);
-                        const iv = buffer.slice(0, 12);
-                        const data = buffer.slice(12);
-                        const key = await this.deriveKey(password);
-                        const decrypted = await crypto.subtle.decrypt({ name: "AES-GCM", iv: iv }, key, data);
-                        return new TextDecoder().decode(decrypted);
-                    } catch (e) { console.error(e); return null; }
+            // --- INIT SEQUENCE (FIXED) ---
+            init: function() { 
+                // Ensure DOM is ready before manipulating it
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', () => this.start());
+                } else {
+                    this.start();
                 }
             },
 
-            init: function() { this.initDB(); this.initUI(); },
-            
+            start: function() {
+                this.initDB();
+                this.initUI();
+            },
+
             // --- DATABASE ---
             initDB: function() {
-                const request = indexedDB.open("CroesDBv10", 1); // Bump to v10
+                // Version 11 forces a clean upgrade if schema changed
+                const request = indexedDB.open("CroesDBv11", 1);
                 request.onupgradeneeded = (e) => { 
                     const d = e.target.result; 
                     if(!d.objectStoreNames.contains('files')) d.createObjectStore('files', { keyPath: 'id', autoIncrement: true }); 
@@ -515,170 +420,133 @@
                     if(!d.objectStoreNames.contains('messages')) d.createObjectStore('messages', { keyPath: 'id', autoIncrement: true });
                     if(!d.objectStoreNames.contains('clients')) {
                         const store = d.createObjectStore('clients', { keyPath: 'email' });
-                        store.add({ email: 'client@email.com', pin: '123456', name: 'Demo Client', status: 'Processing', phone: '555-0000' });
+                        // Default Demo Client
+                        store.add({ email: 'demo@croes.com', pin: '123456', name: 'Demo Corp', status: 'Processing', phone: '555-0000' });
                     }
                 };
-                request.onsuccess = (e) => { this.db = e.target.result; this.updateStats(); console.log("DB Ready v10.0"); };
+                request.onsuccess = (e) => { 
+                    this.db = e.target.result; 
+                    this.updateStats(); 
+                    console.log("DB Ready v11.0"); 
+                };
+                request.onerror = (e) => { console.error("DB Fail", e); };
             },
 
             initUI: function() {
+                // Safety timeout to ensure preloader goes away even if DB is slow
+                setTimeout(() => { document.getElementById('preloader').style.display = 'none'; }, 1000);
+                
                 window.addEventListener('scroll', () => { const nav = document.getElementById('navbar'); if (window.scrollY > 20) nav.classList.add('scrolled'); else nav.classList.remove('scrolled'); });
                 lucide.createIcons();
                 const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); }); }, { threshold: 0.1 });
                 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-                setTimeout(() => { document.getElementById('preloader').style.display = 'none'; this.initDates(); }, 1000);
+                this.initDates();
             },
-            
-            showToast: function(title, msg) { const el = document.getElementById('toast'); el.querySelector('h4').innerText = title; document.getElementById('toast-msg').innerText = msg; el.classList.remove('translate-x-96', 'opacity-0'); setTimeout(() => el.classList.add('translate-x-96', 'opacity-0'), 3000); },
-            
-            updateStats: function() {
-                if(!this.db) return;
-                const tx = this.db.transaction(['bookings', 'files'], 'readonly');
-                tx.objectStore('bookings').getAll().onsuccess = (e) => {
-                    const b = e.target.result;
-                    document.getElementById('stat-clients').innerText = new Set(b.map(i => i.email)).size;
-                    document.getElementById('stat-pending').innerText = b.filter(i => i.status === 'Pending').length;
-                };
-                tx.objectStore('files').count().onsuccess = (e) => { document.getElementById('stat-files').innerText = e.target.result; };
-            },
-            
-            handleLogin: function() { 
-                if(document.getElementById('admin-pass').value === 'admin123') { 
-                    document.getElementById('login-modal').classList.add('hidden'); 
-                    document.getElementById('back-office').classList.remove('hidden'); 
-                    this.renderDashboard(); 
-                    this.updateStats(); 
-                } else { document.getElementById('login-error').classList.remove('hidden'); } 
-            },
-            
-            logout: function() { document.getElementById('back-office').classList.add('hidden'); document.body.classList.remove('editing-active'); this.toggleEdit(false); },
-            
-            switchAdminTab: function(tab) { ['inbox','cms','clients','messages'].forEach(t => { document.getElementById('admin-'+t).classList.add('hidden'); document.getElementById('btn-'+t).classList.remove('bg-brand-navy', 'text-white', 'shadow-lg'); document.getElementById('btn-'+t).classList.add('bg-white', 'text-slate-500', 'shadow-sm'); }); document.getElementById('admin-'+tab).classList.remove('hidden'); document.getElementById('btn-'+tab).classList.remove('bg-white', 'text-slate-500', 'shadow-sm'); document.getElementById('btn-'+tab).classList.add('bg-brand-navy', 'text-white', 'shadow-lg'); if(tab === 'clients') this.renderAdminRepo(); if(tab === 'messages') this.renderAdminChatList(); },
-            
-            renderDashboard: function() {
-                if(!this.db) return;
-                const tbody = document.getElementById('booking-list');
-                tbody.innerHTML = `<tr class="animate-pulse"><td class="p-4"><div class="h-4 bg-slate-100 rounded w-24 mb-2"></div></td><td class="p-4"><div class="h-4 bg-slate-100 rounded w-20"></div></td><td class="p-4"><div class="h-4 bg-slate-100 rounded w-12"></div></td><td class="p-4"><div class="h-6 bg-slate-100 rounded-full w-16"></div></td><td class="p-4 text-right"><div class="h-8 bg-slate-100 rounded w-8 inline-block"></div></td></tr>`;
+
+            // --- CONFIRMATION WITH TIME (NEW) ---
+            confirmBooking: function(id) {
+                // Open the modal instead of auto-confirming
                 const tx = this.db.transaction(['bookings'], 'readonly');
-                tx.objectStore('bookings').getAll().onsuccess = (e) => {
-                    const bookings = e.target.result.reverse();
-                    setTimeout(() => {
-                        tbody.innerHTML = '';
-                        if(bookings.length === 0) tbody.innerHTML = '<tr><td colspan="5" class="p-8 text-center text-slate-400">No pending requests.</td></tr>';
-                        bookings.forEach(b => {
-                            const isPending = b.status === 'Pending';
-                            tbody.innerHTML += `<tr class="border-b border-slate-50 hover:bg-slate-50/50 transition-colors"><td class="p-4"><div class="font-bold text-brand-navy">${b.name}</div><div class="text-xs text-slate-400 font-mono">${b.email}</div></td><td class="p-4 text-slate-600 font-medium">${b.service}</td><td class="p-4 text-slate-500 text-xs">${b.date}</td><td class="p-4">${isPending ? '<span class="px-3 py-1 rounded-full text-xs font-bold bg-orange-50 text-orange-600">Pending</span>' : '<span class="px-3 py-1 rounded-full text-xs font-bold bg-green-50 text-green-600">Confirmed</span>'}</td><td class="p-4 text-right space-x-2">${isPending ? `<button onclick="CroesApp.confirmBooking(${b.id})" class="p-2 bg-green-50 text-green-600 rounded-lg"><i data-lucide="check" class="w-4 h-4"></i></button>` : ''}<button onclick="CroesApp.deleteBooking(${b.id})" class="p-2 bg-red-50 text-red-500 rounded-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></td></tr>`;
-                        });
-                        lucide.createIcons();
-                    }, 600);
+                tx.objectStore('bookings').get(id).onsuccess = (e) => {
+                    const data = e.target.result;
+                    document.getElementById('conf-id').value = id;
+                    document.getElementById('conf-date').value = new Date().toISOString().split('T')[0]; // Default to today
+                    document.getElementById('conf-time').value = "09:00";
+                    document.getElementById('confirm-modal').classList.remove('hidden');
                 };
             },
-            
-            confirmBooking: function(id) { 
-                if(!confirm("Confirm booking and notify client?")) return;
+
+            finalizeConfirmation: function() {
+                const id = parseInt(document.getElementById('conf-id').value);
+                const date = document.getElementById('conf-date').value;
+                const time = document.getElementById('conf-time').value;
+                
                 const tx = this.db.transaction(['bookings'], 'readwrite');
                 const store = tx.objectStore('bookings');
-                store.get(id).onsuccess = (e) => { 
+                
+                store.get(id).onsuccess = (e) => {
                     const data = e.target.result;
                     if(!data) return;
-                    data.status = 'Confirmed'; 
-                    store.put(data); 
-                    this.renderDashboard(); 
-                    this.updateStats(); 
                     
-                    if(this.emailConfig.publicKey) {
-                        if(!this.emailInitialized) { emailjs.init(this.emailConfig.publicKey); this.emailInitialized = true; }
-                        emailjs.send(this.emailConfig.serviceId, this.emailConfig.confirmTemplateId, {
-                            title: "Appointment Confirmed",
-                            to_name: data.name,
-                            to_email: data.email,
-                            service_name: data.service,
-                            date: data.date,
-                            message: `Your appointment for ${data.service} on ${data.date} has been officially confirmed.`
-                        }).then(() => { this.showToast("Sent", "Confirmation email sent."); })
-                          .catch((err) => { console.error(err); alert(`EMAIL FAIL: ${err.text}`); });
-                    }
-                }; 
-            },
-            
-            deleteBooking: function(id) { if(confirm("Delete record?")) { const tx = this.db.transaction(['bookings'], 'readwrite'); tx.objectStore('bookings').delete(id); this.renderDashboard(); this.updateStats(); } },
-            searchAdmin: function(query) { const rows = document.querySelectorAll('#booking-list tr'); rows.forEach(row => { row.style.display = row.innerText.toLowerCase().includes(query.toLowerCase()) ? '' : 'none'; }); },
-            
-            // --- SYNC ENGINE ---
-            addClient: function() {
-                const name = document.getElementById('new-client-name').value;
-                const email = document.getElementById('new-client-email').value;
-                const pin = document.getElementById('new-client-pin').value;
-                const phone = document.getElementById('new-client-phone').value;
-                if(!name || !email || !pin) return this.showToast("Error", "Missing fields.");
-                
-                const tx = this.db.transaction(['clients'], 'readwrite');
-                const store = tx.objectStore('clients');
-                const request = store.add({ name, email, pin, phone, status: 'Uploaded', joined: new Date().toLocaleDateString() });
-                
-                request.onsuccess = () => { 
-                    this.showToast("Success", "Client created."); 
-                    document.getElementById('add-client-form').classList.add('hidden'); 
-                    this.renderAdminRepo(); 
+                    data.status = 'Confirmed';
+                    data.date = date; // Update with confirmed date
+                    data.time = time; // Save confirmed time
+                    store.put(data);
+                    
+                    document.getElementById('confirm-modal').classList.add('hidden');
+                    this.renderDashboard();
+                    this.updateStats();
 
-                    if(this.emailConfig.publicKey) {
-                        if(!this.emailInitialized) { emailjs.init(this.emailConfig.publicKey); this.emailInitialized = true; }
-                        emailjs.send(this.emailConfig.serviceId, this.emailConfig.confirmTemplateId, {
-                            title: "Account Created", 
-                            to_name: name,
-                            to_email: email,
-                            service_name: "Client Portal Access",
-                            date: new Date().toLocaleDateString(),
-                            message: `Welcome to Accounting Croes. Your secure Login PIN is: ${pin}. Please keep this safe.`
-                        }).then(() => { this.showToast("Sent", "Welcome email with PIN sent."); })
-                          .catch((err) => { alert(`EMAIL FAIL: ${err.text}`); });
-                    }
+                    // Send Email
+                    this.sendEmail(this.emailConfig.confirmTemplateId, {
+                        title: "Appointment Confirmed",
+                        to_name: data.name,
+                        to_email: data.email,
+                        service_name: data.service,
+                        date: date,
+                        time: time, // Now sending specific time
+                        message: `We have scheduled you for ${time}. Please bring your ID.`
+                    }, "Confirmation Sent");
                 };
-                request.onerror = (e) => { this.showToast("Error", "Email already exists."); };
             },
 
-            renderAdminRepo: function() {
-                if(!this.db) return;
-                const tx = this.db.transaction(['clients', 'files'], 'readonly');
-                let clients = [], files = [];
-                tx.objectStore('clients').getAll().onsuccess = (e) => { clients = e.target.result; };
-                tx.objectStore('files').getAll().onsuccess = (e) => { 
-                    files = e.target.result;
-                    const container = document.getElementById('client-repo-list');
-                    container.innerHTML = '';
-                    if(clients.length === 0) { container.innerHTML = '<div class="p-12 text-center text-slate-400">No clients found. Click "New Client" to start.</div>'; return; }
-                    clients.forEach(c => {
-                        const clientFiles = files.filter(f => f.clientEmail === c.email);
-                        let statusColor = c.status === 'Processing' ? 'bg-blue-50 text-brand-teal' : c.status === 'Review' ? 'bg-orange-50 text-orange-600' : c.status === 'Filed' ? 'bg-green-50 text-green-600' : 'bg-slate-100 text-slate-500';
-                        let filesHtml = '';
-                        if(clientFiles.length > 0) {
-                            filesHtml = `<div class="mt-3 space-y-2 bg-slate-50 p-3 rounded-xl">`;
-                            clientFiles.forEach(f => {
-                                const url = URL.createObjectURL(f.data);
-                                filesHtml += `<div class="flex justify-between items-center text-xs"><a href="${url}" download="${f.fileName}" class="text-brand-teal hover:underline flex items-center gap-1"><i data-lucide="file" class="w-3 h-3"></i> ${f.fileName}</a><button onclick="CroesApp.deleteClientFile(${f.id})" class="text-red-400 hover:text-red-600"><i data-lucide="x" class="w-3 h-3"></i></button></div>`;
-                            });
-                            filesHtml += `</div>`;
+            // --- EMAIL HELPER ---
+            sendEmail: function(templateId, params, successMsg) {
+                if(this.emailConfig.publicKey) {
+                    if(!this.emailInitialized) { emailjs.init(this.emailConfig.publicKey); this.emailInitialized = true; }
+                    emailjs.send(this.emailConfig.serviceId, templateId, params)
+                        .then(() => { this.showToast("Sent", successMsg); })
+                        .catch((err) => { console.error(err); this.showToast("Email Error", "Saved to DB, but email failed."); });
+                }
+            },
+
+            // --- REMINDERS SYSTEM (NEW) ---
+            checkDailyReminders: function() {
+                const tx = this.db.transaction(['bookings'], 'readonly');
+                tx.objectStore('bookings').getAll().onsuccess = (e) => {
+                    const bookings = e.target.result;
+                    const tomorrow = new Date();
+                    tomorrow.setDate(tomorrow.getDate() + 1);
+                    const tomorrowStr = tomorrow.toISOString().split('T')[0];
+                    
+                    let sentCount = 0;
+                    bookings.forEach(b => {
+                        if(b.status === 'Confirmed' && b.date === tomorrowStr) {
+                            this.sendEmail(this.emailConfig.confirmTemplateId, {
+                                title: "Appointment Reminder",
+                                to_name: b.name,
+                                to_email: b.email,
+                                service_name: b.service,
+                                date: b.date,
+                                time: b.time || "Morning",
+                                message: "This is a reminder for your appointment tomorrow."
+                            }, `Reminder sent to ${b.name}`);
+                            sentCount++;
                         }
-                        container.innerHTML += `<div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm group hover:border-brand-teal transition-all"><div class="flex justify-between items-start mb-4"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-brand-surface flex items-center justify-center font-bold text-brand-navy">${c.name.substring(0,2).toUpperCase()}</div><div><h4 class="font-bold text-brand-navy text-sm">${c.name}</h4><p class="text-xs text-slate-400 font-mono">${c.email} <span class="bg-slate-100 px-1 rounded ml-1 text-[10px]">PIN: ${c.pin}</span></p></div></div><div class="text-right"><select onchange="CroesApp.updateClientStatus('${c.email}', this.value)" class="text-xs font-bold rounded-lg py-1 px-2 border-0 cursor-pointer outline-none ${statusColor}"><option value="Uploaded" ${c.status === 'Uploaded' ? 'selected' : ''}>Uploaded</option><option value="Processing" ${c.status === 'Processing' ? 'selected' : ''}>Processing</option><option value="Review" ${c.status === 'Review' ? 'selected' : ''}>Review</option><option value="Filed" ${c.status === 'Filed' ? 'selected' : ''}>Filed</option></select></div></div><div class="flex items-center justify-between border-t border-slate-50 pt-3 mt-3"><span class="text-xs font-bold text-slate-400 flex items-center gap-1"><i data-lucide="file" class="w-3 h-3"></i> ${clientFiles.length} Files</span><div class="flex gap-2"><button onclick="CroesApp.uploadToClient('${c.email}')" class="text-xs bg-brand-surface hover:bg-brand-navy hover:text-white px-3 py-1.5 rounded-lg font-bold text-brand-navy transition-colors flex items-center gap-1"><i data-lucide="upload-cloud" class="w-3 h-3"></i> Send File</button></div></div>${filesHtml}</div>`;
                     });
-                    lucide.createIcons();
+                    
+                    if(sentCount === 0) alert("No appointments found for tomorrow (" + tomorrowStr + ").");
+                    else alert(`Sent ${sentCount} reminders.`);
                 };
             },
 
-            // --- ADMIN CHAT MODULE ---
+            // --- ADMIN CHAT (Restored) ---
             renderAdminChatList: function() {
                 const tx = this.db.transaction(['messages', 'clients'], 'readonly');
                 let messages = [], clients = [];
                 tx.objectStore('messages').getAll().onsuccess = (e) => { messages = e.target.result; };
                 tx.objectStore('clients').getAll().onsuccess = (e) => {
                     clients = e.target.result;
-                    const uniqueEmails = [...new Set(messages.map(m => m.clientEmail))];
-                    const list = document.getElementById('admin-chat-list');
-                    list.innerHTML = '';
-                    uniqueEmails.forEach(email => {
-                        const clientName = clients.find(c => c.email === email)?.name || email;
-                        list.innerHTML += `<div onclick="CroesApp.openAdminChat('${email}')" class="p-3 bg-slate-50 rounded-xl cursor-pointer hover:bg-brand-teal hover:text-white transition-colors"><p class="font-bold text-sm">${clientName}</p><p class="text-xs opacity-70">${email}</p></div>`;
-                    });
+                    setTimeout(() => {
+                        const uniqueEmails = [...new Set(messages.map(m => m.clientEmail))];
+                        const list = document.getElementById('admin-chat-list');
+                        list.innerHTML = '';
+                        if(uniqueEmails.length === 0) list.innerHTML = '<p class="text-xs text-slate-400">No messages yet.</p>';
+                        uniqueEmails.forEach(email => {
+                            const clientName = clients.find(c => c.email === email)?.name || email;
+                            list.innerHTML += `<div onclick="CroesApp.openAdminChat('${email}')" class="p-3 bg-slate-50 rounded-xl cursor-pointer hover:bg-brand-teal hover:text-white transition-colors mb-2"><p class="font-bold text-sm">${clientName}</p><p class="text-xs opacity-70">${email}</p></div>`;
+                        });
+                    }, 200); // Small delay to ensure both DB reads finish
                 };
             },
             openAdminChat: function(email) {
@@ -709,35 +577,119 @@
                 this.renderAdminChatWindow();
             },
 
-            // --- CLIENT CHAT UPDATE ---
-            sendClientMessage: function() { 
-                const val = document.getElementById('msg-input').value; 
-                if(!val) return; 
-                const tx = this.db.transaction(['messages'], 'readwrite');
-                tx.objectStore('messages').add({ clientEmail: this.currentClientEmail, text: val, sender: 'client', date: new Date().toLocaleTimeString() });
-                document.getElementById('msg-container').innerHTML += `<div class="bg-brand-teal text-white p-3 rounded-2xl rounded-tr-none ml-auto w-fit max-w-[80%] text-sm shadow-md mb-2">${val}</div>`; 
-                document.getElementById('msg-input').value = ''; 
+            // --- CORE FUNCTIONS ---
+            showToast: function(title, msg) { const el = document.getElementById('toast'); el.querySelector('h4').innerText = title; document.getElementById('toast-msg').innerText = msg; el.classList.remove('translate-x-96', 'opacity-0'); setTimeout(() => el.classList.add('translate-x-96', 'opacity-0'), 3000); },
+            
+            updateStats: function() {
+                if(!this.db) return;
+                const tx = this.db.transaction(['bookings', 'files'], 'readonly');
+                tx.objectStore('bookings').getAll().onsuccess = (e) => {
+                    const b = e.target.result;
+                    document.getElementById('stat-clients').innerText = new Set(b.map(i => i.email)).size;
+                    document.getElementById('stat-pending').innerText = b.filter(i => i.status === 'Pending').length;
+                };
+                tx.objectStore('files').count().onsuccess = (e) => { document.getElementById('stat-files').innerText = e.target.result; };
             },
-            // Render Client Chat (Now checks sender)
-            renderClientChat: function() {
-                const tx = this.db.transaction(['messages'], 'readonly');
-                tx.objectStore('messages').getAll().onsuccess = (e) => {
-                    const msgs = e.target.result.filter(m => m.clientEmail === this.currentClientEmail);
-                    const con = document.getElementById('msg-container');
-                    con.innerHTML = '';
-                    msgs.forEach(m => {
-                        const isMe = m.sender === 'client';
-                        con.innerHTML += `<div class="${isMe ? 'ml-auto bg-brand-teal text-white rounded-tr-none' : 'mr-auto bg-white text-slate-600 rounded-tl-none'} p-3 rounded-2xl w-fit max-w-[80%] text-sm shadow-sm mb-2">${m.text}</div>`;
+            
+            handleLogin: function() { 
+                if(document.getElementById('admin-pass').value === 'admin123') { 
+                    document.getElementById('login-modal').classList.add('hidden'); 
+                    document.getElementById('back-office').classList.remove('hidden'); 
+                    this.renderDashboard(); 
+                    this.updateStats(); 
+                } 
+            },
+            
+            logout: function() { document.getElementById('back-office').classList.add('hidden'); document.body.classList.remove('editing-active'); this.toggleEdit(false); },
+            
+            switchAdminTab: function(tab) { 
+                ['inbox','cms','clients','messages'].forEach(t => { 
+                    document.getElementById('admin-'+t).classList.add('hidden'); 
+                    document.getElementById('btn-'+t).classList.remove('bg-brand-navy', 'text-white', 'shadow-lg'); 
+                    document.getElementById('btn-'+t).classList.add('bg-white', 'text-slate-500', 'shadow-sm'); 
+                }); 
+                document.getElementById('admin-'+tab).classList.remove('hidden'); 
+                document.getElementById('btn-'+tab).classList.remove('bg-white', 'text-slate-500', 'shadow-sm'); 
+                document.getElementById('btn-'+tab).classList.add('bg-brand-navy', 'text-white', 'shadow-lg'); 
+                if(tab === 'clients') this.renderAdminRepo(); 
+                if(tab === 'messages') this.renderAdminChatList(); 
+            },
+            
+            renderDashboard: function() {
+                if(!this.db) return;
+                const tbody = document.getElementById('booking-list');
+                const tx = this.db.transaction(['bookings'], 'readonly');
+                tx.objectStore('bookings').getAll().onsuccess = (e) => {
+                    const bookings = e.target.result.reverse();
+                    tbody.innerHTML = '';
+                    if(bookings.length === 0) tbody.innerHTML = '<tr><td colspan="5" class="p-8 text-center text-slate-400">No pending requests.</td></tr>';
+                    bookings.forEach(b => {
+                        const isPending = b.status === 'Pending';
+                        const timeDisplay = b.time ? `<br><span class="text-xs text-brand-teal font-bold">${b.time}</span>` : '';
+                        tbody.innerHTML += `<tr class="border-b border-slate-50 hover:bg-slate-50/50 transition-colors"><td class="p-4"><div class="font-bold text-brand-navy">${b.name}</div><div class="text-xs text-slate-400 font-mono">${b.email}</div></td><td class="p-4 text-slate-600 font-medium">${b.service}</td><td class="p-4 text-slate-500 text-xs">${b.date}${timeDisplay}</td><td class="p-4">${isPending ? '<span class="px-3 py-1 rounded-full text-xs font-bold bg-orange-50 text-orange-600">Pending</span>' : '<span class="px-3 py-1 rounded-full text-xs font-bold bg-green-50 text-green-600">Confirmed</span>'}</td><td class="p-4 text-right space-x-2">${isPending ? `<button onclick="CroesApp.confirmBooking(${b.id})" class="p-2 bg-green-50 text-green-600 rounded-lg"><i data-lucide="check" class="w-4 h-4"></i></button>` : ''}<button onclick="CroesApp.deleteBooking(${b.id})" class="p-2 bg-red-50 text-red-500 rounded-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></td></tr>`;
                     });
+                    lucide.createIcons();
                 };
             },
-            // Hook this into switchPortalTab
-            switchPortalTab: function(tab) { 
-                ['dash','docs','msgs', 'vault'].forEach(t => document.getElementById('portal-'+t).classList.add('hidden')); 
-                document.getElementById('portal-'+tab).classList.remove('hidden'); 
-                document.querySelectorAll('.portal-nav-btn').forEach(b => b.classList.remove('active')); 
-                event.currentTarget.classList.add('active'); 
-                if(tab === 'msgs') this.renderClientChat();
+            
+            deleteBooking: function(id) { if(confirm("Delete record?")) { const tx = this.db.transaction(['bookings'], 'readwrite'); tx.objectStore('bookings').delete(id); this.renderDashboard(); this.updateStats(); } },
+            searchAdmin: function(query) { const rows = document.querySelectorAll('#booking-list tr'); rows.forEach(row => { row.style.display = row.innerText.toLowerCase().includes(query.toLowerCase()) ? '' : 'none'; }); },
+            
+            addClient: function() {
+                const name = document.getElementById('new-client-name').value;
+                const email = document.getElementById('new-client-email').value;
+                const pin = document.getElementById('new-client-pin').value;
+                const phone = document.getElementById('new-client-phone').value;
+                if(!name || !email || !pin) return this.showToast("Error", "Missing fields.");
+                
+                const tx = this.db.transaction(['clients'], 'readwrite');
+                const store = tx.objectStore('clients');
+                const request = store.add({ name, email, pin, phone, status: 'Uploaded', joined: new Date().toLocaleDateString() });
+                
+                request.onsuccess = () => { 
+                    this.showToast("Success", "Client created."); 
+                    document.getElementById('add-client-form').classList.add('hidden'); 
+                    this.renderAdminRepo(); 
+                    
+                    // SEND WELCOME EMAIL (With PIN)
+                    this.sendEmail(this.emailConfig.confirmTemplateId, {
+                        title: "Account Created", 
+                        to_name: name,
+                        to_email: email,
+                        service_name: "Client Portal Access",
+                        date: new Date().toLocaleDateString(),
+                        time: "Active",
+                        message: `Welcome to Accounting Croes. Your secure Login PIN is: ${pin}. Please keep this safe.`
+                    }, "Welcome email sent");
+                };
+                request.onerror = (e) => { this.showToast("Error", "Email already exists."); };
+            },
+
+            renderAdminRepo: function() {
+                if(!this.db) return;
+                const tx = this.db.transaction(['clients', 'files'], 'readonly');
+                let clients = [], files = [];
+                tx.objectStore('clients').getAll().onsuccess = (e) => { clients = e.target.result; };
+                tx.objectStore('files').getAll().onsuccess = (e) => { 
+                    files = e.target.result;
+                    const container = document.getElementById('client-repo-list');
+                    container.innerHTML = '';
+                    if(clients.length === 0) { container.innerHTML = '<div class="p-12 text-center text-slate-400">No clients found.</div>'; return; }
+                    clients.forEach(c => {
+                        const clientFiles = files.filter(f => f.clientEmail === c.email);
+                        let filesHtml = '';
+                        if(clientFiles.length > 0) {
+                            filesHtml = `<div class="mt-3 space-y-2 bg-slate-50 p-3 rounded-xl">`;
+                            clientFiles.forEach(f => {
+                                const url = URL.createObjectURL(f.data);
+                                filesHtml += `<div class="flex justify-between items-center text-xs"><a href="${url}" download="${f.fileName}" class="text-brand-teal hover:underline flex items-center gap-1"><i data-lucide="file" class="w-3 h-3"></i> ${f.fileName}</a><button onclick="CroesApp.deleteClientFile(${f.id})" class="text-red-400 hover:text-red-600"><i data-lucide="x" class="w-3 h-3"></i></button></div>`;
+                            });
+                            filesHtml += `</div>`;
+                        }
+                        container.innerHTML += `<div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm group hover:border-brand-teal transition-all mb-4"><div class="flex justify-between items-start mb-4"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-brand-surface flex items-center justify-center font-bold text-brand-navy">${c.name.substring(0,2).toUpperCase()}</div><div><h4 class="font-bold text-brand-navy text-sm">${c.name}</h4><p class="text-xs text-slate-400 font-mono">${c.email} <span class="bg-slate-100 px-1 rounded ml-1 text-[10px]">PIN: ${c.pin}</span></p></div></div><div class="text-right"><span class="text-xs bg-slate-100 px-2 py-1 rounded">${c.status}</span></div></div><div class="flex items-center justify-between border-t border-slate-50 pt-3 mt-3"><span class="text-xs font-bold text-slate-400 flex items-center gap-1"><i data-lucide="file" class="w-3 h-3"></i> ${clientFiles.length} Files</span><div class="flex gap-2"><button onclick="CroesApp.uploadToClient('${c.email}')" class="text-xs bg-brand-surface hover:bg-brand-navy hover:text-white px-3 py-1.5 rounded-lg font-bold text-brand-navy transition-colors flex items-center gap-1"><i data-lucide="upload-cloud" class="w-3 h-3"></i> Send File</button></div></div>${filesHtml}</div>`;
+                    });
+                    lucide.createIcons();
+                };
             },
 
             deleteClientFile: function(id) {
@@ -746,12 +698,6 @@
                     tx.objectStore('files').delete(id);
                     tx.oncomplete = () => { this.showToast("Deleted", "File removed."); this.renderAdminRepo(); };
                 }
-            },
-
-            updateClientStatus: function(email, newStatus) {
-                const tx = this.db.transaction(['clients'], 'readwrite');
-                const store = tx.objectStore('clients');
-                store.get(email).onsuccess = (e) => { const data = e.target.result; data.status = newStatus; store.put(data); this.showToast("Sync", "Client timeline updated."); this.renderAdminRepo(); };
             },
             
             uploadToClient: function(email) {
@@ -773,32 +719,20 @@
                 const date = new Date().toLocaleDateString();
                 const bookingData = { name, email, service, status: 'Pending', date };
                 
-                if(!this.emailInitialized) {
-                    if(this.emailConfig && this.emailConfig.publicKey) {
-                        emailjs.init(this.emailConfig.publicKey);
-                        this.emailInitialized = true;
-                    }
-                }
-
-                emailjs.send(this.emailConfig.serviceId, this.emailConfig.requestTemplateId, {
+                // Alert Admin via Email
+                this.sendEmail(this.emailConfig.requestTemplateId, {
                     name: name,           
                     email: email,         
                     service: service,     
                     date: date,           
                     time: "Pending Conf", 
                     to_email: "info@croesaccounting.com"
-                }).then(() => {
-                    this.saveBookingToDB(bookingData);
-                    this.showToast("Success", "Request Sent! We'll contact you.");
-                }).catch((err) => {
-                    console.error("EmailJS Failed:", err);
-                    alert(`EMAIL ERROR: ${err.text}`); // Aggressive error reporting
-                    this.saveBookingToDB(bookingData);
-                }).finally(() => {
-                    btn.innerText = originalText;
-                    btn.disabled = false;
-                    e.target.reset();
-                });
+                }, "Request Sent");
+
+                this.saveBookingToDB(bookingData);
+                btn.innerText = originalText;
+                btn.disabled = false;
+                e.target.reset();
             },
 
             saveBookingToDB: function(data) {
@@ -814,39 +748,31 @@
                 const emailInput = document.getElementById('client-email');
                 const email = emailInput.value.trim();
                 const btn = emailInput.nextElementSibling;
-                
                 if(!email) return this.showToast("Error", "Please enter your email.");
-
-                const originalText = btn.innerText;
                 btn.innerText = "Verifying...";
                 btn.disabled = true;
 
                 const tx = this.db.transaction(['clients'], 'readonly');
                 const store = tx.objectStore('clients');
-                
                 store.get(email).onsuccess = (e) => {
                     const client = e.target.result;
                     if(client) {
-                        if(this.emailConfig.publicKey) {
-                            if(!this.emailInitialized) { emailjs.init(this.emailConfig.publicKey); this.emailInitialized = true; }
-                            
-                            emailjs.send(this.emailConfig.serviceId, this.emailConfig.confirmTemplateId, {
-                                title: "Login Verification",
-                                to_name: client.name,
-                                to_email: client.email,
-                                service_name: "Client Portal Access",
-                                date: new Date().toLocaleTimeString(),
-                                message: `SECURITY ALERT: Your Login PIN is: ${client.pin} . Do not share this.`
-                            }).then(() => { this.showToast("Sent", "PIN sent to your email."); })
-                              .catch((err) => { alert(`DEMO: Your PIN is ${client.pin} (${err.text})`); });
-                        }
+                        this.sendEmail(this.emailConfig.confirmTemplateId, {
+                            title: "Login Verification",
+                            to_name: client.name,
+                            to_email: client.email,
+                            service_name: "Client Portal Access",
+                            date: new Date().toLocaleTimeString(),
+                            time: "Login",
+                            message: `SECURITY ALERT: Your Login PIN is: ${client.pin} . Do not share this.`
+                        }, "PIN sent to email");
 
                         this.currentClientEmail = email;
                         document.getElementById('client-step-1').classList.add('hidden');
                         document.getElementById('client-step-2').classList.remove('hidden');
                     } else {
                         this.showToast("Error", "Email not found.");
-                        btn.innerText = originalText;
+                        btn.innerText = "Send Verification Code";
                         btn.disabled = false;
                     }
                 };
@@ -864,21 +790,9 @@
                         document.getElementById('public-view').classList.add('hidden');
                         document.getElementById('client-portal').classList.remove('hidden');
                         document.getElementById('portal-client-name').innerText = client.name;
-                        this.renderTimeline(client.status);
-                        this.renderClientFiles();
-                        this.renderVault();
+                        this.switchPortalTab('dash');
                     } else { alert("Invalid PIN."); }
                 };
-            },
-
-            renderTimeline: function(status) {
-                const statuses = ['Uploaded', 'Processing', 'Review', 'Filed'];
-                const index = statuses.indexOf(status);
-                const width = ((index + 1) / 4) * 100;
-                document.getElementById('progress-bar-visual').style.width = width + '%';
-                const steps = document.getElementById('progress-steps').children;
-                for(let i=0; i<steps.length; i++) { if(i <= index) steps[i].classList.add('text-brand-teal'); else steps[i].classList.remove('text-brand-teal'); }
-                document.querySelector('#portal-dash p.text-xl').innerText = status;
             },
 
             logoutClient: function() { document.getElementById('client-portal').classList.add('hidden'); document.getElementById('public-view').classList.remove('hidden'); this.currentClientEmail = null; this.currentClientPin = null; },
@@ -918,8 +832,7 @@
                 const tx = this.db.transaction(['vault'], 'readwrite');
                 tx.objectStore('vault').add({ clientEmail: this.currentClientEmail, service: s, data: encryptedData, date: new Date().toLocaleDateString() });
                 this.showToast("Secure", "Credentials encrypted & stored.");
-                this.renderVault();
-                document.getElementById('vault-pass').value = '';
+                this.renderVault(); // Refresh Vault
             },
 
             renderVault: function() {
@@ -932,3 +845,33 @@
                     for(const item of items) {
                         try {
                             const decryptedJson = await this.security.decrypt(item.data, this.currentClientPin);
+                            if(!decryptedJson) continue;
+                            const creds = JSON.parse(decryptedJson);
+                            list.innerHTML += `<div class="p-4 bg-slate-50 border border-slate-100 rounded-xl group hover:border-brand-teal transition-colors"><div class="flex justify-between items-center mb-2"><span class="font-bold text-brand-navy">${item.service}</span><button onclick="CroesApp.deleteVaultItem(${item.id})" class="text-slate-300 hover:text-red-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="text-xs text-slate-500 font-mono bg-white p-2 rounded border border-slate-100 flex justify-between"><span>${creds.user}</span><span class="tracking-widest">••••••</span></div></div>`;
+                        } catch(err) { console.error("Decrypt Error", err); }
+                    }
+                    lucide.createIcons();
+                };
+            },
+            deleteVaultItem: function(id) { if(confirm("Destroy this credential?")) { const tx = this.db.transaction(['vault'], 'readwrite'); tx.objectStore('vault').delete(id); this.renderVault(); } },
+            
+            // --- SECURITY & UTILS ---
+            security: {
+                key: null,
+                deriveKey: async function(password) { const enc = new TextEncoder(); const keyMaterial = await crypto.subtle.importKey("raw", enc.encode(password), { name: "PBKDF2" }, false, ["deriveKey"]); return crypto.subtle.deriveKey({ name: "PBKDF2", salt: enc.encode("CROES_SALT_V1"), iterations: 100000, hash: "SHA-256" }, keyMaterial, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]); },
+                encrypt: async function(text, password) { const key = await this.deriveKey(password); const iv = crypto.getRandomValues(new Uint8Array(12)); const encoded = new TextEncoder().encode(text); const encrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv: iv }, key, encoded); const combined = new Uint8Array(iv.length + new Uint8Array(encrypted).length); combined.set(iv); combined.set(new Uint8Array(encrypted), iv.length); return btoa(String.fromCharCode(...combined)); },
+                decrypt: async function(encryptedBase64, password) { try { const str = atob(encryptedBase64); const buffer = new Uint8Array(str.length); for (let i = 0; i < str.length; i++) buffer[i] = str.charCodeAt(i); const iv = buffer.slice(0, 12); const data = buffer.slice(12); const key = await this.deriveKey(password); const decrypted = await crypto.subtle.decrypt({ name: "AES-GCM", iv: iv }, key, data); return new TextDecoder().decode(decrypted); } catch (e) { return null; } }
+            },
+            toggleEdit: function(enable) { const toolbar = document.getElementById('edit-toolbar'); if (enable) { document.body.classList.add('editing-active'); toolbar.classList.remove('hidden'); document.getElementById('back-office').classList.add('hidden'); document.querySelectorAll('[data-editable="true"]').forEach(el => el.contentEditable = "true"); } else { document.body.classList.remove('editing-active'); toolbar.classList.add('hidden'); document.querySelectorAll('[data-editable="true"]').forEach(el => el.contentEditable = "false"); } },
+            saveEdits: function() { this.showToast("Saved", "Changes published."); },
+            calculateTax: function() { const v = parseFloat(document.getElementById('calc-input').value)||0; const t = v * 0.07; const tot = v + t; document.getElementById('res-sub').innerText = 'ƒ '+v.toFixed(2); document.getElementById('res-tax').innerText = '+ ƒ '+t.toFixed(2); document.getElementById('res-total').innerText = 'ƒ '+tot.toFixed(2); const w = v+t; document.getElementById('bar-sub').style.width = (v/w)*100 + '%'; document.getElementById('bar-tax').style.width = (t/w)*100 + '%'; },
+            initDates: function() { const today = new Date(); let year = today.getFullYear(); let month = today.getMonth(); let deadline = new Date(year, month, 15); if (today.getDate() > 15) { deadline = new Date(year, month + 1, 15); } const diffDays = Math.ceil(Math.abs(deadline - today) / (1000 * 60 * 60 * 24)); document.getElementById('days-left').innerText = diffDays; document.getElementById('deadline-date').innerText = deadline.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }); },
+            sendClientMessage: function() { const val = document.getElementById('msg-input').value; if(!val) return; const tx = this.db.transaction(['messages'], 'readwrite'); tx.objectStore('messages').add({ clientEmail: this.currentClientEmail, text: val, sender: 'client', date: new Date().toLocaleTimeString() }); document.getElementById('msg-container').innerHTML += `<div class="bg-brand-teal text-white p-3 rounded-2xl rounded-tr-none ml-auto w-fit max-w-[80%] text-sm shadow-md mb-2">${val}</div>`; document.getElementById('msg-input').value = ''; },
+            switchPortalTab: function(tab) { ['dash','docs','msgs', 'vault'].forEach(t => document.getElementById('portal-'+t).classList.add('hidden')); document.getElementById('portal-'+tab).classList.remove('hidden'); document.querySelectorAll('.portal-nav-btn').forEach(b => b.classList.remove('active')); event.currentTarget.classList.add('active'); if(tab === 'msgs') this.renderClientChat(); },
+            renderClientChat: function() { const tx = this.db.transaction(['messages'], 'readonly'); tx.objectStore('messages').getAll().onsuccess = (e) => { const msgs = e.target.result.filter(m => m.clientEmail === this.currentClientEmail); const con = document.getElementById('msg-container'); con.innerHTML = ''; msgs.forEach(m => { const isMe = m.sender === 'client'; con.innerHTML += `<div class="${isMe ? 'ml-auto bg-brand-teal text-white rounded-tr-none' : 'mr-auto bg-white text-slate-600 rounded-tl-none'} p-3 rounded-2xl w-fit max-w-[80%] text-sm shadow-sm mb-2">${m.text}</div>`; }); }; }
+        };
+
+        CroesApp.init();
+    </script>
+</body>
+</html>
