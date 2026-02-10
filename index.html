@@ -58,6 +58,12 @@
         .lang-btn { font-size: 0.75rem; font-weight: 700; padding: 4px 8px; border-radius: 6px; transition: all 0.2s; color: #64748B; }
         .lang-btn.active { background: #E2E8F0; color: #0B2447; }
 
+        /* FAQ ACCORDION STYLES */
+        details > summary { list-style: none; cursor: pointer; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary ~ * { animation: sweep .5s ease-in-out; }
+        @keyframes sweep { 0% {opacity: 0; transform: translateY(-10px)} 100% {opacity: 1; transform: translateY(0)} }
+
         .admin-control { display: none !important; }
         body.editing-active .admin-control { display: inline-flex !important; }
         body.editing-active [data-editable="true"]:hover { outline: 2px dashed #23869D; cursor: text; background: rgba(35, 134, 157, 0.05); }
@@ -73,8 +79,8 @@
     <div id="preloader" class="fixed inset-0 bg-white z-[99999] flex items-center justify-center transition-opacity duration-500">
         <div class="text-center">
             <div class="w-16 h-16 border-4 border-slate-100 border-t-brand-navy rounded-full animate-spin mx-auto mb-4"></div>
-            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes v16.0</p>
-            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">System Online</p>
+            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes v16.1</p>
+            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">FAQ Restored</p>
         </div>
     </div>
 
@@ -96,6 +102,7 @@
                     <a href="#home" class="nav-link" data-i18n="nav_home">Home</a>
                     <a href="#services" class="nav-link" data-i18n="nav_services">Services</a>
                     <a href="#tools" class="nav-link" data-i18n="nav_tools">Tools</a>
+                    <a href="#faq" class="nav-link" data-i18n="nav_faq">FAQ</a>
                     <div class="flex bg-slate-100 rounded-lg p-1">
                         <button onclick="CroesApp.setLang('en')" class="lang-btn active" id="lang-en">🇺🇸</button>
                         <button onclick="CroesApp.setLang('pa')" class="lang-btn" id="lang-pa">🇦🇼</button>
@@ -108,6 +115,7 @@
             </div>
             <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-white border-b border-gray-100 shadow-xl p-4 flex-col gap-4">
                 <a href="#home" class="block font-bold text-brand-navy">Home</a>
+                <a href="#services" class="block font-bold text-brand-navy">Services</a>
                 <button onclick="CroesApp.openBookingModal()" class="block font-bold text-brand-navy">Book</button>
                 <button onclick="CroesApp.openPortalLogin()" class="block w-full text-left font-bold text-brand-teal">Login</button>
             </div>
@@ -143,7 +151,10 @@
 
             <section id="services" class="py-24 bg-white">
                 <div class="max-w-7xl mx-auto px-6">
-                    <div class="text-center mb-16"><h2 class="text-3xl font-bold text-brand-navy" data-i18n="svc_header">Elite Services</h2></div>
+                    <div class="text-center max-w-3xl mx-auto mb-20 reveal" id="services-header">
+                        <h2 class="text-4xl font-extrabold text-brand-navy mb-4 tracking-tight" data-editable="true" id="svc-title">Our Expertise</h2>
+                        <p class="text-slate-500 text-lg" data-editable="true" id="svc-sub">Tailored financial strategies for Aruban businesses.</p>
+                    </div>
                     <div id="services-grid" class="grid md:grid-cols-3 gap-8">
                         <div class="brand-card group cursor-pointer" onclick="CroesApp.handleCardClick(this, 'tax')">
                             <div class="h-64 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"><div class="absolute inset-0 card-overlay"></div><div class="absolute bottom-6 left-6 text-white"><h3 class="text-xl font-bold text-shadow" data-i18n="svc_1_title">Administration</h3></div></div>
@@ -166,14 +177,23 @@
                     <div class="bg-white rounded-[2.5rem] shadow-xl overflow-hidden reveal">
                         <div class="grid md:grid-cols-2">
                             <div class="p-12">
-                                <div class="flex items-center gap-4 mb-8"><div class="p-3 bg-blue-50 text-brand-navy rounded-xl"><i data-lucide="percent" class="w-6 h-6"></i></div><h2 class="text-3xl font-bold text-brand-navy" data-i18n="bbo_title">Advanced BBO</h2></div>
-                                <div class="relative mb-6"><input type="text" id="calc-input" placeholder="1000" class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-5 pl-6 pr-6 text-3xl font-bold text-brand-navy outline-none focus:border-brand-teal transition-all" oninput="CroesApp.calculateTax()"></div>
-                                <div class="flex items-center justify-between mb-8 bg-slate-50 p-3 rounded-xl border border-slate-100"><span class="text-sm font-bold text-slate-500">Price includes tax?</span><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="tax-toggle" class="sr-only peer" onchange="CroesApp.calculateTax()"><div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-teal"></div></label></div>
-                                <div class="space-y-4">
-                                    <div class="flex justify-between text-slate-500 font-medium"><span>Subtotal</span><span id="res-sub">ƒ 0.00</span></div>
-                                    <div class="flex justify-between text-brand-teal font-bold"><span>BBO/BAZV (7%)</span><span id="res-tax">+ ƒ 0.00</span></div>
+                                <div class="flex items-center gap-4 mb-8">
+                                    <div class="p-3 bg-blue-50 text-brand-navy rounded-xl"><i data-lucide="percent" class="w-6 h-6"></i></div>
+                                    <h2 class="text-3xl font-bold text-brand-navy" data-i18n="bbo_title">BBO Estimator</h2>
+                                </div>
+                                <div class="relative mb-6">
+                                    <span class="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-2xl">ƒ</span>
+                                    <input type="number" id="calc-input" placeholder="0.00" class="w-full bg-slate-50 border-0 rounded-2xl py-5 pl-12 pr-6 text-3xl font-bold text-brand-navy outline-none focus:ring-2 focus:ring-brand-teal transition-all" oninput="CroesApp.calculateTax()">
+                                </div>
+                                <div class="h-2 w-full bg-slate-100 rounded-full mb-6 overflow-hidden flex">
+                                    <div id="bar-sub" class="bg-brand-navy h-full transition-all duration-500" style="width: 0%"></div>
+                                    <div id="bar-tax" class="bg-brand-teal h-full transition-all duration-500" style="width: 0%"></div>
+                                </div>
+                                <div class="space-y-5">
+                                    <div class="flex justify-between items-center text-slate-500 font-medium"><span>Subtotal</span><span id="res-sub">ƒ 0.00</span></div>
+                                    <div class="flex justify-between items-center text-slate-500 font-medium"><span>BBO/BAZV (7%)</span><span id="res-tax" class="text-brand-teal font-bold">+ ƒ 0.00</span></div>
                                     <div class="h-px bg-slate-100 my-2"></div>
-                                    <div class="flex justify-between text-2xl font-extrabold text-brand-navy"><span>Total</span><span id="res-total">ƒ 0.00</span></div>
+                                    <div class="flex justify-between items-center"><span class="font-bold text-brand-navy text-lg">Total Invoice</span><span id="res-total" class="font-extrabold text-3xl text-brand-navy">ƒ 0.00</span></div>
                                 </div>
                             </div>
                             <div class="bg-brand-navy text-white p-12 flex flex-col justify-between relative">
@@ -187,7 +207,45 @@
                 </div>
             </section>
 
-            <section id="team" class="py-24 bg-white"><div class="max-w-7xl mx-auto px-6 text-center"><h2 class="text-3xl font-bold text-brand-navy mb-16" data-i18n="team_title">Meet the Experts</h2><div class="grid md:grid-cols-3 gap-10"><div class="group relative"><div class="absolute top-4 right-4 z-20 admin-control"><button onclick="CroesApp.deleteItem(this)" class="bg-red-500 text-white p-2 rounded-full shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div><div class="relative overflow-hidden rounded-[2rem] mb-6 shadow-xl aspect-[4/5]"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"><div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8"><p class="text-white font-medium italic">"Precision is key."</p></div></div><h3 class="text-2xl font-bold text-brand-navy">Mr. Croes</h3><p class="text-brand-teal font-bold text-xs uppercase tracking-widest mt-1">Senior Accountant</p></div></div></div></section>
+            <section id="team" class="py-24 bg-white">
+                <div class="max-w-7xl mx-auto px-6 text-center">
+                    <h2 class="text-3xl font-bold text-brand-navy mb-16" data-i18n="team_title">Meet the Experts</h2>
+                    <div class="grid md:grid-cols-3 gap-10">
+                        <div class="group relative">
+                            <div class="absolute top-4 right-4 z-20 admin-control"><button onclick="CroesApp.deleteItem(this)" class="bg-red-500 text-white p-2 rounded-full shadow-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>
+                            <div class="relative overflow-hidden rounded-[2rem] mb-6 shadow-xl aspect-[4/5]">
+                                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                                <div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-8"><p class="text-white font-medium italic">"Precision is key."</p></div>
+                            </div>
+                            <h3 class="text-2xl font-bold text-brand-navy">Mr. Croes</h3>
+                            <p class="text-brand-teal font-bold text-xs uppercase tracking-widest mt-1">Senior Accountant</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="faq" class="py-24 bg-brand-surface border-t border-slate-200">
+                <div class="max-w-4xl mx-auto px-6">
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl font-bold text-brand-navy">Frequently Asked Questions</h2>
+                        <p class="text-slate-400 mt-2">Common inquiries about our services.</p>
+                    </div>
+                    <div class="space-y-4">
+                        <details class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm group">
+                            <summary class="flex justify-between items-center font-bold text-brand-navy text-lg">What documents do I need for tax filing? <i data-lucide="chevron-down" class="w-5 h-5 text-brand-teal transition-transform group-open:rotate-180"></i></summary>
+                            <p class="mt-4 text-slate-500 leading-relaxed">Typically, we need your financial statements, profit & loss reports, and any relevant receipts. You can upload these securely via our Client Portal.</p>
+                        </details>
+                        <details class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm group">
+                            <summary class="flex justify-between items-center font-bold text-brand-navy text-lg">How do I access the Client Portal? <i data-lucide="chevron-down" class="w-5 h-5 text-brand-teal transition-transform group-open:rotate-180"></i></summary>
+                            <p class="mt-4 text-slate-500 leading-relaxed">Click the "Client Portal" button in the menu. Enter your email to receive a secure, one-time PIN instantly.</p>
+                        </details>
+                        <details class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm group">
+                            <summary class="flex justify-between items-center font-bold text-brand-navy text-lg">What is the deadline for BBO? <i data-lucide="chevron-down" class="w-5 h-5 text-brand-teal transition-transform group-open:rotate-180"></i></summary>
+                            <p class="mt-4 text-slate-500 leading-relaxed">BBO declarations are generally due by the 15th of the following month. We send automated reminders to all our clients.</p>
+                        </details>
+                    </div>
+                </div>
+            </section>
 
             <section id="contact" class="py-24 bg-brand-navy text-white relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
@@ -200,7 +258,7 @@
                             <div class="flex items-center gap-4"><div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center"><i data-lucide="map-pin" class="w-5 h-5 text-brand-teal"></i></div><div><p class="text-xs text-slate-400 uppercase font-bold">Visit Us</p><p class="font-bold">Noord 56, Aruba</p></div></div>
                         </div>
                         <div class="mt-8 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10 h-64">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3890.313100236024!2d-70.0463876241775!3d12.565611087713437!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e854743c3c7340d%3A0x7c7373f73f73f73f!2sNoord!5e0!3m2!1sen!2saw!4v1700000000000!5m2!1sen!2saw" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                            <iframe src="https://maps.google.com/maps?q=Noord%2056,%20Aruba&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                         </div>
                     </div>
                     <div class="md:w-1/2">
@@ -224,27 +282,14 @@
                     <div><h4 class="text-white font-bold mb-4">Contact</h4><ul class="space-y-2"><li>+297 582 0000</li><li>info@croesaccounting.com</li><li>Noord, Aruba</li></ul></div>
                     <div><h4 class="text-white font-bold mb-4">Business Status</h4><div class="flex items-center gap-2 mb-4" id="business-status"><div class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div><span class="text-xs uppercase font-bold text-red-400">Closed Now</span></div></div>
                 </div>
-                <div class="text-center border-t border-white/5 pt-8"><p>&copy; 2026 Accounting Croes. All rights reserved.</p><button onclick="document.getElementById('login-modal').classList.remove('hidden')" class="mt-4 hover:text-white flex items-center gap-2 mx-auto opacity-50 hover:opacity-100"><i data-lucide="lock" class="w-3 h-3"></i> Staff Access</button></div>
+                <div class="text-center border-t border-white/5 pt-8"><p>© 2026 Accounting Croes. All rights reserved.</p><button onclick="document.getElementById('login-modal').classList.remove('hidden')" class="mt-4 hover:text-white flex items-center gap-2 mx-auto opacity-50 hover:opacity-100"><i data-lucide="lock" class="w-3 h-3"></i> Staff Access</button></div>
             </footer>
-        </main>
-    </div>
-
-    <div id="client-portal" class="hidden portal-layout relative bg-slate-50">
-        <aside class="portal-sidebar sidebar-glass text-white p-8 flex flex-col justify-between h-full fixed md:relative z-50 w-64 md:w-auto hidden md:flex">
-            <div><img src="logo.png" class="h-10 mb-10 opacity-90 grayscale brightness-200"><nav class="space-y-2"><button onclick="CroesApp.switchPortalTab('dash')" class="portal-nav-btn active"><i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard</button><button onclick="CroesApp.switchPortalTab('docs')" class="portal-nav-btn"><i data-lucide="file-text" class="w-5 h-5"></i> Documents</button><button onclick="CroesApp.switchPortalTab('vault')" class="portal-nav-btn"><i data-lucide="lock" class="w-5 h-5"></i> Secure Vault</button><button onclick="CroesApp.switchPortalTab('msgs')" class="portal-nav-btn"><i data-lucide="message-square" class="w-5 h-5"></i> Messages</button></nav></div><button onclick="CroesApp.logoutClient()" class="flex items-center gap-3 text-slate-400 hover:text-white transition-colors"><i data-lucide="log-out" class="w-4 h-4"></i> Sign Out</button>
-        </aside>
-        <main class="p-8 md:p-12 overflow-y-auto">
-            <div class="flex justify-between items-center mb-10"><div><h1 class="text-3xl font-bold text-brand-navy">Dashboard</h1><p class="text-slate-500">Welcome back, <span id="portal-client-name" class="font-bold text-brand-teal">Client</span></p></div></div>
-            <div id="portal-dash" class="fade-in-up"><div class="grid md:grid-cols-3 gap-6 mb-8"><div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4"><div class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-brand-blue"><i data-lucide="clock" class="w-6 h-6"></i></div><div><p class="text-xs text-slate-400 font-bold uppercase">Status</p><p class="text-xl font-bold text-brand-navy" id="portal-status-text">Active</p></div></div><div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4"><div class="w-12 h-12 bg-teal-50 rounded-full flex items-center justify-center text-brand-teal"><i data-lucide="file" class="w-6 h-6"></i></div><div><p class="text-xs text-slate-400 font-bold uppercase">Files</p><p class="text-xl font-bold text-brand-navy" id="portal-file-count">0</p></div></div></div></div>
-            <div id="portal-docs" class="hidden fade-in-up"><div class="bg-white p-12 rounded-3xl shadow-sm border border-dashed border-slate-300 text-center hover:border-brand-teal transition-colors cursor-pointer mb-8" onclick="document.getElementById('file-input').click()"><div class="w-16 h-16 bg-blue-50 text-brand-teal rounded-full flex items-center justify-center mx-auto mb-4"><i data-lucide="cloud-upload" class="w-8 h-8"></i></div><h3 class="text-xl font-bold text-brand-navy">Upload Documents</h3><p class="text-slate-400 text-sm mb-6">Click to select files (PDF, JPG, PNG)</p><input type="file" id="file-input" class="hidden" onchange="CroesApp.handleFileUpload(this)"></div><h4 class="font-bold text-brand-navy mb-4">My Files</h4><div id="portal-file-list" class="grid md:grid-cols-3 gap-4"></div></div>
-            <div id="portal-vault" class="hidden fade-in-up"><div class="bg-brand-navy text-white p-8 rounded-3xl shadow-xl mb-8 relative overflow-hidden"><div class="absolute right-0 top-0 w-64 h-64 bg-brand-teal rounded-full blur-[80px] opacity-20"></div><h3 class="font-bold text-2xl mb-2 flex items-center gap-2"><i data-lucide="shield-check" class="w-6 h-6"></i> Vault</h3><p class="text-slate-300 text-sm">Credentials are encrypted.</p></div><div class="grid md:grid-cols-2 gap-8"><div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100"><h4 class="font-bold text-brand-navy mb-6">Add</h4><input type="text" id="vault-service" placeholder="Service" class="w-full p-4 bg-slate-50 border-0 rounded-xl mb-3"><input type="text" id="vault-user" placeholder="User" class="w-full p-4 bg-slate-50 border-0 rounded-xl mb-3"><input type="password" id="vault-pass" placeholder="Pass" class="w-full p-4 bg-slate-50 border-0 rounded-xl mb-3"><button onclick="CroesApp.saveToVault()" class="w-full btn-primary py-3 rounded-xl">Encrypt & Save</button></div><div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100"><h4 class="font-bold text-brand-navy mb-6">Keys</h4><div id="vault-list" class="space-y-3"></div></div></div></div>
-            <div id="portal-msgs" class="hidden fade-in-up"><div class="bg-white rounded-3xl shadow-sm border border-slate-100 h-[600px] flex flex-col overflow-hidden"><div id="msg-container" class="flex-1 overflow-y-auto p-6 space-y-4 bg-slate-50"></div><div class="p-4 bg-white border-t border-slate-100 flex gap-3"><input type="text" id="msg-input" placeholder="Type..." class="flex-1 p-3 bg-slate-50 border-0 rounded-xl outline-none focus:ring-2 focus:ring-brand-teal"><button onclick="CroesApp.sendClientMessage()" class="bg-brand-teal text-white p-3 rounded-xl"><i data-lucide="send" class="w-5 h-5"></i></button></div></div></div>
         </main>
     </div>
 
     <section id="back-office" class="hidden fixed inset-0 z-[99999] bg-slate-50 overflow-y-auto">
         <div class="max-w-7xl mx-auto p-8 pt-12">
-            <div class="flex justify-between items-center mb-10"><div><h2 class="text-3xl font-extrabold text-brand-navy">Command Center</h2><p class="text-slate-500 font-medium">Enterprise v16.0</p></div><div class="flex gap-4"><button onclick="CroesApp.logout()" class="text-red-500 font-bold bg-white px-5 py-2.5 rounded-xl border border-red-100 hover:bg-red-50">Log Out</button></div></div>
+            <div class="flex justify-between items-center mb-10"><div><h2 class="text-3xl font-extrabold text-brand-navy">Command Center</h2><p class="text-slate-500 font-medium">Enterprise v16.1</p></div><div class="flex gap-4"><button onclick="CroesApp.logout()" class="text-red-500 font-bold bg-white px-5 py-2.5 rounded-xl border border-red-100 hover:bg-red-50">Log Out</button></div></div>
             <div class="grid grid-cols-4 gap-6 mb-10"><div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100"><p class="text-slate-400 text-xs font-bold uppercase">Total Clients</p><p class="text-3xl font-extrabold text-brand-navy mt-1" id="stat-clients">0</p></div><div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100"><p class="text-slate-400 text-xs font-bold uppercase">Requests</p><p class="text-3xl font-extrabold text-brand-teal mt-1" id="stat-pending">0</p></div><button onclick="CroesApp.exportToCSV()" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:bg-slate-50 text-left"><p class="text-xs font-bold uppercase text-slate-400"><i data-lucide="download" class="w-3 h-3 inline mr-1"></i> Data</p><p class="text-xl font-bold mt-1 text-brand-navy">Export CSV</p></button><button onclick="CroesApp.switchAdminTab('logs')" class="bg-brand-navy text-white p-6 rounded-2xl shadow-lg hover:bg-brand-blue transition-all text-left"><p class="text-xs font-bold uppercase opacity-80"><i data-lucide="shield" class="w-3 h-3 inline mr-1"></i> Security</p><p class="text-xl font-bold mt-2">Audit Logs</p></button></div>
             <div class="flex gap-2 mb-8 bg-white p-2 rounded-2xl shadow-sm border border-slate-100 w-fit"><button onclick="CroesApp.switchAdminTab('inbox')" class="px-6 py-2 rounded-xl font-bold text-sm transition-all bg-brand-navy text-white shadow-md" id="btn-inbox">Inbox</button><button onclick="CroesApp.switchAdminTab('clients')" class="px-6 py-2 rounded-xl font-bold text-sm transition-all text-slate-500 hover:bg-slate-50" id="btn-clients">Clients</button><button onclick="CroesApp.switchAdminTab('messages')" class="px-6 py-2 rounded-xl font-bold text-sm transition-all text-slate-500 hover:bg-slate-50" id="btn-messages">Chat</button><button onclick="CroesApp.switchAdminTab('logs')" class="px-6 py-2 rounded-xl font-bold text-sm transition-all text-slate-500 hover:bg-slate-50" id="btn-logs">Logs</button></div>
             <div id="admin-inbox" class="fade-in-up"><div class="bg-white rounded-[2rem] shadow-sm p-8 border border-slate-100"><h3 class="font-bold text-xl text-brand-navy mb-6">Appointment Requests</h3><table class="w-full text-left"><thead class="bg-slate-50 text-xs uppercase text-slate-400 font-bold"><tr><th class="p-4 rounded-l-xl">Client</th><th class="p-4">Service</th><th class="p-4">Date</th><th class="p-4">Status</th><th class="p-4 text-right rounded-r-xl">Actions</th></tr></thead><tbody id="booking-list" class="divide-y divide-slate-100 text-sm font-medium"></tbody></table></div></div>
@@ -262,9 +307,9 @@
 
     <script>
         const TRANSLATIONS = {
-            en: { nav_home: "Home", nav_services: "Services", nav_tools: "Tools", nav_book: "Book Appt", nav_portal: "Client Portal", hero_tag: "Aruba's Premier Firm", hero_title: "Financial Clarity.<br>Peace of Mind.", hero_sub: "Expert tax preparation, payroll management, and strategic advisory.", hero_cta: "Book Consultation", hero_sec: "Explore Services", svc_header: "Elite Services", bbo_title: "Advanced BBO", tax_date_title: "Next Tax Deadline", days_rem: "Days Remaining" },
-            pa: { nav_home: "Cas", nav_services: "Servicionan", nav_tools: "Hermentnan", nav_book: "Traha Afspraak", nav_portal: "Portal", hero_tag: "Firma Premier", hero_title: "Claridad Financiero.<br>Trankilidad.", hero_sub: "Preparacion di impuesto experto y maneho di payroll.", hero_cta: "Traha Afspraak", hero_sec: "Explora Servicionan", svc_header: "Servicionan Elite", bbo_title: "Calculadora BBO", tax_date_title: "Siguiente Fecha Limite", days_rem: "Dianan Restante" },
-            nl: { nav_home: "Home", nav_services: "Diensten", nav_tools: "Tools", nav_book: "Afspraak Maken", nav_portal: "Portaal", hero_tag: "Aruba's Premier", hero_title: "Financiële Duidelijkheid.<br>Gemoedsrust.", hero_sub: "Deskundige belastingvoorbereiding en salarisadministratie.", hero_cta: "Boek Consult", hero_sec: "Bekijk Diensten", svc_header: "Elite Diensten", bbo_title: "BBO Calculator", tax_date_title: "Volgende Deadline", days_rem: "Dagen Resterend" }
+            en: { nav_home: "Home", nav_services: "Services", nav_tools: "Tools", nav_faq: "FAQ", nav_book: "Book Appt", nav_portal: "Client Portal", hero_tag: "Aruba's Premier Firm", hero_title: "Financial Clarity.<br>Peace of Mind.", hero_sub: "Expert tax preparation, payroll management, and strategic advisory.", hero_cta: "Book Consultation", hero_sec: "Explore Services", svc_header: "Elite Services", bbo_title: "Advanced BBO", tax_date_title: "Next Tax Deadline", days_rem: "Days Remaining" },
+            pa: { nav_home: "Cas", nav_services: "Servicionan", nav_tools: "Hermentnan", nav_faq: "Pregunta", nav_book: "Traha Afspraak", nav_portal: "Portal", hero_tag: "Firma Premier", hero_title: "Claridad Financiero.<br>Trankilidad.", hero_sub: "Preparacion di impuesto experto y maneho di payroll.", hero_cta: "Traha Afspraak", hero_sec: "Explora Servicionan", svc_header: "Servicionan Elite", bbo_title: "Calculadora BBO", tax_date_title: "Siguiente Fecha Limite", days_rem: "Dianan Restante" },
+            nl: { nav_home: "Home", nav_services: "Diensten", nav_tools: "Tools", nav_faq: "FAQ", nav_book: "Afspraak Maken", nav_portal: "Portaal", hero_tag: "Aruba's Premier", hero_title: "Financiële Duidelijkheid.<br>Gemoedsrust.", hero_sub: "Deskundige belastingvoorbereiding en salarisadministratie.", hero_cta: "Boek Consult", hero_sec: "Bekijk Diensten", svc_header: "Elite Diensten", bbo_title: "BBO Calculator", tax_date_title: "Volgende Deadline", days_rem: "Dagen Resterend" }
         };
 
         const CroesApp = {
@@ -286,7 +331,7 @@
                     if(!d.objectStoreNames.contains('clients')) d.createObjectStore('clients', { keyPath: 'email' });
                     if(!d.objectStoreNames.contains('logs')) d.createObjectStore('logs', { keyPath: 'id', autoIncrement: true });
                 };
-                request.onsuccess = (e) => { this.db = e.target.result; this.updateStats(); console.log("DB Ready v16.0"); };
+                request.onsuccess = (e) => { this.db = e.target.result; this.updateStats(); console.log("DB Ready v16.1"); };
             },
 
             initUI: function() {
