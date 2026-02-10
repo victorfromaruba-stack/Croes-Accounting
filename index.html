@@ -88,8 +88,8 @@
     <div id="preloader" class="fixed inset-0 bg-white z-[99999] flex items-center justify-center transition-opacity duration-500">
         <div class="text-center">
             <div class="w-16 h-16 border-4 border-slate-100 border-t-brand-navy rounded-full animate-spin mx-auto mb-4"></div>
-            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes v8.9</p>
-            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">Pro Email Design</p>
+            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes v9.0</p>
+            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">Live Integration</p>
         </div>
     </div>
 
@@ -364,7 +364,7 @@
     <section id="back-office" class="hidden fixed inset-0 z-[99999] bg-slate-50 overflow-y-auto">
         <div class="max-w-7xl mx-auto p-8 pt-24">
             <div class="flex justify-between items-center mb-10">
-                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v8.8 • Secured</p></div>
+                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v9.0 • Secured</p></div>
                 <div class="flex gap-4">
                     <a href="https://workplace.zoho.com/#mail_app/mail/folder/inbox" target="_blank" class="flex items-center gap-2 bg-white text-brand-navy border border-slate-200 px-5 py-2.5 rounded-xl font-bold shadow-sm hover:bg-slate-50 transition-colors"><i data-lucide="mail" class="w-4 h-4"></i> Check Mail</a>
                     <button onclick="CroesApp.logout()" class="text-red-500 font-bold hover:bg-red-50 px-4 py-2 rounded-lg transition-colors">Log Out</button>
@@ -454,12 +454,12 @@
             db: null, currentClientEmail: null, currentClientPin: null, targetImgEl: null,
             emailInitialized: false,
 
-            // EMAIL CONFIGURATION (v8.8 Active)
+            // EMAIL CONFIGURATION (v9.0 Active)
             emailConfig: {
                 publicKey: "8rBFXNPpsM9GIWhRR",
-                serviceId: "service_x7ol38h",
+                serviceId: "service_ido3zsi",  // UPDATED
                 requestTemplateId: "template_3ajpnak", 
-                confirmTemplateId: "template_kc2lb6b"  // USED FOR BOTH CONFIRMATION & WELCOME
+                confirmTemplateId: "template_kc2lb6b"  
             },
 
             // --- SECURITY MODULE ---
@@ -513,7 +513,7 @@
                         store.add({ email: 'client@email.com', pin: '123456', name: 'Demo Client', status: 'Processing', phone: '555-0000' });
                     }
                 };
-                request.onsuccess = (e) => { this.db = e.target.result; this.updateStats(); console.log("DB Ready v8.8"); };
+                request.onsuccess = (e) => { this.db = e.target.result; this.updateStats(); console.log("DB Ready v9.0"); };
             },
 
             initUI: function() {
@@ -581,11 +581,10 @@
                     this.renderDashboard(); 
                     this.updateStats(); 
                     
-                    // SEND CONFIRMATION EMAIL (Universal Template)
                     if(this.emailConfig.publicKey) {
                         if(!this.emailInitialized) { emailjs.init(this.emailConfig.publicKey); this.emailInitialized = true; }
                         emailjs.send(this.emailConfig.serviceId, this.emailConfig.confirmTemplateId, {
-                            title: "Appointment Confirmed",  // <--- DYNAMIC TITLE
+                            title: "Appointment Confirmed",
                             to_name: data.name,
                             to_email: data.email,
                             service_name: data.service,
@@ -615,11 +614,10 @@
                     document.getElementById('add-client-form').classList.add('hidden'); 
                     this.renderAdminRepo(); 
 
-                    // AUTO-SEND WELCOME EMAIL (Uses Universal Template)
                     if(this.emailConfig.publicKey) {
                         if(!this.emailInitialized) { emailjs.init(this.emailConfig.publicKey); this.emailInitialized = true; }
                         emailjs.send(this.emailConfig.serviceId, this.emailConfig.confirmTemplateId, {
-                            title: "Account Created", // <--- DYNAMIC TITLE
+                            title: "Account Created", 
                             to_name: name,
                             to_email: email,
                             service_name: "Client Portal Access",
@@ -702,17 +700,19 @@
                 }
 
                 emailjs.send(this.emailConfig.serviceId, this.emailConfig.requestTemplateId, {
-                    to_name: "Admin",
-                    from_name: name,
-                    from_email: email,
-                    message: `New request for ${service}.`
+                    name: name,           // Matches {{name}}
+                    email: email,         // Matches {{email}}
+                    service: service,     // Matches {{service}}
+                    date: date,           // Matches {{date}}
+                    time: "Pending Conf", // Matches {{time}}
+                    to_email: "info@croesaccounting.com"
                 }).then(() => {
                     this.saveBookingToDB(bookingData);
-                    this.showToast("Success", "Email sent! We will contact you.");
+                    this.showToast("Success", "Request Sent! We'll contact you.");
                 }).catch((err) => {
                     console.error("EmailJS Failed:", err);
                     this.saveBookingToDB(bookingData);
-                    this.showToast("Saved", "Request saved (Email network error).");
+                    this.showToast("Saved", "Request saved (Network error).");
                 }).finally(() => {
                     btn.innerText = originalText;
                     btn.disabled = false;
@@ -746,7 +746,6 @@
                 store.get(email).onsuccess = (e) => {
                     const client = e.target.result;
                     if(client) {
-                        // SEND PIN EMAIL (Uses Universal Template)
                         if(this.emailConfig.publicKey) {
                             if(!this.emailInitialized) { emailjs.init(this.emailConfig.publicKey); this.emailInitialized = true; }
                             
