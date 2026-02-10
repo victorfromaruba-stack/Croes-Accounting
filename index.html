@@ -30,52 +30,35 @@
     </script>
 
     <style>
-        /* CORE & SCROLLBAR */
         body { background-color: #F8FAFC; color: #1E293B; overflow-x: hidden; }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #F8FAFC; }
         ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #23869D; }
-
-        /* GLASSMORPHISM & UTILS */
         .glass-panel { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07); }
         .text-gradient { background: linear-gradient(135deg, #0C3B53 0%, #23869D 100%); -webkit-background-clip: text; color: transparent; }
-        
-        /* NAVBAR */
         nav { transition: all 0.4s ease; }
         nav.scrolled { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); height: 72px !important; box-shadow: 0 4px 20px rgba(12, 59, 83, 0.04); }
-        
-        /* BUTTONS & CARDS */
         .btn-primary { background: #0C3B53; color: white; position: relative; overflow: hidden; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid rgba(255,255,255,0.1); }
         .btn-primary:hover { background: #0F4563; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(12, 59, 83, 0.3); }
-
         .brand-card { position: relative; overflow: hidden; border-radius: 1.5rem; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.03); transition: all 0.5s ease; display: grid; grid-template-rows: 1fr auto; height: 100%; min-height: 460px; border: 1px solid #F1F5F9; }
         .brand-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px rgba(12, 59, 83, 0.15); border-color: rgba(35, 134, 157, 0.3); }
         .card-overlay { background: linear-gradient(to top, rgba(12, 59, 83, 0.95) 10%, rgba(12, 59, 83, 0.4) 60%, rgba(12, 59, 83, 0.05) 100%); }
-
-        /* ADMIN & EDITING */
         .admin-control, .photo-upload-overlay { display: none !important; }
         body.editing-active .admin-control { display: inline-flex !important; }
         body.editing-active .photo-upload-overlay { display: flex !important; }
         body.editing-active [data-editable="true"]:hover { outline: 2px dashed #23869D; cursor: text; background: rgba(35, 134, 157, 0.05); }
-
-        /* PORTAL & MODALS */
         .portal-layout { display: grid; grid-template-columns: 280px 1fr; min-height: 100vh; background: #F1F5F9; }
         .portal-sidebar { background: #0C3B53; color: white; padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; }
         .portal-nav-btn { width: 100%; text-align: left; padding: 14px 16px; border-radius: 12px; color: #94A3B8; font-weight: 600; transition: all 0.2s; display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
         .portal-nav-btn:hover, .portal-nav-btn.active { background: rgba(255,255,255,0.1); color: white; }
         .portal-nav-btn.active { background: #23869D; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-left: 3px solid #4FD1C5; }
-        
         .upload-zone { border: 2px dashed #CBD5E1; border-radius: 16px; padding: 40px; text-align: center; transition: all 0.3s; background: #fff; cursor: pointer; }
         .upload-zone:hover { border-color: #23869D; background: #F8FAFC; }
-
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        
-        /* LOGO FIX */
         .portal-logo-container { background: white; padding: 12px; border-radius: 16px; display: inline-block; margin-bottom: 2rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         .portal-logo-container img { height: 32px; width: auto; display: block; }
-
         @media (max-width: 1024px) { 
             .portal-layout { grid-template-columns: 1fr; } 
             .portal-sidebar { display: none; } 
@@ -88,8 +71,8 @@
     <div id="preloader" class="fixed inset-0 bg-white z-[99999] flex items-center justify-center transition-opacity duration-500">
         <div class="text-center">
             <div class="w-16 h-16 border-4 border-slate-100 border-t-brand-navy rounded-full animate-spin mx-auto mb-4"></div>
-            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes v9.0</p>
-            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">Live Integration</p>
+            <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Accounting Croes v9.1</p>
+            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">Fail-Safe Active</p>
         </div>
     </div>
 
@@ -150,7 +133,7 @@
                             <div class="absolute top-4 right-4 z-20 admin-control"><button onclick="CroesApp.deleteItem(this); event.stopPropagation();" class="bg-red-500 text-white p-3 rounded-full shadow-lg hover:bg-red-600 transition-colors"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>
                             <div class="absolute inset-0 z-0"><img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-100 transition-transform duration-700 group-hover:scale-105"><div class="absolute inset-0 card-overlay"></div></div>
                             <div class="relative z-10 p-10 flex items-start"><div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/30 shadow-lg"><i data-lucide="calculator" class="w-8 h-8"></i></div></div>
-                            <div class="relative z-10 p-10 pt-0 mt-auto flex flex-col justify-end"><h3 class="text-3xl font-bold text-white mb-3" data-editable="true">Tax & BBO</h3><p class="text-slate-200 leading-relaxed mb-8 font-medium" data-editable="true">Expert handling of BBO, BAZV, and Profit Tax compliance.</p><span class="inline-flex items-center gap-2 bg-brand-navy/90 px-6 py-3 rounded-full backdrop-blur-md border border-white/10 text-xs font-bold text-brand-accent uppercase tracking-wide w-fit group-hover:bg-brand-teal transition-all">Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span></div>
+                            <div class="relative z-10 p-10 pt-0 mt-auto flex flex-col justify-end"><h3 class="text-3xl font-bold text-white mb-3" data-editable="true">Administration</h3><p class="text-slate-200 leading-relaxed mb-8 font-medium" data-editable="true">Complete administrative support for your business.</p><span class="inline-flex items-center gap-2 bg-brand-navy/90 px-6 py-3 rounded-full backdrop-blur-md border border-white/10 text-xs font-bold text-brand-accent uppercase tracking-wide w-fit group-hover:bg-brand-teal transition-all">Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span></div>
                         </div>
                         <div class="brand-card reveal" onclick="CroesApp.handleCardClick(this, 'payroll')">
                             <div class="absolute top-4 right-4 z-20 admin-control"><button onclick="CroesApp.deleteItem(this); event.stopPropagation();" class="bg-red-500 text-white p-3 rounded-full shadow-lg hover:bg-red-600 transition-colors"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>
@@ -162,7 +145,7 @@
                             <div class="absolute top-4 right-4 z-20 admin-control"><button onclick="CroesApp.deleteItem(this); event.stopPropagation();" class="bg-red-500 text-white p-3 rounded-full shadow-lg hover:bg-red-600 transition-colors"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>
                             <div class="absolute inset-0 z-0"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-100 transition-transform duration-700 group-hover:scale-105"><div class="absolute inset-0 card-overlay"></div></div>
                             <div class="relative z-10 p-10 flex items-start"><div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white border border-white/30 shadow-lg"><i data-lucide="briefcase" class="w-8 h-8"></i></div></div>
-                            <div class="relative z-10 p-10 pt-0 mt-auto flex flex-col justify-end"><h3 class="text-3xl font-bold text-white mb-3" data-editable="true">Advisory</h3><p class="text-slate-200 leading-relaxed mb-8 font-medium" data-editable="true">Company formation and financial planning.</p><span class="inline-flex items-center gap-2 bg-brand-navy/90 px-6 py-3 rounded-full backdrop-blur-md border border-white/10 text-xs font-bold text-brand-accent uppercase tracking-wide w-fit group-hover:bg-brand-teal transition-all">Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span></div>
+                            <div class="relative z-10 p-10 pt-0 mt-auto flex flex-col justify-end"><h3 class="text-3xl font-bold text-white mb-3" data-editable="true">Advising</h3><p class="text-slate-200 leading-relaxed mb-8 font-medium" data-editable="true">Financial and tax advise for growth.</p><span class="inline-flex items-center gap-2 bg-brand-navy/90 px-6 py-3 rounded-full backdrop-blur-md border border-white/10 text-xs font-bold text-brand-accent uppercase tracking-wide w-fit group-hover:bg-brand-teal transition-all">Details <i data-lucide="arrow-right" class="w-4 h-4"></i></span></div>
                         </div>
                     </div>
                 </div>
@@ -248,7 +231,11 @@
                             <form onsubmit="CroesApp.handlePublicBooking(event)" class="space-y-4">
                                 <div><label class="text-xs font-bold text-brand-navy uppercase ml-1">Your Name</label><input type="text" id="book-name" required class="w-full p-3 bg-slate-50 rounded-xl border-0 focus:ring-2 focus:ring-brand-teal mt-1"></div>
                                 <div><label class="text-xs font-bold text-brand-navy uppercase ml-1">Email</label><input type="email" id="book-email" required class="w-full p-3 bg-slate-50 rounded-xl border-0 focus:ring-2 focus:ring-brand-teal mt-1"></div>
-                                <div><label class="text-xs font-bold text-brand-navy uppercase ml-1">Service Needed</label><select id="book-service" class="w-full p-3 bg-slate-50 rounded-xl border-0 focus:ring-2 focus:ring-brand-teal mt-1"><option>Tax Preparation</option><option>Payroll</option><option>Advisory</option></select></div>
+                                <div><label class="text-xs font-bold text-brand-navy uppercase ml-1">Service Needed</label><select id="book-service" class="w-full p-3 bg-slate-50 rounded-xl border-0 focus:ring-2 focus:ring-brand-teal mt-1">
+                                    <option>Administration</option>
+                                    <option>Payroll</option>
+                                    <option>Financial and tax advises</option>
+                                </select></div>
                                 <button type="submit" class="w-full btn-primary py-4 rounded-xl font-bold shadow-lg mt-4">Send Request</button>
                             </form>
                         </div>
@@ -364,7 +351,7 @@
     <section id="back-office" class="hidden fixed inset-0 z-[99999] bg-slate-50 overflow-y-auto">
         <div class="max-w-7xl mx-auto p-8 pt-24">
             <div class="flex justify-between items-center mb-10">
-                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v9.0 • Secured</p></div>
+                <div><h2 class="text-3xl font-extrabold text-brand-navy">Staff Dashboard</h2><p class="text-slate-500 font-medium">System v9.1 • Secured</p></div>
                 <div class="flex gap-4">
                     <a href="https://workplace.zoho.com/#mail_app/mail/folder/inbox" target="_blank" class="flex items-center gap-2 bg-white text-brand-navy border border-slate-200 px-5 py-2.5 rounded-xl font-bold shadow-sm hover:bg-slate-50 transition-colors"><i data-lucide="mail" class="w-4 h-4"></i> Check Mail</a>
                     <button onclick="CroesApp.logout()" class="text-red-500 font-bold hover:bg-red-50 px-4 py-2 rounded-lg transition-colors">Log Out</button>
@@ -454,10 +441,10 @@
             db: null, currentClientEmail: null, currentClientPin: null, targetImgEl: null,
             emailInitialized: false,
 
-            // EMAIL CONFIGURATION (v9.0 Active)
+            // EMAIL CONFIGURATION
             emailConfig: {
                 publicKey: "8rBFXNPpsM9GIWhRR",
-                serviceId: "service_ido3zsi",  // UPDATED
+                serviceId: "service_ido3zsi",
                 requestTemplateId: "template_3ajpnak", 
                 confirmTemplateId: "template_kc2lb6b"  
             },
@@ -499,9 +486,9 @@
 
             init: function() { this.initDB(); this.initUI(); },
             
-            // --- DATABASE (Unified v5) ---
+            // --- DATABASE ---
             initDB: function() {
-                const request = indexedDB.open("CroesDBv8", 5); 
+                const request = indexedDB.open("CroesDBv9", 1); // Bump to v9 to ensure clean creation
                 request.onupgradeneeded = (e) => { 
                     const d = e.target.result; 
                     if(!d.objectStoreNames.contains('files')) d.createObjectStore('files', { keyPath: 'id', autoIncrement: true }); 
@@ -509,11 +496,11 @@
                     if(!d.objectStoreNames.contains('vault')) d.createObjectStore('vault', { keyPath: 'id', autoIncrement: true });
                     if(!d.objectStoreNames.contains('messages')) d.createObjectStore('messages', { keyPath: 'id', autoIncrement: true });
                     if(!d.objectStoreNames.contains('clients')) {
-                        const store = d.createObjectStore('clients', { keyPath: 'email' });
+                        const store = d.createObjectStore('clients', { keyPath: 'email' }); // Email is unique key
                         store.add({ email: 'client@email.com', pin: '123456', name: 'Demo Client', status: 'Processing', phone: '555-0000' });
                     }
                 };
-                request.onsuccess = (e) => { this.db = e.target.result; this.updateStats(); console.log("DB Ready v9.0"); };
+                request.onsuccess = (e) => { this.db = e.target.result; this.updateStats(); console.log("DB Ready v9.1"); };
             },
 
             initUI: function() {
@@ -599,33 +586,42 @@
             deleteBooking: function(id) { if(confirm("Delete record?")) { const tx = this.db.transaction(['bookings'], 'readwrite'); tx.objectStore('bookings').delete(id); this.renderDashboard(); this.updateStats(); } },
             searchAdmin: function(query) { const rows = document.querySelectorAll('#booking-list tr'); rows.forEach(row => { row.style.display = row.innerText.toLowerCase().includes(query.toLowerCase()) ? '' : 'none'; }); },
             
-            // --- SYNC ENGINE ---
+            // --- SYNC ENGINE (Robust Version) ---
             addClient: function() {
                 const name = document.getElementById('new-client-name').value;
                 const email = document.getElementById('new-client-email').value;
                 const pin = document.getElementById('new-client-pin').value;
                 const phone = document.getElementById('new-client-phone').value;
                 if(!name || !email || !pin) return this.showToast("Error", "Missing fields.");
-                const tx = this.db.transaction(['clients'], 'readwrite');
-                tx.objectStore('clients').add({ name, email, pin, phone, status: 'Uploaded', joined: new Date().toLocaleDateString() });
                 
-                tx.oncomplete = () => { 
-                    this.showToast("Success", "Client created."); 
-                    document.getElementById('add-client-form').classList.add('hidden'); 
-                    this.renderAdminRepo(); 
-
+                const tx = this.db.transaction(['clients'], 'readwrite');
+                const store = tx.objectStore('clients');
+                
+                // Add with explicit error handling
+                const request = store.add({ name, email, pin, phone, status: 'Uploaded', joined: new Date().toLocaleDateString() });
+                
+                request.onsuccess = () => {
+                    this.showToast("Success", "Client created.");
+                    document.getElementById('add-client-form').classList.add('hidden');
+                    this.renderAdminRepo();
+                    
+                    // Email logic detached from DB success to prevent UI freezing
                     if(this.emailConfig.publicKey) {
                         if(!this.emailInitialized) { emailjs.init(this.emailConfig.publicKey); this.emailInitialized = true; }
                         emailjs.send(this.emailConfig.serviceId, this.emailConfig.confirmTemplateId, {
-                            title: "Account Created", 
+                            title: "Account Created",
                             to_name: name,
                             to_email: email,
                             service_name: "Client Portal Access",
                             date: new Date().toLocaleDateString(),
                             message: `Welcome to Accounting Croes. Your secure Login PIN is: ${pin}. Please keep this safe.`
-                        }).then(() => { this.showToast("Sent", "Welcome email with PIN sent."); })
-                          .catch(() => { this.showToast("Error", "Email Limit Reached."); });
+                        }).catch(e => console.warn("Email failed but client saved:", e));
                     }
+                };
+                
+                request.onerror = (e) => {
+                    this.showToast("Error", "Client email already exists.");
+                    console.error("DB Error:", e.target.error);
                 };
             },
 
@@ -700,11 +696,11 @@
                 }
 
                 emailjs.send(this.emailConfig.serviceId, this.emailConfig.requestTemplateId, {
-                    name: name,           // Matches {{name}}
-                    email: email,         // Matches {{email}}
-                    service: service,     // Matches {{service}}
-                    date: date,           // Matches {{date}}
-                    time: "Pending Conf", // Matches {{time}}
+                    name: name,           
+                    email: email,         
+                    service: service,     
+                    date: date,           
+                    time: "Pending Conf", 
                     to_email: "info@croesaccounting.com"
                 }).then(() => {
                     this.saveBookingToDB(bookingData);
