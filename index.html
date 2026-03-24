@@ -13,6 +13,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
     
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -71,6 +72,7 @@
         .portal-nav-btn.active { background: linear-gradient(90deg, rgba(35, 134, 157, 0.2) 0%, transparent 100%); color: #4FD1C5; border-left: 3px solid #4FD1C5; }
         
         @media (max-width: 1024px) { .portal-layout { grid-template-columns: 1fr; } .portal-sidebar { display: none; } }
+        .modal-content { max-height: 90vh; overflow-y: auto; }
     </style>
 </head>
 <body class="text-slate-600 antialiased flex flex-col min-h-screen">
@@ -79,15 +81,14 @@
         <div class="text-center">
             <div class="w-16 h-16 border-4 border-slate-100 border-t-brand-navy rounded-full animate-spin mx-auto mb-4"></div>
             <p class="text-xs font-bold text-brand-navy tracking-[0.3em] uppercase">Croes Accounting</p>
-            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">v20.0 Mobile Polish</p>
+            <p class="text-[10px] text-slate-400 font-mono mt-2 uppercase tracking-widest">v21.0 Storage Engine</p>
         </div>
     </div>
 
     <a href="https://wa.me/2975833507" target="_blank" class="whatsapp-float"><i data-lucide="message-circle" class="w-6 h-6 md:w-8 md:h-8"></i></a>
 
     <div id="public-view" class="flex flex-col min-h-screen w-full">
-        
-        <nav id="navbar" class="fixed top-0 w-full z-50 h-20 md:h-24 flex items-center bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-sm">
+        <nav id="navbar" class="fixed top-0 w-full z-50 h-20 md:h-24 flex items-center bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-sm transition-all">
             <div class="max-w-7xl mx-auto px-4 md:px-6 w-full flex justify-between items-center">
                 <a href="#home"><img src="logo.png" alt="Croes Accounting" class="h-8 md:h-12 w-auto object-contain"></a>
                 
@@ -140,7 +141,7 @@
                             <a href="#services" class="px-8 py-4 rounded-full font-bold text-brand-navy border-2 border-slate-200 hover:border-brand-navy transition-colors text-sm md:text-base text-center" data-i18n="btn_explore">Explore Services</a>
                         </div>
                     </div>
-                    <div class="relative fade-in-up mt-8 lg:mt-0" style="animation-delay: 0.2s;">
+                    <div class="relative fade-in-up hidden md:block" style="animation-delay: 0.2s;">
                         <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1000&q=80" class="rounded-3xl md:rounded-[2rem] shadow-xl md:shadow-2xl border-4 md:border-8 border-white md:rotate-2 hover:rotate-0 transition-transform duration-700 w-full h-auto object-cover aspect-[4/3] lg:aspect-square">
                     </div>
                 </div>
@@ -155,6 +156,7 @@
                         <div class="flex items-center gap-1.5 md:gap-2"><i data-lucide="building-2" class="w-5 h-5 md:w-6 md:h-6 text-brand-navy"></i><span class="font-bold text-sm md:text-lg text-brand-navy">Aruba Bank</span></div>
                         <div class="flex items-center gap-1.5 md:gap-2"><i data-lucide="landmark" class="w-5 h-5 md:w-6 md:h-6 text-brand-navy"></i><span class="font-bold text-sm md:text-lg text-brand-navy">RBC</span></div>
                         <div class="flex items-center gap-1.5 md:gap-2"><i data-lucide="briefcase" class="w-5 h-5 md:w-6 md:h-6 text-brand-navy"></i><span class="font-bold text-sm md:text-lg text-brand-navy">Tax Office</span></div>
+                        <div class="flex items-center gap-1.5 md:gap-2"><i data-lucide="users" class="w-5 h-5 md:w-6 md:h-6 text-brand-navy"></i><span class="font-bold text-sm md:text-lg text-brand-navy">Labor Office</span></div>
                         <div class="flex items-center gap-1.5 md:gap-2"><i data-lucide="shield-check" class="w-5 h-5 md:w-6 md:h-6 text-brand-navy"></i><span class="font-bold text-sm md:text-lg text-brand-navy">SVb</span></div>
                     </div>
                 </div>
@@ -207,7 +209,6 @@
             <section id="tools" class="py-16 md:py-24 bg-white">
                 <div class="max-w-6xl mx-auto px-4 md:px-6">
                     <div class="bg-brand-surface rounded-3xl md:rounded-[2rem] shadow-xl overflow-hidden border border-slate-100 grid lg:grid-cols-2">
-                        
                         <div class="p-6 md:p-10 lg:p-16">
                             <div class="flex items-center gap-3 md:gap-4 mb-6 md:mb-8">
                                 <div class="p-3 md:p-4 bg-brand-navy rounded-xl text-white"><i data-lucide="calculator" class="w-5 h-5 md:w-6 md:h-6"></i></div>
@@ -235,14 +236,12 @@
                                 <p class="text-slate-400 font-mono bg-white/10 px-3 py-1.5 md:px-4 md:py-2 rounded-lg inline-block text-xs md:text-base" id="deadline-date">...</p>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </section>
 
             <section id="contact" class="py-16 md:py-24 bg-brand-navy text-white relative overflow-hidden">
                 <div class="max-w-7xl mx-auto px-4 md:px-6 relative z-10 grid lg:grid-cols-2 gap-10 md:gap-16 items-start">
-                    
                     <div>
                         <h2 class="text-3xl md:text-4xl font-bold mb-3 md:mb-4" data-i18n="contact_title">Let's Discuss Your Future</h2>
                         <p class="text-slate-400 text-base md:text-lg mb-8 md:mb-10" data-i18n="contact_sub">Ready to optimize your business? Reach out directly or visit our office.</p>
@@ -313,8 +312,7 @@
             <div class="lg:col-span-2">
                 <h3 class="text-2xl md:text-3xl font-bold text-brand-navy mb-4 md:mb-6">Service Deliverables</h3>
                 <div class="h-1.5 w-12 md:w-16 bg-brand-teal mb-6 md:mb-10 rounded-full"></div>
-                <ul id="sp-bullets" class="space-y-4 md:space-y-6 text-slate-600 text-base md:text-lg">
-                    </ul>
+                <ul id="sp-bullets" class="space-y-4 md:space-y-6 text-slate-600 text-base md:text-lg"></ul>
             </div>
             <div>
                 <div class="bg-brand-surface p-6 md:p-10 rounded-3xl md:rounded-[2rem] border border-slate-200 shadow-xl sticky top-6 md:top-12">
@@ -374,13 +372,64 @@
         </div>
     </div>
 
+    <div id="client-portal" class="hidden portal-layout relative bg-slate-50">
+        <aside class="portal-sidebar sidebar-glass text-white p-8 flex flex-col justify-between h-full fixed md:relative z-50 w-64 md:w-auto hidden md:flex">
+            <div>
+                <img src="logo.png" class="h-10 mb-10 opacity-90 grayscale brightness-200">
+                <nav class="space-y-2">
+                    <button onclick="CroesApp.switchPortalTab('dash')" class="portal-nav-btn active"><i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard</button>
+                    <button onclick="CroesApp.switchPortalTab('docs')" class="portal-nav-btn"><i data-lucide="file-text" class="w-5 h-5"></i> My Documents</button>
+                </nav>
+            </div>
+            <button onclick="location.reload()" class="flex items-center gap-3 text-slate-400 hover:text-white transition-colors"><i data-lucide="log-out" class="w-4 h-4"></i> Sign Out</button>
+        </aside>
+        
+        <main class="p-6 md:p-12 overflow-y-auto w-full">
+            <div class="md:hidden flex justify-between items-center mb-6">
+                <img src="logo.png" class="h-8">
+                <button onclick="location.reload()" class="text-red-500 font-bold text-sm"><i data-lucide="log-out" class="w-4 h-4 inline"></i> Exit</button>
+            </div>
+
+            <div class="flex justify-between items-center mb-10 border-b border-slate-200 pb-6">
+                <div><h1 class="text-3xl font-bold text-brand-navy">Client Area</h1><p class="text-slate-500">Welcome back, <span id="portal-client-name" class="font-bold text-brand-teal">Client</span></p></div>
+                <div class="md:hidden flex gap-2">
+                    <button onclick="CroesApp.switchPortalTab('dash')" class="bg-white p-2 rounded shadow-sm text-brand-navy border border-slate-200"><i data-lucide="layout-dashboard"></i></button>
+                    <button onclick="CroesApp.switchPortalTab('docs')" class="bg-white p-2 rounded shadow-sm text-brand-navy border border-slate-200"><i data-lucide="file-text"></i></button>
+                </div>
+            </div>
+            
+            <div id="portal-dash" class="fade-in-up">
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-8">
+                    <div class="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col md:flex-row items-center md:items-start gap-4 text-center md:text-left"><div class="w-10 h-10 md:w-12 md:h-12 bg-blue-50 rounded-full flex items-center justify-center text-brand-blue"><i data-lucide="clock" class="w-5 h-5 md:w-6 md:h-6"></i></div><div><p class="text-[10px] md:text-xs text-slate-400 font-bold uppercase">Status</p><p class="text-lg md:text-xl font-bold text-brand-navy" id="portal-status-text">Active</p></div></div>
+                    <div class="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col md:flex-row items-center md:items-start gap-4 text-center md:text-left"><div class="w-10 h-10 md:w-12 md:h-12 bg-teal-50 rounded-full flex items-center justify-center text-brand-teal"><i data-lucide="file" class="w-5 h-5 md:w-6 md:h-6"></i></div><div><p class="text-[10px] md:text-xs text-slate-400 font-bold uppercase">Files</p><p class="text-lg md:text-xl font-bold text-brand-navy" id="portal-file-count">0</p></div></div>
+                </div>
+            </div>
+            
+            <div id="portal-docs" class="hidden fade-in-up">
+                <div class="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-dashed border-brand-teal bg-teal-50/20 text-center hover:bg-teal-50/50 transition-colors cursor-pointer mb-8 relative overflow-hidden" onclick="document.getElementById('file-input').click()">
+                    <div id="upload-overlay" class="absolute inset-0 bg-brand-navy/90 flex flex-col items-center justify-center text-white hidden z-10 transition-opacity">
+                        <div class="loader mb-2 w-8 h-8 border-4"></div>
+                        <p class="font-bold tracking-widest text-sm uppercase">Encrypting & Uploading...</p>
+                    </div>
+                    <div class="w-12 h-12 md:w-16 md:h-16 bg-white text-brand-teal rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm"><i data-lucide="cloud-upload" class="w-6 h-6 md:w-8 md:h-8"></i></div>
+                    <h3 class="text-lg md:text-xl font-bold text-brand-navy">Secure File Upload</h3>
+                    <p class="text-slate-500 text-xs md:text-sm mb-2">Click here to select tax forms, receipts, or IDs.</p>
+                    <p class="text-[10px] text-slate-400 uppercase tracking-widest font-bold">PDF, JPG, PNG (Max 5MB)</p>
+                    <input type="file" id="file-input" class="hidden" onchange="CroesApp.handleFirebaseUpload(this)" accept=".pdf, image/*">
+                </div>
+                
+                <h4 class="font-bold text-brand-navy mb-4 border-b border-slate-200 pb-2">My Cloud Documents</h4>
+                <div id="portal-file-list" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    </div>
+            </div>
+        </main>
+    </div>
+
     <section id="back-office" class="hidden fixed inset-0 z-[99999] bg-slate-50 overflow-y-auto pb-20">
         <div class="max-w-7xl mx-auto p-4 md:p-6 lg:p-10 pt-8 md:pt-12">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-6 mb-8 md:mb-10 border-b border-slate-200 pb-6 md:pb-8">
-                <div><h2 class="text-2xl md:text-4xl font-extrabold text-brand-navy tracking-tight">Command Center</h2><p class="text-brand-teal font-bold tracking-widest text-[10px] md:text-xs uppercase mt-1 md:mt-2">Enterprise Controller</p></div>
-                <div class="flex gap-3 md:gap-4 w-full md:w-auto">
-                    <button onclick="location.reload()" class="w-full md:w-auto bg-white border-2 border-slate-200 px-4 md:px-6 py-2.5 md:py-3 rounded-lg md:rounded-xl font-bold text-brand-navy hover:bg-slate-50 transition-all flex items-center justify-center gap-2 text-sm md:text-base"><i data-lucide="log-out" class="w-4 h-4"></i> Log Out</button>
-                </div>
+                <div><h2 class="text-2xl md:text-4xl font-extrabold text-brand-navy tracking-tight">Command Center</h2><p class="text-brand-teal font-bold tracking-widest text-[10px] md:text-xs uppercase mt-1 md:mt-2">Enterprise Controller v21</p></div>
+                <button onclick="location.reload()" class="w-full md:w-auto bg-white border-2 border-slate-200 px-4 md:px-6 py-2.5 md:py-3 rounded-lg md:rounded-xl font-bold text-brand-navy hover:bg-slate-50 transition-all flex items-center justify-center gap-2 text-sm md:text-base"><i data-lucide="log-out" class="w-4 h-4"></i> Log Out</button>
             </div>
             
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-10">
@@ -441,8 +490,7 @@
         <div class="bg-white p-6 md:p-8 rounded-3xl md:rounded-[2rem] shadow-2xl w-full max-w-md relative max-h-[90vh] overflow-y-auto">
             <button onclick="document.getElementById('view-booking-modal').classList.add('hidden')" class="absolute top-4 right-4 text-slate-400 p-2 bg-slate-100 rounded-full"><i data-lucide="x" class="w-4 h-4"></i></button>
             <h3 class="text-xl md:text-2xl font-bold text-brand-navy mb-4 md:mb-6">Reservation Data</h3>
-            <div id="view-booking-content" class="space-y-3 md:space-y-4 text-xs md:text-sm text-slate-600 bg-slate-50 p-4 md:p-6 rounded-xl border border-slate-200">
-                </div>
+            <div id="view-booking-content" class="space-y-3 md:space-y-4 text-xs md:text-sm text-slate-600 bg-slate-50 p-4 md:p-6 rounded-xl border border-slate-200"></div>
             <button onclick="document.getElementById('view-booking-modal').classList.add('hidden')" class="w-full bg-brand-navy hover:bg-brand-blue text-white py-3 md:py-4 rounded-xl font-bold transition-colors mt-4 md:mt-6 text-sm md:text-base">Close Window</button>
         </div>
     </div>
@@ -453,26 +501,40 @@
             <input type="hidden" id="conf-id"><input type="hidden" id="conf-email"><input type="hidden" id="conf-name">
             <div class="mb-4 text-left"><label class="text-[10px] md:text-xs font-bold text-brand-navy uppercase ml-1">Confirmed Date</label><input type="date" id="conf-date" class="w-full p-3 bg-slate-50 rounded-xl border border-slate-200 mt-1 focus:border-brand-teal outline-none"></div>
             <div class="mb-6 text-left"><label class="text-[10px] md:text-xs font-bold text-brand-navy uppercase ml-1">Confirmed Time</label><input type="time" id="conf-time" class="w-full p-3 bg-slate-50 rounded-xl border border-slate-200 mt-1 focus:border-brand-teal outline-none"></div>
-            
             <button onclick="CroesApp.finalizeConfirmation(this)" class="w-full btn-primary py-3 md:py-4 rounded-xl font-bold shadow-lg mb-2 text-sm md:text-base flex justify-center items-center gap-2">Confirm & Notify Client</button>
             <button onclick="document.getElementById('confirm-modal').classList.add('hidden')" class="w-full py-2.5 md:py-3 text-slate-400 font-bold hover:text-brand-navy text-sm md:text-base">Cancel</button>
         </div>
     </div>
 
     <div id="client-detail-modal" class="fixed inset-0 z-[100000] hidden flex items-center justify-center bg-brand-navy/90 backdrop-blur-md p-4">
-        <div class="bg-white p-6 md:p-10 rounded-3xl md:rounded-[2rem] shadow-2xl w-full max-w-2xl relative max-h-[90vh] overflow-y-auto">
+        <div class="bg-white p-6 md:p-10 rounded-3xl md:rounded-[2rem] shadow-2xl w-full max-w-3xl relative max-h-[90vh] overflow-y-auto">
             <button onclick="document.getElementById('client-detail-modal').classList.add('hidden')" class="absolute top-4 right-4 md:top-6 md:right-6 text-slate-400 p-2 bg-slate-100 rounded-full hover:bg-slate-200 transition-colors"><i data-lucide="x" class="w-4 h-4 md:w-5 md:h-5"></i></button>
+            
             <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 md:gap-6 mb-6 md:mb-8 border-b border-slate-100 pb-4 md:pb-6">
                 <div class="w-16 h-16 md:w-20 md:h-20 bg-brand-teal rounded-2xl flex items-center justify-center text-white text-2xl md:text-3xl font-extrabold shadow-lg flex-shrink-0" id="detail-initials">AB</div>
-                <div>
+                <div class="flex-grow">
                     <h3 class="text-xl md:text-3xl font-bold text-brand-navy" id="detail-name">...</h3>
                     <p class="text-xs md:text-sm text-slate-500 font-mono break-all" id="detail-email">...</p>
                 </div>
             </div>
+            
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
                 <div class="bg-slate-50 p-4 md:p-5 rounded-xl md:rounded-2xl border border-slate-100"><p class="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Phone Number</p><p class="font-bold text-brand-navy text-sm md:text-lg" id="detail-phone">...</p></div>
                 <div class="bg-slate-50 p-4 md:p-5 rounded-xl md:rounded-2xl border border-slate-100"><p class="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Access PIN</p><p class="font-bold text-brand-teal font-mono text-base md:text-lg tracking-widest" id="detail-pin">...</p></div>
             </div>
+
+            <div class="mb-6 md:mb-8 border border-slate-200 rounded-2xl overflow-hidden">
+                <div class="bg-slate-50 p-4 border-b border-slate-200 flex justify-between items-center">
+                    <h4 class="font-bold text-brand-navy text-sm"><i data-lucide="folder" class="w-4 h-4 inline mr-1 text-brand-teal"></i> Client Cloud Vault</h4>
+                    <span class="text-xs font-bold text-slate-400 bg-white px-2 py-1 rounded border border-slate-200" id="admin-file-count">0 Files</span>
+                </div>
+                <div class="p-4 bg-white min-h-[100px] max-h-[250px] overflow-y-auto">
+                    <div id="admin-client-files" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <p class="text-xs text-slate-400 italic">Loading client files...</p>
+                    </div>
+                </div>
+            </div>
+
             <div class="mb-6 md:mb-8">
                 <label class="text-[10px] md:text-xs font-bold text-brand-navy uppercase tracking-wider block mb-2">Admin Notes (Private)</label>
                 <textarea id="detail-notes" class="w-full p-3 md:p-4 bg-slate-50 rounded-xl border border-slate-200 h-24 md:h-32 focus:border-brand-teal outline-none resize-none text-sm md:text-base" placeholder="Add internal notes about this client..."></textarea>
@@ -488,54 +550,15 @@
 
     <script>
         const TRANSLATIONS = {
-            en: { 
-                nav_home: "Home", nav_services: "Services", nav_tools: "Tools", nav_contact: "Contact", btn_book: "Book Appt", btn_portal: "Client Portal", 
-                hero_tag: "Aruba's Premier Firm", hero_title: "Financial Clarity.<br><span class='text-transparent bg-clip-text bg-gradient-to-r from-brand-teal to-brand-blue'>Peace of Mind.</span>", hero_sub: "Expert tax preparation, payroll management, and strategic advisory for businesses that demand excellence.",
-                btn_consult: "Book Consultation", btn_explore: "Explore Services", trusted_by: "Trusted by leading enterprises",
-                svc_header: "Elite Services", svc1_title: "Administration", svc1_desc: "Full-cycle financial record keeping and meticulous reporting.",
-                svc2_title: "Payroll Processing", svc2_desc: "Automated payroll, tax, and premium processing.",
-                svc3_title: "Financial Advising", svc3_desc: "Strategic financial and tax structuring advice.",
-                tool_calc: "BBO Estimator", tool_deadline: "Next Tax Deadline", tool_sub: "Official DIMP Filing Date", tool_days: "Days Remaining",
-                contact_title: "Let's Discuss Your Future", contact_sub: "Ready to optimize your business? Reach out directly or visit our office.",
-                form_title: "Request Consultation", form_name: "Full Name", form_email: "Email Address", form_service: "Service Required", form_date: "Preferred Date"
-            },
-            pa: { 
-                nav_home: "Cas", nav_services: "Servicionan", nav_tools: "Hermentnan", nav_contact: "Contacto", btn_book: "Traha Afspraak", btn_portal: "Portal di Cliente", 
-                hero_tag: "Firma Principal di Aruba", hero_title: "Claridad Financiero.<br><span class='text-transparent bg-clip-text bg-gradient-to-r from-brand-teal to-brand-blue'>Trankilidad.</span>", hero_sub: "Preparacion di impuesto experto, maneho di payroll, y conseho strategico pa negoshinan cu ta exigi excelencia.",
-                btn_consult: "Traha Afspraak", btn_explore: "Explora Servicionan", trusted_by: "Confia pa empresanan principal",
-                svc_header: "Servicionan Elite", svc1_title: "Administracion", svc1_desc: "Mantenemento y reportahe financiero completo.",
-                svc2_title: "Maneho di Payroll", svc2_desc: "Procesamento automatisa di salario, impuesto, y prima.",
-                svc3_title: "Conseho Financiero", svc3_desc: "Conseho strategico riba structura financiero y impuesto.",
-                tool_calc: "Calculadora BBO", tool_deadline: "Siguiente Fecha di Impuesto", tool_sub: "Fecha Oficial pa DIMP", tool_days: "Dianan Restante",
-                contact_title: "Laga nos papia di bo futuro", contact_sub: "Kla pa optimisa bo negoshi? Tuma contacto cu nos of bishita nos oficina.",
-                form_title: "Pidi un Consulta", form_name: "Nomber Completo", form_email: "Adres di Email", form_service: "Servicio Requeri", form_date: "Fecha Preferi"
-            },
-            es: {
-                nav_home: "Inicio", nav_services: "Servicios", nav_tools: "Herramientas", nav_contact: "Contacto", btn_book: "Reservar", btn_portal: "Portal del Cliente", 
-                hero_tag: "Firma Principal de Aruba", hero_title: "Claridad Financiera.<br><span class='text-transparent bg-clip-text bg-gradient-to-r from-brand-teal to-brand-blue'>Tranquilidad.</span>", hero_sub: "Preparación experta de impuestos, nóminas y asesoramiento estratégico para empresas que exigen excelencia.",
-                btn_consult: "Programar Consulta", btn_explore: "Explorar Servicios", trusted_by: "Con la confianza de empresas líderes",
-                svc_header: "Servicios Élite", svc1_title: "Administración", svc1_desc: "Mantenimiento y elaboración de informes financieros.",
-                svc2_title: "Nómina", svc2_desc: "Procesamiento automatizado de nóminas e impuestos.",
-                svc3_title: "Asesoría Financiera", svc3_desc: "Asesoramiento estratégico y estructuración fiscal.",
-                tool_calc: "Calculadora BBO", tool_deadline: "Próximo Vencimiento Fiscal", tool_sub: "Fecha Oficial de DIMP", tool_days: "Días Restantes",
-                contact_title: "Hablemos de tu futuro", contact_sub: "¿Listo para optimizar tu negocio? Contáctanos o visita nuestra oficina.",
-                form_title: "Solicitar Consulta", form_name: "Nombre Completo", form_email: "Correo Electrónico", form_service: "Servicio", form_date: "Fecha Preferida"
-            },
-            nl: {
-                nav_home: "Home", nav_services: "Diensten", nav_tools: "Tools", nav_contact: "Contact", btn_book: "Afspraak Maken", btn_portal: "Klantenportaal", 
-                hero_tag: "Aruba's Premier Kantoor", hero_title: "Financiële Duidelijkheid.<br><span class='text-transparent bg-clip-text bg-gradient-to-r from-brand-teal to-brand-blue'>Gemoedsrust.</span>", hero_sub: "Deskundige belastingvoorbereiding, salarisadministratie en strategisch advies voor bedrijven die uitmuntendheid eisen.",
-                btn_consult: "Consult Boeken", btn_explore: "Bekijk Diensten", trusted_by: "Vertrouwd door toonaangevende bedrijven",
-                svc_header: "Elite Diensten", svc1_title: "Administratie", svc1_desc: "Volledige financiële administratie en rapportage.",
-                svc2_title: "Salarisadministratie", svc2_desc: "Geautomatiseerde verwerking van lonen en belastingen.",
-                svc3_title: "Financieel Advies", svc3_desc: "Strategisch financieel en fiscaal structureringsadvies.",
-                tool_calc: "BBO Calculator", tool_deadline: "Volgende Belastingdeadline", tool_sub: "Officiële DIMP Datum", tool_days: "Dagen Resterend",
-                contact_title: "Laten we uw toekomst bespreken", contact_sub: "Klaar om uw bedrijf te optimaliseren? Neem contact op of bezoek ons kantoor.",
-                form_title: "Consult Aanvragen", form_name: "Volledige Naam", form_email: "E-mailadres", form_service: "Dienst", form_date: "Voorkeursdatum"
-            }
+            en: { nav_home: "Home", nav_services: "Services", nav_tools: "Tools", nav_contact: "Contact", btn_book: "Book Appt", btn_portal: "Client Portal", hero_tag: "Aruba's Premier Firm", hero_title: "Financial Clarity.<br><span class='text-transparent bg-clip-text bg-gradient-to-r from-brand-teal to-brand-blue'>Peace of Mind.</span>", hero_sub: "Expert tax preparation, payroll management, and strategic advisory for businesses that demand excellence.", btn_consult: "Book Consultation", btn_explore: "Explore Services", trusted_by: "Trusted by leading enterprises", svc_header: "Elite Services", svc1_title: "Administration", svc1_desc: "Full-cycle financial record keeping and meticulous reporting.", svc2_title: "Payroll Processing", svc2_desc: "Automated payroll, tax, and premium processing.", svc3_title: "Financial Advising", svc3_desc: "Strategic financial and tax structuring advice.", tool_calc: "BBO Estimator", tool_deadline: "Next Tax Deadline", tool_sub: "Official DIMP Filing Date", tool_days: "Days Remaining", contact_title: "Let's Discuss Your Future", contact_sub: "Ready to optimize your business? Reach out directly or visit our office.", form_title: "Request Consultation", form_name: "Full Name", form_email: "Email Address", form_service: "Service Required", form_date: "Preferred Date" },
+            pa: { nav_home: "Cas", nav_services: "Servicionan", nav_tools: "Hermentnan", nav_contact: "Contacto", btn_book: "Traha Afspraak", btn_portal: "Portal di Cliente", hero_tag: "Firma Principal di Aruba", hero_title: "Claridad Financiero.<br><span class='text-transparent bg-clip-text bg-gradient-to-r from-brand-teal to-brand-blue'>Trankilidad.</span>", hero_sub: "Preparacion di impuesto experto, maneho di payroll, y conseho strategico pa negoshinan cu ta exigi excelencia.", btn_consult: "Traha Afspraak", btn_explore: "Explora Servicionan", trusted_by: "Confia pa empresanan principal", svc_header: "Servicionan Elite", svc1_title: "Administracion", svc1_desc: "Mantenemento y reportahe financiero completo.", svc2_title: "Maneho di Payroll", svc2_desc: "Procesamento automatisa di salario, impuesto, y prima.", svc3_title: "Conseho Financiero", svc3_desc: "Conseho strategico riba structura financiero y impuesto.", tool_calc: "Calculadora BBO", tool_deadline: "Siguiente Fecha di Impuesto", tool_sub: "Fecha Oficial pa DIMP", tool_days: "Dianan Restante", contact_title: "Laga nos papia di bo futuro", contact_sub: "Kla pa optimisa bo negoshi? Tuma contacto cu nos of bishita nos oficina.", form_title: "Pidi un Consulta", form_name: "Nomber Completo", form_email: "Adres di Email", form_service: "Servicio Requeri", form_date: "Fecha Preferi" },
+            es: { nav_home: "Inicio", nav_services: "Servicios", nav_tools: "Herramientas", nav_contact: "Contacto", btn_book: "Reservar", btn_portal: "Portal del Cliente", hero_tag: "Firma Principal de Aruba", hero_title: "Claridad Financiera.<br><span class='text-transparent bg-clip-text bg-gradient-to-r from-brand-teal to-brand-blue'>Tranquilidad.</span>", hero_sub: "Preparación experta de impuestos, nóminas y asesoramiento estratégico para empresas que exigen excelencia.", btn_consult: "Programar Consulta", btn_explore: "Explorar Servicios", trusted_by: "Con la confianza de empresas líderes", svc_header: "Servicios Élite", svc1_title: "Administración", svc1_desc: "Mantenimiento y elaboración de informes financieros.", svc2_title: "Nómina", svc2_desc: "Procesamiento automatizado de nóminas e impuestos.", svc3_title: "Asesoría Financiera", svc3_desc: "Asesoramiento estratégico y estructuración fiscal.", tool_calc: "Calculadora BBO", tool_deadline: "Próximo Vencimiento Fiscal", tool_sub: "Fecha Oficial de DIMP", tool_days: "Días Restantes", contact_title: "Hablemos de tu futuro", contact_sub: "¿Listo para optimizar tu negocio? Contáctanos o visita nuestra oficina.", form_title: "Solicitar Consulta", form_name: "Nombre Completo", form_email: "Correo Electrónico", form_service: "Servicio", form_date: "Fecha Preferida" },
+            nl: { nav_home: "Home", nav_services: "Diensten", nav_tools: "Tools", nav_contact: "Contact", btn_book: "Afspraak Maken", btn_portal: "Klantenportaal", hero_tag: "Aruba's Premier Kantoor", hero_title: "Financiële Duidelijkheid.<br><span class='text-transparent bg-clip-text bg-gradient-to-r from-brand-teal to-brand-blue'>Gemoedsrust.</span>", hero_sub: "Deskundige belastingvoorbereiding, salarisadministratie en strategisch advies voor bedrijven die uitmuntendheid eisen.", btn_consult: "Consult Boeken", btn_explore: "Bekijk Diensten", trusted_by: "Vertrouwd door toonaangevende bedrijven", svc_header: "Elite Diensten", svc1_title: "Administratie", svc1_desc: "Volledige financiële administratie en rapportage.", svc2_title: "Salarisadministratie", svc2_desc: "Geautomatiseerde verwerking van lonen en belastingen.", svc3_title: "Financieel Advies", svc3_desc: "Strategisch financieel en fiscaal structureringsadvies.", tool_calc: "BBO Calculator", tool_deadline: "Volgende Belastingdeadline", tool_sub: "Officiële DIMP Datum", tool_days: "Dagen Resterend", contact_title: "Laten we uw toekomst bespreken", contact_sub: "Klaar om uw bedrijf te optimaliseren? Neem contact op of bezoek ons kantoor.", form_title: "Consult Aanvragen", form_name: "Volledige Naam", form_email: "E-mailadres", form_service: "Dienst", form_date: "Voorkeursdatum" }
         };
 
         const CroesApp = {
             db: null,
+            storage: null, // NEW: Added Storage Engine
             currentLang: 'en',
             currentServiceView: 'Administration',
             currentClientEmail: null,
@@ -549,7 +572,8 @@
             },
             firebaseConfig: {
                 apiKey: "AIzaSyAfBnjuVgA2bUItGmtFAPfh3pSp2fWasBw",
-                projectId: "croes-accounting"
+                projectId: "croes-accounting",
+                storageBucket: "croes-accounting.firebasestorage.app" // REQUIRED FOR STORAGE
             },
             serviceData: {
                 'admin': { title: 'Administration & Accounting', subtitle: 'Flawless financial record-keeping so you can focus entirely on growing your business operations.', img: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1600&q=80', formValue: 'Administration', bullets: ['Comprehensive Bookkeeping', 'Monthly & Annual Financial Statements', 'Accounts Payable/Receivable', 'Bank Reconciliations', 'BBO / BAZV / BAV Tax Preparation'] },
@@ -561,8 +585,9 @@
                 try {
                     firebase.initializeApp(this.firebaseConfig);
                     this.db = firebase.firestore();
+                    this.storage = firebase.storage(); // INIT STORAGE
                     this.db.settings({ experimentalAutoDetectLongPolling: true });
-                } catch (e) { console.warn("Firebase Init fallback"); }
+                } catch (e) { console.warn("Firebase Init fallback", e); }
                 
                 this.initUI();
             },
@@ -575,10 +600,6 @@
                 
                 const today = new Date().toISOString().split("T")[0];
                 document.querySelectorAll('input[type="date"]').forEach(i => i.min = today);
-
-                const h = new Date().getHours(), d = new Date().getDay();
-                const s = document.getElementById('business-status');
-                if(s && d >= 1 && d <= 5 && h >= 8 && h < 17) s.innerHTML = '<div class="w-2.5 h-2.5 md:w-3 md:h-3 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.8)]"></div><span class="font-bold text-white text-xs tracking-wide">OPEN NOW</span>';
             },
 
             setLang: function(l) { 
@@ -640,15 +661,12 @@
 
                         emailjs.send(this.emailConfig.serviceId, this.emailConfig.requestTemplateId, {
                             ...data, to_email: "info@croesaccounting.com"
-                        }, this.emailConfig.publicKey).catch(err => console.warn("EmailJS Background Error", err));
+                        }, this.emailConfig.publicKey).catch(err => console.warn("EmailJS background send failed"));
                     }).catch(err => {
                         this.setLoading(btn, false);
                         alert("Database Connection Error. Please try calling us.");
                     });
-                } else {
-                    alert("System Offline.");
-                    this.setLoading(btn, false);
-                }
+                } else { alert("System Offline."); this.setLoading(btn, false); }
             },
 
             // --- ADMIN CONTROLS ---
@@ -713,8 +731,6 @@
                     document.getElementById('conf-email').value = data.email;
                     document.getElementById('conf-name').value = data.name;
                     document.getElementById('conf-date').value = data.date;
-                    
-                    // Format time to strictly HH:MM for time inputs
                     document.getElementById('conf-time').value = "09:00"; 
                     document.getElementById('confirm-modal').classList.remove('hidden');
                 });
@@ -726,36 +742,23 @@
                 const name = document.getElementById('conf-name').value;
                 const date = document.getElementById('conf-date').value;
                 
-                // Get time input and format it to 12h for the email
                 const rawTime = document.getElementById('conf-time').value;
                 if(!rawTime) { alert("Please select a time."); return; }
                 const [h, m] = rawTime.split(':');
                 const time12h = `${parseInt(h) % 12 || 12}:${m} ${parseInt(h) >= 12 ? 'PM' : 'AM'}`;
 
-                // Set Loading State
                 btnElement.disabled = true;
                 btnElement.innerHTML = `<span class="loader"></span> Saving...`;
 
-                // Update Database FIRST
                 this.db.collection('bookings').doc(id).update({ status: 'Confirmed', date: date, time: time12h }).then(() => {
-                    
-                    // Close modal and show success immediately
                     document.getElementById('confirm-modal').classList.add('hidden');
                     this.showToast("Confirmed", "Appointment secured. Email sending in background.");
-                    
-                    // Reset Button
                     btnElement.disabled = false;
                     btnElement.innerHTML = `Confirm & Notify Client`;
 
-                    // Send EmailJS silently
                     emailjs.send(this.emailConfig.serviceId, this.emailConfig.confirmTemplateId, {
-                        to_name: name,
-                        to_email: email,
-                        date: date,
-                        time: time12h,
-                        message: "Your appointment is confirmed."
+                        to_name: name, to_email: email, date: date, time: time12h, message: "Your appointment is confirmed."
                     }, this.emailConfig.publicKey).catch(err => console.warn("EmailJS background send failed", err));
-
                 }).catch(err => {
                     btnElement.disabled = false;
                     btnElement.innerHTML = `Confirm & Notify Client`;
@@ -808,6 +811,10 @@
                         document.getElementById('detail-phone').innerText = c.phone || "N/A";
                         document.getElementById('detail-pin').innerText = c.pin;
                         document.getElementById('detail-notes').value = c.notes || "";
+                        
+                        // NEW: Load Admin File Manager inside detail modal
+                        this.renderAdminClientFiles(email);
+
                         document.getElementById('client-detail-modal').classList.remove('hidden');
                     }
                 });
@@ -821,7 +828,49 @@
                 });
             },
 
-            // --- CLIENT PORTAL LOGIN LOGIC ---
+            // --- ADMIN FILE MANAGER (NEW) ---
+            renderAdminClientFiles: function(clientEmail) {
+                const container = document.getElementById('admin-client-files');
+                container.innerHTML = '<div class="col-span-2 text-center text-xs text-slate-400 py-4"><span class="loader border-brand-teal border-t-transparent"></span> Loading Cloud Vault...</div>';
+                
+                if(!this.db) return;
+
+                this.db.collection('files').where('clientEmail', '==', clientEmail).get().then((snap) => {
+                    container.innerHTML = '';
+                    document.getElementById('admin-file-count').innerText = `${snap.size} Files`;
+                    
+                    if(snap.empty) {
+                        container.innerHTML = '<div class="col-span-2 text-center text-xs text-slate-400 py-4 bg-slate-50 rounded border border-dashed border-slate-200">Vault is empty.</div>';
+                        return;
+                    }
+
+                    snap.forEach(doc => {
+                        const file = doc.data();
+                        const isPDF = file.name.toLowerCase().endsWith('.pdf');
+                        container.innerHTML += `
+                            <div class="flex items-center justify-between p-2 md:p-3 bg-white border border-slate-200 rounded-lg shadow-sm hover:border-brand-teal transition-colors">
+                                <div class="flex items-center gap-2 md:gap-3 overflow-hidden">
+                                    <div class="w-8 h-8 rounded bg-blue-50 text-brand-teal flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="${isPDF ? 'file-text' : 'image'}" class="w-4 h-4"></i>
+                                    </div>
+                                    <div class="overflow-hidden">
+                                        <p class="text-xs font-bold text-brand-navy truncate w-32 md:w-48">${this.sanitize(file.name)}</p>
+                                        <p class="text-[9px] text-slate-400">${new Date(file.uploadedAt).toLocaleDateString()}</p>
+                                    </div>
+                                </div>
+                                <a href="${file.url}" target="_blank" download class="p-2 bg-brand-navy text-white rounded hover:bg-brand-teal transition-colors">
+                                    <i data-lucide="download" class="w-3 h-3 md:w-4 md:h-4"></i>
+                                </a>
+                            </div>
+                        `;
+                    });
+                    lucide.createIcons();
+                }).catch(err => {
+                    container.innerHTML = '<div class="col-span-2 text-center text-xs text-red-400 py-4">Error loading vault. Check Firebase Rules.</div>';
+                });
+            },
+
+            // --- SECURE PORTAL LOGIN ---
             clientLoginStep1: function() { 
                 if(!this.db) return alert("Database not connected.");
                 const e = document.getElementById('client-email').value.trim().toLowerCase(); 
@@ -844,20 +893,13 @@
                             document.getElementById('client-step-1').classList.add('hidden'); 
                             document.getElementById('client-step-2').classList.remove('hidden'); 
                         }).catch(err => {
-                            // Fallback if emailjs fails, show PIN in dev mode
                             console.warn("EmailJS Failed. Showing PIN for development:", doc.data().pin);
                             this.showToast("Dev Mode", "Email failed. Check console for PIN.");
                             document.getElementById('client-step-1').classList.add('hidden'); 
                             document.getElementById('client-step-2').classList.remove('hidden'); 
                         });
-                        
-                    } else { 
-                        alert("Email not found in our client database."); 
-                    } 
-                }).catch(err => { 
-                    this.setLoading(btn, false); 
-                    alert("Login Failed: " + err.message); 
-                });
+                    } else { alert("Email not found in our client database."); } 
+                }).catch(err => { this.setLoading(btn, false); alert("Login Failed: " + err.message); });
             },
 
             clientLoginStep2: function() { 
@@ -866,12 +908,118 @@
                     if(doc.data().pin === p) { 
                         this.currentClientPin = p; 
                         document.getElementById('client-login-modal').classList.add('hidden'); 
-                        // Note: Client portal is a placeholder for future feature expansion.
-                        alert("Authentication Successful. Portal Dashboard routing coming in v21."); 
-                    } else { 
-                        alert("Invalid PIN. Please try again."); 
-                    } 
+                        document.getElementById('public-view').classList.add('hidden');
+                        document.getElementById('client-portal').classList.remove('hidden');
+                        document.getElementById('portal-client-name').innerText = this.sanitize(doc.data().name);
+                        this.renderClientFiles(); // Load files immediately
+                    } else { alert("Invalid PIN. Please try again."); } 
                 });
+            },
+
+            // --- FIREBASE CLOUD STORAGE UPLOAD (NEW) ---
+            handleFirebaseUpload: function(inputElement) {
+                if(!this.storage) {
+                    alert("Firebase Storage is not initialized. Please click 'Get Started' in the Firebase Storage console first!");
+                    return;
+                }
+                
+                const file = inputElement.files[0];
+                if(!file) return;
+
+                // File validation (Max 5MB)
+                if(file.size > 5 * 1024 * 1024) {
+                    alert("File is too large. Maximum size is 5MB.");
+                    inputElement.value = '';
+                    return;
+                }
+
+                // Show Upload Overlay
+                const overlay = document.getElementById('upload-overlay');
+                overlay.classList.remove('hidden');
+
+                // Create Storage Reference: client_vault/email/filename
+                const storageRef = this.storage.ref();
+                const fileRef = storageRef.child(`client_vault/${this.currentClientEmail}/${file.name}`);
+
+                // Upload to Storage Bucket
+                fileRef.put(file).then((snapshot) => {
+                    // Get Secure Download URL
+                    return snapshot.ref.getDownloadURL();
+                }).then((downloadURL) => {
+                    // Save metadata to Firestore so it shows up in dashboards
+                    return this.db.collection('files').add({
+                        clientEmail: this.currentClientEmail,
+                        name: file.name,
+                        url: downloadURL, // Secure cloud link, NOT base64 data
+                        uploadedAt: new Date().toISOString()
+                    });
+                }).then(() => {
+                    // Success Cleanup
+                    inputElement.value = '';
+                    overlay.classList.add('hidden');
+                    this.showToast("Success", "File safely encrypted in Cloud Vault.");
+                    this.renderClientFiles(); // Refresh UI
+                }).catch(error => {
+                    // Error Cleanup
+                    overlay.classList.add('hidden');
+                    console.error("Upload failed:", error);
+                    if(error.code === 'storage/unauthorized') {
+                        alert("Upload failed. Firebase Storage Rules are blocking access. Make sure they are set to allow reads/writes.");
+                    } else {
+                        alert("Upload failed: " + error.message);
+                    }
+                });
+            },
+
+            renderClientFiles: function() {
+                const list = document.getElementById('portal-file-list');
+                list.innerHTML = '<div class="col-span-full text-center text-slate-400 py-8"><span class="loader border-brand-teal border-t-transparent"></span> Syncing Vault...</div>';
+                
+                if(!this.db) return;
+
+                this.db.collection('files').where('clientEmail', '==', this.currentClientEmail).get().then((snap) => {
+                    list.innerHTML = '';
+                    document.getElementById('portal-file-count').innerText = snap.size;
+
+                    if(snap.empty) {
+                        list.innerHTML = '<div class="col-span-full text-center text-slate-400 py-8 bg-slate-50 rounded-2xl border border-dashed border-slate-200">Your vault is empty.</div>';
+                        return;
+                    }
+
+                    snap.forEach(doc => {
+                        const file = doc.data();
+                        const isPDF = file.name.toLowerCase().endsWith('.pdf');
+                        
+                        list.innerHTML += `
+                            <div class="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-md hover:border-brand-teal transition-all group relative">
+                                <div class="h-24 md:h-32 bg-slate-50 flex items-center justify-center overflow-hidden border-b border-slate-100">
+                                    ${!isPDF ? `<img src="${file.url}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity">` : `<i data-lucide="file-text" class="w-10 h-10 text-brand-teal opacity-50"></i>`}
+                                </div>
+                                <div class="p-3 md:p-4">
+                                    <p class="font-bold text-xs md:text-sm text-brand-navy truncate" title="${file.name}">${this.sanitize(file.name)}</p>
+                                    <p class="text-[9px] md:text-[10px] text-slate-400 uppercase tracking-widest mt-1">${new Date(file.uploadedAt).toLocaleDateString()}</p>
+                                </div>
+                                <a href="${file.url}" target="_blank" download class="absolute top-2 right-2 p-2 bg-white/90 backdrop-blur rounded-lg shadow-sm opacity-0 group-hover:opacity-100 transition-opacity text-brand-navy hover:text-brand-teal">
+                                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                                </a>
+                            </div>
+                        `;
+                    });
+                    lucide.createIcons();
+                });
+            },
+
+            switchPortalTab: function(t) { 
+                ['dash','docs'].forEach(x=>document.getElementById('portal-'+x).classList.add('hidden')); 
+                document.getElementById('portal-'+t).classList.remove('hidden'); 
+                document.querySelectorAll('.portal-nav-btn').forEach(b => b.classList.remove('active')); 
+                
+                // Handle mobile fast-switching styling (event might be undefined)
+                if(event && event.currentTarget.classList) {
+                    event.currentTarget.classList.add('active');
+                }
+                
+                if(t==='docs') this.renderClientFiles(); 
             },
 
             // --- UTILITIES ---
