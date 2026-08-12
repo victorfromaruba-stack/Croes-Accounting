@@ -458,6 +458,91 @@ tbody tr:hover{background:var(--surface)}
 body.editing-active [data-editable="true"]{outline:1px dashed rgba(42,96,152,.5);outline-offset:3px;border-radius:3px}
 body.editing-active [data-editable="true"]:hover{outline:2px dashed var(--blue);background:rgba(42,96,152,.06)}
 
+
+/* ---------- scroll progress + header shrink ---------- */
+.progress{position:fixed;top:0;left:0;right:0;height:3px;background:var(--accent);transform:scaleX(0);
+  transform-origin:left;z-index:120;pointer-events:none}
+header{transition:box-shadow .3s var(--ease),background .3s}
+header.stuck{box-shadow:0 1px 0 var(--line),0 6px 24px rgba(14,42,69,.07)}
+header.stuck .bar{height:64px}
+.bar{transition:height .3s var(--ease)}
+
+/* ---------- hero v2: layered composition ---------- */
+.hero-art{position:relative;padding-left:clamp(0px,3vw,44px)}
+.hero-photo{position:relative;border-radius:22px;overflow:hidden;box-shadow:var(--shadow-lg);
+  aspect-ratio:4/5;max-height:560px;margin-left:auto;width:min(100%,430px)}
+.hero-photo img{width:100%;height:100%;object-fit:cover}
+.hero-photo::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(200deg,rgba(14,42,69,0) 40%,rgba(14,42,69,.55))}
+.hero-photo .cap{position:absolute;left:16px;bottom:14px;z-index:2;color:#fff;font-size:.72rem;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:8px;text-shadow:0 1px 8px rgba(0,0,0,.5)}
+.hero-photo .cap i{width:6px;height:6px;border-radius:50%;background:#8FC7A6;display:block;flex:none}
+.close-card{position:absolute;left:0;bottom:-18px;width:min(340px,86%);z-index:3}
+@media(max-width:960px){
+  .hero-art{padding-left:0;margin-top:12px}
+  .hero-photo{width:100%;max-height:380px;aspect-ratio:16/11}
+  .close-card{position:static;width:100%;margin-top:-46px;position:relative}
+}
+.tick-pill{position:absolute;right:-6px;top:26px;z-index:3;background:var(--paper);border:1px solid var(--line);
+  border-radius:14px;box-shadow:var(--shadow-lg);padding:13px 16px;text-align:center;min-width:132px}
+.tick-pill .k{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.tick-pill .v{font-family:'SourceSerif',serif;font-size:1.5rem;font-weight:600;color:var(--ink);line-height:1.1;
+  margin-top:3px;font-variant-numeric:tabular-nums}
+.tick-pill .s{font-size:.66rem;color:var(--green);font-weight:650}
+@media(max-width:960px){.tick-pill{top:12px;right:auto;left:12px}}
+
+/* ---------- full-bleed island band ---------- */
+.band{position:relative;overflow:hidden;background:var(--ink);color:#fff}
+.band img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1s var(--ease)}
+.band img.loaded{opacity:.62}
+.band::after{content:"";position:absolute;inset:0;background:
+  linear-gradient(100deg,rgba(14,42,69,.97) 0%,rgba(14,42,69,.9) 34%,rgba(14,42,69,.5) 66%,rgba(14,42,69,.28) 100%),
+  linear-gradient(180deg,rgba(14,42,69,.5),transparent 30%,transparent 70%,rgba(14,42,69,.5))}
+.band .wrap{position:relative;z-index:2;padding-block:clamp(64px,9vw,120px)}
+.band h2{color:#fff;font-size:clamp(1.9rem,4.4vw,3.1rem);max-width:19ch}
+.band p{color:rgba(255,255,255,.76);max-width:52ch;margin-top:18px;font-size:clamp(1rem,1.5vw,1.12rem)}
+.band .marks{display:flex;flex-wrap:wrap;gap:10px 12px;margin-top:30px}
+.band .marks span{border:1px solid rgba(255,255,255,.24);border-radius:30px;padding:9px 17px;font-size:.85rem;
+  font-weight:600;color:rgba(255,255,255,.9)}
+
+/* ---------- statement ---------- */
+.statement{border-left:3px solid transparent;border-image:var(--accent) 1;padding-left:clamp(20px,3vw,34px);
+  max-width:900px}
+.statement p{font-family:'SourceSerif',serif;font-size:clamp(1.4rem,3vw,2.1rem);line-height:1.32;color:var(--ink);
+  font-weight:500;text-wrap:pretty}
+.statement .by{margin-top:18px;font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+
+/* ---------- calculator split bar ---------- */
+.split-bar{display:flex;height:10px;border-radius:6px;overflow:hidden;background:var(--surface-2);margin:18px 0 12px}
+.split-bar i{display:block;transition:flex-grow .5s var(--ease)}
+.split-bar .s1{background:var(--blue)}
+.split-bar .s2{background:var(--blue-lift)}
+.split-bar .s3{background:var(--green)}
+.split-legend{display:flex;flex-wrap:wrap;gap:8px 18px}
+.split-legend div{display:flex;align-items:center;gap:7px;font-size:.78rem;color:var(--muted)}
+.split-legend b{color:var(--ink);font-weight:650;font-variant-numeric:tabular-nums}
+.split-legend .sw{width:9px;height:9px;border-radius:3px;flex:none}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px}
+.chips button{border:1px solid var(--line);background:var(--paper);border-radius:20px;padding:6px 13px;
+  font-size:.8rem;font-weight:600;color:var(--muted);cursor:pointer;transition:.18s}
+.chips button:hover{border-color:var(--blue);color:var(--blue)}
+
+/* ---------- countdown ---------- */
+.cd{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:22px 0 4px}
+.cd div{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.13);border-radius:12px;padding:12px 6px}
+.cd b{display:block;font-family:'SourceSerif',serif;font-size:clamp(1.7rem,4vw,2.3rem);font-weight:600;
+  line-height:1;font-variant-numeric:tabular-nums}
+.cd span{font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+
+/* service icon */
+.svc-ico{width:42px;height:42px;border-radius:11px;background:var(--surface);border:1px solid var(--line);
+  display:grid;place-items:center;color:var(--blue);margin-bottom:16px;transition:.28s var(--ease)}
+.svc-ico svg{width:19px;height:19px}
+.svc:hover .svc-ico{background:var(--ink);border-color:var(--ink);color:#fff}
+.svc-num{position:absolute;top:24px;right:26px}
+.credit{font-size:.72rem;color:rgba(255,255,255,.34);margin-top:18px}
+.credit a{text-decoration:underline}
+
 .rv{opacity:0;transform:translateY(16px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
 .rv.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){
@@ -501,6 +586,7 @@ body.editing-active [data-editable="true"]:hover{outline:2px dashed var(--blue);
 <symbol viewBox="0 0 24 24" id="i-chart" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18M7 15l4-4 3 3 5-6"/></symbol>
 </defs></svg>
 
+<div class="progress" aria-hidden="true"></div>
 <a class="skip" href="#main">Skip to content</a>
 
 <a href="https://wa.me/2975833507" target="_blank" rel="noopener" class="wa" aria-label="WhatsApp us">
@@ -571,22 +657,28 @@ body.editing-active [data-editable="true"]:hover{outline:2px dashed var(--blue);
         <div><svg><use href="#i-pin"/></svg><span data-i18n="fact_office">Office on John G. Emanstraat</span></div>
       </div>
     </div>
-    <div class="close-card rv">
-      <div class="cc-top">
-        <b data-i18n="cc_title">Monthly close — sample</b>
-        <span class="cc-tag" data-i18n="cc_tag">Filed</span>
+    <div class="hero-art rv">
+      <div class="hero-photo">
+        <img src="img-oranjestad.jpg" alt="Dutch colonial buildings in Oranjestad, Aruba" loading="eager">
+        <span class="cap"><i></i><span data-i18n="hero_cap">Oranjestad</span></span>
       </div>
-      <div class="cc-rows">
-        <div class="cc-row"><span data-i18n="cc_rev">Revenue booked</span><b>ƒ 84,200.00</b></div>
-        <div class="cc-row"><span data-i18n="cc_bbo">Turnover tax (7%)</span><b>ƒ 5,894.00</b></div>
-        <div class="cc-row"><span data-i18n="cc_pay">Payroll processed</span><b>ƒ 21,450.00</b></div>
-        <div class="cc-row total"><span data-i18n="cc_status">Filed with DIMP</span><b style="display:inline-flex;align-items:center;gap:7px;color:var(--green)"><svg style="width:18px;height:18px"><use href="#i-check"/></svg><span data-i18n="cc_ontime">On time</span></b></div>
-        <div class="cc-bar" aria-hidden="true"><i style="width:100%"></i></div>
-        <div style="height:14px"></div>
+      <div class="tick-pill">
+        <div class="k" data-i18n="pill_k">Next DIMP deadline</div>
+        <div class="v"><span id="pill-days">0</span> <span data-i18n="pill_days">days</span></div>
+        <div class="s" id="pill-date">—</div>
       </div>
-      <div class="cc-foot">
-        <svg><use href="#i-shield"/></svg>
-        <p data-i18n="cc_foot">Documents live in your <b>secure client portal</b> — not in a WhatsApp thread.</p>
+      <div class="close-card">
+        <div class="cc-top">
+          <b data-i18n="cc_title">Monthly close — sample</b>
+          <span class="cc-tag" data-i18n="cc_tag">Filed</span>
+        </div>
+        <div class="cc-rows">
+          <div class="cc-row"><span data-i18n="cc_rev">Revenue booked</span><b data-count="84200" data-money="1">ƒ 84,200.00</b></div>
+          <div class="cc-row"><span data-i18n="cc_bbo">Turnover tax (7%)</span><b data-count="5894" data-money="1">ƒ 5,894.00</b></div>
+          <div class="cc-row total"><span data-i18n="cc_status">Filed with DIMP</span><b style="display:inline-flex;align-items:center;gap:7px;color:var(--green)"><svg style="width:18px;height:18px"><use href="#i-check"/></svg><span data-i18n="cc_ontime">On time</span></b></div>
+          <div class="cc-bar" aria-hidden="true"><i style="width:100%"></i></div>
+          <div style="height:12px"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -614,6 +706,7 @@ body.editing-active [data-editable="true"]:hover{outline:2px dashed var(--blue);
     <div class="svc-grid">
       <button class="svc rv" onclick="CroesApp.openService('admin')">
         <span class="svc-num">01</span>
+        <span class="svc-ico"><svg><use href="#i-file"/></svg></span>
         <h3 data-i18n="svc1_title" data-editable="true">Administration</h3>
         <p data-i18n="svc1_desc" data-editable="true">Your bookkeeping kept current all year, not rebuilt in a panic each January.</p>
         <ul>
@@ -625,6 +718,7 @@ body.editing-active [data-editable="true"]:hover{outline:2px dashed var(--blue);
       </button>
       <button class="svc rv" onclick="CroesApp.openService('payroll')">
         <span class="svc-num">02</span>
+        <span class="svc-ico"><svg><use href="#i-users"/></svg></span>
         <h3 data-i18n="svc2_title" data-editable="true">Payroll</h3>
         <p data-i18n="svc2_desc" data-editable="true">Staff paid correctly, premiums calculated, and the year-end summary ready when it is asked for.</p>
         <ul>
@@ -636,6 +730,7 @@ body.editing-active [data-editable="true"]:hover{outline:2px dashed var(--blue);
       </button>
       <button class="svc rv" onclick="CroesApp.openService('advisory')">
         <span class="svc-num">03</span>
+        <span class="svc-ico"><svg><use href="#i-chart"/></svg></span>
         <h3 data-i18n="svc3_title" data-editable="true">Advisory</h3>
         <p data-i18n="svc3_desc" data-editable="true">Someone who knows your numbers when you are deciding, buying, hiring — or being audited.</p>
         <ul>
@@ -672,6 +767,21 @@ body.editing-active [data-editable="true"]:hover{outline:2px dashed var(--blue);
   </div>
 </section>
 
+
+<section class="band">
+  <img src="img-oranjestad-wide.jpg" alt="Dutch colonial buildings in Oranjestad, Aruba" loading="lazy" decoding="async" onload="this.classList.add('loaded')">
+  <div class="wrap">
+    <p class="eyebrow on-dark" data-i18n="band_eyebrow">Local</p>
+    <h2 style="margin-top:12px" data-i18n="band_title" data-editable="true">We are on the island, not on a helpdesk</h2>
+    <p data-i18n="band_sub" data-editable="true">Our office is on John G. Emanstraat in Oranjestad. You can walk in with a folder of receipts, ask a question in Papiamento, and speak to the same person who files your return.</p>
+    <div class="marks">
+      <span data-i18n="band_m1">Walk-in office</span>
+      <span data-i18n="band_m2">Papiamento · English · Español · Nederlands</span>
+      <span data-i18n="band_m3">We know DIMP procedure</span>
+    </div>
+  </div>
+</section>
+
 <section class="sec" id="tools">
   <div class="wrap">
     <div class="sec-head">
@@ -690,6 +800,12 @@ body.editing-active [data-editable="true"]:hover{outline:2px dashed var(--blue);
           <button id="calc-mode-add" class="active" onclick="CroesApp.setCalcMode('add')" data-i18n="calc_add">Add 7%</button>
           <button id="calc-mode-extract" onclick="CroesApp.setCalcMode('extract')" data-i18n="calc_extract">It's included</button>
         </div>
+        <div class="chips">
+          <button type="button" onclick="CroesApp.quick(500)">ƒ 500</button>
+          <button type="button" onclick="CroesApp.quick(1500)">ƒ 1,500</button>
+          <button type="button" onclick="CroesApp.quick(5000)">ƒ 5,000</button>
+          <button type="button" onclick="CroesApp.quick(25000)">ƒ 25,000</button>
+        </div>
         <div class="calc-input">
           <span class="cur">ƒ</span>
           <input type="number" id="calc-input" placeholder="0.00" inputmode="decimal" min="0" step="0.01"
@@ -700,14 +816,26 @@ body.editing-active [data-editable="true"]:hover{outline:2px dashed var(--blue);
           <div class="calc-row tax"><span data-i18n="calc_tax">Turnover tax (7%)</span><b id="res-tax">ƒ 0.00</b></div>
           <div class="calc-row total"><span id="calc-lbl-total" data-i18n="calc_total">Invoice total</span><b id="res-total">ƒ 0.00</b></div>
         </div>
-        <p class="calc-split" id="calc-split" data-i18n="calc_split">BBO ƒ 0.00 · BAVP ƒ 0.00 · BAZV ƒ 0.00</p>
+        <div class="split-bar" aria-hidden="true">
+          <i class="s1" id="sb1" style="flex-grow:2.5"></i><i class="s2" id="sb2" style="flex-grow:1.5"></i><i class="s3" id="sb3" style="flex-grow:3"></i>
+        </div>
+        <div class="split-legend">
+          <div><span class="sw" style="background:var(--blue)"></span>BBO 2.5% <b id="sp1">ƒ 0.00</b></div>
+          <div><span class="sw" style="background:var(--blue-lift)"></span>BAVP 1.5% <b id="sp2">ƒ 0.00</b></div>
+          <div><span class="sw" style="background:var(--green)"></span>BAZV 3% <b id="sp3">ƒ 0.00</b></div>
+        </div>
       </div>
       <div class="deadline">
         <h3 data-i18n="tool_deadline" data-editable="true">Next filing deadline</h3>
         <p class="sub" data-i18n="tool_subd" data-editable="true">Monthly return due at DIMP</p>
-        <div class="num" id="days-left">0</div>
-        <div class="lbl" id="days-label" data-i18n="tool_days">Days remaining</div>
+        <div class="cd">
+          <div><b id="cd-d">0</b><span data-i18n="cd_days">Days</span></div>
+          <div><b id="cd-h">0</b><span data-i18n="cd_hours">Hours</span></div>
+          <div><b id="cd-m">0</b><span data-i18n="cd_min">Minutes</span></div>
+        </div>
+        <div class="lbl" style="margin-top:16px" id="days-label" data-i18n="tool_days">Until the next filing</div>
         <div class="date" id="deadline-date">…</div>
+        <span id="days-left" hidden>0</span>
       </div>
     </div>
   </div>
@@ -718,8 +846,18 @@ body.editing-active [data-editable="true"]:hover{outline:2px dashed var(--blue);
     <div class="proof">
       <div class="rv"><b>7%</b><p data-i18n="proof1">Turnover tax we calculate, split and file for you</p></div>
       <div class="rv"><b>15<span style="font-size:.5em">th</span></b><p data-i18n="proof2">Monthly DIMP deadline we never let you miss</p></div>
-      <div class="rv"><b>4</b><p data-i18n="proof3">Languages spoken in our office</p></div>
+      <div class="rv"><b data-count="4">4</b><p data-i18n="proof3">Languages spoken in our office</p></div>
       <div class="rv"><b>Free</b><p data-i18n="proof4">First consultation, no obligation</p></div>
+    </div>
+  </div>
+</section>
+
+
+<section class="sec" style="padding-bottom:0">
+  <div class="wrap">
+    <div class="statement rv">
+      <p data-i18n="stmt" data-editable="true">Most of our clients did not come to us because they love accounting. They came because a deadline was close, a letter arrived, or the shoebox got too full. That is a normal place to start.</p>
+      <p class="by" data-i18n="stmt_by">Croes Accounting &amp; Tax Consultants</p>
     </div>
   </div>
 </section>
@@ -825,7 +963,9 @@ body.editing-active [data-editable="true"]:hover{outline:2px dashed var(--blue);
       </div>
     </div>
     <div class="foot-bot">
-      <p>© <span id="year">2026</span> Croes Accounting &amp; Tax Consultants</p>
+      <p>© <span id="year">2026</span> Croes Accounting &amp; Tax Consultants<br>
+        <span class="credit">Oranjestad photograph by David Stanley,
+        <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC BY 2.0</a></span></p>
       <button onclick="CroesApp.openAdminLogin()"><svg><use href="#i-lock"/></svg> <span data-i18n="foot_admin">Staff access</span></button>
     </div>
   </div>
@@ -1055,6 +1195,21 @@ body.editing-active [data-editable="true"]:hover{outline:2px dashed var(--blue);
 const TRANSLATIONS = {
   en: {},
   pa: {
+    hero_cap:"Oranjestad",
+    pill_k:"Siguiente fecha DIMP",
+    pill_days:"dia",
+    cd_days:"Dia",
+    cd_hours:"Ora",
+    cd_min:"Minuut",
+    band_eyebrow:"Local",
+    band_title:"Nos ta riba e isla, no riba un helpdesk",
+    band_sub:"Nos oficina ta na John G. Emanstraat na Oranjestad. Bo por drenta cu un map di recibo, puntra un pregunta na Papiamento, y papia cu e mesun persona cu ta entrega bo declaracion.",
+    band_m1:"Oficina pa drenta",
+    band_m2:"Papiamento · English · Español · Nederlands",
+    band_m3:"Nos conoce procedura di DIMP",
+    stmt:"Mayoria di nos clientenan no a bin serca nos pasobra nan ta stima contabilidad. Nan a bin pasobra un fecha limite tabata cerca, un carta a yega, of e caha di sapato a bira muchu yen. Esei ta un lugar normal pa cuminsa.",
+    stmt_by:"Croes Accounting & Tax Consultants",
+    tool_days:"Te na e siguiente entrega",
     nav_services:"Servicionan", nav_how:"Con e ta funciona", nav_tools:"Hermentnan", nav_faq:"Preguntanan", nav_contact:"Contacto",
     btn_book:"Traha un afspraak", btn_portal:"Portal di cliente", btn_consult:"Traha un afspraak gratis", btn_explore:"Mira kico nos ta hasi",
     hero_tag:"Oranjestad, Aruba",
@@ -1113,6 +1268,21 @@ const TRANSLATIONS = {
     cp_title:"Bo documentonan", cp_hi:"Drenta como", cp_out:"Sali", cp_count:"Archivo den bo portal"
   },
   es: {
+    hero_cap:"Oranjestad",
+    pill_k:"Próximo plazo DIMP",
+    pill_days:"días",
+    cd_days:"Días",
+    cd_hours:"Horas",
+    cd_min:"Minutos",
+    band_eyebrow:"Local",
+    band_title:"Estamos en la isla, no en un centro de llamadas",
+    band_sub:"Nuestra oficina está en John G. Emanstraat, Oranjestad. Puede entrar con una carpeta de recibos, preguntar en papiamento y hablar con la misma persona que presenta su declaración.",
+    band_m1:"Oficina abierta",
+    band_m2:"Papiamento · English · Español · Nederlands",
+    band_m3:"Conocemos el procedimiento de DIMP",
+    stmt:"La mayoría de nuestros clientes no vinieron porque les encante la contabilidad. Vinieron porque se acercaba un plazo, llegó una carta, o la caja de zapatos se llenó demasiado. Ese es un punto de partida normal.",
+    stmt_by:"Croes Accounting & Tax Consultants",
+    tool_days:"Hasta la próxima presentación",
     nav_services:"Servicios", nav_how:"Cómo funciona", nav_tools:"Herramientas", nav_faq:"Preguntas", nav_contact:"Contacto",
     btn_book:"Reservar consulta", btn_portal:"Portal del cliente", btn_consult:"Reservar consulta gratis", btn_explore:"Ver qué hacemos",
     hero_tag:"Oranjestad, Aruba",
@@ -1171,6 +1341,21 @@ const TRANSLATIONS = {
     cp_title:"Sus documentos", cp_hi:"Sesión de", cp_out:"Salir", cp_count:"Archivos en su portal"
   },
   nl: {
+    hero_cap:"Oranjestad",
+    pill_k:"Volgende DIMP-deadline",
+    pill_days:"dagen",
+    cd_days:"Dagen",
+    cd_hours:"Uren",
+    cd_min:"Minuten",
+    band_eyebrow:"Lokaal",
+    band_title:"Wij zitten op het eiland, niet aan een helpdesk",
+    band_sub:"Ons kantoor staat aan de John G. Emanstraat in Oranjestad. U kunt binnenlopen met een map bonnen, een vraag stellen in het Papiaments, en spreken met dezelfde persoon die uw aangifte indient.",
+    band_m1:"Inloopkantoor",
+    band_m2:"Papiamento · English · Español · Nederlands",
+    band_m3:"Wij kennen de DIMP-procedure",
+    stmt:"De meeste klanten kwamen niet bij ons omdat ze van boekhouden houden. Ze kwamen omdat een deadline dichtbij was, er een brief kwam, of de schoenendoos te vol werd. Dat is een normaal beginpunt.",
+    stmt_by:"Croes Accounting & Tax Consultants",
+    tool_days:"Tot de volgende aangifte",
     nav_services:"Diensten", nav_how:"Hoe het werkt", nav_tools:"Tools", nav_faq:"Vragen", nav_contact:"Contact",
     btn_book:"Afspraak maken", btn_portal:"Klantenportaal", btn_consult:"Gratis adviesgesprek", btn_explore:"Bekijk wat we doen",
     hero_tag:"Oranjestad, Aruba",
@@ -1287,14 +1472,34 @@ const CroesApp = {
     const saved = localStorage.getItem('croesLang');
     if(saved && TRANSLATIONS[saved]) this.setLang(saved);
 
-    if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window){
+    const RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(!RM && 'IntersectionObserver' in window){
       const io = new IntersectionObserver(es => es.forEach(e => {
         if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
       }), { threshold:.12, rootMargin:'0px 0px -4% 0px' });
       document.querySelectorAll('.rv').forEach((el,i) => { el.style.transitionDelay = Math.min(i%4*70,210)+'ms'; io.observe(el); });
+
+      const cio = new IntersectionObserver(es => es.forEach(e => {
+        if(e.isIntersecting){ this.countUp(e.target); cio.unobserve(e.target); }
+      }), { threshold:.6 });
+      document.querySelectorAll('[data-count]').forEach(el => cio.observe(el));
     } else {
       document.querySelectorAll('.rv').forEach(el => el.classList.add('in'));
+      document.querySelectorAll('[data-count]').forEach(el => {
+        const n = +el.dataset.count;
+        el.textContent = el.dataset.money ? this.money(n) : String(n);
+      });
     }
+
+    const prog = document.querySelector('.progress');
+    const header = document.querySelector('header');
+    const onScroll = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      if(prog) prog.style.transform = 'scaleX(' + (max > 0 ? window.scrollY/max : 0) + ')';
+      if(header) header.classList.toggle('stuck', window.scrollY > 20);
+    };
+    window.addEventListener('scroll', onScroll, { passive:true });
+    onScroll();
 
     document.addEventListener('keydown', e => {
       if(e.key !== 'Escape') return;
@@ -1343,6 +1548,20 @@ const CroesApp = {
     if(on){ btn.dataset.prev = btn.innerHTML; btn.disabled = true; btn.innerHTML = '<span class="loader"></span>'; }
     else { btn.disabled = false; btn.innerHTML = btn.dataset.prev || btn.dataset.label || 'Done'; }
   },
+  countUp(el){
+    const target = +el.dataset.count, isMoney = !!el.dataset.money;
+    el.textContent = isMoney ? this.money(0) : '0';
+    const dur = 1200; let t0 = null;
+    const step = ts => {
+      if(!t0) t0 = ts;
+      const p = Math.min(1, (ts - t0)/dur);
+      const v = target * (1 - Math.pow(1 - p, 3));
+      el.textContent = isMoney ? this.money(v) : Math.round(v);
+      if(p < 1) requestAnimationFrame(step);
+      else el.textContent = isMoney ? this.money(target) : target;
+    };
+    requestAnimationFrame(step);
+  },
   showToast(title, msg){
     const el = document.getElementById('toast');
     document.getElementById('toast-title').textContent = title;
@@ -1369,10 +1588,15 @@ const CroesApp = {
     document.getElementById('res-sub').textContent = this.money(net);
     document.getElementById('res-tax').textContent = (this.calcMode === 'extract' ? '' : '+ ') + this.money(tax);
     document.getElementById('res-total').textContent = this.money(total);
-    document.getElementById('calc-split').textContent =
-      'BBO 2.5% ' + this.money(net*0.025) + '  ·  BAVP 1.5% ' + this.money(net*0.015) + '  ·  BAZV 3% ' + this.money(net*0.03);
+    document.getElementById('sp1').textContent = this.money(net*0.025);
+    document.getElementById('sp2').textContent = this.money(net*0.015);
+    document.getElementById('sp3').textContent = this.money(net*0.03);
     document.getElementById('calc-lbl-sub').textContent = this.t('calc_net','Net amount');
     document.getElementById('calc-lbl-total').textContent = this.t('calc_total','Invoice total');
+  },
+  quick(v){
+    const i = document.getElementById('calc-input');
+    i.value = v; this.calculateTax(); i.focus();
   },
   nextDeadline(){
     const now = new Date();
@@ -1385,12 +1609,23 @@ const CroesApp = {
     const now = new Date();
     const days = Math.max(0, Math.round((d - new Date(now.getFullYear(), now.getMonth(), now.getDate())) / 86400000));
     const locale = ({en:'en-US', pa:'es-AW', es:'es-ES', nl:'nl-NL'})[this.currentLang] || 'en-US';
-    const dl = document.getElementById('days-left');
-    if(dl) dl.textContent = days;
-    const dd = document.getElementById('deadline-date');
-    if(dd) dd.textContent = d.toLocaleDateString(locale, { day:'numeric', month:'long', year:'numeric' });
-    const sd = document.getElementById('stat-deadline');
-    if(sd) sd.textContent = days;
+    const dateStr = d.toLocaleDateString(locale, { day:'numeric', month:'long', year:'numeric' });
+    const set = (id, v) => { const e = document.getElementById(id); if(e) e.textContent = v; };
+    set('days-left', days); set('deadline-date', dateStr);
+    set('stat-deadline', days); set('pill-days', days); set('pill-date', dateStr);
+    this.tickCountdown();
+    clearInterval(this._cdT);
+    this._cdT = setInterval(() => this.tickCountdown(), 30000);
+  },
+  tickCountdown(){
+    const end = this.nextDeadline();
+    end.setHours(23,59,59,999);
+    let ms = Math.max(0, end - new Date());
+    const d = Math.floor(ms/86400000); ms -= d*86400000;
+    const h = Math.floor(ms/3600000);  ms -= h*3600000;
+    const m = Math.floor(ms/60000);
+    const set = (id,v) => { const e = document.getElementById(id); if(e) e.textContent = v; };
+    set('cd-d', d); set('cd-h', h); set('cd-m', m);
   },
 
   /* ---------- service detail ---------- */
