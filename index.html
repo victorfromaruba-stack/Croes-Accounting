@@ -108,8 +108,8 @@ img,svg{display:block;max-width:100%}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* ---------- header ---------- */
-header{position:sticky;top:0;z-index:90;background:rgba(255,255,255,.92);backdrop-filter:blur(14px) saturate(150%);
-  border-bottom:1px solid var(--line-soft)}
+header{position:sticky;top:0;z-index:90;background:var(--paper);border-bottom:1px solid var(--line);
+  -webkit-backdrop-filter:none;backdrop-filter:none}
 .bar{display:flex;align-items:center;justify-content:space-between;gap:20px;height:74px}
 .bar .logo img{height:38px;width:auto;object-fit:contain}
 nav.main{display:flex;align-items:center;gap:2px}
@@ -321,7 +321,9 @@ footer{background:#0A2038;color:rgba(255,255,255,.6);font-size:.9rem;padding-blo
 .foot-grid img{height:36px;background:#fff;padding:7px 10px;border-radius:8px;margin-bottom:16px}
 .foot-grid h4{color:#fff;font-family:'Inter';font-size:.72rem;font-weight:700;letter-spacing:.11em;
   text-transform:uppercase;margin-bottom:14px}
-.foot-grid ul{list-style:none;display:grid;gap:10px}
+.foot-grid ul{list-style:none;display:grid;gap:2px}
+.foot-grid ul a,.foot-grid ul button{display:inline-block;padding-block:10px;min-height:40px}
+.foot-grid ul li{line-height:1.5}
 .foot-grid a:hover{color:#8FC7A6}
 .foot-bot{border-top:1px solid rgba(255,255,255,.09);padding-top:22px;display:flex;justify-content:space-between;
   align-items:center;gap:14px;flex-wrap:wrap;font-size:.82rem}
@@ -541,6 +543,15 @@ header.stuck .bar{height:64px}
 .chips button{border:1px solid var(--line);background:var(--paper);border-radius:20px;padding:6px 13px;
   font-size:.8rem;font-weight:600;color:var(--muted);cursor:pointer;transition:.18s}
 .chips button:hover{border-color:var(--blue);color:var(--blue)}
+
+/* touch targets: Apple's minimum is 44px */
+@media(max-width:1080px){
+  .seg button{min-height:44px;padding-inline:18px}
+  .chips button{min-height:44px;padding-inline:16px}
+  .bar .logo{display:flex;align-items:center;min-height:44px}
+  .faq summary{min-height:52px}
+  .foot-bot button{min-height:44px}
+}
 
 /* ---------- countdown ---------- */
 .cd{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:22px 0 4px}
