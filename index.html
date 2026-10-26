@@ -111,10 +111,13 @@ img,svg{display:block;max-width:100%}
 header{position:sticky;top:0;z-index:90;background:var(--paper);border-bottom:1px solid var(--line);
   -webkit-backdrop-filter:none;backdrop-filter:none}
 .bar{display:flex;align-items:center;justify-content:space-between;gap:20px;height:74px}
-.bar .logo img{height:38px;width:auto;object-fit:contain}
+.bar .logo{display:flex;align-items:center;gap:10px;color:var(--ink)}
+.bar .logo img{height:36px;width:36px;flex:none}
+.bar .logo span{font-family:'SourceSerif',Georgia,serif;font-size:1rem;font-weight:600;letter-spacing:-.01em;
+  white-space:nowrap}
 nav.main{display:flex;align-items:center;gap:2px}
 nav.main a{position:relative;font-size:.92rem;font-weight:550;color:var(--ink);padding:8px 13px;border-radius:7px;
-  transition:.18s}
+  white-space:nowrap;transition:.18s}
 nav.main a:hover{background:var(--surface);color:var(--blue)}
 .bar-right{display:flex;align-items:center;gap:12px}
 .langs{display:flex;gap:1px;background:var(--surface-2);padding:3px;border-radius:8px}
@@ -124,7 +127,7 @@ nav.main a:hover{background:var(--surface);color:var(--blue)}
 .lang-btn.active{background:var(--paper);color:var(--ink);box-shadow:var(--shadow-sm)}
 .burger{display:none;background:transparent;border:1px solid var(--line);border-radius:8px;padding:9px;cursor:pointer}
 .burger svg{width:20px;height:20px;color:var(--ink)}
-@media(max-width:1080px){nav.main,.bar-right .btn,.bar-right .langs{display:none}.burger{display:block}}
+@media(max-width:1180px){nav.main,.bar-right .btn,.bar-right .langs{display:none}.burger{display:block}}
 #mobile-menu{border-top:1px solid var(--line-soft);background:var(--paper);padding:18px clamp(18px,4vw,40px) 26px;
   display:flex;flex-direction:column;gap:4px}
 #mobile-menu a{font-size:1.02rem;font-weight:600;color:var(--ink);padding:12px 0;border-bottom:1px solid var(--line-soft)}
@@ -338,11 +341,11 @@ footer{background:#0A2038;color:rgba(255,255,255,.6);font-size:.9rem;padding-blo
 .wa:hover{transform:scale(1.07)}
 .wa svg{width:23px;height:23px}
 @media(min-width:768px){.wa{bottom:26px;right:26px;width:56px;height:56px}.wa svg{width:26px;height:26px}}
-@media(max-width:1080px){.wa{display:none}}
+@media(max-width:1180px){.wa{display:none}}
 .wa-head{display:none;width:42px;height:42px;border-radius:10px;background:#25D366;color:#fff;
   place-items:center;flex:none}
 .wa-head svg{width:21px;height:21px}
-@media(max-width:1080px){.wa-head{display:grid}}
+@media(max-width:1180px){.wa-head{display:grid}}
 
 /* ---------- overlays / modals ---------- */
 .overlay{position:fixed;inset:0;z-index:150;background:rgba(14,42,69,.55);backdrop-filter:blur(5px);
@@ -545,7 +548,7 @@ header.stuck .bar{height:64px}
 .chips button:hover{border-color:var(--blue);color:var(--blue)}
 
 /* touch targets: Apple's minimum is 44px */
-@media(max-width:1080px){
+@media(max-width:1180px){
   .seg button{min-height:44px;padding-inline:18px}
   .chips button{min-height:44px;padding-inline:16px}
   .bar .logo{display:flex;align-items:center;min-height:44px}
@@ -627,7 +630,7 @@ header.stuck .bar{height:64px}
 <div id="public-view">
 <header>
   <div class="wrap bar">
-    <a href="#top" class="logo" aria-label="Croes Accounting home"><img src="logo.png" alt="Croes Accounting &amp; Tax Consultants"></a>
+    <a href="#top" class="logo" aria-label="Croes Accounting home"><img src="logo-mark.png" alt="" width="36" height="36"><span>Croes Accounting</span></a>
     <nav class="main" aria-label="Main">
       <a href="#services" data-i18n="nav_services">Services</a>
       <a href="#how" data-i18n="nav_how">How it works</a>
